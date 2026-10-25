@@ -66,43 +66,7 @@ interface MenuManagerProps {
   onCloseAddModal?: () => void;
 }
 
-function compressImage(file: File, maxDim = 800, quality = 0.82): Promise<string> {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new window.Image();
-      img.onload = () => {
-        let width = img.width;
-        let height = img.height;
-        if (width > height) {
-          if (width > maxDim) {
-            height = Math.round((height * maxDim) / width);
-            width = maxDim;
-          }
-        } else {
-          if (height > maxDim) {
-            width = Math.round((width * maxDim) / height);
-            height = maxDim;
-          }
-        }
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          ctx.drawImage(img, 0, 0, width, height);
-          resolve(canvas.toDataURL('image/jpeg', quality));
-        } else {
-          resolve((e.target?.result as string) || '');
-        }
-      };
-      img.onerror = () => resolve((e.target?.result as string) || '');
-      img.src = (e.target?.result as string) || '';
-    };
-    reader.onerror = () => resolve('');
-    reader.readAsDataURL(file);
-  });
-}
+import { compressImage, uploadImageToCloudinary } from '@/lib/upload-client';
 
 export function MenuManager({
   restaurant,
@@ -1203,11 +1167,12 @@ export function MenuManager({
                           onChange={async (e) => {
                             const file = e.target.files?.[0];
                             if (file) {
-                              onShowToast('Optimizing photo...', 'info');
+                              onShowToast('Optimizing & uploading photo...', 'info');
                               const compressed = await compressImage(file);
                               if (compressed) {
+                                const finalUrl = await uploadImageToCloudinary(compressed);
                                 triggerHaptic(12);
-                                setEditingItem({ ...editingItem, image_url: compressed });
+                                setEditingItem({ ...editingItem, image_url: finalUrl });
                                 onShowToast('Photo attached (click Save to publish)', 'success');
                               }
                             }
@@ -1226,11 +1191,12 @@ export function MenuManager({
                           onChange={async (e) => {
                             const file = e.target.files?.[0];
                             if (file) {
-                              onShowToast('Optimizing photo...', 'info');
+                              onShowToast('Optimizing & uploading photo...', 'info');
                               const compressed = await compressImage(file);
                               if (compressed) {
+                                const finalUrl = await uploadImageToCloudinary(compressed);
                                 triggerHaptic(12);
-                                setEditingItem({ ...editingItem, image_url: compressed });
+                                setEditingItem({ ...editingItem, image_url: finalUrl });
                                 onShowToast('Photo attached (click Save to publish)', 'success');
                               }
                             }

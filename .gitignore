@@ -26,6 +26,7 @@
 .worktrees
 .DS_Store
 *.pem
+/Nitsuh Foods*/
 
 # debug
 npm-debug.log*

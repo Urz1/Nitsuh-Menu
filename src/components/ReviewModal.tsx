@@ -5,8 +5,9 @@ import Image from 'next/image';
 import { MenuItem } from '@/types/database';
 import { validateReviewPhoto } from '@/lib/review-engine';
 import { triggerHaptic } from '@/lib/utils';
-import { X, Star, Camera, Check, AlertCircle } from 'lucide-react';
+import { X, Star, Camera, Check, AlertCircle, Loader2 } from 'lucide-react';
 import { Language, TRANSLATIONS } from '@/lib/translations';
+import { compressImage, uploadImageToCloudinary } from '@/lib/upload-client';
 
 interface ReviewModalProps {
   isOpen: boolean;
@@ -43,6 +44,8 @@ export function ReviewModal({
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [comment, setComment] = useState<string>('');
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [uploadedPhotoUrl, setUploadedPhotoUrl] = useState<string | null>(null);
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState<boolean>(false);
   const [photoError, setPhotoError] = useState<string | null>(null);
   const [honeypot, setHoneypot] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -60,6 +63,8 @@ export function ReviewModal({
       setSelectedTags([]);
       setComment('');
       setPhotoPreview(null);
+      setUploadedPhotoUrl(null);
+      setIsUploadingPhoto(false);
       setPhotoError(null);
       setHoneypot('');
       setSubmitError(null);
@@ -80,7 +85,7 @@ export function ReviewModal({
     }
   };
 
-  const handlePhotoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     e.stopPropagation();
     isExplicitSubmitRef.current = false;
@@ -96,11 +101,18 @@ export function ReviewModal({
       return;
     }
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPhotoPreview(reader.result as string);
-    };
-    reader.readAsDataURL(file);
+    try {
+      setIsUploadingPhoto(true);
+      const compressed = await compressImage(file, 800, 0.82);
+      setPhotoPreview(compressed);
+
+      const cloudUrl = await uploadImageToCloudinary(compressed, 'nitsuh-menu/reviews');
+      setUploadedPhotoUrl(cloudUrl);
+    } catch {
+      setPhotoError('Failed to process image');
+    } finally {
+      setIsUploadingPhoto(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -122,7 +134,7 @@ export function ReviewModal({
       rating,
       tags: selectedTags,
       comment: comment.trim() || undefined,
-      photo_url: photoPreview || undefined,
+      photo_url: uploadedPhotoUrl || photoPreview || undefined,
       honeypot,
       submissionDurationMs: duration,
     });
@@ -303,6 +315,7 @@ export function ReviewModal({
                     type="button"
                     onClick={() => {
                       setPhotoPreview(null);
+                      setUploadedPhotoUrl(null);
                       if (fileInputRef.current) fileInputRef.current.value = '';
                     }}
                     className="text-[11px] text-red-500 hover:underline"
@@ -315,12 +328,18 @@ export function ReviewModal({
               {photoPreview ? (
                 <div className="mt-2 relative w-24 h-24 rounded-xl overflow-hidden border border-amber-500/40">
                   <Image
-                    src={photoPreview}
+                    src={uploadedPhotoUrl || photoPreview}
                     alt="Review preview"
                     fill
                     unoptimized
                     className="object-cover"
                   />
+                  {isUploadingPhoto && (
+                    <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-white text-[10px] gap-1">
+                      <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
+                      <span>Uploading...</span>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="mt-1.5 flex items-center gap-2">
@@ -372,7 +391,7 @@ export function ReviewModal({
                 onClick={() => {
                   isExplicitSubmitRef.current = true;
                 }}
-                disabled={isSubmitting}
+                disabled={isSubmitting || isUploadingPhoto}
                 className="w-full h-11 rounded-full bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-98 disabled:opacity-50"
               >
                 {isSubmitting ? (
