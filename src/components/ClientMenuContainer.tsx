@@ -93,12 +93,12 @@ export function ClientMenuContainer({
   }, [initialCategories]);
 
   // Items state (updated in real-time via Supabase Realtime)
-  const [items, setItems] = useState<MenuItem[]>(initialItems);
+  const [items, setItems] = useState<MenuItem[]>(initialItems || []);
 
   // Sync client-side on mount from Supabase / cache to guarantee exact parity with Admin console
   useEffect(() => {
     getMenuItems(restaurant.id).then((freshItems) => {
-      if (freshItems && freshItems.length > 0) {
+      if (Array.isArray(freshItems)) {
         setItems(freshItems);
       }
     });
@@ -111,7 +111,7 @@ export function ClientMenuContainer({
 
   // Keep state updated if server props re-evaluate
   useEffect(() => {
-    if (initialItems && initialItems.length > 0) {
+    if (Array.isArray(initialItems)) {
       setItems(initialItems);
     }
   }, [initialItems]);
@@ -839,7 +839,9 @@ export function ClientMenuContainer({
         {filteredItems.length === 0 ? (
           <div className="py-20 text-center text-[var(--muted)]">
             <div className="w-14 h-14 rounded-2xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-center mx-auto mb-3 shadow-xs">
-              {activeFilter === 'onOffer' || activeCategoryId === 'offers' ? (
+              {items.length === 0 ? (
+                <Utensils className="w-6 h-6 text-[var(--primary)]" />
+              ) : activeFilter === 'onOffer' || activeCategoryId === 'offers' ? (
                 <Tag className="w-6 h-6 text-amber-500" />
               ) : activeFilter === 'favorites' ? (
                 <Heart className="w-6 h-6 text-rose-500" />
@@ -848,28 +850,42 @@ export function ClientMenuContainer({
               )}
             </div>
             <h3 className="text-base font-bold text-[var(--foreground)]">
-              {activeFilter === 'onOffer' || activeCategoryId === 'offers'
+              {items.length === 0
+                ? 'No dishes on the menu yet'
+                : activeFilter === 'onOffer' || activeCategoryId === 'offers'
                 ? (TRANSLATIONS[locale]?.noActiveOffers || 'No active offers right now')
                 : activeFilter === 'favorites'
                   ? (TRANSLATIONS[locale]?.noFavoritesSaved || 'No favorites saved yet')
                   : (TRANSLATIONS[locale]?.noMatchingDishes || 'No matching dishes found')}
             </h3>
-            <p className="text-xs mt-1">
-              {activeFilter === 'onOffer'
+            <p className="text-xs mt-1 max-w-xs mx-auto">
+              {items.length === 0
+                ? 'Your Neon database is active and connected. Add dishes in the Admin Console to display them here.'
+                : activeFilter === 'onOffer'
                 ? (TRANSLATIONS[locale]?.noActiveOffersHint || 'Check back soon for upcoming happy hours and chef specials')
                 : (TRANSLATIONS[locale]?.adjustFilterHint || 'Try adjusting your search or clearing your active filters')}
             </p>
-            <button
-              onClick={() => {
-                setSearchQuery('');
-                setActiveFilter('all');
-                setActiveCategoryId(categories[0]?.id || '');
-              }}
-              className="mt-4 px-5 py-2 rounded-full text-xs font-bold text-white shadow-sm"
-              style={{ backgroundColor: 'var(--primary)' }}
-            >
-              {TRANSLATIONS[locale]?.resetFilters || 'Reset Filters'}
-            </button>
+            {items.length === 0 ? (
+              <a
+                href="/admin"
+                className="inline-block mt-4 px-5 py-2 rounded-full text-xs font-bold text-white shadow-sm"
+                style={{ backgroundColor: 'var(--primary)' }}
+              >
+                Go to Admin Console →
+              </a>
+            ) : (
+              <button
+                onClick={() => {
+                  setSearchQuery('');
+                  setActiveFilter('all');
+                  setActiveCategoryId(categories[0]?.id || '');
+                }}
+                className="mt-4 px-5 py-2 rounded-full text-xs font-bold text-white shadow-sm"
+                style={{ backgroundColor: 'var(--primary)' }}
+              >
+                {TRANSLATIONS[locale]?.resetFilters || 'Reset Filters'}
+              </button>
+            )}
           </div>
         ) : activeFilter !== 'all' || activeCategoryId === 'offers' || searchQuery.trim().length > 0 ? (
           // Filtered list / Offers view

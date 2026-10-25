@@ -3257,7 +3257,7 @@ export async function getMenuItems(restaurantId: string): Promise<MenuItem[]> {
           WHERE restaurant_id = ${restaurantId}
           ORDER BY sort_order ASC
         `;
-        if (rows && rows.length > 0) {
+        if (rows) {
           const sanitized = (rows as MenuItem[]).map((item) => ({
             ...item,
             name: item.name ? item.name.replace(/\bAddis\b/g, 'Nitsuh') : item.name,
