@@ -12,13 +12,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/addis`,
+      url: `${baseUrl}/nitsuh`,
       lastModified,
       changeFrequency: 'daily',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/addis/privacy`,
+      url: `${baseUrl}/nitsuh/privacy`,
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.3,

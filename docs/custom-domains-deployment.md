@@ -7,20 +7,20 @@ This document describes how to deploy the Digital Menu platform on Vercel and ro
 ## 🌐 Routing Models
 
 ### Model A: Shared Domain with Tenant Slugs (Default)
-- **Format:** `https://digitalmenu.app/[slug]` (e.g. `https://digitalmenu.app/addis`)
-- **Table Deep Link:** `https://digitalmenu.app/addis?table=14`
+- **Format:** `https://digitalmenu.app/[slug]` (e.g. `https://digitalmenu.app/nitsuh`)
+- **Table Deep Link:** `https://digitalmenu.app/nitsuh?table=14`
 - **Setup:** Zero DNS setup required for the restaurant. Live immediately upon creating the slug.
 
 ### Model B: Client Subdomain
-- **Format:** `https://menu.addisrestaurant.com`
-- **Table Deep Link:** `https://menu.addisrestaurant.com?table=14`
+- **Format:** `https://menu.nitsuhrestaurant.com`
+- **Table Deep Link:** `https://menu.nitsuhrestaurant.com?table=14`
 - **DNS Configuration:**
   - Type: `CNAME`
   - Host / Name: `menu`
   - Target / Value: `cname.vercel-dns.com`
 
 ### Model C: Client Root Domain
-- **Format:** `https://addismenu.com`
+- **Format:** `https://nitsuhmenu.com`
 - **DNS Configuration:**
   - Type: `A`
   - Host / Name: `@`
@@ -31,7 +31,7 @@ This document describes how to deploy the Digital Menu platform on Vercel and ro
 ## 🛠️ Vercel Deployment Walkthrough
 
 1. **Import Git Repository into Vercel:**
-   - Link repository: `Urz1/Digital-Menu`.
+   - Link repository: `Urz1/Nitsuh-Menu`.
    - Framework Preset: **Next.js**.
    - Build Command: `next build`.
    - Output Directory: `.next`.
@@ -46,9 +46,9 @@ This document describes how to deploy the Digital Menu platform on Vercel and ro
 
 3. **Attach Custom Domain in Vercel:**
    - Go to **Settings > Domains**.
-   - Enter client domain (e.g. `menu.addisrestaurant.com`).
+   - Enter client domain (e.g. `menu.nitsuhrestaurant.com`).
    - Vercel automatically issues an SSL certificate via Let's Encrypt within 60 seconds of DNS propagation.
 
 4. **Multi-Tenant Middleware Rewrite (Optional for Dedicated Domains):**
    - For automatic hostname-to-slug mapping, Next.js middleware inspects `request.headers.get('host')`:
-   - If host matches `menu.addisrestaurant.com`, the request is rewritten internally to `/addis`.
+   - If host matches `menu.nitsuhrestaurant.com`, the request is rewritten internally to `/nitsuh`.

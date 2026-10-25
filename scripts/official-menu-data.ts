@@ -69,7 +69,7 @@ export const CATEGORIES_DATA: RawCategory[] = [
   },
   {
     id: 'cat-hot-beverage',
-    name: 'Hot Beverage (Addis Cafe)',
+    name: 'Hot Beverage (Nitsuh Cafe)',
     name_am: 'ትኩስ መጠጦች',
     icon: '☕',
     description: 'Single-origin Ethiopian coffee, rich macchiato, and aromatic teas.',
@@ -191,7 +191,7 @@ export const DISHES_DATA: RawDish[] = [
   { name: 'Special Fetira', price: 450, category_id: 'cat-breakfast', image_url: '/images/dishes/special-fetira.jpg', tags: ['vegetarian', 'popular'], is_chefs_pick: true  },
   { name: 'Full Normal', price: 280, category_id: 'cat-breakfast', image_url: '/images/dishes/full-normal-43.jpg', tags: ['vegetarian']  },
   { name: 'Full Special', price: 575, category_id: 'cat-breakfast', image_url: '/images/dishes/ful-special.jpg', tags: ['vegetarian', 'popular']  },
-  { name: 'Addis Combo Break fast', price: 750, category_id: 'cat-breakfast', image_url: '/images/dishes/addis-combo-break-fast-45.jpg', tags: ['popular'], is_chefs_pick: true  },
+  { name: 'Nitsuh Combo Break fast', price: 750, category_id: 'cat-breakfast', image_url: '/images/dishes/nitsuh-combo-break-fast-45.jpg', tags: ['popular'], is_chefs_pick: true  },
   { name: 'Scramble Egg', price: 300, category_id: 'cat-breakfast', image_url: '/images/dishes/scramble-egg-46.jpg', tags: ['vegetarian']  },
   { name: 'Egg Sandwich', price: 350, category_id: 'cat-breakfast', image_url: '/images/dishes/egg-sandwich-47.jpg', tags: ['vegetarian']  },
   { name: 'Omelet', price: 350, category_id: 'cat-breakfast', image_url: '/images/dishes/omelet-48.jpg', tags: ['vegetarian']  },
@@ -220,14 +220,14 @@ export const DISHES_DATA: RawDish[] = [
   { name: 'French frise', price: 345, category_id: 'cat-snack-menu', image_url: '/images/dishes/french-frise-65.jpg', tags: ['vegan', 'fasting']  },
   { name: 'Spring roll vegetable', price: 345, category_id: 'cat-snack-menu', image_url: '/images/dishes/spring-roll-vegetable-66.jpg', tags: ['vegan', 'fasting']  },
   { name: 'Spring roll meat', price: 500, category_id: 'cat-snack-menu', image_url: '/images/dishes/spring-roll-meat-67.jpg', tags: ['popular']  },
-  { name: 'Addis snack', price: 575, category_id: 'cat-snack-menu', image_url: '/images/dishes/addis-snack-68.jpg', tags: ['popular']  },
+  { name: 'Nitsuh snack', price: 575, category_id: 'cat-snack-menu', image_url: '/images/dishes/nitsuh-snack-68.jpg', tags: ['popular']  },
   { name: 'Fish & chips', price: 750, category_id: 'cat-snack-menu', image_url: '/images/dishes/fish-chips-69.jpg', tags: ['popular'], is_chefs_pick: true  },
   { name: 'Fried Chicken wings', price: 750, category_id: 'cat-snack-menu', image_url: '/images/dishes/fried-chicken-wings-70.jpg', tags: ['popular']  },
   { name: 'Chicken nugget', price: 750, category_id: 'cat-snack-menu', image_url: '/images/dishes/chicken-nugget-71.jpg', tags: ['popular']  },
   { name: 'A. Chicken Tender 4pcs', price: 600, category_id: 'cat-snack-menu', image_url: '/images/dishes/a-chicken-tender-4pcs-72.jpg', tags: ['popular']  },
   { name: 'A. Chicken Tender 6pcs', price: 800, category_id: 'cat-snack-menu', image_url: '/images/dishes/a-chicken-tender-6pcs-73.jpg', tags: ['popular'], is_chefs_pick: true  },
 
-  // 7. Hot Beverage (Addis Cafe)
+  // 7. Hot Beverage (Nitsuh Cafe)
   { name: 'SPECIAL MILK', price: 200, category_id: 'cat-hot-beverage', image_url: '/images/dishes/special-milk-74.jpg', tags: ['vegetarian']  },
   { name: 'COFFEE', price: 120, category_id: 'cat-hot-beverage', image_url: '/images/dishes/ethiopian-buna.jpg', tags: ['vegan', 'popular']  },
   { name: 'TEA', price: 60, category_id: 'cat-hot-beverage', image_url: '/images/dishes/tea-76.jpg', tags: ['vegan']  },
@@ -321,7 +321,7 @@ export const DISHES_DATA: RawDish[] = [
   { name: 'Beyaynetu', price: 500, category_id: 'cat-fasting-lunch', image_url: '/images/dishes/beyaynetu.jpg', tags: ['vegan', 'fasting', 'popular'], is_chefs_pick: true  },
   { name: 'Fasting Agelegil', price: 600, category_id: 'cat-fasting-lunch', image_url: '/images/dishes/fasting-agelegil-151.jpg', tags: ['vegan', 'fasting', 'popular']  },
   { name: 'Suf fitfit', price: 350, category_id: 'cat-fasting-lunch', image_url: '/images/dishes/suf-fitfit-152.jpg', tags: ['vegan', 'fasting']  },
-  { name: 'Addis special Salad', price: 400, category_id: 'cat-fasting-lunch', image_url: '/images/dishes/addis-special-salad-153.jpg', tags: ['vegan', 'fasting']  },
+  { name: 'Nitsuh special Salad', price: 400, category_id: 'cat-fasting-lunch', image_url: '/images/dishes/nitsuh-special-salad-153.jpg', tags: ['vegan', 'fasting']  },
   { name: 'Aja with spinach', price: 400, category_id: 'cat-fasting-lunch', image_url: '/images/dishes/aja-with-spinach-154.jpg', tags: ['vegan', 'fasting']  },
 
   // 15. Takeaway & Extras

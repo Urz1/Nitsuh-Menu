@@ -8,7 +8,7 @@ export interface PairingRecommendation {
 }
 
 /**
- * Culturally informed, research-backed recommendation engine for Addis Cafeteria & Restaurant.
+ * Culturally informed, research-backed recommendation engine for Nitsuh Cafeteria & Restaurant.
  * Grounded in:
  * 1. Strict Ethiopian dietary rules (Orthodox Fasting isolation: never recommend dairy/meat with fasting dishes).
  * 2. Classic Ethiopian flavor complementarity (Ambo water / hot Buna after rich berbere/tibs).
@@ -93,8 +93,8 @@ export function getIntelligentPairings(
       });
     }
 
-    // Refreshing Palate Cleanser: Addis Special Salad
-    const salad = findItem('item-addis-salad', 'salad');
+    // Refreshing Palate Cleanser: Nitsuh Special Salad
+    const salad = findItem('item-nitsuh-salad', 'item-addis-salad', 'item-nitsuh-special-salad-153', 'salad');
     if (salad && targetId !== salad.id) {
       recommendations.push({
         item: salad,
@@ -152,13 +152,13 @@ export function getIntelligentPairings(
       });
     }
 
-    // Slot 2: Traditional Macchiato or Buna (universal Addis post-tibs digestive)
+    // Slot 2: Traditional Macchiato or Buna (universal Nitsuh post-tibs digestive)
     const macchiato = findItem('item-macchiato', 'macchiato') || findItem('coffee', 'buna');
     if (macchiato) {
       recommendations.push({
         item: macchiato,
         intentBadge: 'Digestive Pairing',
-        reasonText: 'Velvety espresso micro-foam — classic Addis meal finisher',
+        reasonText: 'Velvety espresso micro-foam — classic Nitsuh meal finisher',
         affinityScore: 95,
       });
     }

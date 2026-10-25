@@ -296,7 +296,7 @@ export default function AdminLoginPage() {
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') handleOwnerLogin(e);
                   }}
-                  placeholder="owner@addiscafeteria.com or +251..."
+                  placeholder="owner@nitsuhcafeteria.com or +251..."
                   className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
                     isLight
                       ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
@@ -421,7 +421,7 @@ export default function AdminLoginPage() {
                     required
                     value={recoveryEmail}
                     onChange={(e) => setRecoveryEmail(e.target.value)}
-                    placeholder="owner@addiscafeteria.com"
+                    placeholder="owner@nitsuhcafeteria.com"
                     className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
                       isLight
                         ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'

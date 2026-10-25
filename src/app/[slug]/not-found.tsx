@@ -22,11 +22,11 @@ export default function RestaurantNotFound() {
 
         <div className="pt-2 flex justify-center">
           <Link
-            href="/addis"
+            href="/nitsuh"
             className="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs flex items-center gap-2 transition-colors shadow-md"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Go to Addis Restaurant Demo</span>
+            <span>Go to Nitsuh Restaurant Demo</span>
           </Link>
         </div>
       </div>

@@ -44,9 +44,9 @@ export default defineConfig({
                   name: 'digital_menu_admin_session_v2',
                   value: JSON.stringify({
                     role: 'owner',
-                    userId: 'owner-addis-master',
+                    userId: 'owner-nitsuh-master',
                     name: 'Abebe Bikila',
-                    identifier: 'owner@addiscafeteria.com',
+                    identifier: 'owner@nitsuhcafeteria.com',
                     token: 'playwright-test-token',
                     loggedInAt: 1760000000000,
                   }),

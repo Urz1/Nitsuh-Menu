@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Restaurant, MenuItem, Category, Offer, OfferTemplateType, OfferStatus, OfferStackingRule, UserRole } from '@/types/database';
-import { getOffers, saveOffer, togglePauseOffer, deleteOffer, MOCK_OFFERS_ADDIS } from '@/lib/data-provider';
+import { getOffers, saveOffer, togglePauseOffer, deleteOffer, MOCK_OFFERS_NITSUH } from '@/lib/data-provider';
 import {
   evaluateOfferSchedule,
   evaluateItemPricing,

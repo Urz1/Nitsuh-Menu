@@ -199,7 +199,7 @@ export function OnboardingWizardModal({
                         setLogoLetter(e.target.value.charAt(0).toUpperCase());
                       }
                     }}
-                    placeholder="e.g. Addis Cafeteria"
+                    placeholder="e.g. Nitsuh Cafeteria"
                     className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-amber-500 transition-colors"
                   />
                 </div>
@@ -516,9 +516,9 @@ export function OnboardingWizardModal({
                   className="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-white text-base mb-2"
                   style={{ backgroundColor: primaryColor }}
                 >
-                  {logoLetter || 'A'}
+                  {logoLetter || 'N'}
                 </div>
-                <h4 className="font-bold text-sm text-neutral-900">{name || 'Addis Cafeteria'}</h4>
+                <h4 className="font-bold text-sm text-neutral-900">{name || 'Nitsuh Cafeteria'}</h4>
                 <p className="text-[10px] text-neutral-500">Scan to browse digital menu & order</p>
 
                 {/* Simulated QR Code Visual */}
@@ -529,13 +529,13 @@ export function OnboardingWizardModal({
                 </div>
 
                 <span className="text-[11px] font-mono font-bold text-neutral-700 bg-neutral-100 px-3 py-1 rounded-full">
-                  Digital Menu • /{restaurant.slug || 'addis'}
+                  Digital Menu • /{restaurant.slug || 'nitsuh'}
                 </span>
               </div>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
                 <a
-                  href={`/${restaurant.slug || 'addis'}`}
+                  href={`/${restaurant.slug || 'nitsuh'}`}
                   target="_blank"
                   className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-bold transition-all border border-white/10 flex items-center justify-center gap-2"
                 >

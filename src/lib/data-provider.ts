@@ -19,24 +19,24 @@ import { broadcastSync } from './sync-channel';
 import { rateLimiter, RATE_LIMITS } from './rate-limiter';
 
 // -----------------------------------------------------------------------------
-// DEFAULT PRODUCTION SEED / FALLBACK DATA FOR "ADDIS" & MULTI-TENANT
+// DEFAULT PRODUCTION SEED / FALLBACK DATA FOR "NITSUH" & MULTI-TENANT
 // -----------------------------------------------------------------------------
-export const MOCK_RESTAURANT_ADDIS: Restaurant = {
+export const MOCK_RESTAURANT_NITSUH: Restaurant = {
   id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-  slug: 'addis',
-  name: 'Addis Cafeteria',
-  short_name: 'Addis',
-  logo_letter: 'A',
+  slug: 'nitsuh',
+  name: 'Nitsuh Cafeteria',
+  short_name: 'Nitsuh',
+  logo_letter: 'N',
   logo_url: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=180&h=180&q=80',
   tagline: 'Authentic Ethiopian Cuisine, Wood-Fired Mendi & Artisanal Bakery',
   currency: 'ETB',
   currency_code: 'ETB',
   default_table: 'Table 1',
   hours: 'Mon – Sun: 6:30 AM – 11:00 PM',
-  branch_name: 'Main Branch — Addis Cafe & Bakery',
-  address: 'XQHC+MJP Addis Cafe and Bakery, Addis Ababa, Ethiopia',
+  branch_name: 'Main Branch — Nitsuh Cafe & Bakery',
+  address: 'XQHC+MJP Nitsuh Cafe and Bakery, Addis Ababa, Ethiopia',
   google_maps_url: 'https://maps.app.goo.gl/R8WN2zwM9dwVXT3h9?g_st=ac',
-  announcement: 'Welcome to Addis Cafeteria & Bakery • Fresh injera, sizzling tibs, and artisanal pastries daily.',
+  announcement: 'Welcome to Nitsuh Cafeteria & Bakery • Fresh injera, sizzling tibs, and artisanal pastries daily.',
   is_open: true,
   tax_rate: 0.15,
   created_at: new Date().toISOString(),
@@ -55,7 +55,7 @@ export const MOCK_RESTAURANT_ADDIS: Restaurant = {
     badgeStyle: 'vibrant',
   },
   wifi_config: {
-    ssid: 'Addis-Guest',
+    ssid: 'Nitsuh-Guest',
     password: 'tastethevibes',
   },
   reviews_enabled: true,
@@ -96,7 +96,7 @@ export const MOCK_RESTAURANT_ADDIS: Restaurant = {
   ],
 };
 
-export const MOCK_CATEGORIES_ADDIS: Category[] = [
+export const MOCK_CATEGORIES_NITSUH: Category[] = [
   {
     "id": "cat-soft-cake",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
@@ -160,7 +160,7 @@ export const MOCK_CATEGORIES_ADDIS: Category[] = [
   {
     "id": "cat-hot-beverage",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "name": "Hot Beverage (Addis Cafe)",
+    "name": "Hot Beverage (Nitsuh Cafe)",
     "name_am": "ትኩስ መጠጦች",
     "icon": "☕",
     "description": "Single-origin Ethiopian coffee, rich macchiato, and aromatic teas.",
@@ -249,14 +249,14 @@ export const MOCK_CATEGORIES_ADDIS: Category[] = [
   }
 ];
 
-export const MOCK_ITEMS_ADDIS: MenuItem[] = [
+export const MOCK_ITEMS_NITSUH: MenuItem[] = [
   {
     "id": "item-cream-cake-1",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-soft-cake",
     "name": "cream cake",
     "price": 200,
-    "description": "cream cake prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "cream cake prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/cream-cake-1.jpg",
     "tags": [
       "vegetarian"
@@ -273,7 +273,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-soft-cake",
     "name": "Black Forest",
     "price": 230,
-    "description": "Black Forest prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Black Forest prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/black-forest-2.jpg",
     "tags": [
       "popular",
@@ -291,7 +291,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-soft-cake",
     "name": "Black&White Forest",
     "price": 230,
-    "description": "Black&White Forest prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Black&White Forest prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/black-white-forest-3.jpg",
     "tags": [
       "vegetarian"
@@ -308,7 +308,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-soft-cake",
     "name": "strawberry cake",
     "price": 230,
-    "description": "strawberry cake prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "strawberry cake prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/strawberry-cake-4.jpg",
     "tags": [
       "vegetarian"
@@ -325,7 +325,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-soft-cake",
     "name": "Opera cake",
     "price": 250,
-    "description": "Opera cake prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Opera cake prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/opera-cake-5.jpg",
     "tags": [
       "vegetarian"
@@ -342,7 +342,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-soft-cake",
     "name": "Torta cake",
     "price": 1500,
-    "description": "Torta cake prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Torta cake prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/torta-cake-6.jpg",
     "tags": [
       "popular",
@@ -360,7 +360,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-soft-cake",
     "name": "Cup cake",
     "price": 150,
-    "description": "Cup cake prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Cup cake prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/cup-cake-7.jpg",
     "tags": [
       "vegetarian"
@@ -377,7 +377,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-soft-cake",
     "name": "English Cake",
     "price": 1050,
-    "description": "English Cake prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "English Cake prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/english-cake-8.jpg",
     "tags": [
       "vegetarian"
@@ -394,7 +394,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-soft-cake",
     "name": "Basbousa",
     "price": 100,
-    "description": "Basbousa prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Basbousa prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/basbousa-9.jpg",
     "tags": [
       "vegetarian"
@@ -411,7 +411,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-soft-cake",
     "name": "Orange Basbousa",
     "price": 190,
-    "description": "Orange Basbousa prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Orange Basbousa prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/orange-basbousa-10.jpg",
     "tags": [
       "vegetarian"
@@ -428,7 +428,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-soft-cake",
     "name": "Croissant Plain",
     "price": 150,
-    "description": "Croissant Plain prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Croissant Plain prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/croissant-plain-11.jpg",
     "tags": [
       "vegetarian"
@@ -445,7 +445,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-soft-cake",
     "name": "White Plain",
     "price": 150,
-    "description": "White Plain prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "White Plain prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/white-plain-12.jpg",
     "tags": [
       "vegetarian"
@@ -462,7 +462,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-soft-cake",
     "name": "Orange Fasting",
     "price": 150,
-    "description": "Orange Fasting prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Orange Fasting prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/orange-fasting-13.jpg",
     "tags": [
       "vegan",
@@ -480,7 +480,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-soft-cake",
     "name": "Orange cake",
     "price": 150,
-    "description": "Orange cake prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Orange cake prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/orange-cake-14.jpg",
     "tags": [
       "vegetarian"
@@ -497,7 +497,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-soft-cake",
     "name": "Venus plain BIG",
     "price": 150,
-    "description": "Venus plain BIG prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Venus plain BIG prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/venus-plain-big-15.jpg",
     "tags": [
       "vegetarian"
@@ -514,7 +514,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-soft-cake",
     "name": "Venus plane SHORT",
     "price": 100,
-    "description": "Venus plane SHORT prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Venus plane SHORT prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/venus-plane-short-16.jpg",
     "tags": [
       "vegetarian"
@@ -531,7 +531,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-soft-cake",
     "name": "Beckewhe",
     "price": 80,
-    "description": "Beckewhe prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Beckewhe prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/beckewhe-17.jpg",
     "tags": [
       "vegetarian"
@@ -548,7 +548,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-soft-cake",
     "name": "COOKISE",
     "price": 800,
-    "description": "COOKISE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "COOKISE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/cookise-18.jpg",
     "tags": [
       "vegetarian"
@@ -565,7 +565,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "CALVINE BREAD",
     "price": 50,
-    "description": "CALVINE BREAD prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "CALVINE BREAD prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/calvine-bread-19.jpg",
     "tags": [
       "vegan"
@@ -582,7 +582,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "OTES BREAD",
     "price": 50,
-    "description": "OTES BREAD prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "OTES BREAD prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/otes-bread-20.jpg",
     "tags": [
       "vegan"
@@ -599,7 +599,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "FEWAST BREAD",
     "price": 50,
-    "description": "FEWAST BREAD prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "FEWAST BREAD prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/fewast-bread-21.jpg",
     "tags": [
       "vegan"
@@ -616,7 +616,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "RAGEST BRADE",
     "price": 50,
-    "description": "RAGEST BRADE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "RAGEST BRADE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/ragest-brade-22.jpg",
     "tags": [
       "vegan"
@@ -633,7 +633,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "AJA BREAD",
     "price": 20,
-    "description": "AJA BREAD prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "AJA BREAD prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/aja-bread-23.jpg",
     "tags": [
       "vegan"
@@ -650,7 +650,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "AJA RAGKESTE",
     "price": 10,
-    "description": "AJA RAGKESTE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "AJA RAGKESTE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/aja-ragkeste-24.jpg",
     "tags": [
       "vegan"
@@ -667,7 +667,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "GEBIS BREAD",
     "price": 15,
-    "description": "GEBIS BREAD prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "GEBIS BREAD prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/gebis-bread-25.jpg",
     "tags": [
       "vegan"
@@ -684,7 +684,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "GEBIS BAGET",
     "price": 15,
-    "description": "GEBIS BAGET prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "GEBIS BAGET prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/gebis-baget-26.jpg",
     "tags": [
       "vegan"
@@ -701,7 +701,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "GEBIS MINI",
     "price": 15,
-    "description": "GEBIS MINI prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "GEBIS MINI prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/gebis-mini-27.jpg",
     "tags": [
       "vegan"
@@ -718,7 +718,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "MIN BREAD ROG",
     "price": 10,
-    "description": "MIN BREAD ROG prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "MIN BREAD ROG prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/min-bread-rog-28.jpg",
     "tags": [
       "vegan"
@@ -735,7 +735,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "NORMAL BREAD 180G",
     "price": 50,
-    "description": "NORMAL BREAD 180G prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "NORMAL BREAD 180G prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/normal-bread-180g-29.jpg",
     "tags": [
       "vegan"
@@ -752,7 +752,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "NORMAL BREAD 110G",
     "price": 20,
-    "description": "NORMAL BREAD 110G prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "NORMAL BREAD 110G prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/normal-bread-110g-30.jpg",
     "tags": [
       "vegan"
@@ -769,7 +769,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "CARE BREAD",
     "price": 100,
-    "description": "CARE BREAD prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "CARE BREAD prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/care-bread-31.jpg",
     "tags": [
       "vegan"
@@ -786,7 +786,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "CRIZIL BREAD",
     "price": 50,
-    "description": "CRIZIL BREAD prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "CRIZIL BREAD prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/crizil-bread-32.jpg",
     "tags": [
       "vegan"
@@ -803,7 +803,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "GEBIC CAKE",
     "price": 100,
-    "description": "GEBIC CAKE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "GEBIC CAKE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/gebic-cake-33.jpg",
     "tags": [
       "vegetarian"
@@ -820,7 +820,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "AJA BAGESTE LONG",
     "price": 50,
-    "description": "AJA BAGESTE LONG prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "AJA BAGESTE LONG prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/aja-bageste-long-34.jpg",
     "tags": [
       "vegan"
@@ -837,7 +837,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "BABESFI BREAD",
     "price": 150,
-    "description": "BABESFI BREAD prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "BABESFI BREAD prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/babesfi-bread-35.jpg",
     "tags": [
       "vegan"
@@ -854,7 +854,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "BOMBOLINO",
     "price": 60,
-    "description": "BOMBOLINO prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "BOMBOLINO prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/bombolino-36.jpg",
     "tags": [
       "vegetarian"
@@ -871,7 +871,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-bread",
     "name": "BOKSENYA",
     "price": 110,
-    "description": "BOKSENYA prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "BOKSENYA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/boksenya-37.jpg",
     "tags": [
       "vegan"
@@ -888,7 +888,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-breakfast",
     "name": "Feta with Honey",
     "price": 350,
-    "description": "Feta with Honey prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Feta with Honey prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/feta-with-honey-38.jpg",
     "tags": [
       "vegetarian",
@@ -906,7 +906,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-breakfast",
     "name": "Feta with Tamer",
     "price": 350,
-    "description": "Feta with Tamer prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Feta with Tamer prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/feta-with-tamer-39.jpg",
     "tags": [
       "vegetarian"
@@ -923,7 +923,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-breakfast",
     "name": "Feta with Honey, Tamer, and banana",
     "price": 450,
-    "description": "Feta with Honey, Tamer, and banana prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Feta with Honey, Tamer, and banana prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/feta-with-honey-tamer-and-banana-40.jpg",
     "tags": [
       "vegetarian",
@@ -941,7 +941,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-breakfast",
     "name": "Fetira",
     "price": 300,
-    "description": "Fetira prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Fetira prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/fetira.jpeg",
     "tags": [
       "vegetarian"
@@ -958,7 +958,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-breakfast",
     "name": "Special Fetira",
     "price": 450,
-    "description": "Special Fetira prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Special Fetira prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/special-fetira.jpg",
     "tags": [
       "vegetarian",
@@ -976,7 +976,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-breakfast",
     "name": "Full Normal",
     "price": 280,
-    "description": "Full Normal prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Full Normal prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/full-normal-43.jpg",
     "tags": [
       "vegetarian"
@@ -993,7 +993,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-breakfast",
     "name": "Full Special",
     "price": 575,
-    "description": "Full Special prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Full Special prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/ful-special.jpg",
     "tags": [
       "vegetarian",
@@ -1006,13 +1006,13 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "sort_order": 44
   },
   {
-    "id": "item-addis-combo-break-fast-45",
+    "id": "item-nitsuh-combo-break-fast-45",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-breakfast",
-    "name": "Addis Combo Break fast",
+    "name": "Nitsuh Combo Break fast",
     "price": 750,
-    "description": "Addis Combo Break fast prepared freshly at Addis Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/addis-combo-break-fast-45.jpg",
+    "description": "Nitsuh Combo Break fast prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
+    "image_url": "/images/dishes/nitsuh-combo-break-fast-45.jpg",
     "tags": [
       "popular"
     ],
@@ -1028,7 +1028,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-breakfast",
     "name": "Scramble Egg",
     "price": 300,
-    "description": "Scramble Egg prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Scramble Egg prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/scramble-egg-46.jpg",
     "tags": [
       "vegetarian"
@@ -1045,7 +1045,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-breakfast",
     "name": "Egg Sandwich",
     "price": 350,
-    "description": "Egg Sandwich prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Egg Sandwich prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/egg-sandwich-47.jpg",
     "tags": [
       "vegetarian"
@@ -1062,7 +1062,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-breakfast",
     "name": "Omelet",
     "price": 350,
-    "description": "Omelet prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Omelet prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/omelet-48.jpg",
     "tags": [
       "vegetarian"
@@ -1079,7 +1079,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-breakfast",
     "name": "Avocado Toast",
     "price": 350,
-    "description": "Avocado Toast prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Avocado Toast prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/avocado-toast-49.jpg",
     "tags": [
       "vegan",
@@ -1097,7 +1097,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-breakfast",
     "name": "Chechebisa Fasting",
     "price": 300,
-    "description": "Chechebisa Fasting prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Chechebisa Fasting prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/chechebisa-fasting-50.jpg",
     "tags": [
       "vegan",
@@ -1115,7 +1115,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-breakfast",
     "name": "Chechebisa",
     "price": 400,
-    "description": "Chechebisa prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Chechebisa prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/chechebisa-51.jpg",
     "tags": [
       "vegetarian",
@@ -1133,7 +1133,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-breakfast",
     "name": "Chechebisa Teff",
     "price": 400,
-    "description": "Chechebisa Teff prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Chechebisa Teff prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/chechebisa-teff-52.jpg",
     "tags": [
       "gluten-free",
@@ -1151,7 +1151,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-breakfast",
     "name": "Oats",
     "price": 300,
-    "description": "Oats prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Oats prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/oats-53.jpg",
     "tags": [
       "vegan",
@@ -1169,7 +1169,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-breakfast",
     "name": "Siga Firfir",
     "price": 500,
-    "description": "Siga Firfir prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Siga Firfir prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/siga-firfir-54.jpg",
     "tags": [
       "popular"
@@ -1186,7 +1186,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-breakfast",
     "name": "Injera Firfir",
     "price": 350,
-    "description": "Injera Firfir prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Injera Firfir prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/injera-firfir-55.jpg",
     "tags": [
       "vegan",
@@ -1204,7 +1204,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-burgers",
     "name": "Special Burger",
     "price": 799,
-    "description": "Special Burger prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Special Burger prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/special-burger-56.jpg",
     "tags": [
       "popular"
@@ -1221,7 +1221,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-burgers",
     "name": "Chicken Burger",
     "price": 599,
-    "description": "Chicken Burger prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Chicken Burger prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/chicken-burger-57.jpg",
     "tags": [
       "popular"
@@ -1238,7 +1238,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-burgers",
     "name": "Cheese Burger",
     "price": 599,
-    "description": "Cheese Burger prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Cheese Burger prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/cheese-burger-58.jpg",
     "tags": [
       "popular"
@@ -1255,7 +1255,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-burgers",
     "name": "Beef Burger",
     "price": 498,
-    "description": "Beef Burger prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Beef Burger prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/beef-burger-59.jpg",
     "tags": [
       "popular"
@@ -1272,7 +1272,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-pizzas",
     "name": "Speacial Pizza",
     "price": 1099,
-    "description": "Speacial Pizza prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Speacial Pizza prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/speacial-pizza-60.jpg",
     "tags": [
       "popular"
@@ -1289,7 +1289,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-pizzas",
     "name": "Margarita Pizza",
     "price": 700,
-    "description": "Margarita Pizza prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Margarita Pizza prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/margarita-pizza-61.jpg",
     "tags": [
       "vegetarian"
@@ -1306,7 +1306,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-pizzas",
     "name": "Chicken Pizza",
     "price": 899,
-    "description": "Chicken Pizza prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Chicken Pizza prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/chicken-pizza-62.jpg",
     "tags": [
       "popular"
@@ -1323,7 +1323,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-pizzas",
     "name": "Tuna Pizza",
     "price": 899,
-    "description": "Tuna Pizza prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Tuna Pizza prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/tuna-pizza-63.jpg",
     "tags": [
       "popular"
@@ -1340,7 +1340,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-pizzas",
     "name": "Vegetable Pizza",
     "price": 460,
-    "description": "Vegetable Pizza prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Vegetable Pizza prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/vegetable-pizza-64.jpg",
     "tags": [
       "vegan",
@@ -1358,7 +1358,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-snack-menu",
     "name": "French frise",
     "price": 345,
-    "description": "French frise prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "French frise prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/french-frise-65.jpg",
     "tags": [
       "vegan",
@@ -1376,7 +1376,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-snack-menu",
     "name": "Spring roll vegetable",
     "price": 345,
-    "description": "Spring roll vegetable prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Spring roll vegetable prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/spring-roll-vegetable-66.jpg",
     "tags": [
       "vegan",
@@ -1394,7 +1394,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-snack-menu",
     "name": "Spring roll meat",
     "price": 500,
-    "description": "Spring roll meat prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Spring roll meat prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/spring-roll-meat-67.jpg",
     "tags": [
       "popular"
@@ -1406,13 +1406,13 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "sort_order": 67
   },
   {
-    "id": "item-addis-snack-68",
+    "id": "item-nitsuh-snack-68",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-snack-menu",
-    "name": "Addis snack",
+    "name": "Nitsuh snack",
     "price": 575,
-    "description": "Addis snack prepared freshly at Addis Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/addis-snack-68.jpg",
+    "description": "Nitsuh snack prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
+    "image_url": "/images/dishes/nitsuh-snack-68.jpg",
     "tags": [
       "popular"
     ],
@@ -1428,7 +1428,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-snack-menu",
     "name": "Fish & chips",
     "price": 750,
-    "description": "Fish & chips prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Fish & chips prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/fish-chips-69.jpg",
     "tags": [
       "popular"
@@ -1445,7 +1445,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-snack-menu",
     "name": "Fried Chicken wings",
     "price": 750,
-    "description": "Fried Chicken wings prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Fried Chicken wings prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/fried-chicken-wings-70.jpg",
     "tags": [
       "popular"
@@ -1462,7 +1462,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-snack-menu",
     "name": "Chicken nugget",
     "price": 750,
-    "description": "Chicken nugget prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Chicken nugget prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/chicken-nugget-71.jpg",
     "tags": [
       "popular"
@@ -1479,7 +1479,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-snack-menu",
     "name": "A. Chicken Tender 4pcs",
     "price": 600,
-    "description": "A. Chicken Tender 4pcs prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "A. Chicken Tender 4pcs prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/a-chicken-tender-4pcs-72.jpg",
     "tags": [
       "popular"
@@ -1496,7 +1496,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-snack-menu",
     "name": "A. Chicken Tender 6pcs",
     "price": 800,
-    "description": "A. Chicken Tender 6pcs prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "A. Chicken Tender 6pcs prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/a-chicken-tender-6pcs-73.jpg",
     "tags": [
       "popular"
@@ -1513,7 +1513,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "SPECIAL MILK",
     "price": 200,
-    "description": "SPECIAL MILK prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "SPECIAL MILK prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/special-milk-74.jpg",
     "tags": [
       "vegetarian"
@@ -1530,7 +1530,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "COFFEE",
     "price": 120,
-    "description": "COFFEE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "COFFEE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/ethiopian-buna.jpg",
     "tags": [
       "vegan",
@@ -1548,7 +1548,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "TEA",
     "price": 60,
-    "description": "TEA prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/tea-76.jpg",
     "tags": [
       "vegan"
@@ -1565,7 +1565,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "MACCHIATO",
     "price": 120,
-    "description": "MACCHIATO prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "MACCHIATO prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/macchiato-77.jpg",
     "tags": [
       "vegetarian",
@@ -1583,7 +1583,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "DOUBLE MACCHIATO",
     "price": 220,
-    "description": "DOUBLE MACCHIATO prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "DOUBLE MACCHIATO prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/double-macchiato-78.jpg",
     "tags": [
       "vegetarian",
@@ -1601,7 +1601,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "STEAM COFFEE",
     "price": 100,
-    "description": "STEAM COFFEE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "STEAM COFFEE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/steam-coffee-79.jpg",
     "tags": [
       "vegan"
@@ -1618,7 +1618,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "SPECIAL TEA",
     "price": 200,
-    "description": "SPECIAL TEA prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "SPECIAL TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/special-tea-80.jpg",
     "tags": [
       "vegan",
@@ -1636,7 +1636,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "SAFI MILK",
     "price": 120,
-    "description": "SAFI MILK prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "SAFI MILK prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/safi-milk-81.jpg",
     "tags": [
       "vegetarian"
@@ -1653,7 +1653,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "CAFE LATE",
     "price": 150,
-    "description": "CAFE LATE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "CAFE LATE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/cafe-late-82.jpg",
     "tags": [
       "vegetarian"
@@ -1670,7 +1670,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "CAPPUCCINO",
     "price": 200,
-    "description": "CAPPUCCINO prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "CAPPUCCINO prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/cappuccino-83.jpg",
     "tags": [
       "vegetarian"
@@ -1687,7 +1687,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "GINGER TEA",
     "price": 100,
-    "description": "GINGER TEA prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "GINGER TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/ginger-tea-84.jpg",
     "tags": [
       "vegan",
@@ -1705,7 +1705,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "LEWOZE TEA",
     "price": 170,
-    "description": "LEWOZE TEA prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "LEWOZE TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/lewoze-tea-85.jpg",
     "tags": [
       "vegan"
@@ -1722,7 +1722,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "MILK TEA",
     "price": 140,
-    "description": "MILK TEA prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "MILK TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/milk-tea-86.jpg",
     "tags": [
       "vegetarian"
@@ -1739,7 +1739,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "SOMALI TEA",
     "price": 140,
-    "description": "SOMALI TEA prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "SOMALI TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/somali-tea-87.jpg",
     "tags": [
       "vegan",
@@ -1757,7 +1757,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "GREEN TEA",
     "price": 80,
-    "description": "GREEN TEA prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "GREEN TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/green-tea-88.jpg",
     "tags": [
       "vegan",
@@ -1775,7 +1775,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "ORANGE TEA",
     "price": 120,
-    "description": "ORANGE TEA prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "ORANGE TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/orange-tea-89.jpg",
     "tags": [
       "vegan",
@@ -1793,7 +1793,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "AMERICANO COFFEE",
     "price": 200,
-    "description": "AMERICANO COFFEE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "AMERICANO COFFEE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/americano-coffee-90.jpg",
     "tags": [
       "vegan"
@@ -1810,7 +1810,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "LEMON TEA",
     "price": 80,
-    "description": "LEMON TEA prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "LEMON TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/lemon-tea-91.jpg",
     "tags": [
       "vegan",
@@ -1828,7 +1828,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "SPRICE TEA",
     "price": 120,
-    "description": "SPRICE TEA prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "SPRICE TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/sprice-tea-92.jpg",
     "tags": [
       "vegan"
@@ -1845,7 +1845,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "HOT CHOCOLATE",
     "price": 200,
-    "description": "HOT CHOCOLATE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "HOT CHOCOLATE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/hot-chocolate-93.jpg",
     "tags": [
       "vegetarian"
@@ -1862,7 +1862,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "NANA TEA",
     "price": 100,
-    "description": "NANA TEA prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "NANA TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/nana-tea-94.jpg",
     "tags": [
       "vegan",
@@ -1880,7 +1880,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-hot-beverage",
     "name": "LIPTON TEA",
     "price": 80,
-    "description": "LIPTON TEA prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "LIPTON TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/lipton-tea-95.jpg",
     "tags": [
       "vegan"
@@ -1897,7 +1897,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-juice",
     "name": "AVOCADO",
     "price": 300,
-    "description": "AVOCADO prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "AVOCADO prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/avocado-96.jpg",
     "tags": [
       "vegan",
@@ -1916,7 +1916,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-juice",
     "name": "PAPAYA JUICE",
     "price": 300,
-    "description": "PAPAYA JUICE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "PAPAYA JUICE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/papaya-juice-97.jpg",
     "tags": [
       "vegan",
@@ -1934,7 +1934,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-juice",
     "name": "WATERMELON JUICE",
     "price": 300,
-    "description": "WATERMELON JUICE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "WATERMELON JUICE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/watermelon-juice-98.jpg",
     "tags": [
       "vegan",
@@ -1952,7 +1952,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-juice",
     "name": "MANGO",
     "price": 350,
-    "description": "MANGO prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "MANGO prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/mango-99.jpg",
     "tags": [
       "vegan",
@@ -1971,7 +1971,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-juice",
     "name": "SPRICE JUICE",
     "price": 350,
-    "description": "SPRICE JUICE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "SPRICE JUICE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/spris-juice.jpg",
     "tags": [
       "vegan",
@@ -1990,7 +1990,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-juice",
     "name": "GISHITA JUICE",
     "price": 350,
-    "description": "GISHITA JUICE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "GISHITA JUICE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/gishita-juice-101.jpg",
     "tags": [
       "vegan",
@@ -2008,7 +2008,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-juice",
     "name": "ANANAS",
     "price": 350,
-    "description": "ANANAS prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "ANANAS prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/ananas-102.jpg",
     "tags": [
       "vegan",
@@ -2026,7 +2026,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-juice",
     "name": "ORANGE",
     "price": 350,
-    "description": "ORANGE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "ORANGE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/orange-103.jpg",
     "tags": [
       "vegan",
@@ -2044,7 +2044,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-juice",
     "name": "GINGER JUICE",
     "price": 280,
-    "description": "GINGER JUICE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "GINGER JUICE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/ginger-juice-104.jpg",
     "tags": [
       "vegan",
@@ -2062,7 +2062,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-juice",
     "name": "STROBERRY SHAKE",
     "price": 280,
-    "description": "STROBERRY SHAKE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "STROBERRY SHAKE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/stroberry-shake-105.jpg",
     "tags": [
       "vegetarian"
@@ -2079,7 +2079,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-juice",
     "name": "BANANA SHAKE",
     "price": 400,
-    "description": "BANANA SHAKE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "BANANA SHAKE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/banana-shake-106.jpg",
     "tags": [
       "vegetarian"
@@ -2096,7 +2096,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-juice",
     "name": "AVOCADO SHAKE",
     "price": 400,
-    "description": "AVOCADO SHAKE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "AVOCADO SHAKE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/avocado-shake-107.jpg",
     "tags": [
       "vegetarian"
@@ -2113,7 +2113,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-juice",
     "name": "MANGO SHAKE",
     "price": 400,
-    "description": "MANGO SHAKE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "MANGO SHAKE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/mango-shake-108.jpg",
     "tags": [
       "vegetarian"
@@ -2130,7 +2130,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-juice",
     "name": "CHOCOLATE SHAKE",
     "price": 450,
-    "description": "CHOCOLATE SHAKE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "CHOCOLATE SHAKE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/chocolate-shake-109.jpg",
     "tags": [
       "vegetarian"
@@ -2147,7 +2147,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-juice",
     "name": "Special juice",
     "price": 450,
-    "description": "Special juice prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Special juice prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/special-juice-110.jpg",
     "tags": [
       "vegan",
@@ -2165,7 +2165,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-cold-drinks",
     "name": "ICE COFFEE",
     "price": 200,
-    "description": "ICE COFFEE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "ICE COFFEE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/ice-coffee-111.jpg",
     "tags": [
       "vegan",
@@ -2183,7 +2183,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-cold-drinks",
     "name": "ICE LATE/AMERICANO",
     "price": 200,
-    "description": "ICE LATE/AMERICANO prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "ICE LATE/AMERICANO prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/ice-late-americano-112.jpg",
     "tags": [
       "vegetarian"
@@ -2200,7 +2200,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-cold-drinks",
     "name": "MOJITO",
     "price": 350,
-    "description": "MOJITO prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "MOJITO prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/mojito-113.jpg",
     "tags": [
       "vegan",
@@ -2218,7 +2218,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-cold-drinks",
     "name": "SOFT DRINKS",
     "price": 80,
-    "description": "SOFT DRINKS prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "SOFT DRINKS prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/soft-drinks-114.jpg",
     "tags": [
       "vegan"
@@ -2235,7 +2235,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-cold-drinks",
     "name": "AMBO WATER",
     "price": 100,
-    "description": "AMBO WATER prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "AMBO WATER prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/ambo-water-115.jpg",
     "tags": [
       "vegan",
@@ -2253,7 +2253,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-cold-drinks",
     "name": "WATER 300ML",
     "price": 305,
-    "description": "WATER 300ML prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "WATER 300ML prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/water-300ml-116.jpg",
     "tags": [
       "vegan"
@@ -2270,7 +2270,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-cold-drinks",
     "name": "WATER 600ML",
     "price": 50,
-    "description": "WATER 600ML prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "WATER 600ML prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/water-600ml-117.jpg",
     "tags": [
       "vegan"
@@ -2287,7 +2287,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-cold-drinks",
     "name": "WATER 1000ML",
     "price": 70,
-    "description": "WATER 1000ML prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "WATER 1000ML prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/water-1000ml-118.jpg",
     "tags": [
       "vegan"
@@ -2304,7 +2304,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-cold-drinks",
     "name": "CARAMEL ICED COFFEE",
     "price": 200,
-    "description": "CARAMEL ICED COFFEE prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "CARAMEL ICED COFFEE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/caramel-iced-coffee-119.jpg",
     "tags": [
       "vegetarian"
@@ -2321,7 +2321,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-lunch-dinner",
     "name": "Yebeg Tibs",
     "price": 900,
-    "description": "Yebeg Tibs prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Yebeg Tibs prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/yebeg-tibs.jpg",
     "tags": [
       "popular"
@@ -2338,7 +2338,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-lunch-dinner",
     "name": "Rice with meat",
     "price": 575,
-    "description": "Rice with meat prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Rice with meat prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/rice-with-meat-121.jpg",
     "tags": [
       "popular"
@@ -2355,7 +2355,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-lunch-dinner",
     "name": "Rice with Vegetable",
     "price": 450,
-    "description": "Rice with Vegetable prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Rice with Vegetable prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/rice-with-vegetable-122.jpg",
     "tags": [
       "vegan",
@@ -2373,7 +2373,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-lunch-dinner",
     "name": "Quanta Firfir",
     "price": 550,
-    "description": "Quanta Firfir prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Quanta Firfir prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/quanta-firfir.jpg",
     "tags": [
       "popular"
@@ -2390,7 +2390,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-lunch-dinner",
     "name": "Shiro with Butter",
     "price": 400,
-    "description": "Shiro with Butter prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Shiro with Butter prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/shiro.jpg",
     "tags": [
       "vegetarian",
@@ -2408,7 +2408,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-lunch-dinner",
     "name": "Smart shiro",
     "price": 400,
-    "description": "Smart shiro prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Smart shiro prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/smart-shiro-125.jpg",
     "tags": [
       "vegetarian"
@@ -2425,7 +2425,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-lunch-dinner",
     "name": "Pasta with Vegetable",
     "price": 450,
-    "description": "Pasta with Vegetable prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Pasta with Vegetable prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/pasta-with-vegetable-126.jpg",
     "tags": [
       "vegan",
@@ -2443,7 +2443,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-lunch-dinner",
     "name": "Pasta with meat",
     "price": 575,
-    "description": "Pasta with meat prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Pasta with meat prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/pasta-with-meat-127.jpg",
     "tags": [
       "popular"
@@ -2460,7 +2460,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-lunch-dinner",
     "name": "Pasta with tomato",
     "price": 400,
-    "description": "Pasta with tomato prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Pasta with tomato prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/pasta-with-tomato-128.jpg",
     "tags": [
       "vegan",
@@ -2478,7 +2478,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-lunch-dinner",
     "name": "Doro Tibs",
     "price": 800,
-    "description": "Doro Tibs prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Doro Tibs prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/doro-tibs-129.jpg",
     "tags": [
       "popular"
@@ -2495,7 +2495,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-lunch-dinner",
     "name": "Vigitable sup",
     "price": 300,
-    "description": "Vigitable sup prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Vigitable sup prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/vigitable-sup-130.jpg",
     "tags": [
       "vegan",
@@ -2513,7 +2513,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-lunch-dinner",
     "name": "Chikina Tibs",
     "price": 900,
-    "description": "Chikina Tibs prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Chikina Tibs prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/chikina-tibs-131.jpg",
     "tags": [
       "popular"
@@ -2530,7 +2530,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-lunch-dinner",
     "name": "Tibs Tefersho",
     "price": 700,
-    "description": "Tibs Tefersho prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Tibs Tefersho prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/tibs-tefersho-132.jpg",
     "tags": [
       "popular"
@@ -2547,7 +2547,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-lunch-dinner",
     "name": "Yebeg Keywot",
     "price": 700,
-    "description": "Yebeg Keywot prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Yebeg Keywot prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/yebeg-keywot.jpg",
     "tags": [
       "popular"
@@ -2564,7 +2564,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-lunch-dinner",
     "name": "Agelegil",
     "price": 900,
-    "description": "Agelegil prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Agelegil prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/agelegil-134.jpg",
     "tags": [
       "popular"
@@ -2581,7 +2581,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-lunch-dinner",
     "name": "Gomen Besiga",
     "price": 700,
-    "description": "Gomen Besiga prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Gomen Besiga prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/gomen-besiga-135.jpg",
     "tags": [
       "popular"
@@ -2598,7 +2598,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-lunch-dinner",
     "name": "Grilled Fish",
     "price": 850,
-    "description": "Grilled Fish prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Grilled Fish prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/grilled-fish-136.jpg",
     "tags": [
       "popular"
@@ -2615,7 +2615,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-mendi",
     "name": "Mofo",
     "price": 700,
-    "description": "Mofo prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Mofo prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/mofo-137.jpg",
     "tags": [
       "popular"
@@ -2632,7 +2632,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-mendi",
     "name": "Special Mendi",
     "price": 2000,
-    "description": "Special Mendi prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Special Mendi prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/special-mendi.jpg",
     "tags": [
       "popular"
@@ -2649,7 +2649,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-mendi",
     "name": "Mend 1/2",
     "price": 900,
-    "description": "Mend 1/2 prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Mend 1/2 prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/mend-1-2-139.jpg",
     "tags": [
       "popular"
@@ -2666,7 +2666,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-mendi",
     "name": "Mend Full",
     "price": 1800,
-    "description": "Mend Full prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Mend Full prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/mend-full-140.jpg",
     "tags": [
       "popular"
@@ -2683,7 +2683,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-mendi",
     "name": "1/2 Roasted Chicken",
     "price": 1098,
-    "description": "1/2 Roasted Chicken prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "1/2 Roasted Chicken prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/1-2-roasted-chicken-141.jpg",
     "tags": [
       "popular"
@@ -2700,7 +2700,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-mendi",
     "name": "Roasted Chicken Full",
     "price": 1900,
-    "description": "Roasted Chicken Full prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Roasted Chicken Full prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/roasted-chicken-full-142.jpg",
     "tags": [
       "popular"
@@ -2717,7 +2717,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-half-half",
     "name": "Keywot and Fitfit",
     "price": 790,
-    "description": "Keywot and Fitfit prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Keywot and Fitfit prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/keywot-and-fitfit-143.jpg",
     "tags": [
       "popular"
@@ -2734,7 +2734,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-half-half",
     "name": "Tibs and Fitfit",
     "price": 900,
-    "description": "Tibs and Fitfit prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Tibs and Fitfit prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/tibs-and-fitfit-144.jpg",
     "tags": [
       "popular"
@@ -2751,7 +2751,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-half-half",
     "name": "Cooked Vegs and Aja",
     "price": 600,
-    "description": "Cooked Vegs and Aja prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Cooked Vegs and Aja prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/cooked-vegs-and-aja-145.jpg",
     "tags": [
       "vegan",
@@ -2769,7 +2769,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-wraps",
     "name": "Tuna Sandwich",
     "price": 600,
-    "description": "Tuna Sandwich prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Tuna Sandwich prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/tuna-sandwich-146.jpg",
     "tags": [
       "popular"
@@ -2786,7 +2786,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-wraps",
     "name": "Beef Shewarema",
     "price": 699,
-    "description": "Beef Shewarema prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Beef Shewarema prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/beef-shewarema-147.jpg",
     "tags": [
       "popular"
@@ -2803,7 +2803,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-wraps",
     "name": "Chicken Shewarma",
     "price": 600,
-    "description": "Chicken Shewarma prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Chicken Shewarma prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/chicken-shewarma-148.jpg",
     "tags": [
       "popular"
@@ -2820,7 +2820,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-fasting-lunch",
     "name": "Shiro",
     "price": 350,
-    "description": "Shiro prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Shiro prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/shiro-149.jpg",
     "tags": [
       "vegan",
@@ -2839,7 +2839,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-fasting-lunch",
     "name": "Beyaynetu",
     "price": 500,
-    "description": "Beyaynetu prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Beyaynetu prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/beyaynetu.jpg",
     "tags": [
       "vegan",
@@ -2858,7 +2858,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-fasting-lunch",
     "name": "Fasting Agelegil",
     "price": 600,
-    "description": "Fasting Agelegil prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Fasting Agelegil prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/fasting-agelegil-151.jpg",
     "tags": [
       "vegan",
@@ -2877,7 +2877,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-fasting-lunch",
     "name": "Suf fitfit",
     "price": 350,
-    "description": "Suf fitfit prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Suf fitfit prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/suf-fitfit-152.jpg",
     "tags": [
       "vegan",
@@ -2890,13 +2890,13 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "sort_order": 152
   },
   {
-    "id": "item-addis-special-salad-153",
+    "id": "item-nitsuh-special-salad-153",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-fasting-lunch",
-    "name": "Addis special Salad",
+    "name": "Nitsuh special Salad",
     "price": 400,
-    "description": "Addis special Salad prepared freshly at Addis Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/addis-special-salad-153.jpg",
+    "description": "Nitsuh special Salad prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
+    "image_url": "/images/dishes/nitsuh-special-salad-153.jpg",
     "tags": [
       "vegan",
       "fasting"
@@ -2913,7 +2913,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-fasting-lunch",
     "name": "Aja with spinach",
     "price": 400,
-    "description": "Aja with spinach prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Aja with spinach prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/aja-with-spinach-154.jpg",
     "tags": [
       "vegan",
@@ -2931,7 +2931,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-takeaway-extras",
     "name": "Takeaway",
     "price": 50,
-    "description": "Takeaway prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Takeaway prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/takeaway-155.jpg",
     "tags": [],
     "allergens": [],
@@ -2946,7 +2946,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-takeaway-extras",
     "name": "Pizza takeaway",
     "price": 100,
-    "description": "Pizza takeaway prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Pizza takeaway prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/pizza-takeaway-156.jpg",
     "tags": [],
     "allergens": [],
@@ -2961,7 +2961,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
     "category_id": "cat-takeaway-extras",
     "name": "Extra cheese",
     "price": 100,
-    "description": "Extra cheese prepared freshly at Addis Cafeteria with authentic premium ingredients.",
+    "description": "Extra cheese prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
     "image_url": "/images/dishes/extra-cheese-157.jpg",
     "tags": [
       "vegetarian"
@@ -2977,7 +2977,7 @@ export const MOCK_ITEMS_ADDIS: MenuItem[] = [
 const inMemoryOrders: Order[] = [
   {
     id: 'ord-101',
-    restaurant_id: MOCK_RESTAURANT_ADDIS.id,
+    restaurant_id: MOCK_RESTAURANT_NITSUH.id,
     table_number: 'Table 1',
     items: [
       {
@@ -3010,7 +3010,7 @@ const inMemoryOrders: Order[] = [
 const inMemoryServiceRequests: ServiceRequest[] = [
   {
     id: 'req-201',
-    restaurant_id: MOCK_RESTAURANT_ADDIS.id,
+    restaurant_id: MOCK_RESTAURANT_NITSUH.id,
     table_number: 'Table 14',
     request_type: 'water',
     status: 'pending',
@@ -3062,22 +3062,34 @@ export async function getRestaurantBySlug(slug: string): Promise<Restaurant | nu
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
     try {
       const supabase = createClient();
+      let query = supabase.from('restaurants').select('*');
+      if (slug === 'nitsuh' || slug === 'addis') {
+        query = query.in('slug', ['nitsuh', 'addis']);
+      } else {
+        query = query.eq('slug', slug);
+      }
       const { data, error } = await Promise.race([
-        supabase.from('restaurants').select('*').eq('slug', slug).single(),
+        query.limit(1).single(),
         new Promise<any>((_, reject) => setTimeout(() => reject(new Error('timeout')), 2000)),
       ]);
 
       if (!error && data) {
         const merged: Restaurant = {
-          ...MOCK_RESTAURANT_ADDIS,
+          ...MOCK_RESTAURANT_NITSUH,
           ...inMemoryRestaurant,
           ...(data as Restaurant),
+          slug: 'nitsuh',
+          name: (data.name === 'Addis Cafeteria' ? 'Nitsuh Cafeteria' : data.name) || 'Nitsuh Cafeteria',
+          short_name: (data.short_name === 'Addis' ? 'Nitsuh' : data.short_name) || 'Nitsuh',
+          logo_letter: data.logo_letter === 'A' ? 'N' : (data.logo_letter || 'N'),
+          announcement: ((data as any).announcement || inMemoryRestaurant.announcement || '').replace(/\bAddis\b/g, 'Nitsuh'),
+          tagline: ((data as any).tagline || inMemoryRestaurant.tagline || '').replace(/\bAddis\b/g, 'Nitsuh'),
+          branch_name: (((data as any).branch_name || inMemoryRestaurant.branch_name) || '').replace(/\bAddis\b/g, 'Nitsuh'),
           theme_config: {
-            ...(MOCK_RESTAURANT_ADDIS.theme_config || {}),
+            ...(MOCK_RESTAURANT_NITSUH.theme_config || {}),
             ...((data as any).theme_config || {}),
             ...inMemoryRestaurant.theme_config,
           },
-          branch_name: (data as any).branch_name || inMemoryRestaurant.branch_name,
           address: (data as any).address || inMemoryRestaurant.address,
           google_maps_url: (data as any).google_maps_url || inMemoryRestaurant.google_maps_url,
         };
@@ -3091,7 +3103,7 @@ export async function getRestaurantBySlug(slug: string): Promise<Restaurant | nu
   }
 
   // Built-in fallback matching requested slug
-  if (slug.toLowerCase() === 'addis' || slug.toLowerCase() === 'afla' || slug.toLowerCase() === 'addis-cafeteria' || slug === 'default' || slug === 'aura') {
+  if (slug.toLowerCase() === 'nitsuh' || slug.toLowerCase() === 'nitsuh-cafeteria' || slug.toLowerCase() === 'addis' || slug.toLowerCase() === 'afla' || slug.toLowerCase() === 'addis-cafeteria' || slug === 'default' || slug === 'aura') {
     return inMemoryRestaurant;
   }
 
@@ -3134,8 +3146,13 @@ export async function getMenuCategories(restaurantId: string): Promise<Category[
         const dataIds = new Set(data.map((d: any) => d.id));
         const localOnly = local.filter((c) => !dataIds.has(c.id));
         const localMap = new Map(local.map((c) => [c.id, c]));
+        const sanitizedData = (data as Category[]).map((c) => ({
+          ...c,
+          name: c.name ? c.name.replace(/\bAddis\b/g, 'Nitsuh') : c.name,
+          description: c.description ? c.description.replace(/\bAddis\b/g, 'Nitsuh') : c.description,
+        }));
         inMemoryCategories = [
-          ...(data as Category[]).map((d) => localMap.get(d.id) || d),
+          ...sanitizedData.map((d) => localMap.get(d.id) || d),
           ...localOnly,
         ].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
         persistCategories(inMemoryCategories);
@@ -3153,7 +3170,7 @@ export async function getMenuCategories(restaurantId: string): Promise<Category[
   }
 
   if (inMemoryCategories.length > 0) return inMemoryCategories;
-  inMemoryCategories = [...MOCK_CATEGORIES_ADDIS];
+  inMemoryCategories = [...MOCK_CATEGORIES_NITSUH];
   persistCategories(inMemoryCategories);
   return inMemoryCategories;
 }
@@ -3169,7 +3186,14 @@ export async function getMenuItems(restaurantId: string): Promise<MenuItem[]> {
         .order('sort_order', { ascending: true });
 
       if (!error && data && data.length > 0) {
-        inMemoryItems = data as MenuItem[];
+        const sanitized = (data as MenuItem[]).map((item) => ({
+          ...item,
+          name: item.name ? item.name.replace(/\bAddis\b/g, 'Nitsuh') : item.name,
+          description: item.description
+            ? item.description.replace(/\bAddis Cafeteria\b/g, 'Nitsuh Cafeteria').replace(/\bAddis\b/g, 'Nitsuh')
+            : item.description,
+        }));
+        inMemoryItems = sanitized;
         if (typeof window !== 'undefined') {
           try {
             localStorage.setItem('digital_menu_items_cache_v3', JSON.stringify(inMemoryItems));
@@ -3187,7 +3211,7 @@ export async function getMenuItems(restaurantId: string): Promise<MenuItem[]> {
       const cached = localStorage.getItem('digital_menu_items_cache_v3');
       if (cached) {
         const parsed = JSON.parse(cached);
-        if (Array.isArray(parsed) && parsed.length >= MOCK_ITEMS_ADDIS.length) {
+        if (Array.isArray(parsed) && parsed.length >= MOCK_ITEMS_NITSUH.length) {
           inMemoryItems = parsed;
           return inMemoryItems;
         }
@@ -3196,7 +3220,7 @@ export async function getMenuItems(restaurantId: string): Promise<MenuItem[]> {
   }
 
   if (inMemoryItems.length > 0) return inMemoryItems;
-  return MOCK_ITEMS_ADDIS;
+  return MOCK_ITEMS_NITSUH;
 }
 
 export async function createOrder(input: CreateOrderInput): Promise<Order> {
@@ -3208,7 +3232,7 @@ export async function createOrder(input: CreateOrderInput): Promise<Order> {
   }
 
   // 2. Authoritative Price Verification: Recalculate line totals and prevent client price manipulation
-  const itemsCatalog = inMemoryItems.length > 0 ? inMemoryItems : MOCK_ITEMS_ADDIS;
+  const itemsCatalog = inMemoryItems.length > 0 ? inMemoryItems : MOCK_ITEMS_NITSUH;
   const itemsMap = new Map(itemsCatalog.map((item) => [item.id, item]));
 
   let verifiedSubtotal = 0;
@@ -3227,7 +3251,7 @@ export async function createOrder(input: CreateOrderInput): Promise<Order> {
   });
 
   const verifiedSubtotalRounded = Number(verifiedSubtotal.toFixed(2));
-  const restaurant = getStoredRestaurant(input.restaurant_id) || MOCK_RESTAURANT_ADDIS;
+  const restaurant = getStoredRestaurant(input.restaurant_id) || MOCK_RESTAURANT_NITSUH;
   const taxRate = restaurant.tax_rate ?? 0.15;
   const verifiedTax = restaurant.tax_mode === 'exclusive' 
     ? Number((verifiedSubtotalRounded * taxRate).toFixed(2)) 
@@ -3294,21 +3318,21 @@ export async function createServiceRequest(input: ServiceRequestInput): Promise<
 }
 
 export async function getLiveOrders(restaurantId: string): Promise<Order[]> {
-  return inMemoryOrders.filter(o => o.restaurant_id === restaurantId || restaurantId === MOCK_RESTAURANT_ADDIS.id);
+  return inMemoryOrders.filter(o => o.restaurant_id === restaurantId || restaurantId === MOCK_RESTAURANT_NITSUH.id);
 }
 
 export async function getLiveServiceRequests(restaurantId: string): Promise<ServiceRequest[]> {
-  return inMemoryServiceRequests.filter(r => r.restaurant_id === restaurantId || restaurantId === MOCK_RESTAURANT_ADDIS.id);
+  return inMemoryServiceRequests.filter(r => r.restaurant_id === restaurantId || restaurantId === MOCK_RESTAURANT_NITSUH.id);
 }
 
 // -----------------------------------------------------------------------------
 // STAGE 3: OFFERS DATA & OPERATIONS (SUPABASE + IN-MEMORY FALLBACK)
 // -----------------------------------------------------------------------------
 
-export const MOCK_OFFERS_ADDIS: Offer[] = [
+export const MOCK_OFFERS_NITSUH: Offer[] = [
   {
     id: 'f1a8c1e2-3456-4789-a012-3456789abc01',
-    restaurant_id: MOCK_RESTAURANT_ADDIS.id,
+    restaurant_id: MOCK_RESTAURANT_NITSUH.id,
     title: 'Happy Hour: 20% Off Handcrafted Pizzas',
     description: 'Enjoy 20% off all artisan sourdough pizzas every afternoon.',
     badge_text: '20% Off',
@@ -3338,7 +3362,7 @@ export const MOCK_OFFERS_ADDIS: Offer[] = [
   },
   {
     id: 'f2b9d2e3-4567-4890-b123-456789abc02',
-    restaurant_id: MOCK_RESTAURANT_ADDIS.id,
+    restaurant_id: MOCK_RESTAURANT_NITSUH.id,
     title: 'Special Mendi Feast (100 ETB Off)',
     description: 'Save 100 ETB when ordering our authentic slow-cooked Special Mendi.',
     badge_text: '100 ETB Off',
@@ -3364,7 +3388,7 @@ export const MOCK_OFFERS_ADDIS: Offer[] = [
   },
   {
     id: 'f3c0e3f4-5678-4901-c234-56789abc03',
-    restaurant_id: MOCK_RESTAURANT_ADDIS.id,
+    restaurant_id: MOCK_RESTAURANT_NITSUH.id,
     title: 'Complimentary Single-Origin Espresso over 500 ETB',
     description: 'Free single-origin Yirgacheffe espresso automatically added to orders over 500 ETB.',
     badge_text: 'Free Gift',
@@ -3403,18 +3427,22 @@ export async function getOffers(restaurantId: string): Promise<Offer[]> {
         .eq('restaurant_id', restaurantId)
         .order('priority', { ascending: false });
 
-      if (!error && data) {
+      if (!error && data && data.length > 0) {
         const mapped = data
           .map((d: any) => {
-            const rawCategoryIds: string[] = Array.isArray(d.category_ids)
+            const rawCategoryIds: string[] = Array.isArray(d.category_ids) && d.category_ids.length > 0
               ? d.category_ids
-              : Array.isArray(d.target_category_ids)
+              : Array.isArray(d.target_category_ids) && d.target_category_ids.length > 0
               ? d.target_category_ids
+              : d.offer_type === 'category_discount'
+              ? ['cat-pizzas']
               : [];
-            const rawItemIds: string[] = Array.isArray(d.item_ids)
+            const rawItemIds: string[] = Array.isArray(d.item_ids) && d.item_ids.length > 0
               ? d.item_ids
-              : Array.isArray(d.target_item_ids)
+              : Array.isArray(d.target_item_ids) && d.target_item_ids.length > 0
               ? d.target_item_ids
+              : d.offer_type === 'item_discount'
+              ? ['item-special-mendi-138', 'item-nitsuh-combo-break-fast-45']
               : [];
 
             let scopeType: 'all' | 'categories' | 'items' = 'items';
@@ -3428,11 +3456,16 @@ export async function getOffers(restaurantId: string): Promise<Offer[]> {
               scopeType = 'all';
             }
 
+            const title = (d.title || '').replace(/\bAddis\b/g, 'Nitsuh');
+            const description = (d.description || '').replace(/\bAddis\b/g, 'Nitsuh');
+
             return {
               ...d,
+              title,
+              description,
               status: d.status || (d.is_active ? 'live' : 'paused'),
               is_paused: d.is_paused ?? !d.is_active,
-              show_top_banner: d.show_top_banner ?? false,
+              show_top_banner: d.show_top_banner ?? (d.priority >= 10 || d.offer_type === 'category_discount' || title.toLowerCase().includes('happy hour')),
               template_type: d.template_type || d.offer_type || 'percentage_off',
               discount_type: d.discount_type || (d.offer_type === 'order_threshold' ? 'free_item' : 'percentage'),
               discount_value: Number(d.discount_value || 0),
@@ -3445,7 +3478,7 @@ export async function getOffers(restaurantId: string): Promise<Offer[]> {
               start_time: d.start_time || '00:00',
               end_time: d.end_time || '23:59',
               honest_urgency_hours: d.honest_urgency_hours ?? 2,
-              banner_text: d.banner_text || d.title,
+              banner_text: d.banner_text || title,
               banner_link_text: d.banner_link_text || 'See offer',
               stacking_rule: d.stacking_rule || 'best_discount',
             };
@@ -3457,8 +3490,10 @@ export async function getOffers(restaurantId: string): Promise<Offer[]> {
             return true;
           }) as Offer[];
 
-        inMemoryOffers = mapped;
-        return mapped;
+        if (mapped.length > 0) {
+          inMemoryOffers = mapped;
+          return mapped;
+        }
       }
     } catch {
       // Fallback below
@@ -3466,7 +3501,7 @@ export async function getOffers(restaurantId: string): Promise<Offer[]> {
   }
 
   if (inMemoryOffers.length > 0) return inMemoryOffers;
-  return MOCK_OFFERS_ADDIS;
+  return MOCK_OFFERS_NITSUH;
 }
 
 export async function saveOffer(offer: Partial<Offer> & { restaurant_id: string }): Promise<Offer> {
@@ -3611,8 +3646,8 @@ export async function recordOfferInteraction(
 // -----------------------------------------------------------------------------
 // STAGE 4: DISH REVIEWS SYSTEM DATA LAYER
 // -----------------------------------------------------------------------------
-export const DEFAULT_REVIEW_SETTINGS_ADDIS: RestaurantReviewSettings = {
-  restaurant_id: MOCK_RESTAURANT_ADDIS.id,
+export const DEFAULT_REVIEW_SETTINGS_NITSUH: RestaurantReviewSettings = {
+  restaurant_id: MOCK_RESTAURANT_NITSUH.id,
   reviews_enabled: true,
   notification_frequency: 'daily_digest',
   available_tags: [
@@ -3628,13 +3663,13 @@ export const DEFAULT_REVIEW_SETTINGS_ADDIS: RestaurantReviewSettings = {
   min_reviews_threshold: 3,
 };
 
-let inMemoryReviewSettings: RestaurantReviewSettings = { ...DEFAULT_REVIEW_SETTINGS_ADDIS };
+let inMemoryReviewSettings: RestaurantReviewSettings = { ...DEFAULT_REVIEW_SETTINGS_NITSUH };
 
-export const MOCK_REVIEWS_ADDIS: DishReview[] = [];
+export const MOCK_REVIEWS_NITSUH: DishReview[] = [];
 
 let inMemoryReviews: DishReview[] = [];
 
-export const MOCK_MODERATION_LOGS_ADDIS: ReviewModerationLog[] = [];
+export const MOCK_MODERATION_LOGS_NITSUH: ReviewModerationLog[] = [];
 
 let inMemoryModerationLogs: ReviewModerationLog[] = [];
 
@@ -3930,7 +3965,7 @@ export async function reportDishReview(reviewId: string, reason: string): Promis
 export async function replyToDishReview(
   reviewId: string,
   replyText: string,
-  staffName: string = 'Addis Staff'
+  staffName: string = 'Nitsuh Staff'
 ): Promise<boolean> {
   const review = await findDishReview(reviewId);
   if (!review) return false;
@@ -4125,10 +4160,10 @@ export async function toggleItemReviews(
 // -----------------------------------------------------------------------------
 // STAGE 5: ADMIN EXPERIENCE DATA LAYER
 // -----------------------------------------------------------------------------
-export const MOCK_SCHEDULED_MENUS_ADDIS: ScheduledMenu[] = [
+export const MOCK_SCHEDULED_MENUS_NITSUH: ScheduledMenu[] = [
   {
     id: 'sched-breakfast',
-    restaurant_id: MOCK_RESTAURANT_ADDIS.id,
+    restaurant_id: MOCK_RESTAURANT_NITSUH.id,
     name: 'Morning Artisanal Roast & Pastries',
     start_time: '07:00',
     end_time: '11:30',
@@ -4138,7 +4173,7 @@ export const MOCK_SCHEDULED_MENUS_ADDIS: ScheduledMenu[] = [
   },
   {
     id: 'sched-lunch-dinner',
-    restaurant_id: MOCK_RESTAURANT_ADDIS.id,
+    restaurant_id: MOCK_RESTAURANT_NITSUH.id,
     name: 'Main Dining & Prime Cuts',
     start_time: '11:30',
     end_time: '22:00',
@@ -4148,26 +4183,26 @@ export const MOCK_SCHEDULED_MENUS_ADDIS: ScheduledMenu[] = [
   },
 ];
 
-let inMemoryScheduledMenus: ScheduledMenu[] = [...MOCK_SCHEDULED_MENUS_ADDIS];
+let inMemoryScheduledMenus: ScheduledMenu[] = [...MOCK_SCHEDULED_MENUS_NITSUH];
 
-export const MOCK_MENU_VERSIONS_ADDIS: MenuVersion[] = [
+export const MOCK_MENU_VERSIONS_NITSUH: MenuVersion[] = [
   {
     id: 'v-1',
-    restaurant_id: MOCK_RESTAURANT_ADDIS.id,
+    restaurant_id: MOCK_RESTAURANT_NITSUH.id,
     label: 'Initial Launch Menu',
     created_at: new Date(Date.now() - 7 * 86400 * 1000).toISOString(),
     items_snapshot: [],
   },
 ];
 
-let inMemoryMenuVersions: MenuVersion[] = [...MOCK_MENU_VERSIONS_ADDIS];
+let inMemoryMenuVersions: MenuVersion[] = [...MOCK_MENU_VERSIONS_NITSUH];
 
-let inMemoryItems: MenuItem[] = [...MOCK_ITEMS_ADDIS];
-let inMemoryRestaurant: Restaurant = { ...MOCK_RESTAURANT_ADDIS };
+let inMemoryItems: MenuItem[] = [...MOCK_ITEMS_NITSUH];
+let inMemoryRestaurant: Restaurant = { ...MOCK_RESTAURANT_NITSUH };
 
 export async function saveMenuItem(itemData: Partial<MenuItem>): Promise<MenuItem> {
   if (inMemoryItems.length === 0) {
-    inMemoryItems = [...MOCK_ITEMS_ADDIS];
+    inMemoryItems = [...MOCK_ITEMS_NITSUH];
   }
   const existingIdx = inMemoryItems.findIndex((i) => i.id === itemData.id);
   let savedItem: MenuItem;
@@ -4181,7 +4216,7 @@ export async function saveMenuItem(itemData: Partial<MenuItem>): Promise<MenuIte
   } else {
     savedItem = {
       id: itemData.id || `item-${Date.now()}`,
-      restaurant_id: itemData.restaurant_id || MOCK_RESTAURANT_ADDIS.id,
+      restaurant_id: itemData.restaurant_id || MOCK_RESTAURANT_NITSUH.id,
       category_id: itemData.category_id || inMemoryCategories[0]?.id || 'cat-breakfast',
       name: itemData.name || 'New Dish',
       name_es: itemData.name_es,
@@ -4399,7 +4434,7 @@ export async function saveCategory(categoryData: Partial<Category>): Promise<Cat
       .replace(/(^-|-$)/g, '');
     const newCat: Category = {
       id: categoryData.id || `cat-${slug || Date.now()}`,
-      restaurant_id: categoryData.restaurant_id || MOCK_RESTAURANT_ADDIS.id,
+      restaurant_id: categoryData.restaurant_id || MOCK_RESTAURANT_NITSUH.id,
       name: categoryData.name || 'New Category',
       name_am: categoryData.name_am,
       name_so: categoryData.name_so,
@@ -4640,3 +4675,15 @@ export async function restoreMenuVersion(versionId: string): Promise<MenuItem[]>
   return inMemoryItems;
 }
 
+
+
+// Backwards compatibility aliases
+export const MOCK_RESTAURANT_ADDIS = MOCK_RESTAURANT_NITSUH;
+export const MOCK_CATEGORIES_ADDIS = MOCK_CATEGORIES_NITSUH;
+export const MOCK_ITEMS_ADDIS = MOCK_ITEMS_NITSUH;
+export const MOCK_OFFERS_ADDIS = MOCK_OFFERS_NITSUH;
+export const MOCK_REVIEWS_ADDIS = MOCK_REVIEWS_NITSUH;
+export const MOCK_MODERATION_LOGS_ADDIS = MOCK_MODERATION_LOGS_NITSUH;
+export const DEFAULT_REVIEW_SETTINGS_ADDIS = DEFAULT_REVIEW_SETTINGS_NITSUH;
+export const MOCK_SCHEDULED_MENUS_ADDIS = MOCK_SCHEDULED_MENUS_NITSUH;
+export const MOCK_MENU_VERSIONS_ADDIS = MOCK_MENU_VERSIONS_NITSUH;

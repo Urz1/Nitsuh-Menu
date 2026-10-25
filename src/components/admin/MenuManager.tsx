@@ -1814,7 +1814,7 @@ export function MenuManager({
                 <div>
                   <h3 className="text-base font-bold text-white">Menu Categories</h3>
                   <p className="text-xs text-neutral-400">
-                    Add, edit, reorder, or remove categories across Addis Cafeteria.
+                    Add, edit, reorder, or remove categories across Nitsuh Cafeteria.
                   </p>
                 </div>
               </div>

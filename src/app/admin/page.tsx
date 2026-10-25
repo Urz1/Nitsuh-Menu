@@ -18,13 +18,13 @@ import {
   UserRole,
 } from '@/types/database';
 import {
-  MOCK_RESTAURANT_ADDIS,
-  MOCK_ITEMS_ADDIS,
-  MOCK_CATEGORIES_ADDIS,
-  MOCK_OFFERS_ADDIS,
-  MOCK_REVIEWS_ADDIS,
-  MOCK_SCHEDULED_MENUS_ADDIS,
-  MOCK_MENU_VERSIONS_ADDIS,
+  MOCK_RESTAURANT_NITSUH,
+  MOCK_ITEMS_NITSUH,
+  MOCK_CATEGORIES_NITSUH,
+  MOCK_OFFERS_NITSUH,
+  MOCK_REVIEWS_NITSUH,
+  MOCK_SCHEDULED_MENUS_NITSUH,
+  MOCK_MENU_VERSIONS_NITSUH,
   getLiveOrders,
   getLiveServiceRequests,
   saveMenuItem,
@@ -124,10 +124,10 @@ export default function AdminDashboardPage() {
   // Core Data State
   const [restaurant, setRestaurant] = useState<Restaurant>(() => {
     if (typeof window !== 'undefined') {
-      const stored = getStoredRestaurant('addis') || getStoredRestaurant();
+      const stored = getStoredRestaurant('nitsuh') || getStoredRestaurant('addis') || getStoredRestaurant();
       if (stored) return stored;
     }
-    return MOCK_RESTAURANT_ADDIS;
+    return MOCK_RESTAURANT_NITSUH;
   });
 
   useEffect(() => {
@@ -147,19 +147,19 @@ export default function AdminDashboardPage() {
         const cached = localStorage.getItem('digital_menu_items_cache');
         if (cached) {
           const parsed = JSON.parse(cached);
-          if (Array.isArray(parsed) && parsed.length >= MOCK_ITEMS_ADDIS.length) return parsed;
+          if (Array.isArray(parsed) && parsed.length >= MOCK_ITEMS_NITSUH.length) return parsed;
         }
       } catch {}
     }
-    return MOCK_ITEMS_ADDIS;
+    return MOCK_ITEMS_NITSUH;
   });
   const [categories, setCategories] = useState<Category[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [serviceRequests, setServiceRequests] = useState<ServiceRequest[]>([]);
   const [reviews, setReviews] = useState<DishReview[]>([]);
   const [offers, setOffers] = useState<Offer[]>([]);
-  const [scheduledMenus, setScheduledMenus] = useState<ScheduledMenu[]>(MOCK_SCHEDULED_MENUS_ADDIS);
-  const [menuVersions, setMenuVersions] = useState<MenuVersion[]>(MOCK_MENU_VERSIONS_ADDIS);
+  const [scheduledMenus, setScheduledMenus] = useState<ScheduledMenu[]>(MOCK_SCHEDULED_MENUS_NITSUH);
+  const [menuVersions, setMenuVersions] = useState<MenuVersion[]>(MOCK_MENU_VERSIONS_NITSUH);
 
   // Modals & Floating Tools
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);

@@ -4,7 +4,7 @@ test.describe('Category CRUD & Inline Creation Flow', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/admin');
     await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
-    await expect(page.locator('h1:has-text("Addis Cafeteria")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
 
     // Navigate to Menu tab
     const menuBtn = page.locator('[data-testid="admin-nav-menu"]:visible').first();
@@ -114,8 +114,8 @@ test.describe('Category CRUD & Inline Creation Flow', () => {
 
   test('3. Real-Time Customer Sync: Newly created category reflects in dining view', async ({ page }) => {
     // Open customer dining view in same browser context
-    await page.goto('/addis?table=Table%2014');
-    await expect(page.locator('h1:has-text("Addis Cafeteria")')).toBeVisible();
+    await page.goto('/nitsuh?table=Table%2014');
+    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
 
     // Categories are rendered on customer page
     await expect(page.locator('text=Soft Cake').first()).toBeVisible();

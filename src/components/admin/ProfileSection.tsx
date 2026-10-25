@@ -316,7 +316,7 @@ export function ProfileSection({
                       type="email"
                       value={ownerEmail}
                       onChange={(e) => setOwnerEmail(e.target.value)}
-                      placeholder="e.g. owner@addiscafeteria.com"
+                      placeholder="e.g. owner@nitsuhcafeteria.com"
                       required
                       className="w-full h-10 pl-9 pr-3 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-neutral-400 outline-none focus:border-amber-400 transition-colors"
                     />
@@ -678,7 +678,7 @@ export function ProfileSection({
           </span>
           <span className="flex items-center gap-1.5 text-[11px] text-neutral-400 font-medium">
             <Shield className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Authenticated Session • Addis Ababa Station</span>
+            <span>Authenticated Session • Nitsuh Station</span>
           </span>
         </div>
       </div>

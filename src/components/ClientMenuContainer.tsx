@@ -27,9 +27,9 @@ import {
   getStoredRestaurant,
   createServiceRequest,
   recordOfferInteraction,
-  MOCK_OFFERS_ADDIS,
-  MOCK_REVIEWS_ADDIS,
-  DEFAULT_REVIEW_SETTINGS_ADDIS,
+  MOCK_OFFERS_NITSUH,
+  MOCK_REVIEWS_NITSUH,
+  DEFAULT_REVIEW_SETTINGS_NITSUH,
   submitDishReview,
   reportDishReview,
 } from '@/lib/data-provider';
@@ -122,7 +122,7 @@ export function ClientMenuContainer({
   // Reviews & Settings state
   const [reviews, setReviews] = useState<DishReview[]>(initialReviews || []);
   const [reviewSettings] = useState<RestaurantReviewSettings>(
-    initialReviewSettings || DEFAULT_REVIEW_SETTINGS_ADDIS
+    initialReviewSettings || DEFAULT_REVIEW_SETTINGS_NITSUH
   );
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [reviewModalItem, setReviewModalItem] = useState<MenuItem | null>(null);
@@ -446,7 +446,7 @@ export function ClientMenuContainer({
     return map;
   }, [items, reviews, reviewSettings.min_reviews_threshold]);
   // ---------------------------------------------------------------------------
-  const restaurantTimezone = restaurant.slug === 'addis' ? 'Africa/Addis_Ababa' : 'UTC';
+  const restaurantTimezone = (restaurant.slug === 'nitsuh' || restaurant.slug === 'addis') ? 'Africa/Addis_Ababa' : 'UTC';
 
   // Evaluate which offers are currently active
   const activeOffers = useMemo(() => {
@@ -1142,7 +1142,7 @@ export function ClientMenuContainer({
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-1.5 text-[var(--primary)] hover:underline font-semibold"
-            title="Open Addis Cafe & Bakery on Google Maps"
+            title="Open Nitsuh Cafe & Bakery on Google Maps"
           >
             <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
             <span>{restaurant.address}</span>

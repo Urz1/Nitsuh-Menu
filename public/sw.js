@@ -2,7 +2,7 @@
 const CACHE_NAME = 'digital-menu-cache-v2';
 const OFFLINE_URLS = [
   '/',
-  '/addis',
+  '/nitsuh',
   '/manifest.webmanifest',
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png',
@@ -50,7 +50,7 @@ self.addEventListener('fetch', (event) => {
         .catch(async () => {
           const cached = await caches.match(event.request);
           if (cached) return cached;
-          const fallback = await caches.match('/addis');
+          const fallback = await caches.match('/nitsuh') || await caches.match('/addis');
           return fallback || caches.match('/');
         })
     );

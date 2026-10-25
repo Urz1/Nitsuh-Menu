@@ -76,7 +76,7 @@ export function MenuControlBar({
   const totalItemsCount = Object.values(itemCounts).reduce((a, b) => a + b, 0);
 
   const activeCategoryName = isOffersActive
-    ? t.specialOffer
+    ? 'Special Deals'
     : activeCategory
     ? CATEGORY_TRANSLATIONS[activeCategory.id]?.[locale]?.name ||
       (locale === 'am' && activeCategory.name_am) ||
@@ -179,7 +179,7 @@ export function MenuControlBar({
               title="Dishes on Offer"
             >
               <Tag className={`w-3.5 h-3.5 flex-shrink-0 ${isOffersActive ? 'text-white' : 'text-amber-500'}`} />
-              <span className="text-xs font-bold hidden xs:inline">Offers</span>
+              <span className="text-xs font-bold">On Offer</span>
               <span
                 className={`text-[10px] font-extrabold px-1.5 py-0.2 rounded-full ${
                   isOffersActive

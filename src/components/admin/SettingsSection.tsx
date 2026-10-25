@@ -58,10 +58,10 @@ export function SettingsSection({
 
   const [hours, setHours] = useState(restaurant.hours || 'Mon – Sun: 6:30 AM – 11:00 PM');
   const [address, setAddress] = useState(
-    restaurant.address || 'XQHC+MJP Addis Cafe and Bakery, Addis Ababa, Ethiopia'
+    restaurant.address || 'XQHC+MJP Nitsuh Cafe and Bakery, Addis Ababa, Ethiopia'
   );
   const [branchName, setBranchName] = useState(
-    restaurant.branch_name || 'Main Branch — Addis Cafe & Bakery'
+    restaurant.branch_name || 'Main Branch — Nitsuh Cafe & Bakery'
   );
   const [googleMapsUrl, setGoogleMapsUrl] = useState(
     restaurant.google_maps_url || 'https://maps.app.goo.gl/R8WN2zwM9dwVXT3h9?g_st=ac'
@@ -78,7 +78,7 @@ export function SettingsSection({
     restaurant.sold_out_reset_time || 'morning_6am'
   );
 
-  const [wifiSsid, setWifiSsid] = useState(restaurant.wifi_config?.ssid || 'Addis-Guest');
+  const [wifiSsid, setWifiSsid] = useState(restaurant.wifi_config?.ssid || 'Nitsuh-Guest');
   const [wifiPassword, setWifiPassword] = useState(restaurant.wifi_config?.password || '');
   const [isSavingWifi, setIsSavingWifi] = useState(false);
   const [wifiSaved, setWifiSaved] = useState(false);
@@ -800,7 +800,7 @@ export function SettingsSection({
                     type="text"
                     value={branchName}
                     onChange={(e) => setBranchName(e.target.value)}
-                    placeholder="Main Branch — Addis Cafe & Bakery"
+                    placeholder="Main Branch — Nitsuh Cafe & Bakery"
                     className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
                   />
                 </div>
@@ -828,7 +828,7 @@ export function SettingsSection({
                     type="text"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-                    placeholder="XQHC+MJP Addis Cafe and Bakery, Addis Ababa, Ethiopia"
+                    placeholder="XQHC+MJP Nitsuh Cafe and Bakery, Addis Ababa, Ethiopia"
                     className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
                   />
                 </div>
@@ -890,7 +890,7 @@ export function SettingsSection({
                     type="text"
                     value={wifiSsid}
                     onChange={(e) => setWifiSsid(e.target.value)}
-                    placeholder="e.g. Addis-Guest or CafeWiFi"
+                    placeholder="e.g. Nitsuh-Guest or CafeWiFi"
                     className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
                   />
                 </div>

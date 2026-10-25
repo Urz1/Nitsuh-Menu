@@ -1,4 +1,4 @@
-# Addis & Multi-Tenant Digital Menu Platform
+# Nitsuh & Multi-Tenant Digital Menu Platform
 
 > Production-ready, mobile-first digital restaurant & cafeteria menu web application built with Next.js (App Router), TypeScript, Tailwind CSS, and Supabase.
 
@@ -62,7 +62,7 @@ Designed for high-traffic restaurant environments where speed, thumb-friendly in
 │   └── icons/                       # PWA application icons
 ├── src/
 │   ├── app/
-│   │   ├── [slug]/                  # Multi-tenant public restaurant route (e.g. /addis)
+│   │   ├── [slug]/                  # Multi-tenant public restaurant route (e.g. /nitsuh)
 │   │   │   └── page.tsx
 │   │   ├── admin/
 │   │   │   ├── login/               # Supabase role-based auth login
@@ -112,8 +112,8 @@ Designed for high-traffic restaurant environments where speed, thumb-friendly in
 
 ### 2. Clone and Install Dependencies
 ```bash
-git clone git@github.com:Urz1/Digital-Menu.git
-cd "Digital Menu"
+git clone https://github.com/Urz1/Nitsuh-Menu.git
+cd "Nitsuh Menu"
 npm install
 ```
 
@@ -142,7 +142,7 @@ This script will:
 - Create all core tables: `restaurants`, `categories`, `items`, `item_options`, `translations`, `orders`, `service_requests`, `staff_users`.
 - Configure Row Level Security (RLS) policies allowing public read of active tenant menus and staff-authenticated write access.
 - Enable Supabase Realtime publications on `items`, `orders`, and `service_requests`.
-- Seed full production data for **Addis Cafeteria** (slug: `addis`) with 6 categories and 19+ authentic dishes.
+- Seed full production data for **Nitsuh Cafeteria** (slug: `nitsuh`) with 6 categories and 19+ authentic dishes.
 
 ### 5. Run the Local Development Server
 ```bash
@@ -150,7 +150,7 @@ npm run dev
 ```
 
 Visit the following URLs in your browser:
-- **Tenant Menu Demo (Addis)**: [http://localhost:3000/addis](http://localhost:3000/addis)
+- **Tenant Menu Demo (Nitsuh)**: [http://localhost:3000/nitsuh](http://localhost:3000/nitsuh)
 - **Staff / Owner Console**: [http://localhost:3000/admin](http://localhost:3000/admin)
 - **Tenant Portal Home**: [http://localhost:3000](http://localhost:3000)
 
@@ -232,7 +232,7 @@ Now navigate directly to `http://localhost:3000/le-petit-bistro` — the menu is
 ## 🌐 Production Deployment (Vercel)
 
 1. Push your repository to GitHub.
-2. In the [Vercel Dashboard](https://vercel.com/new), import your `Digital-Menu` repository.
+2. In the [Vercel Dashboard](https://vercel.com/new), import your `Nitsuh-Menu` repository.
 3. In **Settings > Environment Variables**, add:
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`

@@ -4,7 +4,7 @@ test.describe('Owner Design Studio & Live Menu Theme Reflection Flow', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/admin');
     await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
-    await expect(page.locator('h1:has-text("Addis Cafeteria")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
 
     // Navigate to Design Studio (handles both desktop sidebar and mobile bottom nav)
     const designSidebarBtn = page.locator('aside [data-testid="admin-nav-design"]:visible');
@@ -61,7 +61,7 @@ test.describe('Owner Design Studio & Live Menu Theme Reflection Flow', () => {
     expect(rootPrimaryRgb).toBe('5, 150, 105');
   });
 
-  test('2. Customer dining menu at /addis reflects published theme and persists across reload', async ({ page }) => {
+  test('2. Customer dining menu at /nitsuh reflects published theme and persists across reload', async ({ page }) => {
     // 1. Select "Botanical Emerald" preset & publish
     const emeraldPreset = page.locator('button:has-text("Botanical Emerald")');
     await emeraldPreset.click();
@@ -70,9 +70,9 @@ test.describe('Owner Design Studio & Live Menu Theme Reflection Flow', () => {
     await publishBtn.click();
     await expect(page.locator('text=Design settings and brand configuration published')).toBeVisible();
 
-    // 2. Navigate to customer menu at /addis
-    await page.goto('/addis');
-    await expect(page.locator('h1:has-text("Addis Cafeteria")')).toBeVisible();
+    // 2. Navigate to customer menu at /nitsuh
+    await page.goto('/nitsuh');
+    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
 
     // 3. Verify CSS variable on customer menu
     const menuPrimary = await page.evaluate(() => {
@@ -87,7 +87,7 @@ test.describe('Owner Design Studio & Live Menu Theme Reflection Flow', () => {
 
     // 4. Reload customer menu and verify persistence
     await page.reload();
-    await expect(page.locator('h1:has-text("Addis Cafeteria")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
 
     const reloadedPrimary = await page.evaluate(() => {
       return document.documentElement.style.getPropertyValue('--primary');
@@ -118,8 +118,8 @@ test.describe('Owner Design Studio & Live Menu Theme Reflection Flow', () => {
     await expect(page.locator('text=Design settings and brand configuration published')).toBeVisible();
 
     // 4. Visit customer menu
-    await page.goto('/addis');
-    await expect(page.locator('h1:has-text("Addis Cafeteria")')).toBeVisible();
+    await page.goto('/nitsuh');
+    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
 
     const menuPrimary = await page.evaluate(() => {
       return document.documentElement.style.getPropertyValue('--primary');
@@ -130,8 +130,8 @@ test.describe('Owner Design Studio & Live Menu Theme Reflection Flow', () => {
   test('4. Cross-tab instant theme synchronization without page reload', async ({ context }) => {
     // Open customer menu tab
     const customerPage = await context.newPage();
-    await customerPage.goto('/addis');
-    await expect(customerPage.locator('h1:has-text("Addis Cafeteria")')).toBeVisible();
+    await customerPage.goto('/nitsuh');
+    await expect(customerPage.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
 
     // Open admin tab
     const adminPage = await context.newPage();

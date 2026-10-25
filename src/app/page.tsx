@@ -7,7 +7,7 @@ import {
   getOffers,
   getDishReviews,
   getReviewSettings,
-  MOCK_RESTAURANT_ADDIS,
+  MOCK_RESTAURANT_NITSUH,
 } from '@/lib/data-provider';
 import { ThemeManager } from '@/components/ThemeManager';
 import { ClientMenuContainer } from '@/components/ClientMenuContainer';
@@ -19,10 +19,10 @@ interface PageProps {
 }
 
 // -----------------------------------------------------------------------------
-// DYNAMIC SEO METADATA & OPEN GRAPH PREVIEWS FOR ADDIS DIGITAL MENU
+// DYNAMIC SEO METADATA & OPEN GRAPH PREVIEWS FOR NITSUH DIGITAL MENU
 // -----------------------------------------------------------------------------
 export async function generateMetadata(): Promise<Metadata> {
-  const restaurant = (await getRestaurantBySlug('addis')) || MOCK_RESTAURANT_ADDIS;
+  const restaurant = (await getRestaurantBySlug('nitsuh')) || (await getRestaurantBySlug('addis')) || MOCK_RESTAURANT_NITSUH;
   const title = `${restaurant.name} — Digital Menu`;
   const description = `${restaurant.tagline}. Authentic Ethiopian cuisine, sizzling tibs, wood-fired mendi & artisanal bakery.`;
 
@@ -57,11 +57,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 // -----------------------------------------------------------------------------
-// SERVER-RENDERED ROOT PAGE: ADDIS CAFETERIA DIGITAL MENU DIRECTLY
+// SERVER-RENDERED ROOT PAGE: NITSUH CAFETERIA DIGITAL MENU DIRECTLY
 // -----------------------------------------------------------------------------
 export default async function HomePage({ searchParams }: PageProps) {
   const { table } = await searchParams;
-  const restaurant = (await getRestaurantBySlug('addis')) || MOCK_RESTAURANT_ADDIS;
+  const restaurant = (await getRestaurantBySlug('nitsuh')) || (await getRestaurantBySlug('addis')) || MOCK_RESTAURANT_NITSUH;
 
   const [categories, items, offers, reviews, reviewSettings] = await Promise.all([
     getMenuCategories(restaurant.id),

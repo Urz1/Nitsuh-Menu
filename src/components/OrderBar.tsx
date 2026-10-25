@@ -50,7 +50,7 @@ export function OrderBar({
             {formatMoney(subtotal, currencySymbol)}
           </span>
           {totalSavings > 0 && (
-            <span className="hidden sm:inline-flex items-center bg-emerald-500/30 text-emerald-200 border border-emerald-400/40 text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0">
+            <span className="inline-flex items-center bg-emerald-500/30 text-emerald-200 border border-emerald-400/40 text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0">
               {t.saveAmount} {formatMoney(totalSavings, currencySymbol)}
             </span>
           )}

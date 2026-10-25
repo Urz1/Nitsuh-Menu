@@ -8,7 +8,7 @@ This handbook provides the exact operational procedure for onboarding any restau
 
 | Time Window | Milestone | Key Steps |
 |---|---|---|
-| **00:00 – 05:00** | **Tenant Creation** | Create restaurant record in database or via Admin Onboarding Wizard. Configure slug (e.g. `/addis`), restaurant name, currency, tax rate, and Wi-Fi credentials. |
+| **00:00 – 05:00** | **Tenant Creation** | Create restaurant record in database or via Admin Onboarding Wizard. Configure slug (e.g. `/nitsuh`), restaurant name, currency, tax rate, and Wi-Fi credentials. |
 | **05:00 – 12:00** | **Brand Styling** | Upload high-resolution logo or set stylized logo mark. Select brand primary color, typography (e.g. Playfair Display or Modern Sans), border radius token, and default menu layout (list vs. 2-column grid). |
 | **12:00 – 20:00** | **Menu Ingestion** | Create core categories (Starters, Mains, Desserts, Craft Drinks). Input menu items with prices, descriptions, dietary flags (Vegan, GF, Halal), and photo URLs. |
 | **20:00 – 25:00** | **QR Studio Generation** | Open **QR Studio** in Admin. Select table range (e.g. Tables 1–20). Export SVG vector files for commercial print shop or print A4 foldable table tents immediately. |

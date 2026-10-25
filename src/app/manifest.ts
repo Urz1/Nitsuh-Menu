@@ -2,10 +2,10 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Addis Cafeteria & Restaurant',
-    short_name: 'Addis Menu',
+    name: 'Nitsuh Cafeteria & Restaurant',
+    short_name: 'Nitsuh Menu',
     description: 'Digital restaurant menu, contactless dining & instant ordering',
-    start_url: '/addis?utm_source=pwa',
+    start_url: '/nitsuh?utm_source=pwa',
     scope: '/',
     display: 'standalone',
     orientation: 'portrait',

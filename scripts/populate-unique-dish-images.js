@@ -78,7 +78,7 @@ const DISH_SEARCH_TERMS = {
   'item-special-fetira-42': 'sweet-crepe-banana-honey',
   'item-full-normal-43': 'foul-mudammas-fava-beans',
   'item-full-special-44': 'fava-beans-stew-egg-tomato',
-  'item-addis-combo-break-fast-45': 'breakfast-platter-eggs-bread',
+  'item-nitsuh-combo-break-fast-45': 'breakfast-platter-eggs-bread',
   'item-scramble-egg-46': 'scrambled-eggs-chives-plate',
   'item-egg-sandwich-47': 'breakfast-egg-sandwich-brioche',
   'item-omelet-48': 'french-herb-omelette-plate',
@@ -107,7 +107,7 @@ const DISH_SEARCH_TERMS = {
   'item-french-frise-65': 'french-fries-wire-basket',
   'item-spring-roll-vegetable-66': 'vegetable-spring-rolls-sweet-chili',
   'item-spring-roll-meat-67': 'crispy-meat-spring-rolls',
-  'item-addis-snack-68': 'fried-sambusa-samosa-platter',
+  'item-nitsuh-snack-68': 'fried-sambusa-samosa-platter',
   'item-fish-chips-69': 'fish-and-chips-tartar-sauce',
   'item-fried-chicken-wings-70': 'crispy-fried-chicken-wings-sauce',
   'item-chicken-nugget-71': 'crispy-golden-chicken-nuggets',
@@ -208,7 +208,7 @@ const DISH_SEARCH_TERMS = {
   'item-beyaynetu-150': 'ethiopian-vegetarian-combo-platter',
   'item-fasting-agelegil-151': 'vegan-ethiopian-feast-injera',
   'item-suf-fitfit-152': 'sunflower-seed-injera-firfir',
-  'item-addis-special-salad-153': 'fresh-mediterranean-salad-bowl',
+  'item-nitsuh-special-salad-153': 'fresh-mediterranean-salad-bowl',
   'item-aja-with-spinach-154': 'cooked-oats-sauteed-spinach',
 
   // 15. Takeaway & Extras
@@ -268,9 +268,9 @@ const VERIFIED_FOOD_PHOTOS = [
 
 async function main() {
   const code = fs.readFileSync(DATA_PROVIDER_PATH, 'utf8');
-  const match = code.match(/export const MOCK_ITEMS_ADDIS: MenuItem\[\] = (\[[\s\S]*?\]);/);
+  const match = code.match(/export const MOCK_ITEMS_NITSUH: MenuItem\[\] = (\[[\s\S]*?\]);/) || code.match(/export const MOCK_ITEMS_ADDIS: MenuItem\[\] = (\[[\s\S]*?\]);/);
   if (!match) {
-    console.error('Could not find MOCK_ITEMS_ADDIS in data-provider.ts');
+    console.error('Could not find MOCK_ITEMS_NITSUH in data-provider.ts');
     process.exit(1);
   }
 
@@ -360,8 +360,8 @@ async function main() {
   // Update data-provider.ts
   const updatedJson = JSON.stringify(items, null, 2);
   const updatedCode = code.replace(
-    /export const MOCK_ITEMS_ADDIS: MenuItem\[\] = \[[\s\S]*?\];/,
-    `export const MOCK_ITEMS_ADDIS: MenuItem[] = ${updatedJson};`
+    /export const MOCK_ITEMS_NITSUH: MenuItem\[\] = \[[\s\S]*?\];/,
+    `export const MOCK_ITEMS_NITSUH: MenuItem[] = ${updatedJson};`
   );
   fs.writeFileSync(DATA_PROVIDER_PATH, updatedCode, 'utf8');
 

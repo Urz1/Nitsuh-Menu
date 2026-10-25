@@ -1,4 +1,4 @@
-import { MOCK_ITEMS_ADDIS } from '../src/lib/data-provider';
+import { MOCK_ITEMS_NITSUH } from '../src/lib/data-provider';
 
 // Direct Supabase configuration
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://vekhuxcaqybqkoxfknfk.supabase.co';
@@ -82,7 +82,7 @@ export const CATEGORIES_DATA: RawCategory[] = [
   },
   {
     id: 'cat-hot-beverage',
-    name: 'Hot Beverage (Addis Cafe)',
+    name: 'Hot Beverage (Nitsuh Cafe)',
     name_am: 'ትኩስ መጠጦች',
     icon: '☕',
     description: 'Single-origin Ethiopian coffee, rich macchiato, and aromatic teas.',
@@ -204,7 +204,7 @@ export const DISHES_DATA: RawDish[] = [
   { name: 'Special Fetira', price: 450, category_id: 'cat-breakfast', tags: ['vegetarian', 'popular'], is_chefs_pick: true },
   { name: 'Full Normal', price: 280, category_id: 'cat-breakfast', tags: ['vegetarian'] },
   { name: 'Full Special', price: 575, category_id: 'cat-breakfast', tags: ['vegetarian', 'popular'] },
-  { name: 'Addis Combo Break fast', price: 750, category_id: 'cat-breakfast', tags: ['popular'], is_chefs_pick: true },
+  { name: 'Nitsuh Combo Break fast', price: 750, category_id: 'cat-breakfast', tags: ['popular'], is_chefs_pick: true },
   { name: 'Scramble Egg', price: 300, category_id: 'cat-breakfast', tags: ['vegetarian'] },
   { name: 'Egg Sandwich', price: 350, category_id: 'cat-breakfast', tags: ['vegetarian'] },
   { name: 'Omelet', price: 350, category_id: 'cat-breakfast', tags: ['vegetarian'] },
@@ -233,14 +233,14 @@ export const DISHES_DATA: RawDish[] = [
   { name: 'French frise', price: 345, category_id: 'cat-snack-menu', tags: ['vegan', 'fasting'] },
   { name: 'Spring roll vegetable', price: 345, category_id: 'cat-snack-menu', tags: ['vegan', 'fasting'] },
   { name: 'Spring roll meat', price: 500, category_id: 'cat-snack-menu', tags: ['popular'] },
-  { name: 'Addis snack', price: 575, category_id: 'cat-snack-menu', tags: ['popular'] },
+  { name: 'Nitsuh snack', price: 575, category_id: 'cat-snack-menu', tags: ['popular'] },
   { name: 'Fish & chips', price: 750, category_id: 'cat-snack-menu', tags: ['popular'], is_chefs_pick: true },
   { name: 'Fried Chicken wings', price: 750, category_id: 'cat-snack-menu', tags: ['popular'] },
   { name: 'Chicken nugget', price: 750, category_id: 'cat-snack-menu', tags: ['popular'] },
   { name: 'A. Chicken Tender 4pcs', price: 600, category_id: 'cat-snack-menu', tags: ['popular'] },
   { name: 'A. Chicken Tender 6pcs', price: 800, category_id: 'cat-snack-menu', tags: ['popular'], is_chefs_pick: true },
 
-  // 7. Hot Beverage (Addis Cafe)
+  // 7. Hot Beverage (Nitsuh Cafe)
   { name: 'SPECIAL MILK', price: 200, category_id: 'cat-hot-beverage', tags: ['vegetarian'] },
   { name: 'COFFEE', price: 120, category_id: 'cat-hot-beverage', tags: ['vegan', 'popular'] },
   { name: 'TEA', price: 60, category_id: 'cat-hot-beverage', tags: ['vegan'] },
@@ -334,7 +334,7 @@ export const DISHES_DATA: RawDish[] = [
   { name: 'Beyaynetu', price: 500, category_id: 'cat-fasting-lunch', tags: ['vegan', 'fasting', 'popular'], is_chefs_pick: true },
   { name: 'Fasting Agelegil', price: 600, category_id: 'cat-fasting-lunch', tags: ['vegan', 'fasting', 'popular'] },
   { name: 'Suf fitfit', price: 350, category_id: 'cat-fasting-lunch', tags: ['vegan', 'fasting'] },
-  { name: 'Addis special Salad', price: 400, category_id: 'cat-fasting-lunch', tags: ['vegan', 'fasting'] },
+  { name: 'Nitsuh special Salad', price: 400, category_id: 'cat-fasting-lunch', tags: ['vegan', 'fasting'] },
   { name: 'Aja with spinach', price: 400, category_id: 'cat-fasting-lunch', tags: ['vegan', 'fasting'] },
 
   // 15. Takeaway & Extras
@@ -343,13 +343,13 @@ export const DISHES_DATA: RawDish[] = [
   { name: 'Extra cheese', price: 100, category_id: 'cat-takeaway-extras', tags: ['vegetarian'] },
 ];
 
-const imageByDishId = new Map(MOCK_ITEMS_ADDIS.map((item) => [item.id, item.image_url]));
+const imageByDishId = new Map(MOCK_ITEMS_NITSUH.map((item) => [item.id, item.image_url]));
 
 function getImageForDish(category_id: string, name: string, id?: string): string {
   if (id && imageByDishId.has(id)) {
     return imageByDishId.get(id)!;
   }
-  const match = MOCK_ITEMS_ADDIS.find((item) => item.name.toLowerCase() === name.toLowerCase());
+  const match = MOCK_ITEMS_NITSUH.find((item) => item.name.toLowerCase() === name.toLowerCase());
   if (match) return match.image_url;
   return '/images/dishes/special-burger.jpg';
 }
@@ -419,7 +419,7 @@ async function run() {
       category_id: dish.category_id,
       name: dish.name,
       price: dish.price,
-      description: `${dish.name} prepared freshly at Addis Cafeteria with authentic premium ingredients.`,
+      description: `${dish.name} prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.`,
       image_url: getImageForDish(dish.category_id, dish.name, id),
       tags: dish.tags || [],
       allergens: [],
@@ -446,7 +446,7 @@ async function run() {
 
   // 6. Fix Offers in Supabase so no offer reduces random items to 0 ETB!
   console.log('6. Updating Offers in Supabase to prevent 0 ETB anomalies...');
-  // Find "Addis Sourdough Truffle Burrata Combo (40 ETB Off)" and scope it strictly to Special Fetira or pause it
+  // Find "Nitsuh Sourdough Truffle Burrata Combo (40 ETB Off)" and scope it strictly to Special Fetira or pause it
   const updateOffer1 = await fetch(`${SUPABASE_URL}/rest/v1/offers?restaurant_id=eq.${RESTAURANT_ID}&discount_type=eq.fixed_amount`, {
     method: 'PATCH',
     headers,

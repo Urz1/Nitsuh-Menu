@@ -24,7 +24,7 @@ test.describe('Owner and Staff Authentication & Access Gating Flow', () => {
     await page.goto('/admin/login');
 
     // 1. Enter wrong password
-    await page.locator('input[placeholder*="owner@addiscafeteria.com"]').fill('owner@addiscafeteria.com');
+    await page.locator('input[placeholder*="owner@nitsuhcafeteria.com"]').fill('owner@nitsuhcafeteria.com');
     await page.locator('input[placeholder="••••••••••••"]').fill('WrongPassword123');
     await page.locator('button:has-text("Sign In as Owner")').click();
 
@@ -72,7 +72,7 @@ test.describe('Owner and Staff Authentication & Access Gating Flow', () => {
     await page.goto('/admin/login');
 
     // Login as Owner
-    await page.locator('input[placeholder*="owner@addiscafeteria.com"]').fill('owner@addiscafeteria.com');
+    await page.locator('input[placeholder*="owner@nitsuhcafeteria.com"]').fill('owner@nitsuhcafeteria.com');
     await page.locator('input[placeholder="••••••••••••"]').fill('Owner@2026');
     await page.locator('button:has-text("Sign In as Owner")').click();
     await expect(page).toHaveURL(/.*\/admin/);

@@ -33,7 +33,7 @@
 ## 📶 Section 3: PWA & Offline Resilience Pass
 
 - [ ] **First Visit Test:** Verify that no aggressive pop-up or install prompt interrupts the guest's initial menu browsing.
-- [ ] **Repeat Visit Test:** Visit the URL a second time. Verify that a calm, subtle **"Install Addis Menu"** banner appears with an easy dismiss `(X)` button.
+- [ ] **Repeat Visit Test:** Visit the URL a second time. Verify that a calm, subtle **"Install Nitsuh Menu"** banner appears with an easy dismiss `(X)` button.
 - [ ] **Airplane Mode Simulation:**
   1. Load the restaurant menu while connected.
   2. Switch phone to **Airplane Mode** (no Wi-Fi, no Cellular).

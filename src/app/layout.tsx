@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Addis Menu",
+    title: "Nitsuh Menu",
   },
   icons: {
     icon: "/icons/icon-192x192.png",

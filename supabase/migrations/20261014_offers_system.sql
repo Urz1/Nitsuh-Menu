@@ -158,7 +158,7 @@ CREATE POLICY "Owners have full control over offer items" ON public.offer_items
 -- 6. REALTIME REGISTRATION
 ALTER PUBLICATION supabase_realtime ADD TABLE public.offers;
 
--- 7. INITIAL SAMPLE OFFERS FOR ADDIS CAFETERIA
+-- 7. INITIAL SAMPLE OFFERS FOR NITSUH CAFETERIA
 INSERT INTO public.offers (
     id,
     restaurant_id,
@@ -212,7 +212,7 @@ INSERT INTO public.offers (
 (
     'f2b9d2e3-4567-4890-b123-456789abc02',
     'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-    'Addis Sourdough Truffle Combo',
+    'Nitsuh Sourdough Truffle Combo',
     'Save $4.00 when enjoying our signature Truffle Burrata Flatbread.',
     'Save $4',
     'money_off',

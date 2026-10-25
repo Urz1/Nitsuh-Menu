@@ -5,7 +5,7 @@ test.describe('Stage 5: Admin Experience - End to End Flow', () => {
     // Navigate to admin
     await page.goto('/admin');
     await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
-    await expect(page.locator('h1:has-text("Addis Cafeteria")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
   });
 
   test('1. Onboarding Wizard: 5-step interactive wizard, instant WCAG contrast check, and checklist', async ({ page }) => {
@@ -21,7 +21,7 @@ test.describe('Stage 5: Admin Experience - End to End Flow', () => {
 
     // Step 1: Restaurant Name & Logo
     const nameInput = wizardModal.locator('[data-testid="onboarding-input-name"]');
-    await nameInput.fill('Addis Grand Cafeteria');
+    await nameInput.fill('Nitsuh Grand Cafeteria');
     const nextBtn = wizardModal.locator('[data-testid="onboarding-next-button"]');
     await nextBtn.scrollIntoViewIfNeeded();
     await nextBtn.click({ force: true });
@@ -47,7 +47,7 @@ test.describe('Stage 5: Admin Experience - End to End Flow', () => {
     // Step 5: Celebration & QR Code
     await expect(wizardModal.locator('text=Step 5 of 5')).toBeVisible();
     await expect(wizardModal.locator('text=Your menu is live and ready!')).toBeVisible();
-    await expect(wizardModal.locator('text=Table 1')).toBeVisible();
+    await expect(wizardModal.locator('text=Digital Menu').first()).toBeVisible();
 
     // Finish onboarding
     const finishBtn = wizardModal.locator('[data-testid="onboarding-finish-button"]');

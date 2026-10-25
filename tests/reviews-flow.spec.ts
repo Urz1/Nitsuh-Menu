@@ -2,9 +2,9 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Dish Reviews System - Customer Submission & Owner Management Parity', () => {
   test('1. Customer Flow: Submit 5-star review with tag & comment, verify thank you state & duplicate prevention', async ({ page }) => {
-    // Open customer mobile view for Addis Cafeteria
-    await page.goto('/addis?table=Table%2014');
-    await expect(page.locator('h1:has-text("Addis Cafeteria")')).toBeVisible();
+    // Open customer mobile view for Nitsuh Cafeteria
+    await page.goto('/nitsuh?table=Table%2014');
+    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
 
     // Find Special Fetira card
     const fetiraCard = page.locator('article:has-text("Special Fetira")').first();
@@ -67,8 +67,8 @@ test.describe('Dish Reviews System - Customer Submission & Owner Management Pari
   });
 
   test('2. Customer Flow: Customer sees verified review and owner reply displayed on dish details', async ({ page }) => {
-    await page.goto('/addis?table=Table%2014');
-    await expect(page.locator('h1:has-text("Addis Cafeteria")')).toBeVisible();
+    await page.goto('/nitsuh?table=Table%2014');
+    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
 
     // Open Special Fetira
     const fetiraCard = page.locator('article:has-text("Special Fetira")').first();
@@ -119,7 +119,7 @@ test.describe('Dish Reviews System - Customer Submission & Owner Management Pari
     await expect(page.locator('text=Quick Polite Starters')).toBeVisible();
     const replyTextarea = page.locator('textarea[placeholder*="Write your public response"]');
     await expect(replyTextarea).toBeVisible();
-    await replyTextarea.fill('Thank you for dining at Addis Cafeteria! Our pastry chefs layer the dough fresh every morning. Delighted you loved the mountain honey pairing. See you again soon!');
+    await replyTextarea.fill('Thank you for dining at Nitsuh Cafeteria! Our pastry chefs layer the dough fresh every morning. Delighted you loved the mountain honey pairing. See you again soon!');
 
     // Post Reply
     const postReplyBtn = page.locator('button:has-text("Post Public Reply")');
@@ -132,7 +132,7 @@ test.describe('Dish Reviews System - Customer Submission & Owner Management Pari
     // 2. Sign out and sign in as Owner
     await page.goto('/admin/login');
     await page.locator('button:has-text("Restaurant Owner")').click();
-    await page.locator('input[placeholder*="owner@addiscafeteria.com"]').fill('owner@addiscafeteria.com');
+    await page.locator('input[placeholder*="owner@nitsuhcafeteria.com"]').fill('owner@nitsuhcafeteria.com');
     await page.locator('input[placeholder="••••••••••••"]').fill('Owner@2026');
     await page.locator('button:has-text("Sign In as Owner")').click();
 
@@ -151,8 +151,8 @@ test.describe('Dish Reviews System - Customer Submission & Owner Management Pari
 
   test('4. Customer Flow: Uploading an image does NOT auto-submit or close modal before clicking Submit', async ({ page }) => {
     // Open customer mobile view on a fresh table
-    await page.goto('/addis?table=Table%2019');
-    await expect(page.locator('h1:has-text("Addis Cafeteria")')).toBeVisible();
+    await page.goto('/nitsuh?table=Table%2019');
+    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
 
     // Open Fetira
     const dishCard = page.locator('article:has-text("Fetira")').first();

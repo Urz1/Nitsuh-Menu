@@ -227,22 +227,22 @@ ALTER PUBLICATION supabase_realtime ADD TABLE public.items;
 ALTER PUBLICATION supabase_realtime ADD TABLE public.orders;
 ALTER PUBLICATION supabase_realtime ADD TABLE public.service_requests;
 
--- 11. PRODUCTION SEED DATA FOR "ADDIS CAFETERIA"
+-- 11. PRODUCTION SEED DATA FOR "NITSUH CAFETERIA"
 INSERT INTO public.restaurants (
     id, slug, name, short_name, logo_letter, tagline, currency, currency_code, default_table, hours, address, announcement, theme_config, wifi_config
 ) VALUES (
     'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-    'addis',
-    'Addis Cafeteria',
-    'Addis',
-    'A',
+    'nitsuh',
+    'Nitsuh Cafeteria',
+    'Nitsuh',
+    'N',
     'Authentic Ethiopian Cuisine, Wood-Fired Mendi & Artisanal Bakery',
     'ETB',
     'ETB',
     'Table 14',
     'Mon – Sun: 6:30 AM – 11:00 PM',
     'Bole Medhanealem, Addis Ababa, Ethiopia',
-    '✨ Welcome to Addis Cafeteria & Bakery! Fresh injera, sizzling tibs, and artisanal pastries daily.',
+    '✨ Welcome to Nitsuh Cafeteria & Bakery! Fresh injera, sizzling tibs, and artisanal pastries daily.',
     '{
       "primaryColor": "#E8590C",
       "primaryHover": "#D9480F",
@@ -253,7 +253,7 @@ INSERT INTO public.restaurants (
       "defaultLayout": "list"
     }'::jsonb,
     '{
-      "ssid": "Addis-Guest",
+      "ssid": "Nitsuh-Guest",
       "password": "tastethevibes"
     }'::jsonb
 ) ON CONFLICT (slug) DO UPDATE SET 
@@ -373,7 +373,7 @@ CREATE POLICY "Staff and owners can reply to reviews" ON public.reviews
 ALTER PUBLICATION supabase_realtime ADD TABLE public.offers;
 ALTER PUBLICATION supabase_realtime ADD TABLE public.reviews;
 
--- SEED PRODUCTION OFFERS FOR ADDIS CAFETERIA (Strictly in ETB)
+-- SEED PRODUCTION OFFERS FOR NITSUH CAFETERIA (Strictly in ETB)
 INSERT INTO public.offers (
     restaurant_id, title, badge_text, badge_color, description, offer_type, discount_type, discount_value, threshold_amount, is_active, priority
 ) VALUES 
@@ -392,7 +392,7 @@ INSERT INTO public.offers (
 ),
 (
     'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-    'Addis Sourdough Truffle Burrata Combo (40 ETB Off)',
+    'Nitsuh Sourdough Truffle Burrata Combo (40 ETB Off)',
     '40 ETB Off',
     '#D9480F',
     'Fresh hearth burrata with sourdough bread and spiced Ethiopian honey butter at a special discount.',

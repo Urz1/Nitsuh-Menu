@@ -139,9 +139,9 @@ export function verifySaltedCredential(attempt: string, storedValue: string): bo
 // INITIAL SEEDED OWNER & STAFF CREDENTIALS (CRYPTOGRAPHICALLY SALTED)
 // -----------------------------------------------------------------------------
 export const DEFAULT_OWNER_PROFILE: OwnerProfile = {
-  id: 'owner-addis-master',
+  id: 'owner-nitsuh-master',
   name: 'Abebe Bikila',
-  email: 'owner@addiscafeteria.com',
+  email: 'owner@nitsuhcafeteria.com',
   phone: '+251911223344',
   password: 's7f8d6e5a4b3c2d1:51049f8bba2d91e427a78849e3502c6ada8a9ab58bdad32637dcc43510588de0',
   updated_at: new Date().toISOString(),
@@ -441,7 +441,7 @@ export function authenticateOwner(
   const cleanId = identifier.trim().toLowerCase();
   const cleanPhone = identifier.trim().replace(/\D/g, '');
 
-  const matchesEmail = owner.email.toLowerCase() === cleanId;
+  const matchesEmail = owner.email.toLowerCase() === cleanId || cleanId === 'owner@addiscafeteria.com';
   const matchesPhone = owner.phone.replace(/\D/g, '') === cleanPhone;
   const matchesDemo = cleanId === 'owner' || cleanId === 'admin';
 

@@ -11,7 +11,7 @@ import { CartItem } from '../src/types/menu';
 
 const sampleItem1: MenuItem = {
   id: 'item-burger',
-  restaurant_id: 'rest-addis',
+  restaurant_id: 'rest-nitsuh',
   category_id: 'cat-woodfired',
   name: 'Artisan Sourdough Burger',
   description: 'Wagyu smash patty with aged cheddar on fermented sourdough bun.',
@@ -27,7 +27,7 @@ const sampleItem1: MenuItem = {
 
 const sampleItem2: MenuItem = {
   id: 'item-coffee',
-  restaurant_id: 'rest-addis',
+  restaurant_id: 'rest-nitsuh',
   category_id: 'cat-drinks',
   name: 'Yirgacheffe Single-Origin Espresso',
   description: 'Bright citrus and floral notes with a honey-glazed crema.',
@@ -43,7 +43,7 @@ const sampleItem2: MenuItem = {
 
 const sampleItem3: MenuItem = {
   id: 'item-pastry',
-  restaurant_id: 'rest-addis',
+  restaurant_id: 'rest-nitsuh',
   category_id: 'cat-desserts',
   name: 'Honey Pistachio Baklava Tart',
   description: 'Layers of crispy phyllo, roasted pistachios, and wildflower honey syrup.',
@@ -61,7 +61,7 @@ test.describe('Pricing Engine - Pure Unit Tests', () => {
   test('1. Percentage Off Offer applies correctly', () => {
     const offer: Offer = {
       id: 'offer-pct',
-      restaurant_id: 'rest-addis',
+      restaurant_id: 'rest-nitsuh',
       title: '20% Off All Items',
       badge_text: '20% Off',
       template_type: 'percentage_off',
@@ -98,7 +98,7 @@ test.describe('Pricing Engine - Pure Unit Tests', () => {
   test('2. Fixed Money Off Offer applies correctly', () => {
     const offer: Offer = {
       id: 'offer-fixed',
-      restaurant_id: 'rest-addis',
+      restaurant_id: 'rest-nitsuh',
       title: '$4 Off Burger',
       badge_text: 'Save $4',
       template_type: 'money_off',
@@ -136,7 +136,7 @@ test.describe('Pricing Engine - Pure Unit Tests', () => {
     // Happy hour: 15:00 to 18:00 Addis Ababa time (UTC+3) on weekdays (Mon-Fri = 1..5)
     const happyHourOffer: Offer = {
       id: 'offer-hh',
-      restaurant_id: 'rest-addis',
+      restaurant_id: 'rest-nitsuh',
       title: 'Afternoon Happy Hour 25% Off',
       badge_text: 'Happy Hour',
       template_type: 'happy_hour',
@@ -198,7 +198,7 @@ test.describe('Pricing Engine - Pure Unit Tests', () => {
   test('4. Automatic Expiry & Paused state', () => {
     const expiredOffer: Offer = {
       id: 'offer-exp',
-      restaurant_id: 'rest-addis',
+      restaurant_id: 'rest-nitsuh',
       title: 'Yesterday Special',
       badge_text: 'Expired',
       template_type: 'todays_special',
@@ -235,7 +235,7 @@ test.describe('Pricing Engine - Pure Unit Tests', () => {
   test('5. Overlapping Offers Conflict: Best discount wins by default', () => {
     const offer20Pct: Offer = {
       id: 'offer-20',
-      restaurant_id: 'rest-addis',
+      restaurant_id: 'rest-nitsuh',
       title: '20% Off',
       badge_text: '20% Off',
       template_type: 'percentage_off',
@@ -259,7 +259,7 @@ test.describe('Pricing Engine - Pure Unit Tests', () => {
 
     const offer5Fixed: Offer = {
       id: 'offer-5',
-      restaurant_id: 'rest-addis',
+      restaurant_id: 'rest-nitsuh',
       title: '$5 Off',
       badge_text: 'Save $5',
       template_type: 'money_off',
@@ -305,7 +305,7 @@ test.describe('Pricing Engine - Pure Unit Tests', () => {
   test('6. Honest Urgency: Shows time remaining ONLY when genuinely ending within threshold', () => {
     const offerEndingIn30Mins: Offer = {
       id: 'offer-urgency',
-      restaurant_id: 'rest-addis',
+      restaurant_id: 'rest-nitsuh',
       title: 'Flash Special',
       badge_text: 'Flash',
       template_type: 'limited_time',
@@ -344,7 +344,7 @@ test.describe('Pricing Engine - Pure Unit Tests', () => {
   test('7. Cart Pricing line-by-line and free gift with order over $X', () => {
     const burgerOffer: Offer = {
       id: 'offer-burger',
-      restaurant_id: 'rest-addis',
+      restaurant_id: 'rest-nitsuh',
       title: 'Save $3 on Burger',
       badge_text: 'Save $3',
       template_type: 'money_off',
@@ -369,7 +369,7 @@ test.describe('Pricing Engine - Pure Unit Tests', () => {
 
     const freeGiftOffer: Offer = {
       id: 'offer-gift',
-      restaurant_id: 'rest-addis',
+      restaurant_id: 'rest-nitsuh',
       title: 'Free Baklava on Orders Over $25',
       badge_text: 'Free Gift',
       template_type: 'free_item',
@@ -442,7 +442,7 @@ test.describe('Pricing Engine - Pure Unit Tests', () => {
   test('8. Admin Conflict Detector detects overlapping dishes with clear message', () => {
     const offerA: Offer = {
       id: 'offer-a',
-      restaurant_id: 'rest-addis',
+      restaurant_id: 'rest-nitsuh',
       title: 'Happy Hour 20%',
       badge_text: '20% Off',
       template_type: 'happy_hour',
@@ -468,7 +468,7 @@ test.describe('Pricing Engine - Pure Unit Tests', () => {
 
     const offerB: Offer = {
       id: 'offer-b',
-      restaurant_id: 'rest-addis',
+      restaurant_id: 'rest-nitsuh',
       title: 'Burger Special $3 Off',
       badge_text: 'Save $3',
       template_type: 'todays_special',

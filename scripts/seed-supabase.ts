@@ -5,7 +5,7 @@
 };
 
 import { createClient } from '@supabase/supabase-js';
-import { MOCK_CATEGORIES_ADDIS, MOCK_ITEMS_ADDIS, MOCK_RESTAURANT_ADDIS } from '../src/lib/data-provider';
+import { MOCK_CATEGORIES_NITSUH, MOCK_ITEMS_NITSUH, MOCK_RESTAURANT_NITSUH } from '../src/lib/data-provider';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://vekhuxcaqybqkoxfknfk.supabase.co';
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'sb_publishable_oLod2_N8a7RgMgxmVf8Zvg_qV9kc7OR';
@@ -17,30 +17,30 @@ async function seed() {
 
   // 1. Ensure restaurant exists
   const restPayload = {
-    id: MOCK_RESTAURANT_ADDIS.id,
-    slug: MOCK_RESTAURANT_ADDIS.slug,
-    name: MOCK_RESTAURANT_ADDIS.name,
-    short_name: MOCK_RESTAURANT_ADDIS.short_name,
-    logo_letter: MOCK_RESTAURANT_ADDIS.logo_letter,
-    logo_url: MOCK_RESTAURANT_ADDIS.logo_url,
-    tagline: MOCK_RESTAURANT_ADDIS.tagline,
-    currency: MOCK_RESTAURANT_ADDIS.currency || 'ETB',
-    currency_code: MOCK_RESTAURANT_ADDIS.currency_code || 'ETB',
-    default_table: MOCK_RESTAURANT_ADDIS.default_table,
-    hours: MOCK_RESTAURANT_ADDIS.hours,
-    address: MOCK_RESTAURANT_ADDIS.address,
-    announcement: MOCK_RESTAURANT_ADDIS.announcement,
-    is_open: MOCK_RESTAURANT_ADDIS.is_open,
-    tax_rate: MOCK_RESTAURANT_ADDIS.tax_rate,
+    id: MOCK_RESTAURANT_NITSUH.id,
+    slug: MOCK_RESTAURANT_NITSUH.slug,
+    name: MOCK_RESTAURANT_NITSUH.name,
+    short_name: MOCK_RESTAURANT_NITSUH.short_name,
+    logo_letter: MOCK_RESTAURANT_NITSUH.logo_letter,
+    logo_url: MOCK_RESTAURANT_NITSUH.logo_url,
+    tagline: MOCK_RESTAURANT_NITSUH.tagline,
+    currency: MOCK_RESTAURANT_NITSUH.currency || 'ETB',
+    currency_code: MOCK_RESTAURANT_NITSUH.currency_code || 'ETB',
+    default_table: MOCK_RESTAURANT_NITSUH.default_table,
+    hours: MOCK_RESTAURANT_NITSUH.hours,
+    address: MOCK_RESTAURANT_NITSUH.address,
+    announcement: MOCK_RESTAURANT_NITSUH.announcement,
+    is_open: MOCK_RESTAURANT_NITSUH.is_open,
+    tax_rate: MOCK_RESTAURANT_NITSUH.tax_rate,
   };
   const { error: restError } = await supabase.from('restaurants').upsert(restPayload);
   if (restError) console.error('Restaurant upsert error:', restError.message);
   else console.log('✓ Restaurant upserted');
 
   // 2. Upsert categories
-  const catPayloads = MOCK_CATEGORIES_ADDIS.map((cat, idx) => ({
+  const catPayloads = MOCK_CATEGORIES_NITSUH.map((cat, idx) => ({
     id: cat.id,
-    restaurant_id: cat.restaurant_id || MOCK_RESTAURANT_ADDIS.id,
+    restaurant_id: cat.restaurant_id || MOCK_RESTAURANT_NITSUH.id,
     name: cat.name,
     name_am: (cat as any).name_am || null,
     name_so: (cat as any).name_so || null,
@@ -63,13 +63,13 @@ async function seed() {
   const existingMap = new Map((existingItems || []).map((i) => [i.id, i.image_url]));
 
   // 4. Upsert menu items
-  const itemPayloads = MOCK_ITEMS_ADDIS.map((item, idx) => {
+  const itemPayloads = MOCK_ITEMS_NITSUH.map((item, idx) => {
     // Keep existing image if one was uploaded/customized in Supabase
     const currentImageUrl = existingMap.get(item.id) || item.image_url;
 
     return {
       id: item.id,
-      restaurant_id: item.restaurant_id || MOCK_RESTAURANT_ADDIS.id,
+      restaurant_id: item.restaurant_id || MOCK_RESTAURANT_NITSUH.id,
       category_id: item.category_id,
       name: item.name,
       name_am: item.name_am || null,

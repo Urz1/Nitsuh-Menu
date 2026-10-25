@@ -32,7 +32,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
   // Customization Options
   const [qrColor, setQrColor] = useState<string>('#111827');
   const [includeWifi, setIncludeWifi] = useState<boolean>(true);
-  const [wifiSsid, setWifiSsid] = useState<string>(restaurant.wifi_config?.ssid || 'Addis-Guest');
+  const [wifiSsid, setWifiSsid] = useState<string>(restaurant.wifi_config?.ssid || 'Nitsuh-Guest');
   const [wifiPassword, setWifiPassword] = useState<string>(restaurant.wifi_config?.password || '');
   const [isSavingWifi, setIsSavingWifi] = useState<boolean>(false);
   const [wifiSaved, setWifiSaved] = useState<boolean>(false);
@@ -75,7 +75,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
 
   // Menu URL: Clean global URL without table numbers
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://digitalmenu.app';
-  const slugPrefix = restaurant.slug === 'addis' ? '' : `/${restaurant.slug}`;
+  const slugPrefix = (restaurant.slug === 'nitsuh' || restaurant.slug === 'addis') ? '' : `/${restaurant.slug}`;
   const menuUrl = `${baseUrl}${slugPrefix || '/'}`;
 
   // Instant local vector SVG QR code (zero external API, 100% offline & reliable)
@@ -372,7 +372,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
                         type="text"
                         value={wifiSsid}
                         onChange={(e) => setWifiSsid(e.target.value)}
-                        placeholder="e.g. Addis-Guest"
+                        placeholder="e.g. Nitsuh-Guest"
                         className="w-full px-3 py-1.5 bg-black/40 border border-white/15 rounded-lg text-white text-xs focus:outline-none focus:border-amber-500"
                       />
                     </div>

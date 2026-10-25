@@ -4,7 +4,7 @@ test.describe('Stage 3: Offers System - End to End Flow', () => {
   test('1. Admin Flow: Create offer, see live phone preview, and publish', async ({ page }) => {
     // Navigate to Admin dashboard
     await page.goto('/admin');
-    await expect(page.locator('h1:has-text("Addis Cafeteria")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
 
     // Switch to Offers & Deals tab
     const offersTab = page.locator('[data-testid="admin-nav-offers"]:visible').first();
@@ -70,9 +70,9 @@ test.describe('Stage 3: Offers System - End to End Flow', () => {
   });
 
   test('2. Customer Menu: Single calm banner, dismissibility, inline badges, struck prices, and order savings', async ({ page }) => {
-    // Open customer mobile view for Addis Cafeteria
-    await page.goto('/addis?table=Table%2014');
-    await expect(page.locator('h1:has-text("Addis Cafeteria")')).toBeVisible();
+    // Open customer mobile view for Nitsuh Cafeteria
+    await page.goto('/nitsuh?table=Table%2014');
+    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
 
     // Verify at most ONE calm banner is visible at the top
     const banner = page.locator('aside[aria-label="Current restaurant offer"]');

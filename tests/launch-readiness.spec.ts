@@ -50,7 +50,7 @@ test.describe('STAGE 6: Launch Readiness & QR Studio Suite', () => {
 
   test('2. PWA: Repeat-Visitor Install Hint & Graceful Offline Banner', async ({ page }) => {
     // Initial visit: start clean
-    await page.goto('/addis');
+    await page.goto('/nitsuh');
     await page.evaluate(() => {
       localStorage.clear();
       sessionStorage.clear();
@@ -74,16 +74,16 @@ test.describe('STAGE 6: Launch Readiness & QR Studio Suite', () => {
   });
 
   test('3. SEO & Sharing: Server-rendered Open Graph & Schema.org Structured Data', async ({ page }) => {
-    await page.goto('/addis');
+    await page.goto('/nitsuh');
     await page.waitForLoadState('networkidle');
 
     // Verify title and meta tags
     const title = await page.title();
-    expect(title).toContain('Addis');
+    expect(title).toContain('Nitsuh');
 
     // Verify Open Graph & Twitter meta tags exist in DOM
     const ogTitle = await page.locator('meta[property="og:title"]').getAttribute('content');
-    expect(ogTitle).toContain('Addis');
+    expect(ogTitle).toContain('Nitsuh');
 
     const ogType = await page.locator('meta[property="og:type"]').getAttribute('content');
     expect(ogType).toBe('website');
@@ -93,14 +93,14 @@ test.describe('STAGE 6: Launch Readiness & QR Studio Suite', () => {
     expect(jsonLdContent).not.toBeNull();
     const parsedSchema = JSON.parse(jsonLdContent || '{}');
     expect(parsedSchema['@type']).toBe('Restaurant');
-    expect(parsedSchema.name).toContain('Addis');
+    expect(parsedSchema.name).toContain('Nitsuh');
     expect(parsedSchema.hasMenu).toBeDefined();
     expect(parsedSchema.hasMenu.hasMenuSection.length).toBeGreaterThan(0);
   });
 
   test('4. Privacy: Dedicated Notice Page & Admin Tenant Export / Purge Controls', async ({ page }) => {
     // Navigate to tenant privacy notice page
-    await page.goto('/addis/privacy');
+    await page.goto('/nitsuh/privacy');
     await page.waitForLoadState('networkidle');
 
     // Verify privacy page renders with zero-cookie guarantee
@@ -158,7 +158,7 @@ test.describe('STAGE 6: Launch Readiness & QR Studio Suite', () => {
     await page.waitForLoadState('networkidle');
 
     await expect(page.getByText('This menu is currently unavailable')).toBeVisible();
-    await expect(page.getByRole('link', { name: /Addis Restaurant Demo/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Nitsuh Restaurant Demo/i })).toBeVisible();
   });
 
 });
