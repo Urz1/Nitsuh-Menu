@@ -23,6 +23,7 @@
 /build
 
 # misc
+.worktrees
 .DS_Store
 *.pem
 
