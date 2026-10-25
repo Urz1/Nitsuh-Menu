@@ -4,8 +4,9 @@ let ipv4Configured = false;
 function ensureIPv4Agent() {
   if (typeof window !== 'undefined' || ipv4Configured) return;
   try {
-    const dns = require('dns');
-    const { Agent, setGlobalDispatcher } = require('undici');
+    const dynamicRequire = eval('require');
+    const dns = dynamicRequire('dns');
+    const { Agent, setGlobalDispatcher } = dynamicRequire('undici');
     const agent = new Agent({
       connect: {
         lookup: (hostname: string, options: any, callback: any) => {

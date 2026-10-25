@@ -3174,6 +3174,20 @@ function persistCategories(cats: Category[]) {
 }
 
 export async function getMenuCategories(restaurantId: string): Promise<Category[]> {
+  if (typeof window !== 'undefined') {
+    try {
+      const res = await fetch(`/api/menu/categories?restaurantId=${encodeURIComponent(restaurantId)}`);
+      if (res.ok) {
+        const cats = await res.json();
+        if (Array.isArray(cats) && cats.length > 0) {
+          inMemoryCategories = cats;
+          persistCategories(inMemoryCategories);
+          return inMemoryCategories;
+        }
+      }
+    } catch {}
+  }
+
   if (hasNeon()) {
     try {
       const sql = getNeon();
@@ -3248,6 +3262,26 @@ export async function getMenuCategories(restaurantId: string): Promise<Category[
 }
 
 export async function getMenuItems(restaurantId: string): Promise<MenuItem[]> {
+  // 1. In browser, query Neon through server API endpoint to guarantee exact Neon DB state
+  if (typeof window !== 'undefined') {
+    try {
+      const res = await fetch(`/api/menu/items?restaurantId=${encodeURIComponent(restaurantId)}`);
+      if (res.ok) {
+        const items = await res.json();
+        if (Array.isArray(items)) {
+          inMemoryItems = items;
+          try {
+            localStorage.setItem('digital_menu_items_cache_v3', JSON.stringify(inMemoryItems));
+          } catch {}
+          return inMemoryItems;
+        }
+      }
+    } catch {
+      // Fallback below if API route fails
+    }
+  }
+
+  // 2. Server-side: Query Neon serverless PostgreSQL directly
   if (hasNeon()) {
     try {
       const sql = getNeon();
