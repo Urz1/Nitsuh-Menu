@@ -17,6 +17,7 @@ import { createClient } from './supabase/client';
 import { checkReviewContent, validateBotCheck, checkReviewRateLimit, canRemoveReview } from './review-engine';
 import { broadcastSync } from './sync-channel';
 import { rateLimiter, RATE_LIMITS } from './rate-limiter';
+import { getNeon, hasNeon } from './neon/client';
 
 // -----------------------------------------------------------------------------
 // DEFAULT PRODUCTION SEED / FALLBACK DATA FOR "NITSUH" & MULTI-TENANT
@@ -3058,7 +3059,48 @@ export async function getRestaurantBySlug(slug: string): Promise<Restaurant | nu
     };
   }
 
-  // If Supabase is connected with real credentials:
+  // 1. If Neon is connected (server-side):
+  if (hasNeon()) {
+    try {
+      const sql = getNeon();
+      if (sql) {
+        const rows = await sql`
+          SELECT * FROM public.restaurants
+          WHERE slug = ${slug} OR (slug IN ('nitsuh', 'addis') AND ${slug} IN ('nitsuh', 'addis'))
+          LIMIT 1
+        `;
+        if (rows && rows.length > 0) {
+          const data = rows[0] as any;
+          const merged: Restaurant = {
+            ...MOCK_RESTAURANT_NITSUH,
+            ...inMemoryRestaurant,
+            ...data,
+            slug: 'nitsuh',
+            name: (data.name === 'Addis Cafeteria' ? 'Nitsuh Cafeteria' : data.name) || 'Nitsuh Cafeteria',
+            short_name: (data.short_name === 'Addis' ? 'Nitsuh' : data.short_name) || 'Nitsuh',
+            logo_letter: data.logo_letter === 'A' ? 'N' : (data.logo_letter || 'N'),
+            announcement: ((data.announcement || inMemoryRestaurant.announcement) || '').replace(/\bAddis\b/g, 'Nitsuh'),
+            tagline: ((data.tagline || inMemoryRestaurant.tagline) || '').replace(/\bAddis\b/g, 'Nitsuh'),
+            branch_name: (((data.branch_name || inMemoryRestaurant.branch_name)) || '').replace(/\bAddis\b/g, 'Nitsuh'),
+            theme_config: {
+              ...(MOCK_RESTAURANT_NITSUH.theme_config || {}),
+              ...(data.theme_config || {}),
+              ...inMemoryRestaurant.theme_config,
+            },
+            address: data.address || inMemoryRestaurant.address,
+            google_maps_url: data.google_maps_url || inMemoryRestaurant.google_maps_url,
+          };
+          inMemoryRestaurant = merged;
+          persistRestaurant(merged);
+          return merged;
+        }
+      }
+    } catch {
+      // Fallback below
+    }
+  }
+
+  // 2. If Supabase is connected with real credentials:
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
     try {
       const supabase = createClient();
@@ -3132,6 +3174,36 @@ function persistCategories(cats: Category[]) {
 }
 
 export async function getMenuCategories(restaurantId: string): Promise<Category[]> {
+  if (hasNeon()) {
+    try {
+      const sql = getNeon();
+      if (sql) {
+        const rows = await sql`
+          SELECT * FROM public.categories
+          WHERE restaurant_id = ${restaurantId}
+          ORDER BY sort_order ASC
+        `;
+        if (rows && rows.length > 0) {
+          const local = getStoredCategories();
+          const dataIds = new Set(rows.map((d: any) => d.id));
+          const localOnly = local.filter((c) => !dataIds.has(c.id));
+          const localMap = new Map(local.map((c) => [c.id, c]));
+          const sanitizedData = (rows as Category[]).map((c) => ({
+            ...c,
+            name: c.name ? c.name.replace(/\bAddis\b/g, 'Nitsuh') : c.name,
+            description: c.description ? c.description.replace(/\bAddis\b/g, 'Nitsuh') : c.description,
+          }));
+          inMemoryCategories = [
+            ...sanitizedData.map((d) => localMap.get(d.id) || d),
+            ...localOnly,
+          ].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
+          persistCategories(inMemoryCategories);
+          return inMemoryCategories;
+        }
+      }
+    } catch {}
+  }
+
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
     try {
       const supabase = createClient();
@@ -3176,6 +3248,35 @@ export async function getMenuCategories(restaurantId: string): Promise<Category[
 }
 
 export async function getMenuItems(restaurantId: string): Promise<MenuItem[]> {
+  if (hasNeon()) {
+    try {
+      const sql = getNeon();
+      if (sql) {
+        const rows = await sql`
+          SELECT * FROM public.items
+          WHERE restaurant_id = ${restaurantId}
+          ORDER BY sort_order ASC
+        `;
+        if (rows && rows.length > 0) {
+          const sanitized = (rows as MenuItem[]).map((item) => ({
+            ...item,
+            name: item.name ? item.name.replace(/\bAddis\b/g, 'Nitsuh') : item.name,
+            description: item.description
+              ? item.description.replace(/\bAddis Cafeteria\b/g, 'Nitsuh Cafeteria').replace(/\bAddis\b/g, 'Nitsuh')
+              : item.description,
+          }));
+          inMemoryItems = sanitized;
+          if (typeof window !== 'undefined') {
+            try {
+              localStorage.setItem('digital_menu_items_cache_v3', JSON.stringify(inMemoryItems));
+            } catch {}
+          }
+          return inMemoryItems;
+        }
+      }
+    } catch {}
+  }
+
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
     try {
       const supabase = createClient();
@@ -3361,7 +3462,7 @@ export const MOCK_OFFERS_NITSUH: Offer[] = [
     updated_at: new Date().toISOString(),
   },
   {
-    id: 'f2b9d2e3-4567-4890-b123-456789abc02',
+    id: 'f2b9d2e3-4567-4890-b123-456789abc002',
     restaurant_id: MOCK_RESTAURANT_NITSUH.id,
     title: 'Special Mendi Feast (100 ETB Off)',
     description: 'Save 100 ETB when ordering our authentic slow-cooked Special Mendi.',
@@ -3387,7 +3488,7 @@ export const MOCK_OFFERS_NITSUH: Offer[] = [
     updated_at: new Date().toISOString(),
   },
   {
-    id: 'f3c0e3f4-5678-4901-c234-56789abc03',
+    id: 'f3c0e3f4-5678-4901-c234-567890abc003',
     restaurant_id: MOCK_RESTAURANT_NITSUH.id,
     title: 'Complimentary Single-Origin Espresso over 500 ETB',
     description: 'Free single-origin Yirgacheffe espresso automatically added to orders over 500 ETB.',
@@ -3418,6 +3519,86 @@ export const MOCK_OFFERS_NITSUH: Offer[] = [
 let inMemoryOffers: Offer[] = [];
 
 export async function getOffers(restaurantId: string): Promise<Offer[]> {
+  if (hasNeon()) {
+    try {
+      const sql = getNeon();
+      if (sql) {
+        const rows = await sql`
+          SELECT * FROM public.offers
+          WHERE restaurant_id = ${restaurantId}
+          ORDER BY priority DESC
+        `;
+        if (rows && rows.length > 0) {
+          const mapped = (rows as any[])
+            .map((d: any) => {
+              const rawCategoryIds: string[] = Array.isArray(d.category_ids) && d.category_ids.length > 0
+                ? d.category_ids
+                : Array.isArray(d.target_category_ids) && d.target_category_ids.length > 0
+                ? d.target_category_ids
+                : d.offer_type === 'category_discount'
+                ? ['cat-pizzas']
+                : [];
+              const rawItemIds: string[] = Array.isArray(d.item_ids) && d.item_ids.length > 0
+                ? d.item_ids
+                : Array.isArray(d.target_item_ids) && d.target_item_ids.length > 0
+                ? d.target_item_ids
+                : d.offer_type === 'item_discount'
+                ? ['item-special-mendi-138', 'item-nitsuh-combo-break-fast-45']
+                : [];
+
+              let scopeType: 'all' | 'categories' | 'items' = 'items';
+              if (d.scope_type) {
+                scopeType = d.scope_type;
+              } else if (d.offer_type === 'category_discount' || rawCategoryIds.length > 0) {
+                scopeType = 'categories';
+              } else if (d.offer_type === 'item_discount' || rawItemIds.length > 0) {
+                scopeType = 'items';
+              } else if (d.offer_type === 'order_threshold') {
+                scopeType = 'all';
+              }
+
+              const title = (d.title || '').replace(/\bAddis\b/g, 'Nitsuh');
+              const description = (d.description || '').replace(/\bAddis\b/g, 'Nitsuh');
+
+              return {
+                ...d,
+                title,
+                description,
+                status: d.status || (d.is_active ? 'live' : 'paused'),
+                is_paused: d.is_paused ?? !d.is_active,
+                show_top_banner: d.show_top_banner ?? (d.priority >= 10 || d.offer_type === 'category_discount' || title.toLowerCase().includes('happy hour')),
+                template_type: d.template_type || d.offer_type || 'percentage_off',
+                discount_type: d.discount_type || (d.offer_type === 'order_threshold' ? 'free_item' : 'percentage'),
+                discount_value: Number(d.discount_value || 0),
+                min_order_amount: Number(d.threshold_amount || d.min_order_amount || 0),
+                scope_type: scopeType,
+                category_ids: rawCategoryIds,
+                item_ids: rawItemIds,
+                timezone: d.timezone || 'Africa/Addis_Ababa',
+                days_of_week: d.days_of_week || [0, 1, 2, 3, 4, 5, 6],
+                start_time: d.start_time || '00:00',
+                end_time: d.end_time || '23:59',
+                honest_urgency_hours: d.honest_urgency_hours ?? 2,
+                banner_text: d.banner_text || title,
+                banner_link_text: d.banner_link_text || 'See offer',
+                stacking_rule: d.stacking_rule || 'best_discount',
+              };
+            })
+            .filter((o: any) => {
+              if (o.scope_type === 'items' && (!o.item_ids || o.item_ids.length === 0)) return false;
+              if (o.scope_type === 'categories' && (!o.category_ids || o.category_ids.length === 0)) return false;
+              return true;
+            }) as Offer[];
+
+          if (mapped.length > 0) {
+            inMemoryOffers = mapped;
+            return mapped;
+          }
+        }
+      }
+    } catch {}
+  }
+
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
     try {
       const supabase = createClient();
