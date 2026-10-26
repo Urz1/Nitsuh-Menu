@@ -59,10 +59,25 @@ export function MenuHeader({
         {/* Brand identity */}
         <div className="flex items-center gap-2.5 min-w-0 flex-1">
           <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg text-white shadow-xs flex-shrink-0"
-            style={{ backgroundColor: 'var(--primary)' }}
+            className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center font-bold text-lg shadow-xs flex-shrink-0 bg-[var(--surface)] border border-[var(--border)]"
           >
-            {restaurant.logo_letter || 'A'}
+            {restaurant.logo_url ? (
+              <img
+                src={restaurant.logo_url}
+                alt={restaurant.name}
+                className="w-full h-full object-contain p-0.5"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = '/images/brand/nitsuh-logo-badge.svg';
+                }}
+              />
+            ) : (
+              <div
+                className="w-full h-full flex items-center justify-center font-bold text-lg text-white"
+                style={{ backgroundColor: 'var(--primary)' }}
+              >
+                {restaurant.logo_letter || 'N'}
+              </div>
+            )}
           </div>
           <div className="min-w-0 flex-1">
             <h1 className="font-bold text-base leading-tight truncate text-[var(--foreground)] font-brand">

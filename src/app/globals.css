@@ -2,48 +2,62 @@
 
 @layer base {
   :root {
-    --primary: #D9480F;
-    --primary-hover: #C2410C;
-    --primary-rgb: 217, 72, 15;
-    --accent: #E8590C;
+    --primary: #C11221;
+    --primary-hover: #A50E1B;
+    --primary-rgb: 193, 18, 33;
+    --accent: #F89B22;
+    --accent-hover: #E08514;
+    --accent-rgb: 248, 155, 34;
     --radius-token: 14px;
     --font-brand: 'Playfair Display', Georgia, serif;
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
-    --background: #F8F9FA;
-    --foreground: #1E2124;
+    --background: #FFF4E5;
+    --foreground: #1A1412;
     --card: #FFFFFF;
-    --card-foreground: #1E2124;
-    --surface: #F1F3F5;
-    --surface-hover: #E9ECEF;
-    --border: #E9ECEF;
-    --muted: #525866;
-    --muted-foreground: #5E6470;
+    --card-foreground: #1A1412;
+    --surface: #FDF5EA;
+    --surface-hover: #F8EAD7;
+    --border: #F0DEC8;
+    --muted: #7A6B60;
+    --muted-foreground: #8C7B70;
   }
 
   /* Default is strictly Light Mode across all devices */
   [data-mode="dark"] {
-    --background: #101115;
-    --foreground: #F8F9FA;
-    --card: #181A20;
-    --card-foreground: #F8F9FA;
-    --surface: #1E2129;
-    --surface-hover: #262A35;
-    --border: #2C303B;
-    --muted: #A0A6B2;
-    --muted-foreground: #717784;
+    --background: #14100E;
+    --foreground: #FFF5EC;
+    --card: #1E1815;
+    --card-foreground: #FFF5EC;
+    --surface: #27201C;
+    --surface-hover: #332B25;
+    --border: #3D332C;
+    --muted: #B2A398;
+    --muted-foreground: #8F8278;
+    --primary: #E02939;
+    --primary-hover: #C11221;
+    --primary-rgb: 224, 41, 57;
+    --accent: #F89B22;
+    --accent-hover: #E08514;
+    --accent-rgb: 248, 155, 34;
   }
 
   [data-mode="light"] {
-    --background: #F8F9FA;
-    --foreground: #1E2124;
+    --background: #FFF4E5;
+    --foreground: #1A1412;
     --card: #FFFFFF;
-    --card-foreground: #1E2124;
-    --surface: #F1F3F5;
-    --surface-hover: #E9ECEF;
-    --border: #E9ECEF;
-    --muted: #525866;
-    --muted-foreground: #5E6470;
+    --card-foreground: #1A1412;
+    --surface: #FDF5EA;
+    --surface-hover: #F8EAD7;
+    --border: #F0DEC8;
+    --muted: #7A6B60;
+    --muted-foreground: #8C7B70;
+    --primary: #C11221;
+    --primary-hover: #A50E1B;
+    --primary-rgb: 193, 18, 33;
+    --accent: #F89B22;
+    --accent-hover: #E08514;
+    --accent-rgb: 248, 155, 34;
   }
 
   * {

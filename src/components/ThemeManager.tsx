@@ -5,7 +5,7 @@ import { ThemeConfig } from '@/types/database';
 import { getStoredRestaurant } from '@/lib/data-provider';
 
 export function hexToRgb(hex?: string): string {
-  if (!hex) return '217, 72, 15';
+  if (!hex) return '193, 18, 33';
   const clean = hex.replace('#', '').trim();
   if (clean.length === 3) {
     const r = parseInt(clean[0] + clean[0], 16);
@@ -19,7 +19,7 @@ export function hexToRgb(hex?: string): string {
     const b = parseInt(clean.substring(4, 6), 16);
     return `${r}, ${g}, ${b}`;
   }
-  return '217, 72, 15';
+  return '193, 18, 33';
 }
 
 export function applyThemeTokensToDOM(themeConfig?: ThemeConfig | null): void {
@@ -101,6 +101,13 @@ export function ThemeManager({ themeConfig, children }: ThemeManagerProps) {
                   }
                   if (tc.accentColor) {
                     root.style.setProperty('--accent', tc.accentColor);
+                    var cleanA = tc.accentColor.replace('#', '').trim();
+                    if (cleanA.length === 6) {
+                      var rA = parseInt(cleanA.substring(0, 2), 16);
+                      var gA = parseInt(cleanA.substring(2, 4), 16);
+                      var bA = parseInt(cleanA.substring(4, 6), 16);
+                      root.style.setProperty('--accent-rgb', rA + ', ' + gA + ', ' + bA);
+                    }
                   }
                 }
               }

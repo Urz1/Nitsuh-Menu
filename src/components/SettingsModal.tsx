@@ -57,9 +57,11 @@ export function SettingsModal({
     triggerHaptic(12);
     const root = document.documentElement;
     if (theme === 'modern-minimal') {
-      root.style.setProperty('--primary', '#E8590C');
-      root.style.setProperty('--primary-hover', '#D9480F');
-      root.style.setProperty('--accent', '#F76707');
+      root.style.setProperty('--primary', '#C11221');
+      root.style.setProperty('--primary-hover', '#A50E1B');
+      root.style.setProperty('--primary-rgb', '193, 18, 33');
+      root.style.setProperty('--accent', '#F89B22');
+      root.style.setProperty('--accent-rgb', '248, 155, 34');
     } else if (theme === 'classic-elegance') {
       root.style.setProperty('--primary', '#B88E3E');
       root.style.setProperty('--primary-hover', '#9E7528');

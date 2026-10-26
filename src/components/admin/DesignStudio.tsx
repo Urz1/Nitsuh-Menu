@@ -48,9 +48,9 @@ export function DesignStudio({
 
   // Form State
   const [themeConfig, setThemeConfig] = useState<ThemeConfig>({
-    primaryColor: restaurant.theme_config?.primaryColor || '#E8590C',
-    primaryHover: restaurant.theme_config?.primaryHover || '#D9480F',
-    accentColor: restaurant.theme_config?.accentColor || '#F76707',
+    primaryColor: restaurant.theme_config?.primaryColor || '#C11221',
+    primaryHover: restaurant.theme_config?.primaryHover || '#A50E1B',
+    accentColor: restaurant.theme_config?.accentColor || '#F89B22',
     fontFamily: restaurant.theme_config?.fontFamily || 'serif',
     borderRadius: restaurant.theme_config?.borderRadius || 'md',
     defaultMode: restaurant.theme_config?.defaultMode || 'light',
@@ -158,6 +158,16 @@ export function DesignStudio({
     font: 'serif' | 'sans' | 'display';
     radius: 'sm' | 'md' | 'lg' | 'full';
   }[] = [
+    {
+      id: 'nitsuh',
+      name: 'Nitsuh Crimson & Gold (Official)',
+      description: 'Official brand palette with Crimson Red and Warm Golden Amber',
+      primary: '#C11221',
+      hover: '#A50E1B',
+      accent: '#F89B22',
+      font: 'serif',
+      radius: 'md',
+    },
     {
       id: 'amber',
       name: 'Artisanal Amber',
@@ -874,10 +884,22 @@ export function DesignStudio({
             <div className="p-4 border-b border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-white text-sm shadow-md"
-                  style={{ backgroundColor: themeConfig.primaryColor }}
+                  className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center font-bold text-white text-sm shadow-md bg-white/5 border border-white/10"
                 >
-                  {restaurant.logo_letter || 'A'}
+                  {restaurant.logo_url ? (
+                    <img
+                      src={restaurant.logo_url}
+                      alt={restaurant.name}
+                      className="w-full h-full object-contain p-0.5"
+                    />
+                  ) : (
+                    <div
+                      className="w-full h-full flex items-center justify-center"
+                      style={{ backgroundColor: themeConfig.primaryColor }}
+                    >
+                      {restaurant.logo_letter || 'N'}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <h4 className="text-xs font-bold truncate">{restaurant.name}</h4>

@@ -149,10 +149,25 @@ export function AdminSidebar({
         {/* Restaurant Header */}
         <div className="flex items-center gap-3 px-2 pt-1 flex-shrink-0">
           <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white shadow-md text-base flex-shrink-0"
-            style={{ backgroundColor: restaurant.theme_config.primaryColor || '#E8590C' }}
+            className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center font-bold text-white shadow-md text-base flex-shrink-0 bg-white/5 border border-white/10"
           >
-            {restaurant.logo_letter || 'A'}
+            {restaurant.logo_url ? (
+              <img
+                src={restaurant.logo_url}
+                alt={restaurant.name}
+                className="w-full h-full object-contain p-0.5"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = '/images/brand/nitsuh-logo-badge.svg';
+                }}
+              />
+            ) : (
+              <div
+                className="w-full h-full flex items-center justify-center"
+                style={{ backgroundColor: restaurant.theme_config.primaryColor || '#C11221' }}
+              >
+                {restaurant.logo_letter || 'N'}
+              </div>
+            )}
           </div>
           <div className="flex-1 min-w-0">
             <div className="text-sm font-bold text-white font-brand truncate">

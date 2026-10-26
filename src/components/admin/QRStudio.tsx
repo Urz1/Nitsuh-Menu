@@ -504,10 +504,25 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
               >
                 {/* Restaurant Header */}
                 <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-white text-lg shadow-md mb-2"
-                  style={{ backgroundColor: restaurant.theme_config.primaryColor || '#E8590C' }}
+                  className="w-12 h-12 rounded-xl overflow-hidden flex items-center justify-center font-bold text-white text-lg shadow-md mb-2 bg-neutral-100 border border-neutral-200"
                 >
-                  {restaurant.logo_letter || 'A'}
+                  {restaurant.logo_url ? (
+                    <img
+                      src={restaurant.logo_url}
+                      alt={restaurant.name}
+                      className="w-full h-full object-contain p-0.5"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).src = '/images/brand/nitsuh-logo-badge.svg';
+                      }}
+                    />
+                  ) : (
+                    <div
+                      className="w-full h-full flex items-center justify-center font-bold text-white text-lg"
+                      style={{ backgroundColor: restaurant.theme_config.primaryColor || '#C11221' }}
+                    >
+                      {restaurant.logo_letter || 'N'}
+                    </div>
+                  )}
                 </div>
                 <h3 className="font-extrabold text-lg text-neutral-900">{restaurant.name}</h3>
                 <p className="text-xs text-neutral-500 font-medium">{restaurant.tagline}</p>
