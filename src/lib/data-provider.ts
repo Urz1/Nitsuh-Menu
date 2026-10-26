@@ -3292,8 +3292,9 @@ export async function getMenuItems(restaurantId: string): Promise<MenuItem[]> {
           ORDER BY sort_order ASC
         `;
         if (rows) {
-          const sanitized = (rows as MenuItem[]).map((item) => ({
+          const sanitized = (rows as any[]).map((item) => ({
             ...item,
+            price: Number(item.price) || 0,
             name: item.name ? item.name.replace(/\bAddis\b/g, 'Nitsuh') : item.name,
             description: item.description
               ? item.description.replace(/\bAddis Cafeteria\b/g, 'Nitsuh Cafeteria').replace(/\bAddis\b/g, 'Nitsuh')

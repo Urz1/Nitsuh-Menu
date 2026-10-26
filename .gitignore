@@ -27,6 +27,8 @@
 .DS_Store
 *.pem
 /Nitsuh Foods*/
+/Dishes Pictures/
+scripts/seed-report.json
 
 # debug
 npm-debug.log*

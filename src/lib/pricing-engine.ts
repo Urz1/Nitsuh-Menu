@@ -345,11 +345,13 @@ export function evaluateItemPricing(
     }))
     .filter(({ offer, status }) => status.isActive && isItemApplicableToOffer(item, offer));
 
+  const basePrice = Number(item.price) || 0;
+
   if (applicableOffersWithStatus.length === 0) {
     return {
       itemId: item.id,
-      originalPrice: item.price,
-      finalPrice: item.price,
+      originalPrice: basePrice,
+      finalPrice: basePrice,
       savings: 0,
       hasOffer: false,
       appliedOffer: null,
@@ -361,12 +363,12 @@ export function evaluateItemPricing(
   // 2. Conflict & Stacking resolution
   // Default rule: Best discount wins (gives customer highest savings)
   let bestOffer = applicableOffersWithStatus[0].offer;
-  let maxSavings = calculateDiscountAmount(item.price, bestOffer);
+  let maxSavings = calculateDiscountAmount(basePrice, bestOffer);
   let bestStatus = applicableOffersWithStatus[0].status;
 
   for (let i = 1; i < applicableOffersWithStatus.length; i++) {
     const current = applicableOffersWithStatus[i];
-    const savings = calculateDiscountAmount(item.price, current.offer);
+    const savings = calculateDiscountAmount(basePrice, current.offer);
 
     // Stacking rule check:
     if (current.offer.stacking_rule === 'allow_stack' && bestOffer.stacking_rule === 'allow_stack') {
@@ -378,8 +380,8 @@ export function evaluateItemPricing(
     }
   }
 
-  maxSavings = Math.min(item.price, Number(maxSavings.toFixed(2)));
-  const finalPrice = Math.max(0, Number((item.price - maxSavings).toFixed(2)));
+  maxSavings = Math.min(basePrice, Number(maxSavings.toFixed(2)));
+  const finalPrice = Math.max(0, Number((basePrice - maxSavings).toFixed(2)));
 
   const currency = context.currencySymbol || '$';
   let badgeText = bestOffer.badge_text;
