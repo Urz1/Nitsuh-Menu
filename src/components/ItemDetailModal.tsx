@@ -46,6 +46,7 @@ export function ItemDetailModal({
   const [notes, setNotes] = useState('');
   const [reportingReviewId, setReportingReviewId] = useState<string | null>(null);
   const [reportedReviewIds, setReportedReviewIds] = useState<Set<string>>(new Set());
+  const [imageError, setImageError] = useState(false);
 
   const currentLocale = (locale as Language) || 'en';
   const t = TRANSLATIONS[currentLocale] || TRANSLATIONS.en;
@@ -71,6 +72,7 @@ export function ItemDetailModal({
       setSelectedOptions([]);
       setNotes('');
       setReportingReviewId(null);
+      setImageError(false);
     }
   }, [item]);
 
@@ -144,14 +146,23 @@ export function ItemDetailModal({
         </button>
 
         {/* Hero Image */}
-        <div className="relative w-full h-56 bg-neutral-900 flex-shrink-0">
-          <Image
-            src={getOptimizedCloudinaryUrl(item.image_url, 800) || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80'}
-            alt={displayName}
-            fill
-            sizes="(max-width: 520px) 100vw, 520px"
-            className="object-cover"
-          />
+        <div className="relative w-full h-56 bg-[var(--surface)] flex-shrink-0 flex items-center justify-center overflow-hidden">
+          {item.image_url && !imageError ? (
+            <Image
+              src={getOptimizedCloudinaryUrl(item.image_url, 800)}
+              alt={displayName}
+              fill
+              sizes="(max-width: 520px) 100vw, 520px"
+              className="object-cover"
+              priority
+              onError={() => setImageError(true)}
+            />
+          ) : (
+            <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[var(--surface)] to-[var(--muted)]/15 text-[var(--muted-foreground)] p-6 text-center select-none">
+              <UtensilsCrossed className="w-12 h-12 mb-2 text-[var(--primary)] opacity-40" />
+              <span className="text-base font-semibold text-[var(--foreground)]">{displayName}</span>
+            </div>
+          )}
         </div>
 
         {/* Details Body */}

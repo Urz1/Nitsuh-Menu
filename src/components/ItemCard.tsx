@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { MenuItem, DishReviewStats } from '@/types/database';
 import { ItemPricingResult } from '@/lib/pricing-engine';
 import { formatMoney, triggerHaptic, getOptimizedCloudinaryUrl } from '@/lib/utils';
-import { Heart, Plus, Minus, Tag, Clock, Star, ChefHat, Salad, Sprout, Leaf, WheatOff, ShieldCheck, Flame } from 'lucide-react';
+import { Heart, Plus, Minus, Tag, Clock, Star, ChefHat, Salad, Sprout, Leaf, WheatOff, ShieldCheck, Flame, UtensilsCrossed } from 'lucide-react';
 import { Language, TRANSLATIONS } from '@/lib/translations';
 
 interface ItemCardProps {
@@ -39,6 +39,7 @@ export function ItemCard({
 }: ItemCardProps) {
   const currentLocale = (locale as Language) || 'en';
   const t = TRANSLATIONS[currentLocale] || TRANSLATIONS.en;
+  const [imageError, setImageError] = React.useState(false);
 
   const displayName =
     currentLocale === 'am' && item.name_am
@@ -79,17 +80,25 @@ export function ItemCard({
     >
       {/* Thumbnail Container */}
       <div
-        className={`relative flex-shrink-0 bg-neutral-800 rounded-xl overflow-hidden ${layout === 'grid' ? 'w-full h-32' : 'w-24 h-24 sm:w-28 sm:h-28'
+        className={`relative flex-shrink-0 bg-[var(--surface)] rounded-xl overflow-hidden border border-[var(--border)]/40 ${layout === 'grid' ? 'w-full h-32' : 'w-24 h-24 sm:w-28 sm:h-28'
           }`}
       >
-        <Image
-          src={getOptimizedCloudinaryUrl(item.image_url, 400) || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80'}
-          alt={displayName}
-          fill
-          sizes={layout === 'grid' ? '(max-width: 480px) 50vw, 220px' : '112px'}
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
-          loading="lazy"
-        />
+        {item.image_url && !imageError ? (
+          <Image
+            src={getOptimizedCloudinaryUrl(item.image_url, 400)}
+            alt={displayName}
+            fill
+            sizes={layout === 'grid' ? '(max-width: 480px) 50vw, 220px' : '112px'}
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+            loading="lazy"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[var(--surface)] to-[var(--muted)]/10 p-2 text-center select-none">
+            <UtensilsCrossed className="w-7 h-7 text-[var(--primary)] opacity-40 mb-1" />
+            <span className="text-[10px] font-medium text-[var(--muted-foreground)] line-clamp-1">{displayName}</span>
+          </div>
+        )}
 
         {/* Favorite Heart Button */}
         <button

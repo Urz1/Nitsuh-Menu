@@ -56,7 +56,7 @@ const nextConfig: NextConfig = {
           { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.unsplash.com https://*.supabase.co https://api.qrserver.com https://res.cloudinary.com; font-src 'self'; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.cloudinary.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self';",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.unsplash.com https://*.supabase.co https://api.qrserver.com https://res.cloudinary.com; font-src 'self'; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.cloudinary.com https://res.cloudinary.com https://images.unsplash.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self';",
           },
         ],
       },
