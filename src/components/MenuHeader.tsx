@@ -59,15 +59,15 @@ export function MenuHeader({
         {/* Brand identity */}
         <div className="flex items-center gap-2.5 min-w-0 flex-1">
           <div
-            className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center font-bold text-lg shadow-xs flex-shrink-0 bg-[var(--surface)] border border-[var(--border)]"
+            className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center font-bold text-lg shadow-xs flex-shrink-0"
           >
             {restaurant.logo_url ? (
               <img
                 src={restaurant.logo_url}
                 alt={restaurant.name}
-                className="w-full h-full object-contain p-0.5"
+                className="w-full h-full object-cover"
                 onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = '/images/brand/nitsuh-logo-badge.svg';
+                  (e.currentTarget as HTMLImageElement).src = '/images/brand/nitsuh-gold-squircle.svg';
                 }}
               />
             ) : (

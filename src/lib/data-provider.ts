@@ -28,7 +28,7 @@ export const MOCK_RESTAURANT_NITSUH: Restaurant = {
   name: 'Nitsuh Cafeteria',
   short_name: 'Nitsuh',
   logo_letter: 'N',
-  logo_url: 'https://res.cloudinary.com/dekmg6rhe/image/upload/v1793049717/nitsuh-menu/brand/nitsuh-logo-badge.png',
+  logo_url: 'https://res.cloudinary.com/dekmg6rhe/image/upload/v1793051284/nitsuh-menu/brand/nitsuh-logo-clean.png',
   tagline: 'Authentic Ethiopian Cuisine, Wood-Fired Mendi & Artisanal Bakery',
   currency: 'ETB',
   currency_code: 'ETB',
