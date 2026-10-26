@@ -201,8 +201,12 @@ export default function AdminLoginPage() {
 
         {/* Branding */}
         <div className="text-center mb-6">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-600 to-orange-500 flex items-center justify-center font-bold text-white shadow-xl mx-auto mb-3">
-            <ShieldCheck className="w-6 h-6" />
+          <div className="w-14 h-14 rounded-2xl overflow-hidden shadow-xl mx-auto mb-3 flex items-center justify-center">
+            <img
+              src="/images/brand/nitsuh-gold-squircle.svg"
+              alt="Nitsuh App Icon"
+              className="w-full h-full object-cover"
+            />
           </div>
           <h1 className={`text-2xl font-bold tracking-tight ${isLight ? 'text-neutral-900' : 'text-white'}`}>
             Restaurant Portal
