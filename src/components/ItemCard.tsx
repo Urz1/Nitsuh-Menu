@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { MenuItem, DishReviewStats } from '@/types/database';
 import { ItemPricingResult } from '@/lib/pricing-engine';
-import { formatMoney, triggerHaptic } from '@/lib/utils';
+import { formatMoney, triggerHaptic, getOptimizedCloudinaryUrl } from '@/lib/utils';
 import { Heart, Plus, Minus, Tag, Clock, Star, ChefHat, Salad, Sprout, Leaf, WheatOff, ShieldCheck, Flame } from 'lucide-react';
 import { Language, TRANSLATIONS } from '@/lib/translations';
 
@@ -83,7 +83,7 @@ export function ItemCard({
           }`}
       >
         <Image
-          src={item.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80'}
+          src={getOptimizedCloudinaryUrl(item.image_url, 400) || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80'}
           alt={displayName}
           fill
           sizes={layout === 'grid' ? '(max-width: 480px) 50vw, 220px' : '112px'}

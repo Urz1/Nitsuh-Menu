@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { MenuItem, ItemOption, DishReview, DishReviewStats } from '@/types/database';
 import { ItemPricingResult } from '@/lib/pricing-engine';
 import { getIntelligentPairings, PairingRecommendation } from '@/lib/recommendation-engine';
-import { formatMoney, triggerHaptic } from '@/lib/utils';
+import { formatMoney, triggerHaptic, getOptimizedCloudinaryUrl } from '@/lib/utils';
 import { X, Minus, Plus, Tag, Clock, UtensilsCrossed, Flame, Star, MessageSquare, Flag, Check } from 'lucide-react';
 
 import { Language, TRANSLATIONS } from '@/lib/translations';
@@ -146,7 +146,7 @@ export function ItemDetailModal({
         {/* Hero Image */}
         <div className="relative w-full h-56 bg-neutral-900 flex-shrink-0">
           <Image
-            src={item.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80'}
+            src={getOptimizedCloudinaryUrl(item.image_url, 800) || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80'}
             alt={displayName}
             fill
             sizes="(max-width: 520px) 100vw, 520px"
@@ -265,7 +265,7 @@ export function ItemDetailModal({
                     <div>
                       <div className="relative w-full h-20 rounded-lg overflow-hidden mb-1.5 bg-neutral-800">
                         <Image
-                          src={rec.item.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=300&q=80'}
+                          src={getOptimizedCloudinaryUrl(rec.item.image_url, 350) || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=300&q=80'}
                           alt={rec.item.name}
                           fill
                           className="object-cover"

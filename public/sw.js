@@ -66,6 +66,7 @@ self.addEventListener('fetch', (event) => {
             networkResponse &&
             (networkResponse.status === 200 || networkResponse.type === 'opaque') &&
             (event.request.destination === 'image' ||
+             event.request.url.includes('res.cloudinary.com') ||
              event.request.destination === 'font' ||
              event.request.destination === 'style' ||
              event.request.destination === 'script')
