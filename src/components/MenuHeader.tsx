@@ -53,19 +53,48 @@ export function MenuHeader({
     }
   };
 
+  const [isAnimating, setIsAnimating] = React.useState(false);
+
+  // Trigger occasional playful micro-animation every 9 seconds
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setIsAnimating(true);
+      const timer = setTimeout(() => setIsAnimating(false), 900);
+      return () => clearTimeout(timer);
+    }, 9000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleLogoTap = () => {
+    triggerHaptic(15);
+    setIsAnimating(false);
+    requestAnimationFrame(() => {
+      setIsAnimating(true);
+      setTimeout(() => setIsAnimating(false), 900);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <header className="sticky top-0 z-40 bg-[var(--card)]/95 backdrop-blur-md border-b border-[var(--border)] transition-colors">
       <div className="flex items-center justify-between px-3.5 pt-3 pb-2 gap-2">
         {/* Brand identity */}
         <div className="flex items-center gap-2.5 min-w-0 flex-1">
-          <div
-            className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center font-bold text-lg shadow-xs flex-shrink-0"
+          <button
+            type="button"
+            onClick={handleLogoTap}
+            title={`${restaurant.name} • Tap to scroll to top`}
+            aria-label={`${restaurant.name} logo - tap to scroll to top`}
+            className={`relative w-10 h-10 rounded-xl overflow-hidden shadow-xs flex-shrink-0 cursor-pointer select-none transition-transform duration-300 hover:scale-105 active:scale-90 ${
+              isAnimating ? 'animate-logo-playful' : ''
+            }`}
           >
             {restaurant.logo_url ? (
               <img
                 src={restaurant.logo_url}
                 alt={restaurant.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover pointer-events-none"
                 onError={(e) => {
                   (e.currentTarget as HTMLImageElement).src = '/images/brand/nitsuh-gold-squircle.svg';
                 }}
@@ -78,7 +107,14 @@ export function MenuHeader({
                 {restaurant.logo_letter || 'N'}
               </div>
             )}
-          </div>
+
+            {/* Ambient shimmer / light sheen sweep across the golden surface */}
+            <span
+              className={`absolute inset-0 pointer-events-none bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full ${
+                isAnimating ? 'animate-logo-sheen' : ''
+              }`}
+            />
+          </button>
           <div className="min-w-0 flex-1">
             <h1 className="font-bold text-base leading-tight truncate text-[var(--foreground)] font-brand">
               {restaurant.name}
