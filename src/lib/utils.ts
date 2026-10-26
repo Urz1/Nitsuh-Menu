@@ -39,3 +39,55 @@ export function getOptimizedCloudinaryUrl(url?: string | null, width: number = 4
   return url.replace('/image/upload/', `/image/upload/f_auto,q_auto,w_${width},c_limit/`);
 }
 
+const ICON_NAME_TO_EMOJI: Record<string, string> = {
+  coffee: '☕',
+  breakfast: '☕',
+  burger: '🍔',
+  pizza: '🍕',
+  flame: '🍕',
+  clubsandwich: '🥪',
+  sandwich: '🥪',
+  wrap: '🌯',
+  chicken: '🍗',
+  salad: '🥗',
+  pasta: '🍝',
+  mojito: '🍹',
+  softdrinks: '🥤',
+  drinks: '🥤',
+  juices: '🧃',
+  shakes: '🍦',
+  hotdrinks: '☕',
+  iceddrink: '🧊',
+  ice: '🧊',
+  desserts: '🍰',
+  cake: '🍰',
+  dessertskg: '🎂',
+  utensilscrossed: '🍽️',
+  utensils: '🍽️',
+};
+
+/**
+ * Ensures category icons always render as vibrant, universal food emojis
+ * instead of raw component string names like "UtensilsCrossed" or "Coffee".
+ */
+export function formatCategoryIcon(icon?: string | null, categoryName?: string): string {
+  if (!icon) return '🍽️';
+  const trimmed = icon.trim();
+  // If it's already an emoji, return as-is
+  if (/\p{Extended_Pictographic}/u.test(trimmed)) {
+    return trimmed;
+  }
+  const normalized = trimmed.toLowerCase().replace(/[^a-z]/g, '');
+  if (ICON_NAME_TO_EMOJI[normalized]) {
+    return ICON_NAME_TO_EMOJI[normalized];
+  }
+  if (categoryName) {
+    const catNorm = categoryName.toLowerCase().replace(/[^a-z]/g, '');
+    for (const [key, emoji] of Object.entries(ICON_NAME_TO_EMOJI)) {
+      if (catNorm.includes(key)) return emoji;
+    }
+  }
+  return '🍽️';
+}
+
+

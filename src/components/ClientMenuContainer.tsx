@@ -41,7 +41,7 @@ import {
   CartPricingResult,
 } from '@/lib/pricing-engine';
 import { calculateDishReviewStats } from '@/lib/review-engine';
-import { triggerHaptic } from '@/lib/utils';
+import { triggerHaptic, formatCategoryIcon } from '@/lib/utils';
 import Link from 'next/link';
 import { ArrowUp, Share2, QrCode, Info, Tag, Clock, X, WifiOff, Lock, ChevronDown, Compass, BookOpen, Search, Heart, MapPin, ExternalLink, Utensils } from 'lucide-react';
 import { Language, TRANSLATIONS, CATEGORY_TRANSLATIONS } from '@/lib/translations';
@@ -1027,7 +1027,7 @@ export function ClientMenuContainer({
                     <div className="mb-3 flex items-baseline justify-between">
                       <div>
                         <h2 className="text-lg font-bold text-[var(--foreground)] font-brand flex items-center gap-2">
-                          <span>{cat.icon}</span>
+                          <span>{formatCategoryIcon(cat.icon, cat.name)}</span>
                           <span>{displayName}</span>
                         </h2>
                         <p className="text-xs text-[var(--muted)] mt-0.5">{displayDesc}</p>
@@ -1108,7 +1108,7 @@ export function ClientMenuContainer({
                           className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--primary)] hover:underline active:scale-95 transition-transform"
                         >
                           <span>
-                            Next: {nextCat.icon} {nextDisplayName}
+                            Next: {formatCategoryIcon(nextCat.icon, nextCat.name)} {nextDisplayName}
                           </span>
                           <ChevronDown className="w-3.5 h-3.5 -rotate-90" />
                         </button>
@@ -1448,7 +1448,7 @@ export function ClientMenuContainer({
                       }`}
                   >
                     <div className="flex items-start gap-3 min-w-0">
-                      <span className="text-2xl flex-shrink-0 mt-0.5">{cat.icon}</span>
+                      <span className="text-2xl flex-shrink-0 mt-0.5">{formatCategoryIcon(cat.icon, cat.name)}</span>
                       <div className="min-w-0">
                         <div
                           className={`text-sm font-bold truncate ${isSelected ? 'text-[var(--primary)]' : 'text-[var(--foreground)]'

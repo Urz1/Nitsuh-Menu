@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect } from 'react';
 import { Category } from '@/types/database';
-import { triggerHaptic } from '@/lib/utils';
+import { triggerHaptic, formatCategoryIcon } from '@/lib/utils';
 import { Language, CATEGORY_TRANSLATIONS, TRANSLATIONS } from '@/lib/translations';
 import { Compass, Tag } from 'lucide-react';
 
@@ -125,7 +125,7 @@ export function CategoryTabs({
                 backgroundColor: isActive ? 'var(--primary)' : undefined,
               }}
             >
-              <span>{cat.icon}</span>
+              <span>{formatCategoryIcon(cat.icon, cat.name)}</span>
               <span>{translatedName}</span>
               {typeof count === 'number' && (
                 <span
