@@ -3045,7 +3045,30 @@ export function persistRestaurant(restaurant: Restaurant): void {
   } catch {}
 }
 
+// High-performance server-side in-memory TTL cache to eliminate cross-continent round-trip latency to Neon/Supabase
+const SERVER_DATA_CACHE_TTL_MS = 60 * 1000; // 60 seconds TTL
+const serverDataCache = new Map<string, { data: any; timestamp: number }>();
+
+export function invalidateServerMenuCache(prefix?: string): void {
+  if (prefix) {
+    for (const key of serverDataCache.keys()) {
+      if (key.startsWith(prefix)) {
+        serverDataCache.delete(key);
+      }
+    }
+  } else {
+    serverDataCache.clear();
+  }
+}
+
 export async function getRestaurantBySlug(slug: string): Promise<Restaurant | null> {
+  const cacheKey = `restaurant_${slug.toLowerCase()}`;
+  if (typeof window === 'undefined') {
+    const cachedEntry = serverDataCache.get(cacheKey);
+    if (cachedEntry && Date.now() - cachedEntry.timestamp < SERVER_DATA_CACHE_TTL_MS) {
+      return cachedEntry.data;
+    }
+  }
   // Check client-side cached restaurant first
   const cached = getStoredRestaurant(slug);
   if (cached) {
@@ -3092,6 +3115,9 @@ export async function getRestaurantBySlug(slug: string): Promise<Restaurant | nu
           };
           inMemoryRestaurant = merged;
           persistRestaurant(merged);
+          if (typeof window === 'undefined') {
+            serverDataCache.set(cacheKey, { data: merged, timestamp: Date.now() });
+          }
           return merged;
         }
       }
@@ -3137,6 +3163,9 @@ export async function getRestaurantBySlug(slug: string): Promise<Restaurant | nu
         };
         inMemoryRestaurant = merged;
         persistRestaurant(merged);
+        if (typeof window === 'undefined') {
+          serverDataCache.set(cacheKey, { data: merged, timestamp: Date.now() });
+        }
         return merged;
       }
     } catch {
@@ -3146,6 +3175,9 @@ export async function getRestaurantBySlug(slug: string): Promise<Restaurant | nu
 
   // Built-in fallback matching requested slug
   if (slug.toLowerCase() === 'nitsuh' || slug.toLowerCase() === 'nitsuh-cafeteria' || slug.toLowerCase() === 'addis' || slug.toLowerCase() === 'afla' || slug.toLowerCase() === 'addis-cafeteria' || slug === 'default' || slug === 'aura') {
+    if (typeof window === 'undefined') {
+      serverDataCache.set(cacheKey, { data: inMemoryRestaurant, timestamp: Date.now() });
+    }
     return inMemoryRestaurant;
   }
 
@@ -3174,6 +3206,13 @@ function persistCategories(cats: Category[]) {
 }
 
 export async function getMenuCategories(restaurantId: string): Promise<Category[]> {
+  const cacheKey = `categories_${restaurantId}`;
+  if (typeof window === 'undefined') {
+    const cachedEntry = serverDataCache.get(cacheKey);
+    if (cachedEntry && Date.now() - cachedEntry.timestamp < SERVER_DATA_CACHE_TTL_MS) {
+      return cachedEntry.data;
+    }
+  }
   if (typeof window !== 'undefined') {
     try {
       const res = await fetch(`/api/menu/categories?restaurantId=${encodeURIComponent(restaurantId)}`);
@@ -3212,6 +3251,9 @@ export async function getMenuCategories(restaurantId: string): Promise<Category[
             ...localOnly,
           ].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
           persistCategories(inMemoryCategories);
+          if (typeof window === 'undefined') {
+            serverDataCache.set(cacheKey, { data: inMemoryCategories, timestamp: Date.now() });
+          }
           return inMemoryCategories;
         }
       }
@@ -3262,6 +3304,13 @@ export async function getMenuCategories(restaurantId: string): Promise<Category[
 }
 
 export async function getMenuItems(restaurantId: string): Promise<MenuItem[]> {
+  const cacheKey = `items_${restaurantId}`;
+  if (typeof window === 'undefined') {
+    const cachedEntry = serverDataCache.get(cacheKey);
+    if (cachedEntry && Date.now() - cachedEntry.timestamp < SERVER_DATA_CACHE_TTL_MS) {
+      return cachedEntry.data;
+    }
+  }
   // 1. In browser, query Neon through server API endpoint to guarantee exact Neon DB state
   if (typeof window !== 'undefined') {
     try {
@@ -3305,6 +3354,9 @@ export async function getMenuItems(restaurantId: string): Promise<MenuItem[]> {
             try {
               localStorage.setItem('digital_menu_items_cache_v3', JSON.stringify(inMemoryItems));
             } catch {}
+          }
+          if (typeof window === 'undefined') {
+            serverDataCache.set(cacheKey, { data: inMemoryItems, timestamp: Date.now() });
           }
           return inMemoryItems;
         }
@@ -3554,6 +3606,13 @@ export const MOCK_OFFERS_NITSUH: Offer[] = [
 let inMemoryOffers: Offer[] = [];
 
 export async function getOffers(restaurantId: string): Promise<Offer[]> {
+  const cacheKey = `offers_${restaurantId}`;
+  if (typeof window === 'undefined') {
+    const cachedEntry = serverDataCache.get(cacheKey);
+    if (cachedEntry && Date.now() - cachedEntry.timestamp < SERVER_DATA_CACHE_TTL_MS) {
+      return cachedEntry.data;
+    }
+  }
   if (hasNeon()) {
     try {
       const sql = getNeon();
@@ -3627,6 +3686,9 @@ export async function getOffers(restaurantId: string): Promise<Offer[]> {
 
           if (mapped.length > 0) {
             inMemoryOffers = mapped;
+            if (typeof window === 'undefined') {
+              serverDataCache.set(cacheKey, { data: mapped, timestamp: Date.now() });
+            }
             return mapped;
           }
         }
@@ -3932,6 +3994,13 @@ export async function getDishReviews(
   restaurantId: string,
   itemId?: string
 ): Promise<DishReview[]> {
+  const cacheKey = `reviews_${restaurantId}_${itemId || 'all'}`;
+  if (typeof window === 'undefined') {
+    const cachedEntry = serverDataCache.get(cacheKey);
+    if (cachedEntry && Date.now() - cachedEntry.timestamp < SERVER_DATA_CACHE_TTL_MS) {
+      return cachedEntry.data;
+    }
+  }
   const overrides = getStoredReviewOverrides();
   const cached = getStoredReviews();
 
@@ -3981,6 +4050,9 @@ export async function getDishReviews(
           inMemoryReviews = mergedList;
         }
 
+        if (typeof window === 'undefined') {
+          serverDataCache.set(cacheKey, { data: mergedList, timestamp: Date.now() });
+        }
         return mergedList;
       }
     } catch {
