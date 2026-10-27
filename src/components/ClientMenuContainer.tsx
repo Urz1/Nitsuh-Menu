@@ -251,37 +251,8 @@ export function ClientMenuContainer({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Track programmatic tab navigation so scroll-spy does not override intentional clicks
+  // Manual scroll reference
   const isManualScrollRef = useRef(false);
-
-  // Active scroll-spy: synchronize category tabs with viewport scroll position
-  useEffect(() => {
-    if (activeFilter !== 'all' || searchQuery.trim().length > 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (isManualScrollRef.current) return;
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            const catId = entry.target.id.replace('cat-', '');
-            setActiveCategoryId(catId);
-            break;
-          }
-        }
-      },
-      {
-        rootMargin: '-210px 0px -55% 0px',
-        threshold: 0.05,
-      }
-    );
-
-    const sectionEls = document.querySelectorAll('section[id^="cat-"]');
-    sectionEls.forEach((el) => observer.observe(el));
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [categories, activeFilter, searchQuery]);
 
   // ---------------------------------------------------------------------------
   // INSTANT MULTI-TAB & PLATFORM-WIDE SYNCHRONIZATION
@@ -729,10 +700,13 @@ export function ClientMenuContainer({
     return result;
   }, [items, searchQuery, activeFilter, sortOrder, favorites, itemPricingMap]);
 
-  // Categories displayed on screen (continuous stream for seamless scroll-spy)
+  // Categories displayed on screen (filtered by active category or all)
   const displayedCategories = useMemo(() => {
-    return categories;
-  }, [categories]);
+    if (activeCategoryId === 'all') {
+      return categories;
+    }
+    return categories.filter((c) => c.id === activeCategoryId);
+  }, [categories, activeCategoryId]);
 
   // Gentle pairing recommendations for "Goes well with"
   const pairingItems = useMemo(() => {
@@ -806,43 +780,37 @@ export function ClientMenuContainer({
       <HeroFoodBanner
         locale={locale}
         onSelectCategory={(catId) => {
-          isManualScrollRef.current = true;
+          triggerHaptic(12);
           setActiveCategoryId(catId);
-          const el = document.getElementById(`cat-${catId}`);
-          if (el) {
-            const headerOffset = 210;
-            const elementPosition = el.getBoundingClientRect().top;
+          const anchor = document.getElementById('menu-items-anchor');
+          if (anchor) {
+            const headerOffset = 180;
+            const elementPosition = anchor.getBoundingClientRect().top;
             const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            window.scrollTo({ top: Math.max(0, offsetPosition), behavior: 'smooth' });
           }
-          setTimeout(() => {
-            isManualScrollRef.current = false;
-          }, 800);
         }}
       />
 
-      {/* 3. STICKY REALISTIC CIRCULAR FOOD CATEGORY FILTER (Scroll-Spy) */}
+      {/* 3. STICKY REALISTIC CIRCULAR FOOD CATEGORY FILTER */}
       <div className="sticky top-[96px] z-30 bg-[var(--card)]/95 backdrop-blur-md shadow-xs">
         <CategoryScrollSpyBar
           categories={categories}
           activeCategoryId={activeCategoryId}
           onSelectCategory={(id) => {
-            isManualScrollRef.current = true;
+            triggerHaptic(8);
             setActiveCategoryId(id);
             if (id === 'all') {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
-              const el = document.getElementById(`cat-${id}`);
-              if (el) {
-                const headerOffset = 210;
-                const elementPosition = el.getBoundingClientRect().top;
+              const anchor = document.getElementById('menu-items-anchor');
+              if (anchor) {
+                const headerOffset = 180;
+                const elementPosition = anchor.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                window.scrollTo({ top: Math.max(0, offsetPosition), behavior: 'smooth' });
               }
             }
-            setTimeout(() => {
-              isManualScrollRef.current = false;
-            }, 800);
           }}
           itemCounts={itemCountsByCategory}
           totalItemsCount={items.length}
@@ -863,7 +831,7 @@ export function ClientMenuContainer({
       </div>
 
       {/* 4. MAIN MENU ITEMS */}
-      <main className="px-4 py-4 flex-1">
+      <main id="menu-items-anchor" className="px-4 py-4 flex-1">
         {filteredItems.length === 0 ? (
           <div className="py-20 text-center text-[var(--muted)]">
             <div className="w-14 h-14 rounded-2xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-center mx-auto mb-3 shadow-xs">
@@ -1018,6 +986,24 @@ export function ClientMenuContainer({
                 </section>
               );
             })}
+
+            {/* Quick button to view all categories when a single category is filtered */}
+            {activeCategoryId !== 'all' && (
+              <div className="mt-4 mb-8 text-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    triggerHaptic(8);
+                    setActiveCategoryId('all');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--surface)] text-[var(--foreground)] border border-[var(--border)] font-bold text-xs hover:border-[var(--primary)] hover:text-[var(--primary)] active:scale-95 transition-all shadow-xs"
+                >
+                  <Utensils className="w-3.5 h-3.5 text-[var(--primary)]" />
+                  <span>{locale === 'am' ? 'ሁሉንም ምግቦች አሳይ' : 'Show All Categories'} ({items.length})</span>
+                </button>
+              </div>
+            )}
           </>
         )}
       </main>
