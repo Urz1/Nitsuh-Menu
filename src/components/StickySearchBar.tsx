@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Search, X } from 'lucide-react';
+import { Search, X, SlidersHorizontal } from 'lucide-react';
 import { Language, TRANSLATIONS } from '@/lib/translations';
 import { triggerHaptic } from '@/lib/utils';
 
@@ -10,6 +10,8 @@ interface StickySearchBarProps {
   onSearchChange: (q: string) => void;
   locale?: Language | string;
   placeholder?: string;
+  onOpenFilter?: () => void;
+  activeFilterCount?: number;
 }
 
 export function StickySearchBar({
@@ -17,39 +19,66 @@ export function StickySearchBar({
   onSearchChange,
   locale = 'en',
   placeholder,
+  onOpenFilter,
+  activeFilterCount = 0,
 }: StickySearchBarProps) {
   const currentLocale = (locale as Language) || 'en';
-  const t = TRANSLATIONS[currentLocale] || TRANSLATIONS.en;
   const isAm = currentLocale === 'am';
 
   const defaultPlaceholder = isAm
     ? 'ፉል፣ ጥብስ፣ ኬክ ወይም መጠጦችን ይፈልጉ...'
-    : 'Search foul, tibs, pastries, juices...';
+    : 'Search for your favorite dish...';
 
   return (
-    <div className="bg-[var(--card)]/95 backdrop-blur-md px-3.5 py-2 border-b border-[var(--border)] transition-colors">
-      <div className="max-w-4xl mx-auto relative flex items-center">
-        <Search className="absolute left-3.5 w-4 h-4 text-[var(--muted-foreground)] pointer-events-none" />
-        <input
-          type="search"
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-          placeholder={placeholder || defaultPlaceholder}
-          // Minimum 16px text on mobile (text-base) prevents iOS Safari auto-zooming
-          className="w-full h-10 pl-10 pr-9 rounded-xl bg-[var(--surface)] border border-[var(--border)] text-base sm:text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)]/70 placeholder:text-sm focus:outline-none focus:border-[var(--primary)] focus:ring-1 focus:ring-[var(--primary)] transition-all"
-          aria-label="Search menu"
-        />
-        {searchQuery && (
+    <div className="bg-transparent px-3.5 py-1.5 border-0 transition-colors">
+      <div className="max-w-4xl mx-auto flex items-center gap-2.5">
+        {/* White Pill Search Input on Cream Canvas */}
+        <div className="relative flex-1 flex items-center">
+          <Search className="absolute left-3.5 w-4 h-4 text-stone-400 pointer-events-none" />
+          <input
+            type="search"
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder={placeholder || defaultPlaceholder}
+            className="w-full h-11 pl-10 pr-9 rounded-2xl bg-white shadow-xs border border-stone-200/70 text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-red-600/30 transition-all"
+            aria-label="Search menu"
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => {
+                triggerHaptic(6);
+                onSearchChange('');
+              }}
+              className="absolute right-3 w-5 h-5 rounded-full bg-stone-100 text-stone-500 hover:text-stone-900 flex items-center justify-center transition-colors active:scale-90"
+              aria-label="Clear search"
+            >
+              <X className="w-3 h-3" />
+            </button>
+          )}
+        </div>
+
+        {/* White Rounded Square Filter Button on the Same Line */}
+        {onOpenFilter && (
           <button
             type="button"
             onClick={() => {
-              triggerHaptic(6);
-              onSearchChange('');
+              triggerHaptic(8);
+              onOpenFilter();
             }}
-            className="absolute right-3 w-5 h-5 rounded-full bg-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] flex items-center justify-center transition-colors active:scale-90"
-            aria-label="Clear search"
+            className={`w-11 h-11 rounded-2xl bg-white shadow-xs border flex items-center justify-center flex-shrink-0 transition-transform active:scale-90 relative ${
+              activeFilterCount > 0
+                ? 'border-red-600 text-red-600 ring-2 ring-red-600/20'
+                : 'border-stone-200/70 text-stone-700 hover:border-stone-400'
+            }`}
+            aria-label="Open Filters"
           >
-            <X className="w-3 h-3" />
+            <SlidersHorizontal className="w-4 h-4" />
+            {activeFilterCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-600 text-white text-[10px] font-bold flex items-center justify-center shadow-xs">
+                {activeFilterCount}
+              </span>
+            )}
           </button>
         )}
       </div>

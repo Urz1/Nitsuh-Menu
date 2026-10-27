@@ -207,21 +207,23 @@ export function HeroFoodBanner({ locale = 'en', onSelectCategory }: HeroFoodBann
 
             {/* CTA Button */}
             <div className="mt-3">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white text-slate-900 font-extrabold text-xs shadow-md hover:bg-white/95 active:scale-95 transition-transform">
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-600 text-white font-extrabold text-xs shadow-lg hover:bg-red-700 active:scale-95 transition-all border border-white/25">
                 <span>{activeSlide.cta[validLang]}</span>
-                <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                <span className="w-4 h-4 rounded-full bg-white text-red-600 flex items-center justify-center">
+                  <ArrowRight className="w-2.5 h-2.5 stroke-[3]" />
+                </span>
               </span>
             </div>
           </div>
 
           {/* Right Hero Food Showcase */}
           <div className="flex-shrink-0 relative">
-            <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_12px_28px_rgba(0,0,0,0.35)] ring-1 ring-white/20 bg-white/5 transition-transform duration-300">
+            <div className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-3xl overflow-hidden shadow-[0_16px_36px_rgba(0,0,0,0.4)] ring-2 ring-white/25 bg-white/5 transition-transform duration-300">
               <Image
                 src={activeSlide.imageUrl}
                 alt={activeSlide.title.en}
                 fill
-                sizes="(max-width: 640px) 112px, 144px"
+                sizes="(max-width: 640px) 128px, 160px"
                 className="object-cover"
                 priority
               />

@@ -1,17 +1,17 @@
-'use client';
-
 import React from 'react';
-import { Utensils, Tag, Heart, Info } from 'lucide-react';
+import { Utensils, Tag, Heart, Info, ShoppingBag } from 'lucide-react';
 import { Language } from '@/lib/translations';
 import { triggerHaptic } from '@/lib/utils';
 
-export type BottomNavTab = 'menu' | 'offers' | 'favorites' | 'info';
+export type BottomNavTab = 'menu' | 'offers' | 'orders' | 'favorites' | 'info';
 
 interface BottomNavBarProps {
   activeTab: BottomNavTab;
   onTabChange: (tab: BottomNavTab) => void;
   offersCount?: number;
   favoritesCount?: number;
+  cartCount?: number;
+  onOpenCart?: () => void;
   locale?: Language | string;
 }
 
@@ -20,93 +20,132 @@ export function BottomNavBar({
   onTabChange,
   offersCount = 0,
   favoritesCount = 0,
+  cartCount = 0,
+  onOpenCart,
   locale = 'en',
 }: BottomNavBarProps) {
   const isAm = locale === 'am';
   const isSo = locale === 'so';
 
-  const tabs: { id: BottomNavTab; label: string; icon: React.ComponentType<{ className?: string }>; badge?: number }[] = [
-    {
-      id: 'menu',
-      label: isAm ? 'ሜኑ' : isSo ? 'Liiska' : 'Menu',
-      icon: Utensils,
-    },
-    {
-      id: 'offers',
-      label: isAm ? 'ቅናሾች' : isSo ? 'Dalabyo' : 'Offers',
-      icon: Tag,
-      badge: offersCount > 0 ? offersCount : undefined,
-    },
-    {
-      id: 'favorites',
-      label: isAm ? 'ተወዳጆች' : isSo ? 'Jeceyl' : 'Saved',
-      icon: Heart,
-      badge: favoritesCount > 0 ? favoritesCount : undefined,
-    },
-    {
-      id: 'info',
-      label: isAm ? 'መረጃ' : isSo ? 'Xog' : 'Info',
-      icon: Info,
-    },
-  ];
-
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-40 bg-[var(--card)]/95 backdrop-blur-md border-t border-[var(--border)] select-none transition-colors"
+      className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-stone-200/60 shadow-[0_-4px_24px_rgba(0,0,0,0.06)] select-none transition-colors rounded-t-3xl"
       style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
       aria-label="Bottom Navigation"
     >
-      <div className="max-w-lg mx-auto h-14 sm:h-16 px-3 flex items-center justify-around">
-        {tabs.map((tab) => {
-          const isActive = activeTab === tab.id;
-          const Icon = tab.icon;
+      <div className="max-w-lg mx-auto h-16 px-4 flex items-center justify-between relative">
+        {/* 1. Menu Tab */}
+        <button
+          type="button"
+          onClick={() => {
+            triggerHaptic(8);
+            onTabChange('menu');
+          }}
+          className={`flex-1 flex flex-col items-center justify-center gap-0.5 transition-transform active:scale-95 ${
+            activeTab === 'menu' ? 'text-red-600 font-bold' : 'text-stone-500 hover:text-stone-900 font-medium'
+          }`}
+          aria-label="Menu"
+        >
+          <Utensils className={`w-5 h-5 ${activeTab === 'menu' ? 'stroke-[2.5px]' : 'stroke-[1.8px]'}`} />
+          <span className="text-[11px] tracking-tight leading-none mt-0.5">
+            {isAm ? 'ሜኑ' : isSo ? 'Liiska' : 'Menu'}
+          </span>
+        </button>
 
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => {
-                triggerHaptic(8);
-                onTabChange(tab.id);
-              }}
-              className={`relative flex-1 py-1.5 flex flex-col items-center justify-center gap-0.5 rounded-xl transition-all duration-200 active:scale-95 ${
-                isActive
-                  ? 'text-[var(--primary)] font-bold'
-                  : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] font-medium'
-              }`}
-              aria-selected={isActive}
-              aria-label={tab.label}
-            >
-              {/* Subtle active pill background */}
-              {isActive && (
-                <span
-                  className="absolute inset-x-2 -top-0.5 h-0.5 rounded-full"
-                  style={{ backgroundColor: 'var(--primary)' }}
-                />
-              )}
-
-              <div className="relative">
-                <Icon
-                  className={`w-5 h-5 transition-transform duration-200 ${
-                    isActive ? 'scale-110 stroke-[2.4px]' : 'stroke-[1.8px]'
-                  }`}
-                />
-                {tab.badge !== undefined && (
-                  <span
-                    className="absolute -top-1.5 -right-2 min-w-[16px] h-4 px-1 rounded-full text-[9px] font-bold text-white flex items-center justify-center shadow-xs"
-                    style={{ backgroundColor: 'var(--primary)' }}
-                  >
-                    {tab.badge}
-                  </span>
-                )}
-              </div>
-
-              <span className="text-[11px] tracking-tight leading-none mt-0.5">
-                {tab.label}
+        {/* 2. Offers Tab */}
+        <button
+          type="button"
+          onClick={() => {
+            triggerHaptic(8);
+            onTabChange('offers');
+          }}
+          className={`flex-1 flex flex-col items-center justify-center gap-0.5 transition-transform active:scale-95 relative ${
+            activeTab === 'offers' ? 'text-red-600 font-bold' : 'text-stone-500 hover:text-stone-900 font-medium'
+          }`}
+          aria-label="Offers"
+        >
+          <div className="relative">
+            <Tag className={`w-5 h-5 ${activeTab === 'offers' ? 'stroke-[2.5px]' : 'stroke-[1.8px]'}`} />
+            {offersCount > 0 && (
+              <span className="absolute -top-1.5 -right-2.5 min-w-[16px] h-4 px-1 rounded-full text-[9px] font-bold text-white bg-red-600 flex items-center justify-center shadow-xs">
+                {offersCount}
               </span>
-            </button>
-          );
-        })}
+            )}
+          </div>
+          <span className="text-[11px] tracking-tight leading-none mt-0.5">
+            {isAm ? 'ቅናሾች' : isSo ? 'Dalabyo' : 'Offers'}
+          </span>
+        </button>
+
+        {/* 3. Center Elevated Floating Red Cart/Orders Button (KFC App Signature Style) */}
+        <div className="flex-1 flex flex-col items-center justify-center relative">
+          <button
+            type="button"
+            onClick={() => {
+              triggerHaptic(12);
+              if (onOpenCart) {
+                onOpenCart();
+              } else {
+                onTabChange('orders');
+              }
+            }}
+            className="w-13 h-13 -mt-6 rounded-full bg-red-600 text-white flex flex-col items-center justify-center shadow-lg border-4 border-[#FAF6F0] active:scale-90 transition-transform relative cursor-pointer hover:bg-red-700"
+            aria-label="View Order / Cart"
+          >
+            <ShoppingBag className="w-5 h-5 stroke-[2.4px]" />
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-amber-400 text-stone-950 font-black text-[10px] flex items-center justify-center border-2 border-white shadow-xs animate-in zoom-in-50">
+                {cartCount}
+              </span>
+            )}
+          </button>
+          <span className="text-[10px] font-bold text-stone-700 tracking-tight leading-none mt-1">
+            {isAm ? 'ትዕዛዝ' : isSo ? 'Dalab' : 'Orders'}
+          </span>
+        </div>
+
+        {/* 4. Saved / Favorites Tab */}
+        <button
+          type="button"
+          onClick={() => {
+            triggerHaptic(8);
+            onTabChange('favorites');
+          }}
+          className={`flex-1 flex flex-col items-center justify-center gap-0.5 transition-transform active:scale-95 relative ${
+            activeTab === 'favorites' ? 'text-red-600 font-bold' : 'text-stone-500 hover:text-stone-900 font-medium'
+          }`}
+          aria-label="Saved Dishes"
+        >
+          <div className="relative">
+            <Heart className={`w-5 h-5 ${activeTab === 'favorites' ? 'fill-current text-red-600 stroke-[2px]' : 'stroke-[1.8px]'}`} />
+            {favoritesCount > 0 && (
+              <span className="absolute -top-1.5 -right-2 min-w-[16px] h-4 px-1 rounded-full text-[9px] font-bold text-white bg-red-600 flex items-center justify-center shadow-xs">
+                {favoritesCount}
+              </span>
+            )}
+          </div>
+          <span className="text-[11px] tracking-tight leading-none mt-0.5">
+            {isAm ? 'ተወዳጆች' : isSo ? 'Jeceyl' : 'Saved'}
+          </span>
+        </button>
+
+        {/* 5. Info Tab */}
+        <button
+          type="button"
+          onClick={() => {
+            triggerHaptic(8);
+            onTabChange('info');
+          }}
+          className={`flex-1 flex flex-col items-center justify-center gap-0.5 transition-transform active:scale-95 ${
+            activeTab === 'info' ? 'text-red-600 font-bold' : 'text-stone-500 hover:text-stone-900 font-medium'
+          }`}
+          aria-label="Info"
+        >
+          <Info className={`w-5 h-5 ${activeTab === 'info' ? 'stroke-[2.5px]' : 'stroke-[1.8px]'}`} />
+          <span className="text-[11px] tracking-tight leading-none mt-0.5">
+            {isAm ? 'መረጃ' : isSo ? 'Xog' : 'Info'}
+          </span>
+        </button>
       </div>
     </nav>
   );

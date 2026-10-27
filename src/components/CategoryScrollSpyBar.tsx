@@ -199,9 +199,9 @@ export function CategoryScrollSpyBar({
   }, [activeCategoryId]);
 
   return (
-    <div className="bg-[var(--card)]/95 backdrop-blur-md border-b border-[var(--border)] select-none transition-colors">
+    <div className="bg-transparent border-0 select-none transition-colors">
       {/* 1. Quick Filters Utility Row */}
-      <div className="max-w-4xl mx-auto px-3.5 pt-2 pb-1.5 flex items-center justify-between gap-2 border-b border-[var(--border)]/40">
+      <div className="max-w-4xl mx-auto px-3.5 pt-1 pb-1 flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           {/* Quick 1-tap Fasting Toggle Chip */}
           <button
@@ -210,10 +210,10 @@ export function CategoryScrollSpyBar({
               triggerHaptic(10);
               onToggleFasting();
             }}
-            className={`h-7 px-2.5 rounded-full flex items-center gap-1.5 text-xs font-bold transition-all duration-200 active:scale-95 shadow-2xs ${
+            className={`h-7 px-3 rounded-full flex items-center gap-1.5 text-xs font-bold transition-all duration-200 active:scale-95 shadow-xs ${
               isFastingActive
                 ? 'bg-emerald-600 text-white ring-2 ring-emerald-500/30'
-                : 'bg-[var(--surface)] text-[var(--foreground)] border border-[var(--border)] hover:border-emerald-500/50'
+                : 'bg-white text-stone-700 border border-stone-200/80 hover:border-emerald-500/50'
             }`}
             title={isAm ? 'የጾም ምግቦች ብቻ' : 'Fasting dishes (meat & dairy free)'}
             aria-label={isAm ? 'የጾም ምግቦች' : 'Fasting dishes'}
@@ -231,17 +231,17 @@ export function CategoryScrollSpyBar({
             triggerHaptic(8);
             onOpenFilterSheet();
           }}
-          className={`h-7 px-2.5 rounded-full flex items-center gap-1.5 text-xs font-bold transition-all active:scale-95 shadow-2xs ${
+          className={`h-7 px-3 rounded-full flex items-center gap-1.5 text-xs font-bold transition-all active:scale-95 shadow-xs ${
             activeFilterCount > 0
-              ? 'bg-[var(--primary)] text-white'
-              : 'bg-[var(--surface)] text-[var(--foreground)] border border-[var(--border)] hover:border-[var(--primary)]'
+              ? 'bg-red-600 text-white ring-2 ring-red-600/30'
+              : 'bg-white text-stone-700 border border-stone-200/80 hover:border-red-600'
           }`}
           aria-label="Open Filters"
         >
           <SlidersHorizontal className="w-3 h-3" />
           <span className="text-[11px]">{isAm ? 'ማጣሪያ' : 'Filter'}</span>
           {activeFilterCount > 0 && (
-            <span className="bg-black/25 text-white text-[10px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center">
+            <span className="bg-white/30 text-white text-[10px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center">
               {activeFilterCount}
             </span>
           )}

@@ -46,65 +46,66 @@ export function SlimHeader({
     }
   };
 
-  return (
-    <header className="bg-[var(--card)]/95 backdrop-blur-md border-b border-[var(--border)] transition-colors select-none">
-      <div className="max-w-4xl mx-auto px-3.5 py-2.5 flex items-center justify-between gap-3">
-        {/* Brand Identity: Logo + Name + Status */}
-        <div className="flex items-center gap-2.5 min-w-0 flex-1">
-          <button
-            type="button"
-            onClick={handleTapLogo}
-            title={`${restaurant.name} • Tap to scroll to top`}
-            aria-label={`${restaurant.name} logo`}
-            className={`relative w-9 h-9 rounded-xl overflow-hidden shadow-xs flex-shrink-0 cursor-pointer select-none transition-transform duration-300 hover:scale-105 active:scale-90 ${
-              isAnimating ? 'animate-logo-playful' : ''
-            }`}
-          >
-            <Image
-              src={restaurant.logo_url || '/images/brand/nitsuh-gold-squircle.svg'}
-              alt={restaurant.name}
-              width={36}
-              height={36}
-              className="w-full h-full object-cover pointer-events-none"
-              unoptimized
-            />
-            {/* Shimmer sweep */}
-            <span
-              className={`absolute inset-0 pointer-events-none bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full ${
-                isAnimating ? 'animate-logo-sheen' : ''
-              }`}
-            />
-          </button>
+  const greeting =
+    locale === 'am'
+      ? 'ሰላም፣ እንኳን ደህና መጡ! 👋'
+      : locale === 'so'
+        ? 'Ku soo dhawoow Nitsuh! 👋'
+        : 'Hello, Food Lover! 👋';
 
-          <div className="min-w-0 flex-1">
-            <h1 className="font-bold text-base leading-tight truncate text-[var(--foreground)] font-brand">
-              {restaurant.name}
-            </h1>
-            <div className="flex items-center gap-1.5 text-xs text-[var(--muted-foreground)] font-medium">
-              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_0_2px_rgba(16,185,129,0.2)]"></span>
-                <span>{restaurant.is_open ? t.openNow : t.closed}</span>
-              </span>
-              <span className="text-neutral-300 dark:text-neutral-700 select-none">•</span>
-              <span className="text-[11px] truncate">
-                {restaurant.branch_name ? restaurant.branch_name.split('—')[0].trim() : 'Cafeteria & Bakery'}
-              </span>
-            </div>
+  return (
+    <header className="bg-transparent border-0 transition-colors select-none pt-2 pb-1">
+      <div className="max-w-4xl mx-auto px-3.5 flex items-center justify-between gap-2.5">
+        {/* Left: App-Style Rounded Square Brand Icon */}
+        <button
+          type="button"
+          onClick={handleTapLogo}
+          title={`${restaurant.name} • Tap to scroll to top`}
+          aria-label={`${restaurant.name} logo`}
+          className="w-11 h-11 bg-white rounded-2xl shadow-xs border border-stone-200/70 flex items-center justify-center flex-shrink-0 cursor-pointer active:scale-90 transition-transform overflow-hidden p-1.5"
+        >
+          <Image
+            src={restaurant.logo_url || '/images/brand/nitsuh-gold-squircle.svg'}
+            alt={restaurant.name}
+            width={32}
+            height={32}
+            className="w-full h-full object-cover pointer-events-none rounded-xl"
+            unoptimized
+          />
+        </button>
+
+        {/* Center: Welcoming Persona + Brand Name + Branch */}
+        <div className="min-w-0 flex-1 text-center">
+          <p className="text-[11px] font-semibold text-stone-500 leading-none truncate">
+            {greeting}
+          </p>
+          <h1 className="font-black text-base sm:text-lg tracking-wider text-red-600 font-brand uppercase leading-tight mt-0.5 truncate">
+            {restaurant.name}
+          </h1>
+          <div className="flex items-center justify-center gap-1.5 text-[10px] text-stone-500 font-medium">
+            <span className="inline-flex items-center gap-1 font-bold text-emerald-600">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>{restaurant.is_open ? t.openNow : t.closed}</span>
+            </span>
+            <span className="text-stone-300">•</span>
+            <span className="truncate">
+              {restaurant.branch_name ? restaurant.branch_name.split('—')[0].trim() : 'Cafeteria & Bakery'}
+            </span>
           </div>
         </div>
 
-        {/* Clean Language Toggle (EN | አማ | SO) */}
-        <div className="flex items-center bg-[var(--surface)] border border-[var(--border)] rounded-full p-0.5 text-xs font-bold shadow-2xs flex-shrink-0">
+        {/* Right: Floating White Language Switcher Pill */}
+        <div className="flex items-center bg-white border border-stone-200/70 rounded-full p-0.5 text-xs font-bold shadow-xs flex-shrink-0">
           <button
             type="button"
             onClick={() => {
               triggerHaptic(8);
               onLocaleChange('en');
             }}
-            className={`px-2.5 py-1 rounded-full transition-all text-xs font-bold ${
+            className={`px-2 py-1 rounded-full transition-all text-xs font-bold ${
               locale === 'en'
-                ? 'bg-[var(--primary)] text-white shadow-2xs'
-                : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                ? 'bg-red-600 text-white shadow-2xs'
+                : 'text-stone-500 hover:text-stone-900'
             }`}
             aria-label="Switch to English"
           >
@@ -116,10 +117,10 @@ export function SlimHeader({
               triggerHaptic(8);
               onLocaleChange('am');
             }}
-            className={`px-2.5 py-1 rounded-full transition-all text-xs font-bold ${
+            className={`px-2 py-1 rounded-full transition-all text-xs font-bold ${
               locale === 'am'
-                ? 'bg-[var(--primary)] text-white shadow-2xs'
-                : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                ? 'bg-red-600 text-white shadow-2xs'
+                : 'text-stone-500 hover:text-stone-900'
             }`}
             aria-label="Switch to Amharic"
           >
@@ -131,10 +132,10 @@ export function SlimHeader({
               triggerHaptic(8);
               onLocaleChange('so');
             }}
-            className={`px-2 py-1 rounded-full transition-all text-[11px] font-bold ${
+            className={`px-1.5 py-1 rounded-full transition-all text-[11px] font-bold ${
               locale === 'so'
-                ? 'bg-[var(--primary)] text-white shadow-2xs'
-                : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                ? 'bg-red-600 text-white shadow-2xs'
+                : 'text-stone-500 hover:text-stone-900'
             }`}
             aria-label="Switch to Somali"
           >

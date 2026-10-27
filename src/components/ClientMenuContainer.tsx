@@ -732,7 +732,7 @@ export function ClientMenuContainer({
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div className="w-full max-w-lg mx-auto bg-[var(--background)] min-h-screen relative flex flex-col pb-28 md:shadow-2xl md:border md:border-[var(--border)] md:rounded-[28px] md:my-4 md:overflow-hidden transition-colors">
+    <div className="w-full max-w-lg mx-auto bg-[#FAF6F0] min-h-screen relative flex flex-col pb-28 md:shadow-2xl md:border md:border-stone-200/70 md:rounded-[36px] md:my-4 md:overflow-hidden transition-colors">
       {/* 0. PWA GRACEFUL OFFLINE BANNER */}
       {isOffline && (
         <div
@@ -749,9 +749,9 @@ export function ClientMenuContainer({
         </div>
       )}
 
-      {/* 1. UNIFIED SLIM STICKY HEADER & SEARCH SYSTEM */}
-      <div className="sticky top-0 z-40 bg-[var(--card)]/95 backdrop-blur-md shadow-xs">
-        {/* 1.1 Slim Header: Logo, Name, Open/Closed status, and Segmented Language Toggle (EN | አማ | SO) */}
+      {/* 1. UNIFIED SLIM STICKY HEADER & INLINE SEARCH SYSTEM */}
+      <div className="sticky top-0 z-40 bg-[#FAF6F0]/95 backdrop-blur-md">
+        {/* 1.1 Slim Header: App-like persona with welcoming greeting */}
         <SlimHeader
           restaurant={restaurant}
           locale={locale}
@@ -768,11 +768,15 @@ export function ClientMenuContainer({
           onLogoTap={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         />
 
-        {/* 1.2 Sticky Search Bar: Persistent, prominent 16px search input */}
+        {/* 1.2 Sticky Search & Filter: Inline search pill + filter button matching reference */}
         <StickySearchBar
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           locale={locale}
+          onOpenFilter={() => setIsFilterSheetOpen(true)}
+          activeFilterCount={
+            (activeFilter !== 'all' ? 1 : 0) + (sortOrder !== 'featured' ? 1 : 0)
+          }
         />
       </div>
 
@@ -792,8 +796,8 @@ export function ClientMenuContainer({
         }}
       />
 
-      {/* 3. STICKY REALISTIC CIRCULAR FOOD CATEGORY FILTER */}
-      <div className="sticky top-[96px] z-30 bg-[var(--card)]/95 backdrop-blur-md shadow-xs">
+      {/* 3. STICKY REALISTIC CIRCULAR FOOD CATEGORY FILTER (Unified Cream Canvas) */}
+      <div className="sticky top-[108px] z-30 bg-[#FAF6F0]/95 backdrop-blur-md">
         <CategoryScrollSpyBar
           categories={categories}
           items={items}
@@ -1366,6 +1370,8 @@ export function ClientMenuContainer({
         onTabChange={handleTabChange}
         offersCount={activeOffers.length}
         favoritesCount={favorites.size}
+        cartCount={totalCartCount}
+        onOpenCart={() => setIsOrderSheetOpen(true)}
         locale={locale}
       />
 
