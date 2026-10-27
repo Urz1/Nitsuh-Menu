@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { ArrowRight, Sparkles, X } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { triggerHaptic } from '@/lib/utils';
 import { Language } from '@/lib/translations';
 
@@ -109,7 +109,6 @@ interface HeroFoodBannerProps {
 
 export function HeroFoodBanner({ locale = 'en', onSelectCategory }: HeroFoodBannerProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [isDismissed, setIsDismissed] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
@@ -117,22 +116,17 @@ export function HeroFoodBanner({ locale = 'en', onSelectCategory }: HeroFoodBann
   const lang = (locale as 'en' | 'am' | 'so') || 'en';
   const validLang = lang === 'am' || lang === 'so' ? lang : 'en';
 
-  // Check session storage on mount
+  // Clear any legacy dismissed flag from previous sessions so banner always displays
   useEffect(() => {
     try {
-      const dismissed = sessionStorage.getItem('nitsuh_hero_banner_dismissed');
-      if (dismissed === 'true') {
-        setIsDismissed(true);
-      }
+      sessionStorage.removeItem('nitsuh_hero_banner_dismissed');
     } catch {
-      // storage unavailable
+      // ignore
     }
   }, []);
 
   // Auto-advance slides every 5.5s
   useEffect(() => {
-    if (isDismissed) return;
-
     const startTimer = () => {
       autoPlayRef.current = setInterval(() => {
         setCurrentIdx((prev) => (prev + 1) % HERO_SLIDES.length);
@@ -143,9 +137,7 @@ export function HeroFoodBanner({ locale = 'en', onSelectCategory }: HeroFoodBann
     return () => {
       if (autoPlayRef.current) clearInterval(autoPlayRef.current);
     };
-  }, [isDismissed]);
-
-  if (isDismissed) return null;
+  }, []);
 
   const activeSlide = HERO_SLIDES[currentIdx];
 
@@ -153,17 +145,6 @@ export function HeroFoodBanner({ locale = 'en', onSelectCategory }: HeroFoodBann
     triggerHaptic(12);
     if (onSelectCategory && activeSlide.targetCategoryId) {
       onSelectCategory(activeSlide.targetCategoryId);
-    }
-  };
-
-  const handleDismiss = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    triggerHaptic(8);
-    setIsDismissed(true);
-    try {
-      sessionStorage.setItem('nitsuh_hero_banner_dismissed', 'true');
-    } catch {
-      // storage unavailable
     }
   };
 
@@ -204,17 +185,6 @@ export function HeroFoodBanner({ locale = 'en', onSelectCategory }: HeroFoodBann
         {/* Subtle decorative glow & circles */}
         <div className="absolute -top-16 -right-16 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none" />
         <div className="absolute -bottom-16 -left-16 w-40 h-40 bg-black/20 rounded-full blur-xl pointer-events-none" />
-
-        {/* Dismiss Button */}
-        <button
-          type="button"
-          onClick={handleDismiss}
-          className="absolute top-2.5 right-2.5 z-20 w-6 h-6 rounded-full bg-black/30 hover:bg-black/50 text-white/80 hover:text-white flex items-center justify-center backdrop-blur-xs transition-colors"
-          title="Dismiss banner"
-          aria-label="Dismiss banner"
-        >
-          <X className="w-3.5 h-3.5" />
-        </button>
 
         <div className="relative z-10 flex items-center justify-between gap-3">
           {/* Left Text Column */}
