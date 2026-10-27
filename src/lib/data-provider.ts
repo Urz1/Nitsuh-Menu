@@ -104,6 +104,7 @@ export const MOCK_CATEGORIES_NITSUH: Category[] = [
     "name": "Soft Cake",
     "name_am": "ለስላሳ ኬክ",
     "icon": "🍰",
+    "image_url": "/images/dishes/opera-cake-5.jpg",
     "description": "Freshly baked artisanal cakes, pastries, tortas, and sweet confections.",
     "sort_order": 1,
     "is_active": true
@@ -114,6 +115,7 @@ export const MOCK_CATEGORIES_NITSUH: Category[] = [
     "name": "Bread",
     "name_am": "ዳቦ",
     "icon": "🥖",
+    "image_url": "/images/dishes/gebis-baget-26.jpg",
     "description": "Oven-fresh artisanal breads, baguettes, and traditional bakery loaves.",
     "sort_order": 2,
     "is_active": true
@@ -124,6 +126,7 @@ export const MOCK_CATEGORIES_NITSUH: Category[] = [
     "name": "Berak Fast",
     "name_am": "ቁርስ",
     "icon": "🍳",
+    "image_url": "/images/dishes/chechebisa-51.jpg",
     "description": "Traditional morning platters, fetira, ful, and hearty breakfast combos.",
     "sort_order": 3,
     "is_active": true
@@ -134,6 +137,7 @@ export const MOCK_CATEGORIES_NITSUH: Category[] = [
     "name": "Burgers",
     "name_am": "በርገር",
     "icon": "🍔",
+    "image_url": "/images/dishes/special-burger.jpg",
     "description": "Juicy handcrafted patties, melted cheese, and toasted brioche buns.",
     "sort_order": 4,
     "is_active": true
@@ -144,6 +148,7 @@ export const MOCK_CATEGORIES_NITSUH: Category[] = [
     "name": "Pizzas",
     "name_am": "ፒዛ",
     "icon": "🍕",
+    "image_url": "/images/dishes/woodfired-pizza.jpg",
     "description": "Wood-fired sourdough crust baked with mozzarella and fresh toppings.",
     "sort_order": 5,
     "is_active": true
@@ -154,6 +159,7 @@ export const MOCK_CATEGORIES_NITSUH: Category[] = [
     "name": "Snack Menu",
     "name_am": "ስናክ",
     "icon": "🍟",
+    "image_url": "/images/dishes/fried-chicken-wings-70.jpg",
     "description": "Crispy fries, golden spring rolls, wings, and chicken tenders.",
     "sort_order": 6,
     "is_active": true
@@ -164,6 +170,7 @@ export const MOCK_CATEGORIES_NITSUH: Category[] = [
     "name": "Hot Beverage (Nitsuh Cafe)",
     "name_am": "ትኩስ መጠጦች",
     "icon": "☕",
+    "image_url": "/images/dishes/macchiato-77.jpg",
     "description": "Single-origin Ethiopian coffee, rich macchiato, and aromatic teas.",
     "sort_order": 7,
     "is_active": true
@@ -174,6 +181,7 @@ export const MOCK_CATEGORIES_NITSUH: Category[] = [
     "name": "Juice",
     "name_am": "ጭማቂ",
     "icon": "🥤",
+    "image_url": "/images/dishes/fresh-mango-juice.jpg",
     "description": "100% freshly pressed tropical fruits, creamy avocados, and thick shakes.",
     "sort_order": 8,
     "is_active": true
@@ -184,6 +192,7 @@ export const MOCK_CATEGORIES_NITSUH: Category[] = [
     "name": "Cold Drinks",
     "name_am": "ቀዝቃዛ መጠጦች",
     "icon": "🧊",
+    "image_url": "/images/dishes/ice-coffee-111.jpg",
     "description": "Chilled coffees, refreshing mojitos, natural mineral water, and sodas.",
     "sort_order": 9,
     "is_active": true
@@ -194,6 +203,7 @@ export const MOCK_CATEGORIES_NITSUH: Category[] = [
     "name": "Lunch and Dinner",
     "name_am": "ምሳ እና እራት",
     "icon": "🥘",
+    "image_url": "/images/dishes/1-2-roasted-chicken-141.jpg",
     "description": "Sizzling lamb and beef tibs, slow-simmered wots, aromatic rice, and pasta.",
     "sort_order": 10,
     "is_active": true
@@ -204,6 +214,7 @@ export const MOCK_CATEGORIES_NITSUH: Category[] = [
     "name": "Mendi",
     "name_am": "መንዲ",
     "icon": "🍖",
+    "image_url": "/images/dishes/special-mendi.jpg",
     "description": "Slow-cooked fragrant spiced rice served with tender roasted meats.",
     "sort_order": 11,
     "is_active": true
@@ -214,6 +225,7 @@ export const MOCK_CATEGORIES_NITSUH: Category[] = [
     "name": "Half Half",
     "name_am": "ግማሽ በግማሽ",
     "icon": "🍲",
+    "image_url": "/images/dishes/keywot-and-fitfit-143.jpg",
     "description": "Two hearty signature dishes combined side-by-side on fresh injera.",
     "sort_order": 12,
     "is_active": true
@@ -224,6 +236,7 @@ export const MOCK_CATEGORIES_NITSUH: Category[] = [
     "name": "Wraps",
     "name_am": "ሻዋርማ እና ሳንድዊች",
     "icon": "🌯",
+    "image_url": "/images/dishes/chicken-shewarma-148.jpg",
     "description": "Warm pita wraps and toasted sandwiches loaded with fillings and sauce.",
     "sort_order": 13,
     "is_active": true
@@ -234,6 +247,7 @@ export const MOCK_CATEGORIES_NITSUH: Category[] = [
     "name": "Fasting Lunch",
     "name_am": "የፆም ምግብ",
     "icon": "🥬",
+    "image_url": "/images/dishes/fasting-agelegil-151.jpg",
     "description": "100% plant-based Ethiopian vegan specialties, Beyaynetu, and fresh salads.",
     "sort_order": 14,
     "is_active": true
@@ -244,6 +258,7 @@ export const MOCK_CATEGORIES_NITSUH: Category[] = [
     "name": "Takeaway & Extras",
     "name_am": "ተጨማሪዎች",
     "icon": "📦",
+    "image_url": "/images/dishes/special-burger.jpg",
     "description": "Packaging, takeaway boxes, and extra gourmet toppings.",
     "sort_order": 15,
     "is_active": true
@@ -4728,6 +4743,7 @@ export async function saveCategory(categoryData: Partial<Category>): Promise<Cat
       name_so: categoryData.name_so,
       name_es: categoryData.name_es,
       icon: categoryData.icon || '🍽️',
+      image_url: categoryData.image_url,
       description: categoryData.description || '',
       description_am: categoryData.description_am,
       description_so: categoryData.description_so,
@@ -4759,6 +4775,7 @@ export async function saveCategory(categoryData: Partial<Category>): Promise<Cat
           name_so: savedCategory.name_so,
           name_es: savedCategory.name_es,
           icon: savedCategory.icon,
+          image_url: savedCategory.image_url,
           description: savedCategory.description || '',
           description_am: savedCategory.description_am,
           description_so: savedCategory.description_so,

@@ -649,10 +649,10 @@ async function seed() {
 
   let catSort = 10;
   for (const cat of menuCategories) {
-    const catId = `cat_${cleanName(cat.name).slice(0, 15)}_${catSort}`;
+    const firstDishImage = cat.items.map((i) => resolveImageUrl(i.name)).find(Boolean) || null;
     await sql`
-      INSERT INTO categories (id, restaurant_id, name, name_am, icon, sort_order, is_active)
-      VALUES (${catId}, ${restaurantId}, ${cat.name}, ${cat.name_am || null}, ${cat.icon || 'UtensilsCrossed'}, ${catSort}, true)
+      INSERT INTO categories (id, restaurant_id, name, name_am, icon, image_url, sort_order, is_active)
+      VALUES (${catId}, ${restaurantId}, ${cat.name}, ${cat.name_am || null}, ${cat.icon || 'UtensilsCrossed'}, ${firstDishImage}, ${catSort}, true)
     `;
     console.log(`\nCreated Category [${catSort}]: ${cat.name}`);
 

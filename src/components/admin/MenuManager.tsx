@@ -117,6 +117,7 @@ export function MenuManager({
   const [categoryToEdit, setCategoryToEdit] = useState<Partial<Category> | null>(null);
   const [categoryToDelete, setCategoryToDelete] = useState<Category | null>(null);
   const [isSavingCategory, setIsSavingCategory] = useState(false);
+  const categoryModalBodyRef = useRef<HTMLDivElement>(null);
 
   // Inline Quick Category Creator in Dish Modal
   const [isInlineCategoryCreatorOpen, setIsInlineCategoryCreatorOpen] = useState(false);
@@ -362,6 +363,7 @@ export function MenuManager({
         name_am: categoryToEdit.name_am?.trim() || undefined,
         description: categoryToEdit.description?.trim() || '',
         icon: categoryToEdit.icon || '🍽️',
+        image_url: categoryToEdit.image_url?.trim() || undefined,
         sort_order: categoryToEdit.sort_order ?? (categories.length + 1),
         is_active: categoryToEdit.is_active ?? true,
       });
@@ -1798,7 +1800,7 @@ export function MenuManager({
             </div>
 
             {/* Modal Body */}
-            <div className="p-6 overflow-y-auto space-y-5 flex-1">
+            <div ref={categoryModalBodyRef} className="p-6 overflow-y-auto space-y-5 flex-1">
               {/* Form to Add / Edit Category */}
               {isCategoryFormOpen ? (
                 <div
@@ -1911,6 +1913,147 @@ export function MenuManager({
                     />
                   </div>
 
+                  {/* Category Image (Cover / Realistic Avatar) */}
+                  <div className="space-y-2 pt-2 border-t border-white/10">
+                    <div className="flex items-center justify-between">
+                      <label className="block text-xs font-semibold text-neutral-300">
+                        Category Photo (Cover / Avatar on Digital Menu)
+                      </label>
+                      {categoryToEdit?.image_url && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setCategoryToEdit({ ...categoryToEdit, image_url: '' })
+                          }
+                          className="text-[11px] text-rose-400 hover:text-rose-300 flex items-center gap-1 cursor-pointer"
+                        >
+                          <X className="w-3 h-3" />
+                          <span>Remove</span>
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Preview current category image if present */}
+                    {categoryToEdit?.image_url ? (
+                      <div className="relative w-full h-28 rounded-xl overflow-hidden border border-white/10 bg-neutral-900 group">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={categoryToEdit.image_url}
+                          alt="Category Cover Preview"
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2.5">
+                          <span className="text-[11px] font-medium text-white/90">
+                            Active category avatar on customer digital menu
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-200/90 leading-relaxed">
+                        💡 <strong>Auto Dish Photo:</strong> If no custom image is uploaded, the digital menu dynamically displays the first dish photo from this category.
+                      </div>
+                    )}
+
+                    {/* Camera & Gallery Upload */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <label className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 text-xs font-bold cursor-pointer transition-colors active:scale-95">
+                        <Camera className="w-3.5 h-3.5" />
+                        <span>Take Photo</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          capture="environment"
+                          className="hidden"
+                          onChange={async (e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              onShowToast('Optimizing & uploading category photo...', 'info');
+                              const compressed = await compressImage(file);
+                              if (compressed) {
+                                const finalUrl = await uploadImageToCloudinary(compressed);
+                                triggerHaptic(12);
+                                setCategoryToEdit((prev) => (prev ? { ...prev, image_url: finalUrl } : null));
+                                onShowToast('Category photo attached (click Save to publish)', 'success');
+                              }
+                            }
+                          }}
+                        />
+                      </label>
+
+                      <label className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 border border-white/10 text-xs font-bold cursor-pointer transition-colors active:scale-95">
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>From Gallery</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={async (e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              onShowToast('Optimizing & uploading category photo...', 'info');
+                              const compressed = await compressImage(file);
+                              if (compressed) {
+                                const finalUrl = await uploadImageToCloudinary(compressed);
+                                triggerHaptic(12);
+                                setCategoryToEdit((prev) => (prev ? { ...prev, image_url: finalUrl } : null));
+                                onShowToast('Category photo attached (click Save to publish)', 'success');
+                              }
+                            }
+                          }}
+                        />
+                      </label>
+                    </div>
+
+                    {/* Image URL input */}
+                    <input
+                      type="text"
+                      value={categoryToEdit?.image_url || ''}
+                      onChange={(e) =>
+                        setCategoryToEdit((prev) => (prev ? { ...prev, image_url: e.target.value } : null))
+                      }
+                      placeholder="Or paste image URL (https://... or /images/dishes/...)"
+                      className="w-full px-3 py-2 bg-[#12141C] border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500 font-mono"
+                    />
+
+                    {/* Quick-Pick from Dishes in this category */}
+                    {categoryToEdit?.id && menuItems.filter((i) => i.category_id === categoryToEdit.id && i.image_url).length > 0 && (
+                      <div className="pt-1.5">
+                        <p className="text-[11px] font-semibold text-neutral-400 mb-1.5">
+                          Or 1-tap select from existing dishes in this category:
+                        </p>
+                        <div className="flex items-center gap-2 overflow-x-auto pb-1 max-w-full no-scrollbar">
+                          {menuItems
+                            .filter((i) => i.category_id === categoryToEdit.id && i.image_url)
+                            .slice(0, 10)
+                            .map((dish) => (
+                              <button
+                                key={dish.id}
+                                type="button"
+                                onClick={() => {
+                                  triggerHaptic(8);
+                                  setCategoryToEdit((prev) => (prev ? { ...prev, image_url: dish.image_url } : null));
+                                  onShowToast(`Selected "${dish.name}" photo`, 'info');
+                                }}
+                                className={`flex-shrink-0 relative w-12 h-12 rounded-lg overflow-hidden border transition-all cursor-pointer ${
+                                  categoryToEdit?.image_url === dish.image_url
+                                    ? 'border-amber-500 ring-2 ring-amber-500/50 scale-105'
+                                    : 'border-white/10 hover:border-white/30 opacity-70 hover:opacity-100'
+                                }`}
+                                title={`Use "${dish.name}" photo`}
+                              >
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                  src={dish.image_url}
+                                  alt={dish.name}
+                                  className="w-full h-full object-cover"
+                                />
+                              </button>
+                            ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
                   <div className="flex items-center justify-between pt-2">
                     <label className="flex items-center gap-2 cursor-pointer text-xs text-neutral-300">
                       <input
@@ -1961,11 +2104,13 @@ export function MenuManager({
                         name: '',
                         name_am: '',
                         icon: '🍽️',
+                        image_url: '',
                         description: '',
                         is_active: true,
                         sort_order: categories.length + 1,
                       });
                       setIsCategoryFormOpen(true);
+                      categoryModalBodyRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                     className="px-3.5 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold transition-colors flex items-center gap-1.5 shadow"
                   >
@@ -2055,9 +2200,23 @@ export function MenuManager({
                           </button>
                         </div>
 
-                        {/* Category Icon */}
-                        <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg shrink-0">
-                          {c.icon}
+                        {/* Category Icon & Realistic Image Avatar */}
+                        <div className="relative w-11 h-11 rounded-xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                          {c.image_url ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={c.image_url}
+                              alt={c.name}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <span className="text-lg">{c.icon || '🍽️'}</span>
+                          )}
+                          {c.image_url && (
+                            <span className="absolute bottom-0 right-0 text-[10px] bg-black/75 px-1 py-0.5 rounded-tl font-mono leading-none">
+                              {c.icon || '🍽️'}
+                            </span>
+                          )}
                         </div>
 
                         {/* Category Details */}
@@ -2089,6 +2248,7 @@ export function MenuManager({
                           onClick={() => {
                             setCategoryToEdit(c);
                             setIsCategoryFormOpen(true);
+                            categoryModalBodyRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
                           data-testid={`edit-category-btn-${c.id}`}
                           className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-neutral-300 hover:text-white transition-colors"

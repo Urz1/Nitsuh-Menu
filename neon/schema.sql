@@ -68,6 +68,7 @@ CREATE TABLE IF NOT EXISTS public.categories (
     name_so VARCHAR(100),
     name_es VARCHAR(100),
     icon VARCHAR(16) DEFAULT '🍽️',
+    image_url TEXT,
     description TEXT,
     description_am TEXT,
     description_so TEXT,

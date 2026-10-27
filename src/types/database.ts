@@ -103,6 +103,7 @@ export interface Category {
   name_so?: string;
   name_es?: string;
   icon: string;
+  image_url?: string;
   description: string;
   description_am?: string;
   description_so?: string;

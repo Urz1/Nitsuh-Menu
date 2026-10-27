@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { Category } from '@/types/database';
+import { Category, MenuItem } from '@/types/database';
 import { DietaryFilter } from '@/types/menu';
 import { Language, CATEGORY_TRANSLATIONS, TRANSLATIONS } from '@/lib/translations';
 import { triggerHaptic } from '@/lib/utils';
@@ -10,6 +10,7 @@ import { SlidersHorizontal, Leaf, Check } from 'lucide-react';
 
 interface CategoryScrollSpyBarProps {
   categories: Category[];
+  items?: MenuItem[];
   activeCategoryId: string;
   onSelectCategory: (id: string) => void;
   itemCounts?: Record<string, number>;
@@ -21,41 +22,134 @@ interface CategoryScrollSpyBarProps {
   locale?: Language | string;
 }
 
-// Realistic dish image mapping for every category
-const CATEGORY_IMAGE_MAP: Record<string, string> = {
-  all: '/images/dishes/roasted-chicken.jpg',
-  'cat-burgers': '/images/dishes/special-burger.jpg',
-  'cat-pizzas': '/images/dishes/woodfired-pizza.jpg',
-  'cat-breakfast': '/images/dishes/chechebisa-51.jpg',
-  'cat-soft-cake': '/images/dishes/opera-cake-5.jpg',
-  'cat-bread': '/images/dishes/gebis-baget-26.jpg',
-  'cat-snack-menu': '/images/dishes/fried-chicken-wings-70.jpg',
-  'cat-hot-beverage': '/images/dishes/macchiato-77.jpg',
-  'cat-juice': '/images/dishes/fresh-mango-juice.jpg',
-  'cat-cold-drinks': '/images/dishes/ice-coffee-111.jpg',
-  'cat-lunch-dinner': '/images/dishes/1-2-roasted-chicken-141.jpg',
-  'cat-mendi': '/images/dishes/special-mendi.jpg',
-  'cat-half-half': '/images/dishes/keywot-and-fitfit-143.jpg',
-  'cat-wraps': '/images/dishes/chicken-shewarma-148.jpg',
-  'cat-fasting-lunch': '/images/dishes/fasting-agelegil-151.jpg',
-  fasting: '/images/dishes/fasting-agelegil-151.jpg',
-};
+/**
+ * Dynamically resolves category cover image:
+ * 1. Owner's explicit category image (from database / admin console)
+ * 2. Dish photo lookup: finds the first dish in this exact category with an image
+ * 3. Smart culinary keyword semantic fallback (never a burger unless category is burgers!)
+ * 4. General culinary fallback: authentic banquet feast dish
+ */
+function getCategoryPhoto(cat: Category, items: MenuItem[] = []): string {
+  // 1. Owner-controlled explicit image (highest precedence)
+  if (cat.image_url && cat.image_url.trim()) {
+    return cat.image_url;
+  }
 
-function getCategoryPhoto(catId: string, name?: string): string {
-  if (CATEGORY_IMAGE_MAP[catId]) return CATEGORY_IMAGE_MAP[catId];
-  const lower = (name || '').toLowerCase();
-  if (lower.includes('burger')) return '/images/dishes/special-burger.jpg';
-  if (lower.includes('pizza')) return '/images/dishes/woodfired-pizza.jpg';
-  if (lower.includes('cake') || lower.includes('pastry')) return '/images/dishes/opera-cake-5.jpg';
-  if (lower.includes('bread') || lower.includes('dabo')) return '/images/dishes/gebis-baget-26.jpg';
-  if (lower.includes('snack') || lower.includes('wing')) return '/images/dishes/fried-chicken-wings-70.jpg';
-  if (lower.includes('breakfast') || lower.includes('qurs')) return '/images/dishes/chechebisa-51.jpg';
-  if (lower.includes('coffee') || lower.includes('beverage') || lower.includes('tea')) return '/images/dishes/macchiato-77.jpg';
-  if (lower.includes('juice') || lower.includes('shake')) return '/images/dishes/fresh-mango-juice.jpg';
-  if (lower.includes('mendi')) return '/images/dishes/special-mendi.jpg';
-  if (lower.includes('fasting') || lower.includes('tsom')) return '/images/dishes/fasting-agelegil-151.jpg';
-  if (lower.includes('wrap') || lower.includes('shawarma')) return '/images/dishes/chicken-shewarma-148.jpg';
-  return '/images/dishes/special-burger.jpg';
+  // 2. Dynamic lookup: find first dish belonging to this category with an image
+  const categoryDishes = items.filter(
+    (i) => i.category_id === cat.id && i.image_url && i.image_url.trim()
+  );
+  const activeDishWithImage = categoryDishes.find((i) => i.is_available !== false);
+  if (activeDishWithImage?.image_url) {
+    return activeDishWithImage.image_url;
+  }
+  if (categoryDishes[0]?.image_url) {
+    return categoryDishes[0].image_url;
+  }
+
+  // 3. Smart semantic culinary match based on category name & translations
+  const combined = `${cat.name || ''} ${cat.name_am || ''} ${cat.id || ''}`.toLowerCase();
+
+  // Burgers ONLY if explicitly burgers
+  if (combined.includes('burger') || combined.includes('በርገር')) {
+    return '/images/dishes/special-burger.jpg';
+  }
+  // Pizzas
+  if (combined.includes('pizza') || combined.includes('ፒዛ')) {
+    return '/images/dishes/woodfired-pizza.jpg';
+  }
+  // Hot beverages, Coffee, Tea, Latte, Espresso
+  if (
+    combined.includes('hot') ||
+    combined.includes('coffee') ||
+    combined.includes('buna') ||
+    combined.includes('macchiato') ||
+    combined.includes('tea') ||
+    combined.includes('beverage') ||
+    combined.includes('latte') ||
+    combined.includes('cappuccino') ||
+    combined.includes('espresso') ||
+    combined.includes('ትኩስ') ||
+    combined.includes('ቡና')
+  ) {
+    return '/images/dishes/macchiato-77.jpg';
+  }
+  // Cold drinks, Iced drinks, Juices, Smoothies
+  if (
+    combined.includes('ice') ||
+    combined.includes('iced') ||
+    combined.includes('cold') ||
+    combined.includes('juice') ||
+    combined.includes('shake') ||
+    combined.includes('smoothie') ||
+    combined.includes('drink') ||
+    combined.includes('ቀዝቃዛ') ||
+    combined.includes('ጭማቂ')
+  ) {
+    return '/images/dishes/fresh-mango-juice.jpg';
+  }
+  // Desserts, Cakes, Pastries, Sweets
+  if (
+    combined.includes('dessert') ||
+    combined.includes('cake') ||
+    combined.includes('pastry') ||
+    combined.includes('torta') ||
+    combined.includes('croissant') ||
+    combined.includes('sweet') ||
+    combined.includes('ጣፋጭ') ||
+    combined.includes('ኬክ')
+  ) {
+    return '/images/dishes/opera-cake-5.jpg';
+  }
+  // Breads & Bakery
+  if (combined.includes('bread') || combined.includes('baget') || combined.includes('dabo') || combined.includes('ዳቦ')) {
+    return '/images/dishes/gebis-baget-26.jpg';
+  }
+  // Breakfast
+  if (
+    combined.includes('breakfast') ||
+    combined.includes('berak') ||
+    combined.includes('qurs') ||
+    combined.includes('ቁርስ') ||
+    combined.includes('ful') ||
+    combined.includes('chechebisa') ||
+    combined.includes('egg') ||
+    combined.includes('omelet')
+  ) {
+    return '/images/dishes/chechebisa-51.jpg';
+  }
+  // Snacks & Wings
+  if (combined.includes('snack') || combined.includes('wing') || combined.includes('fries') || combined.includes('ስናክ')) {
+    return '/images/dishes/fried-chicken-wings-70.jpg';
+  }
+  // Mendi
+  if (combined.includes('mendi') || combined.includes('መንዲ')) {
+    return '/images/dishes/special-mendi.jpg';
+  }
+  // Fasting
+  if (combined.includes('fasting') || combined.includes('tsom') || combined.includes('የፆም') || combined.includes('vegan')) {
+    return '/images/dishes/fasting-agelegil-151.jpg';
+  }
+  // Wraps & Shawarma
+  if (combined.includes('wrap') || combined.includes('shawarma') || combined.includes('sandwich') || combined.includes('roll') || combined.includes('ሻዋርማ')) {
+    return '/images/dishes/chicken-shewarma-148.jpg';
+  }
+  // Lunch, Dinner, Tibs, Mains
+  if (
+    combined.includes('lunch') ||
+    combined.includes('dinner') ||
+    combined.includes('tibs') ||
+    combined.includes('wot') ||
+    combined.includes('fitfit') ||
+    combined.includes('half') ||
+    combined.includes('ምሳ') ||
+    combined.includes('እራት')
+  ) {
+    return '/images/dishes/1-2-roasted-chicken-141.jpg';
+  }
+
+  // 4. Default authentic culinary dish (roasted chicken feast platter, never a burger)
+  return '/images/dishes/roasted-chicken.jpg';
 }
 
 function formatCategoryLabel(cat: Category, locale: string): string {
@@ -79,6 +173,7 @@ function formatCategoryLabel(cat: Category, locale: string): string {
 
 export function CategoryScrollSpyBar({
   categories,
+  items = [],
   activeCategoryId,
   onSelectCategory,
   itemCounts = {},
@@ -211,7 +306,7 @@ export function CategoryScrollSpyBar({
           {categories.map((cat) => {
             const isActive = activeCategoryId === cat.id;
             const displayName = formatCategoryLabel(cat, currentLocale);
-            const photoUrl = getCategoryPhoto(cat.id, cat.name);
+            const photoUrl = getCategoryPhoto(cat, items);
 
             return (
               <button

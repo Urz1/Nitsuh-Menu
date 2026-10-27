@@ -796,6 +796,7 @@ export function ClientMenuContainer({
       <div className="sticky top-[96px] z-30 bg-[var(--card)]/95 backdrop-blur-md shadow-xs">
         <CategoryScrollSpyBar
           categories={categories}
+          items={items}
           activeCategoryId={activeCategoryId}
           onSelectCategory={(id) => {
             triggerHaptic(8);
