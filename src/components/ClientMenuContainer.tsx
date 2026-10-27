@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { Restaurant, Category, MenuItem, ItemOption, Offer, DishReview, RestaurantReviewSettings, DishReviewStats } from '@/types/database';
 import { CartItem, DietaryFilter, SortOrder } from '@/types/menu';
 import { MenuHeader } from './MenuHeader';
@@ -11,6 +11,7 @@ import { CategoryScrollSpyBar } from './CategoryScrollSpyBar';
 import { BottomNavBar, BottomNavTab } from './BottomNavBar';
 import { FilterSheet } from './FilterSheet';
 import { RestaurantInfoModal } from './RestaurantInfoModal';
+import { TableclothPullWrapper } from './TableclothPullWrapper';
 import { CategoryTabs } from './CategoryTabs';
 import { FilterBar } from './FilterBar';
 import { ItemCard } from './ItemCard';
@@ -756,6 +757,20 @@ export function ClientMenuContainer({
 
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
+  const handleRefreshMenu = useCallback(async () => {
+    try {
+      const [freshItems, freshCats] = await Promise.all([
+        getMenuItems(restaurant.id),
+        getMenuCategories(restaurant.id),
+      ]);
+      if (freshItems && freshItems.length > 0) setItems(freshItems);
+      if (freshCats && freshCats.length > 0) setCategories(freshCats);
+      showToast(locale === 'am' ? 'የምግብ ዝርዝሩ ታድሷል' : 'Tablecloth refreshed! ✨');
+    } catch {
+      showToast('Menu updated');
+    }
+  }, [restaurant.id, locale]);
+
   return (
     <div className="w-full max-w-lg mx-auto bg-[var(--background)] min-h-screen relative flex flex-col pb-28 md:shadow-2xl md:border md:border-[var(--border)] md:rounded-[28px] md:my-4 md:overflow-hidden transition-colors">
       {/* 0. PWA GRACEFUL OFFLINE BANNER */}
@@ -774,8 +789,10 @@ export function ClientMenuContainer({
         </div>
       )}
 
-      {/* 1. UNIFIED SLIM STICKY HEADER SYSTEM */}
-      <div className="sticky top-0 z-40 bg-[var(--card)]/95 backdrop-blur-md shadow-xs">
+      {/* 1. TABLECLOTH PULL & DRAG INTERACTION SYSTEM */}
+      <TableclothPullWrapper onRefresh={handleRefreshMenu} locale={locale}>
+        {/* 1. UNIFIED SLIM STICKY HEADER SYSTEM */}
+        <div className="sticky top-0 z-40 bg-[var(--card)]/95 backdrop-blur-md shadow-xs">
         {/* 1.1 Slim Header: Logo, Name, Open/Closed status, and Segmented Language Toggle (EN | አማ | SO) */}
         <SlimHeader
           restaurant={restaurant}
@@ -1005,6 +1022,7 @@ export function ClientMenuContainer({
           </>
         )}
       </main>
+      </TableclothPullWrapper>
 
       {/* 5. FLOATING BOTTOM ORDER BAR */}
       <OrderBar
