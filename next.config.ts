@@ -36,7 +36,12 @@ const nextConfig: NextConfig = {
           '**/scratch/**',
           '**/test-results/**',
           '**/supabase/**',
+          '**/Dishes Pictures/**',
+          '**/Nitsuh Foods (5)/**',
+          '**/.next/**',
+          '**/public/images/**',
         ],
+        poll: false,
       };
     }
     return config;

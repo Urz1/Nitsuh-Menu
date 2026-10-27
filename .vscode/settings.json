@@ -1,0 +1,19 @@
+{
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/.next/**": true,
+    "**/Dishes Pictures/**": true,
+    "**/Nitsuh Foods (5)/**": true,
+    "**/test-results/**": true,
+    "**/scratch/**": true,
+    "**/legacy/**": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/Dishes Pictures": true,
+    "**/Nitsuh Foods (5)": true
+  }
+}
