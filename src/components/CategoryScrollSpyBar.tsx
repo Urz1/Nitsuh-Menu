@@ -211,7 +211,7 @@ export function CategoryScrollSpyBar({
           className={`h-7 px-3 rounded-full flex items-center gap-1.5 text-xs font-bold transition-all duration-200 active:scale-95 shadow-xs ${
             isFastingActive
               ? 'bg-emerald-600 text-white ring-2 ring-emerald-500/30'
-              : 'bg-white text-stone-700 border border-stone-200/80 hover:border-emerald-500/50'
+              : 'bg-white dark:bg-[#1E1815] text-stone-700 dark:text-stone-300 border border-stone-200/80 dark:border-stone-800 hover:border-emerald-500/50'
           }`}
           title={isAm ? 'የጾም ምግቦች ብቻ' : 'Fasting dishes (meat & dairy free)'}
           aria-label={isAm ? 'የጾም ምግቦች' : 'Fasting dishes'}
@@ -241,13 +241,13 @@ export function CategoryScrollSpyBar({
             className="flex-shrink-0 flex flex-col items-center group cursor-pointer active:scale-95 transition-transform"
           >
             <div
-              className={`relative w-[54px] h-[54px] sm:w-[60px] sm:h-[60px] rounded-full p-[2px] transition-all duration-200 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)] ${
+              className={`relative w-[54px] h-[54px] sm:w-[60px] sm:h-[60px] rounded-full p-[2px] transition-all duration-200 bg-white dark:bg-[#1E1815] shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.3)] ${
                 activeCategoryId === 'all'
                   ? 'ring-2 ring-red-600 ring-offset-2 ring-offset-[var(--background)]'
-                  : 'border border-stone-200/80 hover:border-stone-300'
+                  : 'border border-stone-200/80 dark:border-stone-800 hover:border-stone-300 dark:hover:border-stone-700'
               }`}
             >
-              <div className="relative w-full h-full rounded-full overflow-hidden bg-white">
+              <div className="relative w-full h-full rounded-full overflow-hidden bg-white dark:bg-[#1E1815]">
                 <Image
                   src="/images/categories/all.jpg"
                   alt="All Menu"
@@ -262,7 +262,7 @@ export function CategoryScrollSpyBar({
               className={`text-[11px] sm:text-xs mt-1.5 font-semibold text-center leading-tight line-clamp-2 max-w-[68px] sm:max-w-[76px] min-h-[26px] flex items-center justify-center transition-colors ${
                 activeCategoryId === 'all'
                   ? 'text-red-600 font-bold'
-                  : 'text-stone-700/80 group-hover:text-stone-950'
+                  : 'text-stone-700/80 dark:text-stone-300 group-hover:text-stone-950 dark:group-hover:text-stone-100'
               }`}
             >
               {isAm ? 'ሁሉም' : 'All'}
@@ -289,13 +289,13 @@ export function CategoryScrollSpyBar({
                 className="flex-shrink-0 flex flex-col items-center group cursor-pointer active:scale-95 transition-transform"
               >
                 <div
-                  className={`relative w-[54px] h-[54px] sm:w-[60px] sm:h-[60px] rounded-full p-[2px] transition-all duration-200 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)] ${
+                  className={`relative w-[54px] h-[54px] sm:w-[60px] sm:h-[60px] rounded-full p-[2px] transition-all duration-200 bg-white dark:bg-[#1E1815] shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.3)] ${
                     isActive
                       ? 'ring-2 ring-red-600 ring-offset-2 ring-offset-[var(--background)]'
-                      : 'border border-stone-200/80 hover:border-stone-300'
+                      : 'border border-stone-200/80 dark:border-stone-800 hover:border-stone-300 dark:hover:border-stone-700'
                   }`}
                 >
-                  <div className="relative w-full h-full rounded-full overflow-hidden bg-white">
+                  <div className="relative w-full h-full rounded-full overflow-hidden bg-white dark:bg-[#1E1815]">
                     <Image
                       src={photoUrl}
                       alt={displayName}
@@ -310,7 +310,7 @@ export function CategoryScrollSpyBar({
                   className={`text-[11px] sm:text-xs mt-1.5 font-semibold text-center leading-tight line-clamp-2 max-w-[68px] sm:max-w-[76px] min-h-[26px] flex items-center justify-center transition-colors ${
                     isActive
                       ? 'text-red-600 font-bold'
-                      : 'text-stone-700/80 group-hover:text-stone-950'
+                      : 'text-stone-700/80 dark:text-stone-300 group-hover:text-stone-950 dark:group-hover:text-stone-100'
                   }`}
                 >
                   {displayName}

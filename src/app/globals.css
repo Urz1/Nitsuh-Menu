@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-mode="dark"], [data-mode="dark"] *, .dark, .dark *));
+
 @layer base {
   :root {
     --primary: #C11221;
@@ -12,13 +14,13 @@
     --font-brand: 'Playfair Display', Georgia, serif;
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
-    --background: #FFF4E5;
+    --background: #FAF6F0;
     --foreground: #1A1412;
     --card: #FFFFFF;
     --card-foreground: #1A1412;
-    --surface: #FDF5EA;
-    --surface-hover: #F8EAD7;
-    --border: #F0DEC8;
+    --surface: #F5EFE6;
+    --surface-hover: #ECE4D8;
+    --border: #E8DED1;
     --muted: #7A6B60;
     --muted-foreground: #8C7B70;
   }
@@ -43,13 +45,13 @@
   }
 
   [data-mode="light"] {
-    --background: #FFF4E5;
+    --background: #FAF6F0;
     --foreground: #1A1412;
     --card: #FFFFFF;
     --card-foreground: #1A1412;
-    --surface: #FDF5EA;
-    --surface-hover: #F8EAD7;
-    --border: #F0DEC8;
+    --surface: #F5EFE6;
+    --surface-hover: #ECE4D8;
+    --border: #E8DED1;
     --muted: #7A6B60;
     --muted-foreground: #8C7B70;
     --primary: #C11221;

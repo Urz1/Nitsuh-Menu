@@ -732,7 +732,7 @@ export function ClientMenuContainer({
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div className="w-full max-w-lg mx-auto bg-[#FAF6F0] min-h-screen relative flex flex-col pb-28 md:shadow-2xl md:border md:border-stone-200/70 md:rounded-[36px] md:my-4 md:overflow-hidden transition-colors">
+    <div className="w-full max-w-lg mx-auto bg-[#FAF6F0] dark:bg-[#14100E] min-h-screen relative flex flex-col pb-28 md:shadow-2xl md:border md:border-stone-200/70 dark:md:border-stone-800/80 md:rounded-[36px] md:my-4 md:overflow-hidden transition-colors">
       {/* 0. PWA GRACEFUL OFFLINE BANNER */}
       {isOffline && (
         <div
@@ -750,7 +750,7 @@ export function ClientMenuContainer({
       )}
 
       {/* 1. UNIFIED SLIM STICKY HEADER & INLINE SEARCH SYSTEM */}
-      <div className="sticky top-0 z-40 bg-[#FAF6F0]/95 backdrop-blur-md">
+      <div className="sticky top-0 z-40 bg-[#FAF6F0]/95 dark:bg-[#14100E]/95 backdrop-blur-md">
         {/* 1.1 Slim Header: App-like persona with welcoming greeting */}
         <SlimHeader
           restaurant={restaurant}
@@ -797,7 +797,7 @@ export function ClientMenuContainer({
       />
 
       {/* 3. STICKY REALISTIC CIRCULAR FOOD CATEGORY FILTER (Unified Cream Canvas) */}
-      <div className="sticky top-[108px] z-30 bg-[#FAF6F0]/95 backdrop-blur-md">
+      <div className="sticky top-[108px] z-30 bg-[#FAF6F0]/95 dark:bg-[#14100E]/95 backdrop-blur-md">
         <CategoryScrollSpyBar
           categories={categories}
           items={items}

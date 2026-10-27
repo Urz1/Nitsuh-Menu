@@ -29,7 +29,7 @@ export function BottomNavBar({
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-stone-200/60 shadow-[0_-4px_24px_rgba(0,0,0,0.06)] select-none transition-colors rounded-t-3xl"
+      className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-[#1E1815]/95 backdrop-blur-md border-t border-stone-200/60 dark:border-stone-800/80 shadow-[0_-4px_24px_rgba(0,0,0,0.06)] dark:shadow-[0_-4px_24px_rgba(0,0,0,0.4)] select-none transition-colors rounded-t-3xl"
       style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
       aria-label="Bottom Navigation"
     >
@@ -42,7 +42,9 @@ export function BottomNavBar({
             onTabChange('menu');
           }}
           className={`flex-1 flex flex-col items-center justify-center gap-0.5 transition-transform active:scale-95 ${
-            activeTab === 'menu' ? 'text-red-600 font-bold' : 'text-stone-500 hover:text-stone-900 font-medium'
+            activeTab === 'menu'
+              ? 'text-red-600 font-bold'
+              : 'text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 font-medium'
           }`}
           aria-label="Menu"
         >
@@ -60,7 +62,9 @@ export function BottomNavBar({
             onTabChange('offers');
           }}
           className={`flex-1 flex flex-col items-center justify-center gap-0.5 transition-transform active:scale-95 relative ${
-            activeTab === 'offers' ? 'text-red-600 font-bold' : 'text-stone-500 hover:text-stone-900 font-medium'
+            activeTab === 'offers'
+              ? 'text-red-600 font-bold'
+              : 'text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 font-medium'
           }`}
           aria-label="Offers"
         >
@@ -89,7 +93,7 @@ export function BottomNavBar({
                 onTabChange('orders');
               }
             }}
-            className="w-13 h-13 -mt-6 rounded-full bg-red-600 text-white flex flex-col items-center justify-center shadow-lg border-4 border-[#FAF6F0] active:scale-90 transition-transform relative cursor-pointer hover:bg-red-700"
+            className="w-13 h-13 -mt-6 rounded-full bg-red-600 text-white flex flex-col items-center justify-center shadow-lg border-4 border-[#FAF6F0] dark:border-[#14100E] active:scale-90 transition-transform relative cursor-pointer hover:bg-red-700"
             aria-label="View Order / Cart"
           >
             <ShoppingBag className="w-5 h-5 stroke-[2.4px]" />
@@ -99,7 +103,7 @@ export function BottomNavBar({
               </span>
             )}
           </button>
-          <span className="text-[10px] font-bold text-stone-700 tracking-tight leading-none mt-1">
+          <span className="text-[10px] font-bold text-stone-700 dark:text-stone-300 tracking-tight leading-none mt-1">
             {isAm ? 'ትዕዛዝ' : isSo ? 'Dalab' : 'Orders'}
           </span>
         </div>
@@ -112,7 +116,9 @@ export function BottomNavBar({
             onTabChange('favorites');
           }}
           className={`flex-1 flex flex-col items-center justify-center gap-0.5 transition-transform active:scale-95 relative ${
-            activeTab === 'favorites' ? 'text-red-600 font-bold' : 'text-stone-500 hover:text-stone-900 font-medium'
+            activeTab === 'favorites'
+              ? 'text-red-600 font-bold'
+              : 'text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 font-medium'
           }`}
           aria-label="Saved Dishes"
         >
@@ -137,7 +143,9 @@ export function BottomNavBar({
             onTabChange('info');
           }}
           className={`flex-1 flex flex-col items-center justify-center gap-0.5 transition-transform active:scale-95 ${
-            activeTab === 'info' ? 'text-red-600 font-bold' : 'text-stone-500 hover:text-stone-900 font-medium'
+            activeTab === 'info'
+              ? 'text-red-600 font-bold'
+              : 'text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 font-medium'
           }`}
           aria-label="Info"
         >

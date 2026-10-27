@@ -51,6 +51,22 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var m = localStorage.getItem('nitsuh-theme-mode');
+                if (m === 'dark') {
+                  document.documentElement.setAttribute('data-mode', 'dark');
+                  document.documentElement.classList.add('dark');
+                } else if (m === 'light') {
+                  document.documentElement.setAttribute('data-mode', 'light');
+                  document.documentElement.classList.remove('dark');
+                }
+              } catch(e) {}
+            `,
+          }}
+        />
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
       </head>

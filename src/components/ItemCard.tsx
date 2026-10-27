@@ -139,17 +139,17 @@ export function ItemCard({
   return (
     <article
       onClick={handleCardClick}
-      className={`group relative bg-white rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg ${
+      className={`group relative bg-white dark:bg-[#1E1815] rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg dark:hover:shadow-stone-950/40 ${
         cartQuantity > 0
           ? 'border-2 border-red-600 shadow-md ring-2 ring-red-600/20'
-          : 'border border-stone-200/70 shadow-[0_4px_16px_rgba(0,0,0,0.04)] hover:border-stone-300'
+          : 'border border-stone-200/70 dark:border-stone-800 shadow-[0_4px_16px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.3)] hover:border-stone-300 dark:hover:border-stone-700'
       } ${
         layout === 'grid' ? 'flex flex-col p-3 gap-2.5' : 'flex gap-3 sm:gap-3.5 p-3 sm:p-3.5'
       } ${!item.is_available ? 'opacity-60' : ''}`}
     >
       {/* Thumbnail Container */}
       <div
-        className={`relative flex-shrink-0 bg-stone-50/80 rounded-2xl overflow-hidden ${
+        className={`relative flex-shrink-0 bg-stone-50/80 dark:bg-stone-900/60 rounded-2xl overflow-hidden ${
           layout === 'grid' ? 'w-full h-36' : 'w-24 h-24 sm:w-28 sm:h-28'
         }`}
       >
@@ -196,7 +196,7 @@ export function ItemCard({
           className={`action-prevent-modal absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center transition-all ${
             isFavorite
               ? 'bg-red-500 text-white shadow-xs'
-              : 'bg-white/80 backdrop-blur-md text-stone-600 hover:text-red-500 shadow-2xs border border-stone-200/50'
+              : 'bg-white/80 dark:bg-[#1E1815]/80 backdrop-blur-md text-stone-600 dark:text-stone-300 hover:text-red-500 shadow-2xs border border-stone-200/50 dark:border-stone-800'
           }`}
           aria-label={`Favorite ${displayName}`}
         >
@@ -208,7 +208,7 @@ export function ItemCard({
       <div className="flex-1 flex flex-col justify-between min-w-0">
         <div>
           <h3
-            className={`font-bold text-stone-900 leading-snug line-clamp-1 ${
+            className={`font-bold text-stone-900 dark:text-stone-100 leading-snug line-clamp-1 ${
               layout === 'grid' ? 'text-sm sm:text-base' : 'text-base sm:text-lg'
             }`}
           >
@@ -216,16 +216,16 @@ export function ItemCard({
           </h3>
 
           {displayDesc && (
-            <p className="text-xs text-stone-500 mt-0.5 line-clamp-1 leading-relaxed">
+            <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5 line-clamp-1 leading-relaxed">
               {displayDesc}
             </p>
           )}
 
           {/* Social Proof Rating */}
-          <div className="flex items-center gap-1 mt-1 text-[11px] font-semibold text-stone-700">
+          <div className="flex items-center gap-1 mt-1 text-[11px] font-semibold text-stone-700 dark:text-stone-300">
             <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
             <span>{reviewStats?.average_rating ? reviewStats.average_rating.toFixed(1) : '4.8'}</span>
-            <span className="text-[10px] text-stone-400 font-normal">
+            <span className="text-[10px] text-stone-400 dark:text-stone-500 font-normal">
               ({reviewStats?.review_count ? reviewStats.review_count : '120+'})
             </span>
           </div>
