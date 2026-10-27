@@ -58,6 +58,25 @@ function getCategoryPhoto(catId: string, name?: string): string {
   return '/images/dishes/special-burger.jpg';
 }
 
+function formatCategoryLabel(cat: Category, locale: string): string {
+  if (locale === 'am') {
+    return cat.name_am || cat.name.split('/')[1]?.trim() || cat.name;
+  }
+  if (locale === 'so' && cat.name_so) {
+    return cat.name_so;
+  }
+  // In English or other languages, if the name is "Breakfast / ቁርስ", take the clean primary English name
+  const en = cat.name.split('/')[0]?.trim() || cat.name;
+  const lower = en.toLowerCase();
+  if (lower === 'berak fast') return 'Breakfast';
+  if (lower === 'soft cake') return 'Cakes';
+  if (lower === 'snack menu') return 'Snacks';
+  if (lower.includes('hot beverage')) return 'Hot Drinks';
+  if (lower.includes('lunch and dinner')) return 'Mains';
+  if (lower.includes('fasting lunch')) return 'Fasting';
+  return en;
+}
+
 export function CategoryScrollSpyBar({
   categories,
   activeCategoryId,
@@ -77,7 +96,7 @@ export function CategoryScrollSpyBar({
   const isAm = currentLocale === 'am';
   const isFastingActive = activeFilter === 'fasting';
 
-  // Auto-scroll the active circular avatar into center view on scroll-spy change
+  // Auto-scroll the active circular avatar into center view on selection change
   useEffect(() => {
     const activeChip = chipRefs.current[activeCategoryId];
     if (activeChip && scrollContainerRef.current) {
@@ -140,10 +159,10 @@ export function CategoryScrollSpyBar({
       </div>
 
       {/* 2. Horizontal Scrollable Circular Food Avatars (Realistic Cutout/Photo Style) */}
-      <div className="max-w-4xl mx-auto px-3.5 py-2.5">
+      <div className="max-w-4xl mx-auto px-3">
         <div
           ref={scrollContainerRef}
-          className="flex items-start gap-3 sm:gap-4 overflow-x-auto no-scrollbar scroll-smooth pb-0.5"
+          className="flex items-start gap-3 sm:gap-4 overflow-x-auto no-scrollbar scroll-smooth py-3 px-1"
         >
           {/* 'All' Circular Avatar */}
           <button
@@ -158,28 +177,30 @@ export function CategoryScrollSpyBar({
             className="flex-shrink-0 flex flex-col items-center group cursor-pointer active:scale-95 transition-transform"
           >
             <div
-              className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden transition-all duration-200 p-0.5 ${
+              className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-full p-[2.5px] transition-all duration-200 ${
                 activeCategoryId === 'all'
-                  ? 'ring-2 ring-[var(--primary)] ring-offset-2 ring-offset-[var(--card)] scale-105 shadow-md'
-                  : 'border border-[var(--border)] opacity-85 hover:opacity-100'
+                  ? 'border-2 border-[var(--primary)] shadow-sm bg-[var(--card)]'
+                  : 'border-2 border-transparent hover:border-[var(--border)]'
               }`}
             >
-              <div className="relative w-full h-full rounded-full overflow-hidden bg-[var(--surface)]">
+              <div className="relative w-full h-full rounded-full overflow-hidden bg-[var(--surface)] shadow-2xs">
                 <Image
                   src="/images/dishes/roasted-chicken.jpg"
                   alt="All Menu"
                   fill
                   sizes="64px"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-black/15 group-hover:bg-transparent transition-colors" />
+                {activeCategoryId !== 'all' && (
+                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
+                )}
               </div>
             </div>
             <span
-              className={`text-[11px] sm:text-xs mt-1.5 font-bold text-center truncate max-w-[68px] sm:max-w-[76px] transition-colors ${
+              className={`text-[11px] sm:text-xs mt-1.5 font-bold text-center transition-colors max-w-[76px] truncate ${
                 activeCategoryId === 'all'
                   ? 'text-[var(--primary)]'
-                  : 'text-[var(--foreground)]/80 group-hover:text-[var(--foreground)]'
+                  : 'text-[var(--foreground)]/75 group-hover:text-[var(--foreground)]'
               }`}
             >
               {isAm ? 'ሁሉም' : 'All'}
@@ -189,11 +210,7 @@ export function CategoryScrollSpyBar({
           {/* Individual Category Circular Avatars with Realistic Food Imagery */}
           {categories.map((cat) => {
             const isActive = activeCategoryId === cat.id;
-            const displayName =
-              CATEGORY_TRANSLATIONS[cat.id]?.[currentLocale]?.name ||
-              (currentLocale === 'am' && cat.name_am) ||
-              (currentLocale === 'so' && cat.name_so) ||
-              cat.name;
+            const displayName = formatCategoryLabel(cat, currentLocale);
             const photoUrl = getCategoryPhoto(cat.id, cat.name);
 
             return (
@@ -210,29 +227,31 @@ export function CategoryScrollSpyBar({
                 className="flex-shrink-0 flex flex-col items-center group cursor-pointer active:scale-95 transition-transform"
               >
                 <div
-                  className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden transition-all duration-200 p-0.5 ${
+                  className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-full p-[2.5px] transition-all duration-200 ${
                     isActive
-                      ? 'ring-2 ring-[var(--primary)] ring-offset-2 ring-offset-[var(--card)] scale-105 shadow-md'
-                      : 'border border-[var(--border)] opacity-85 hover:opacity-100'
+                      ? 'border-2 border-[var(--primary)] shadow-sm bg-[var(--card)]'
+                      : 'border-2 border-transparent hover:border-[var(--border)]'
                   }`}
                 >
-                  <div className="relative w-full h-full rounded-full overflow-hidden bg-[var(--surface)]">
+                  <div className="relative w-full h-full rounded-full overflow-hidden bg-[var(--surface)] shadow-2xs">
                     <Image
                       src={photoUrl}
                       alt={displayName}
                       fill
                       sizes="64px"
-                      className="object-cover"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
+                    {!isActive && (
+                      <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
+                    )}
                   </div>
                 </div>
                 <span
-                  className={`text-[11px] sm:text-xs mt-1.5 font-bold text-center truncate max-w-[68px] sm:max-w-[76px] transition-colors ${
+                  className={`text-[11px] sm:text-xs mt-1.5 font-bold text-center transition-colors max-w-[76px] truncate ${
                     isActive
                       ? 'text-[var(--primary)]'
-                      : 'text-[var(--foreground)]/80 group-hover:text-[var(--foreground)]'
+                      : 'text-[var(--foreground)]/75 group-hover:text-[var(--foreground)]'
                   }`}
                 >
                   {displayName}
