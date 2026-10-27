@@ -6,7 +6,7 @@ import { Category, MenuItem } from '@/types/database';
 import { DietaryFilter } from '@/types/menu';
 import { Language, CATEGORY_TRANSLATIONS, TRANSLATIONS } from '@/lib/translations';
 import { triggerHaptic } from '@/lib/utils';
-import { SlidersHorizontal, Leaf, Check } from 'lucide-react';
+import { Leaf, Check } from 'lucide-react';
 
 interface CategoryScrollSpyBarProps {
   categories: Category[];
@@ -200,51 +200,25 @@ export function CategoryScrollSpyBar({
 
   return (
     <div className="bg-transparent border-0 select-none transition-colors">
-      {/* 1. Quick Filters Utility Row */}
-      <div className="max-w-4xl mx-auto px-3.5 pt-1 pb-1 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          {/* Quick 1-tap Fasting Toggle Chip */}
-          <button
-            type="button"
-            onClick={() => {
-              triggerHaptic(10);
-              onToggleFasting();
-            }}
-            className={`h-7 px-3 rounded-full flex items-center gap-1.5 text-xs font-bold transition-all duration-200 active:scale-95 shadow-xs ${
-              isFastingActive
-                ? 'bg-emerald-600 text-white ring-2 ring-emerald-500/30'
-                : 'bg-white text-stone-700 border border-stone-200/80 hover:border-emerald-500/50'
-            }`}
-            title={isAm ? 'የጾም ምግቦች ብቻ' : 'Fasting dishes (meat & dairy free)'}
-            aria-label={isAm ? 'የጾም ምግቦች' : 'Fasting dishes'}
-          >
-            <Leaf className={`w-3.5 h-3.5 ${isFastingActive ? 'fill-current text-white' : 'text-emerald-500'}`} />
-            <span>{isAm ? 'የጾም' : 'Fasting'}</span>
-            {isFastingActive && <Check className="w-3 h-3 stroke-[3px]" />}
-          </button>
-        </div>
-
-        {/* Filter Sheet Trigger */}
+      {/* 1. Quick Fasting 1-Tap Toggle */}
+      <div className="max-w-4xl mx-auto px-3.5 pt-1 pb-0.5 flex items-center">
         <button
           type="button"
           onClick={() => {
-            triggerHaptic(8);
-            onOpenFilterSheet();
+            triggerHaptic(10);
+            onToggleFasting();
           }}
-          className={`h-7 px-3 rounded-full flex items-center gap-1.5 text-xs font-bold transition-all active:scale-95 shadow-xs ${
-            activeFilterCount > 0
-              ? 'bg-red-600 text-white ring-2 ring-red-600/30'
-              : 'bg-white text-stone-700 border border-stone-200/80 hover:border-red-600'
+          className={`h-7 px-3 rounded-full flex items-center gap-1.5 text-xs font-bold transition-all duration-200 active:scale-95 shadow-xs ${
+            isFastingActive
+              ? 'bg-emerald-600 text-white ring-2 ring-emerald-500/30'
+              : 'bg-white text-stone-700 border border-stone-200/80 hover:border-emerald-500/50'
           }`}
-          aria-label="Open Filters"
+          title={isAm ? 'የጾም ምግቦች ብቻ' : 'Fasting dishes (meat & dairy free)'}
+          aria-label={isAm ? 'የጾም ምግቦች' : 'Fasting dishes'}
         >
-          <SlidersHorizontal className="w-3 h-3" />
-          <span className="text-[11px]">{isAm ? 'ማጣሪያ' : 'Filter'}</span>
-          {activeFilterCount > 0 && (
-            <span className="bg-white/30 text-white text-[10px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center">
-              {activeFilterCount}
-            </span>
-          )}
+          <Leaf className={`w-3.5 h-3.5 ${isFastingActive ? 'fill-current text-white' : 'text-emerald-500'}`} />
+          <span>{isAm ? 'የጾም' : 'Fasting'}</span>
+          {isFastingActive && <Check className="w-3 h-3 stroke-[3px]" />}
         </button>
       </div>
 
