@@ -4917,9 +4917,11 @@ export async function updateRestaurantSettings(
         wifi_config: inMemoryRestaurant.wifi_config,
         updated_at: new Date().toISOString(),
       };
-      if (updates.name) payload.name = updates.name;
-      if (updates.hours) payload.hours = updates.hours;
-      if (updates.address) payload.address = updates.address;
+      if (updates.name !== undefined) payload.name = updates.name;
+      if (updates.hours !== undefined) payload.hours = updates.hours;
+      if (updates.address !== undefined) payload.address = updates.address;
+      if (updates.branch_name !== undefined) payload.branch_name = updates.branch_name;
+      if (updates.google_maps_url !== undefined) payload.google_maps_url = updates.google_maps_url;
       if (updates.announcement !== undefined) payload.announcement = updates.announcement;
       if (updates.is_open !== undefined) payload.is_open = updates.is_open;
 

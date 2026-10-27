@@ -57,15 +57,9 @@ export function SettingsSection({
 }: SettingsSectionProps) {
 
   const [hours, setHours] = useState(restaurant.hours || 'Mon – Sun: 6:30 AM – 11:00 PM');
-  const [address, setAddress] = useState(
-    restaurant.address || 'XQHC+MJP Nitsuh Cafe and Bakery, Addis Ababa, Ethiopia'
-  );
-  const [branchName, setBranchName] = useState(
-    restaurant.branch_name || 'Main Branch — Nitsuh Cafe & Bakery'
-  );
-  const [googleMapsUrl, setGoogleMapsUrl] = useState(
-    restaurant.google_maps_url || 'https://maps.app.goo.gl/R8WN2zwM9dwVXT3h9?g_st=ac'
-  );
+  const [address, setAddress] = useState(restaurant.address || '');
+  const [branchName, setBranchName] = useState(restaurant.branch_name || '');
+  const [googleMapsUrl, setGoogleMapsUrl] = useState(restaurant.google_maps_url || '');
   const [taxRate, setTaxRate] = useState(
     restaurant.tax_rate ? (restaurant.tax_rate * 100).toString() : '15'
   );
@@ -845,6 +839,18 @@ export function SettingsSection({
                     className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
                   />
                 </div>
+              </div>
+
+              {/* Explicit Save Button for Location */}
+              <div className="flex justify-end pt-1">
+                <button
+                  type="submit"
+                  data-testid="save-location-btn"
+                  className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Save className="w-3.5 h-3.5" />
+                  <span>Save Location & Branch</span>
+                </button>
               </div>
             </div>
 

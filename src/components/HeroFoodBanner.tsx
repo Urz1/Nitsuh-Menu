@@ -18,87 +18,115 @@ interface BannerSlide {
   targetCategoryId: string;
 }
 
-const HERO_SLIDES: BannerSlide[] = [
+// 100% Authentic Slides Grounded in Nitsuh's Real Menu & Real Database Offers
+const AUTHENTIC_HERO_SLIDES: BannerSlide[] = [
   {
-    id: 'slide-combos',
-    badge: {
-      en: 'LIMITED TIME COMBO',
-      am: 'ልዩ ጥምር አቅርቦት',
-      so: 'DALAB XADDIDAN',
-    },
-    title: {
-      en: 'CRISPY. JUICY. IRRESISTIBLE.',
-      am: 'ጥርት ያለና የሚጣፍጥ በርገር',
-      so: 'BURGER CARAF LEH OO MACAAN',
-    },
-    description: {
-      en: 'Handcrafted gourmet burgers served with seasoned fries & cold drink.',
-      am: 'በጥንቃቄ የተዘጋጀ ምርጥ በርገር ከቺፕስ እና ቀዝቃዛ መጠጥ ጋር።',
-      so: 'Burger macaan oo lagu daray baradho shiilan iyo cabitaan qabow.',
-    },
-    cta: {
-      en: 'Order Now',
-      am: 'አሁን ይዘዙ',
-      so: 'Dalbo Hadda',
-    },
-    imageUrl: '/images/brand/hero-burger-combo.jpg',
-    bgGradient: 'from-[#7F0E17] via-[#9B111E] to-[#40070B]',
-    accentColor: '#C11221',
-    targetCategoryId: 'cat-burgers',
-  },
-  {
-    id: 'slide-pizza',
-    badge: {
-      en: 'AFTERNOON HAPPY HOUR',
-      am: 'የከሰዓት ልዩ ቅናሽ',
-      so: 'QIIMO DHIMIS GALABNIMO',
-    },
-    title: {
-      en: 'WOOD-FIRED ARTISAN PIZZAS',
-      am: 'ጣፋጭ የእንጨት ምድጃ ፒዛዎች',
-      so: 'PIZZA CASRI AH OO CARAF LEH',
-    },
-    description: {
-      en: '20% off all crispy sourdough pizzas & freshly squeezed juices.',
-      am: '20% ቅናሽ በሁሉም ጣፋጭ ፒዛዎች እና ትኩስ የተፈጥሮ ጭማቂዎች ላይ።',
-      so: '20% qiimo dhimis dhammaan pizza iyo cabitaannada dabiiciga ah.',
-    },
-    cta: {
-      en: 'View Pizzas',
-      am: 'ፒዛዎችን ይመልከቱ',
-      so: 'Fiiri Pizzada',
-    },
-    imageUrl: '/images/categories/pizza.jpg',
-    bgGradient: 'from-[#8C2C0B] via-[#B83E10] to-[#3B1104]',
-    accentColor: '#D97706',
-    targetCategoryId: 'cat-pizzas',
-  },
-  {
-    id: 'slide-breakfast',
+    id: 'slide-breakfast-ful',
     badge: {
       en: 'MORNING SIGNATURES',
       am: 'ትኩስ የጠዋት ቁርስ',
       so: 'QURAAC CASRI AH',
     },
     title: {
-      en: 'AUTHENTIC FUL & CHECHEBSA',
-      am: 'ትኩስ ፉል፣ ጨጨብሳ እና መኪያቶ',
-      so: 'FOOL, CHECHEBSA IYO QAXWE',
+      en: 'AUTHENTIC FUL SPECIAL',
+      am: 'ትኩስ ፉል ስፔሻል እና ጨጨብሳ',
+      so: 'FOOL GAAR AH IYO CHECHEBSA',
     },
     description: {
-      en: 'Start your morning with rich Ethiopian breakfast & single-origin coffee.',
-      am: 'ቀንዎን በሚያረካ ፉል፣ ቅቤ የገባበት ጨጨብሳ እና ምርጥ መኪያቶ ይጀምሩ።',
-      so: 'Ku bilow subaxaada quraac macaan iyo qaxwe caraf leh.',
+      en: 'Slow-simmered fava beans seasoned with spiced butter, eggs, diced tomatoes & fresh bread.',
+      am: 'ቀንዎን በሚያረካ ፉል ስፔሻል፣ ቅቤ የገባበት ጨጨብሳ እና ትኩስ መኪያቶ ይጀምሩ።',
+      so: 'Ku bilow subaxaada fool macaan oo lagu daray ukun, yaanyo iyo rooti cusub.',
     },
     cta: {
       en: 'Explore Breakfast',
       am: 'ቁርስ ይመልከቱ',
       so: 'Fiiri Quraacda',
     },
-    imageUrl: '/images/categories/breakfast.jpg',
-    bgGradient: 'from-[#5F370E] via-[#7B4612] to-[#2B1806]',
+    imageUrl: '/images/dishes/ful-special.jpg',
+    bgGradient: 'from-[#4A200B] via-[#6E3010] to-[#2E1205]',
     accentColor: '#F59E0B',
     targetCategoryId: 'cat-breakfast',
+  },
+  {
+    id: 'slide-pizza-happy-hour',
+    badge: {
+      en: '20% OFF HAPPY HOUR',
+      am: 'የከሰዓት 20% ቅናሽ በፒዛ',
+      so: '20% QIIMO DHIMIS PIZZA',
+    },
+    title: {
+      en: 'HANDCRAFTED ARTISAN PIZZAS',
+      am: 'ጣፋጭ የእጅ ስራ ፒዛዎች',
+      so: 'PIZZA CASRI AH OO CARAF LEH',
+    },
+    description: {
+      en: 'Enjoy 20% off all artisan pizzas freshly baked in our kitchen with melted mozzarella & toppings.',
+      am: 'በኩሽናችን ትኩስ ሆነው የተጋገሩ ፒዛዎች ላይ የ20% ቅናሽ ይደሰቱ።',
+      so: 'Ku raaxayso 20% qiimo dhimis dhammaan pizzada cusub ee lagu dubo foornadeena.',
+    },
+    cta: {
+      en: 'View Pizzas (20% Off)',
+      am: 'ፒዛዎችን ይመልከቱ',
+      so: 'Fiiri Pizzada',
+    },
+    imageUrl: '/images/categories/pizza.jpg',
+    bgGradient: 'from-[#7A1C0E] via-[#9E2612] to-[#3B0C05]',
+    accentColor: '#C11221',
+    targetCategoryId: 'cat-pizzas',
+  },
+  {
+    id: 'slide-mendi-special',
+    badge: {
+      en: '100 ETB OFF SPECIAL',
+      am: '100 ብር ቅናሽ በመንዲ ላይ',
+      so: '100 ETB QIIMO DHIMIS MENDI',
+    },
+    title: {
+      en: 'AUTHENTIC SPECIAL MENDI',
+      am: 'ልዩ ትኩስ መንዲ',
+      so: 'MENDI GAAR AH OO CARAF LEH',
+    },
+    description: {
+      en: 'Slow-cooked tender spiced meat served over aromatic basmati rice with house dipping sauces.',
+      am: 'በጥንቃቄ የተዘጋጀ ለስላሳ ስጋ ከጥሩ የባስማቲ ሩዝ እና ማጣፈጫ መረቅ ጋር።',
+      so: 'Hilib jilicsan oo lagu kariyey bariis caraf leh iyo suugo macaan.',
+    },
+    cta: {
+      en: 'Order Mendi (Save 100 ETB)',
+      am: 'መንዲ ይዘዙ',
+      so: 'Dalbo Mendi',
+    },
+    imageUrl: '/images/dishes/special-mendi.jpg',
+    bgGradient: 'from-[#5A380A] via-[#7A4D0E] to-[#2B1B04]',
+    accentColor: '#D97706',
+    targetCategoryId: 'cat-mendi',
+  },
+  {
+    id: 'slide-cakes-bakery',
+    badge: {
+      en: 'BAKED FRESH DAILY',
+      am: 'ትኩስ ከዳቦ ቤታችን',
+      so: 'MAALIN WALBA CUSUB',
+    },
+    title: {
+      en: 'BLACK FOREST & FRESH CAKES',
+      am: 'ብላክ ፎረስት እና ለስላሳ ኬኮች',
+      so: 'KEEG CUSUB IYO DAHAB',
+    },
+    description: {
+      en: 'Handcrafted daily in our in-house pastry bakery using real cream, rich chocolate & fresh fruit.',
+      am: 'በየቀኑ በእኛ ካፌ የተጋገሩ ምርጥ ኬኮች፣ ብላክ ፎረስት እና ጣፋጭ መክሰሶች።',
+      so: 'Keegyo macaan oo maalin kasta lagu dubo khubarada rootiga ee Nitsuh.',
+    },
+    cta: {
+      en: 'View Cakes & Bakery',
+      am: 'ኬኮችን ይመልከቱ',
+      so: 'Fiiri Keegyada',
+    },
+    imageUrl: '/images/dishes/black-forest-2.jpg',
+    bgGradient: 'from-[#48121E] via-[#631828] to-[#24080F]',
+    accentColor: '#E11D48',
+    targetCategoryId: 'cat-soft-cake',
   },
 ];
 
@@ -129,7 +157,7 @@ export function HeroFoodBanner({ locale = 'en', onSelectCategory }: HeroFoodBann
   useEffect(() => {
     const startTimer = () => {
       autoPlayRef.current = setInterval(() => {
-        setCurrentIdx((prev) => (prev + 1) % HERO_SLIDES.length);
+        setCurrentIdx((prev) => (prev + 1) % AUTHENTIC_HERO_SLIDES.length);
       }, 5500);
     };
 
@@ -139,7 +167,7 @@ export function HeroFoodBanner({ locale = 'en', onSelectCategory }: HeroFoodBann
     };
   }, []);
 
-  const activeSlide = HERO_SLIDES[currentIdx];
+  const activeSlide = AUTHENTIC_HERO_SLIDES[currentIdx];
 
   const handleAction = () => {
     triggerHaptic(12);
@@ -162,11 +190,11 @@ export function HeroFoodBanner({ locale = 'en', onSelectCategory }: HeroFoodBann
       if (diff > 45) {
         // Swiped left
         triggerHaptic(6);
-        setCurrentIdx((prev) => (prev + 1) % HERO_SLIDES.length);
+        setCurrentIdx((prev) => (prev + 1) % AUTHENTIC_HERO_SLIDES.length);
       } else if (diff < -45) {
         // Swiped right
         triggerHaptic(6);
-        setCurrentIdx((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+        setCurrentIdx((prev) => (prev - 1 + AUTHENTIC_HERO_SLIDES.length) % AUTHENTIC_HERO_SLIDES.length);
       }
     }
     touchStartX.current = null;
@@ -233,7 +261,7 @@ export function HeroFoodBanner({ locale = 'en', onSelectCategory }: HeroFoodBann
 
         {/* Carousel Pagination Dots */}
         <div className="flex items-center justify-center gap-1.5 mt-3 pt-1 border-t border-white/10">
-          {HERO_SLIDES.map((slide, idx) => (
+          {AUTHENTIC_HERO_SLIDES.map((slide, idx) => (
             <button
               key={slide.id}
               type="button"

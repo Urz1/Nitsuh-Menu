@@ -67,27 +67,23 @@ export function SlimHeader({
         : 'Hello, Food Lover! 👋';
 
   return (
-    <header className="bg-transparent border-0 transition-colors select-none pt-2 pb-1">
-      <div className="max-w-4xl mx-auto px-3.5 flex items-center justify-between gap-2">
-        {/* Left: Full Brand Logo Lockup + Greeting + Live Status */}
-        <div className="min-w-0 flex-1 flex flex-col items-start">
-          <p className="text-[10px] sm:text-[11px] font-semibold text-stone-500 dark:text-stone-400 leading-none truncate mb-1">
-            {greeting}
-          </p>
-
+    <header className="bg-transparent border-0 transition-colors select-none pt-2.5 pb-1">
+      <div className="max-w-4xl mx-auto px-3.5 flex items-center justify-between gap-2.5">
+        {/* Left: Brand Logo Lockup with Inline Live Status (Un-sandwiched, ample breathing room) */}
+        <div className="min-w-0 flex items-center gap-2.5">
           <button
             type="button"
             onClick={handleTapLogo}
             title={`${restaurant.name} • Tap to scroll to top`}
             aria-label={`${restaurant.name} logo`}
-            className="cursor-pointer active:scale-95 transition-transform flex items-center"
+            className="cursor-pointer active:scale-95 transition-transform flex items-center py-0.5"
           >
             {/* Light Mode Official Full Logo */}
             <Image
               src="/images/brand/nitsuh-full-logo.png"
               alt={restaurant.name}
-              width={130}
-              height={44}
+              width={124}
+              height={42}
               className="h-8 sm:h-9 w-auto object-contain dark:hidden pointer-events-none"
               priority
             />
@@ -95,23 +91,28 @@ export function SlimHeader({
             <Image
               src="/images/brand/nitsuh-full-logo-dark.png"
               alt={restaurant.name}
-              width={130}
-              height={44}
+              width={124}
+              height={42}
               className="h-8 sm:h-9 w-auto object-contain hidden dark:block pointer-events-none"
               priority
             />
           </button>
 
-          <div className="flex items-center gap-1.5 text-[10px] text-stone-500 dark:text-stone-400 font-medium mt-1">
-            <span className="inline-flex items-center gap-1 font-bold text-emerald-600 dark:text-emerald-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span>{restaurant.is_open ? t.openNow : t.closed}</span>
-            </span>
-            <span className="text-stone-300 dark:text-stone-700">•</span>
-            <span className="truncate">
-              {restaurant.branch_name ? restaurant.branch_name.split('—')[0].trim() : 'Cafeteria & Bakery'}
-            </span>
-          </div>
+          {/* Inline Live Status Pill (Zero vertical clutter) */}
+          <span
+            className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border shadow-2xs ${
+              restaurant.is_open
+                ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 dark:bg-emerald-500/15 border-emerald-500/25'
+                : 'text-rose-600 dark:text-rose-400 bg-rose-500/10 dark:bg-rose-500/15 border-rose-500/25'
+            }`}
+          >
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${
+                restaurant.is_open ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'
+              }`}
+            />
+            <span>{restaurant.is_open ? t.openNow : t.closed}</span>
+          </span>
         </div>
 
         {/* Right Controls: Dark/Light Mode Toggle + Floating Language Switcher Pill */}
