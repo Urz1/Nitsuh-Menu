@@ -9,6 +9,7 @@ import { formatMoney, triggerHaptic, getOptimizedCloudinaryUrl } from '@/lib/uti
 import { X, Minus, Plus, Tag, Clock, UtensilsCrossed, Flame, Star, MessageSquare, Flag, Check } from 'lucide-react';
 
 import { Language, TRANSLATIONS } from '@/lib/translations';
+import { DishPlaceholder } from './DishPlaceholder';
 
 interface ItemDetailModalProps {
   item: MenuItem | null;
@@ -18,6 +19,7 @@ interface ItemDetailModalProps {
   pairingRecommendations?: MenuItem[];
   allItems?: MenuItem[];
   currencySymbol?: string;
+  logoUrl?: string;
   onClose: () => void;
   onAddToCart: (item: MenuItem, quantity: number, options: ItemOption[], notes: string) => void;
   onQuickAddPairing?: (pairingItem: MenuItem) => void;
@@ -34,6 +36,7 @@ export function ItemDetailModal({
   pairingRecommendations = [],
   allItems = [],
   currencySymbol = 'ETB',
+  logoUrl,
   onClose,
   onAddToCart,
   onQuickAddPairing,
@@ -158,10 +161,11 @@ export function ItemDetailModal({
               onError={() => setImageError(true)}
             />
           ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[var(--surface)] to-[var(--muted)]/15 text-[var(--muted-foreground)] p-6 text-center select-none">
-              <UtensilsCrossed className="w-12 h-12 mb-2 text-[var(--primary)] opacity-40" />
-              <span className="text-base font-semibold text-[var(--foreground)]">{displayName}</span>
-            </div>
+            <DishPlaceholder
+              displayName={displayName}
+              logoUrl={logoUrl}
+              size="lg"
+            />
           )}
         </div>
 

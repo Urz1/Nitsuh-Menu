@@ -919,6 +919,7 @@ export function ClientMenuContainer({
                   pricingResult={itemPricingMap.get(item.id)}
                   reviewStats={reviewStatsMap.get(item.id)}
                   currencySymbol={restaurant.currency}
+                  logoUrl={restaurant.logo_url}
                   isFavorite={favorites.has(item.id)}
                   cartQuantity={cartQuantityMap.get(item.id) || 0}
                   onToggleFavorite={handleToggleFavorite}
@@ -1046,6 +1047,7 @@ export function ClientMenuContainer({
                         pricingResult={itemPricingMap.get(item.id)}
                         reviewStats={reviewStatsMap.get(item.id)}
                         currencySymbol={restaurant.currency || 'ETB'}
+                        logoUrl={restaurant.logo_url}
                         isFavorite={favorites.has(item.id)}
                         cartQuantity={cartQuantityMap.get(item.id) || 0}
                         onToggleFavorite={handleToggleFavorite}
@@ -1232,6 +1234,7 @@ export function ClientMenuContainer({
         pairingRecommendations={pairingItems}
         allItems={items}
         currencySymbol={restaurant.currency}
+        logoUrl={restaurant.logo_url}
         onClose={() => setSelectedDetailItem(null)}
         onAddToCart={handleAddToCart}
         onQuickAddPairing={(pairing) => handleAddToCart(pairing, 1, [], '')}

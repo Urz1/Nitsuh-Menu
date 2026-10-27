@@ -7,12 +7,14 @@ import { ItemPricingResult } from '@/lib/pricing-engine';
 import { formatMoney, triggerHaptic, getOptimizedCloudinaryUrl } from '@/lib/utils';
 import { Heart, Plus, Minus, Tag, Clock, Star, ChefHat, Salad, Sprout, Leaf, WheatOff, ShieldCheck, Flame, UtensilsCrossed } from 'lucide-react';
 import { Language, TRANSLATIONS } from '@/lib/translations';
+import { DishPlaceholder } from './DishPlaceholder';
 
 interface ItemCardProps {
   item: MenuItem;
   pricingResult?: ItemPricingResult;
   reviewStats?: DishReviewStats;
   currencySymbol?: string;
+  logoUrl?: string;
   isFavorite: boolean;
   onToggleFavorite: (id: string) => void;
   onOpenDetails: (item: MenuItem) => void;
@@ -28,6 +30,7 @@ export function ItemCard({
   pricingResult,
   reviewStats,
   currencySymbol = 'ETB',
+  logoUrl,
   isFavorite,
   onToggleFavorite,
   onOpenDetails,
@@ -94,10 +97,11 @@ export function ItemCard({
             onError={() => setImageError(true)}
           />
         ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[var(--surface)] to-[var(--muted)]/10 p-2 text-center select-none">
-            <UtensilsCrossed className="w-7 h-7 text-[var(--primary)] opacity-40 mb-1" />
-            <span className="text-[10px] font-medium text-[var(--muted-foreground)] line-clamp-1">{displayName}</span>
-          </div>
+          <DishPlaceholder
+            displayName={displayName}
+            logoUrl={logoUrl}
+            size={layout === 'grid' ? 'md' : 'sm'}
+          />
         )}
 
         {/* Favorite Heart Button */}
