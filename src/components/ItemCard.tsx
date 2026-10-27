@@ -25,6 +25,67 @@ interface ItemCardProps {
   locale?: Language | string;
 }
 
+function getDishFallbackPhoto(name?: string, name_am?: string, category_id?: string): string | null {
+  const combined = `${name || ''} ${name_am || ''} ${category_id || ''}`.toLowerCase();
+  if (combined.includes('foul') || combined.includes('ful') || combined.includes('ፉል')) {
+    return combined.includes('special') || combined.includes('ስፔሻል')
+      ? '/images/dishes/ful-special.jpg'
+      : '/images/dishes/full-normal-43.jpg';
+  }
+  if (combined.includes('checheb') || combined.includes('ጨጨብሳ')) {
+    return '/images/dishes/chechebisa-51.jpg';
+  }
+  if (combined.includes('fetira') || combined.includes('ፈጢራ')) {
+    return '/images/dishes/special-fetira.jpg';
+  }
+  if (combined.includes('scramble') || (combined.includes('ፍርፍር') && combined.includes('እንቁላል'))) {
+    return '/images/dishes/scramble-egg-46.jpg';
+  }
+  if (combined.includes('omelet') || combined.includes('አምሌት')) {
+    return '/images/dishes/omelet-48.jpg';
+  }
+  if (combined.includes('avocado toast') || combined.includes('አቮካዶ')) {
+    return '/images/dishes/avocado-toast-49.jpg';
+  }
+  if (combined.includes('french toast') || combined.includes('ፍሬንች ቶስት')) {
+    return '/images/categories/breakfast.jpg';
+  }
+  if (combined.includes('pan cake') || combined.includes('pancake') || combined.includes('ፓን ኬክ')) {
+    return '/images/categories/dessert.jpg';
+  }
+  if (combined.includes('burger') || combined.includes('በርገር')) {
+    return '/images/categories/burger.jpg';
+  }
+  if (combined.includes('pizza') || combined.includes('ፒዛ')) {
+    return '/images/categories/pizza.jpg';
+  }
+  if (combined.includes('sandwich') || combined.includes('ሳንድች') || combined.includes('ሳንድዊች')) {
+    return '/images/categories/sandwich.jpg';
+  }
+  if (combined.includes('wrap') || combined.includes('shawarma') || combined.includes('ሻዋርማ')) {
+    return '/images/categories/wrap.jpg';
+  }
+  if (combined.includes('tibs') || combined.includes('ጥብስ')) {
+    return '/images/dishes/chikina-tibs-131.jpg';
+  }
+  if (combined.includes('shiro') || combined.includes('ሽሮ')) {
+    return '/images/dishes/shiro.jpg';
+  }
+  if (combined.includes('chicken') || combined.includes('ዶሮ')) {
+    return '/images/dishes/1-2-roasted-chicken-141.jpg';
+  }
+  if (combined.includes('mendi') || combined.includes('መንዲ')) {
+    return '/images/dishes/special-mendi.jpg';
+  }
+  if (combined.includes('macchiato') || combined.includes('coffee') || combined.includes('buna') || combined.includes('ቡና')) {
+    return '/images/categories/hot-drink.jpg';
+  }
+  if (combined.includes('juice') || combined.includes('shake') || combined.includes('smoothie') || combined.includes('ጭማቂ')) {
+    return '/images/categories/juice.jpg';
+  }
+  return null;
+}
+
 export function ItemCard({
   item,
   pricingResult,
@@ -72,23 +133,29 @@ export function ItemCard({
   const finalPrice = pricingResult?.finalPrice ?? item.price;
   const savings = pricingResult?.savings ?? 0;
 
+  const fallbackPhoto = getDishFallbackPhoto(item.name, item.name_am, item.category_id);
+  const resolvedPhoto = !imageError && item.image_url ? getOptimizedCloudinaryUrl(item.image_url, 400) : fallbackPhoto;
+
   return (
     <article
       onClick={handleCardClick}
-      className={`group relative bg-[var(--card)] rounded-2xl overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-md ${cartQuantity > 0
-          ? 'border-2 border-[var(--primary)] shadow-xs ring-1 ring-[var(--primary)]/20'
-          : 'border border-[var(--border)] hover:border-[var(--muted-foreground)]'
-        } ${layout === 'grid' ? 'flex flex-col p-2.5 gap-2' : 'flex gap-3 sm:gap-3.5 p-3 sm:p-3.5'
-        } ${!item.is_available ? 'opacity-60' : ''}`}
+      className={`group relative bg-white dark:bg-[var(--card)] rounded-2xl overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-md ${
+        cartQuantity > 0
+          ? 'border-2 border-red-600 shadow-xs ring-1 ring-red-600/20'
+          : 'border border-stone-200/80 dark:border-[var(--border)] hover:border-stone-300 shadow-[0_2px_8px_rgba(0,0,0,0.04)]'
+      } ${
+        layout === 'grid' ? 'flex flex-col p-2.5 gap-2' : 'flex gap-3 sm:gap-3.5 p-3 sm:p-3.5'
+      } ${!item.is_available ? 'opacity-60' : ''}`}
     >
       {/* Thumbnail Container */}
       <div
-        className={`relative flex-shrink-0 bg-[var(--surface)] rounded-xl overflow-hidden border border-[var(--border)]/40 ${layout === 'grid' ? 'w-full h-32' : 'w-24 h-24 sm:w-28 sm:h-28'
-          }`}
+        className={`relative flex-shrink-0 bg-stone-50 dark:bg-[var(--surface)] rounded-xl overflow-hidden border border-stone-100 dark:border-[var(--border)]/40 ${
+          layout === 'grid' ? 'w-full h-32' : 'w-24 h-24 sm:w-28 sm:h-28'
+        }`}
       >
-        {item.image_url && !imageError ? (
+        {resolvedPhoto ? (
           <Image
-            src={getOptimizedCloudinaryUrl(item.image_url, 400)}
+            src={resolvedPhoto}
             alt={displayName}
             fill
             sizes={layout === 'grid' ? '(max-width: 480px) 50vw, 220px' : '112px'}
@@ -111,8 +178,9 @@ export function ItemCard({
             triggerHaptic(15);
             onToggleFavorite(item.id);
           }}
-          className={`action-prevent-modal absolute top-1.5 right-1.5 w-7 h-7 rounded-full flex items-center justify-center backdrop-blur-md transition-all ${isFavorite ? 'bg-red-500 text-white' : 'bg-black/40 text-white hover:bg-black/60'
-            }`}
+          className={`action-prevent-modal absolute top-1.5 right-1.5 w-7 h-7 rounded-full flex items-center justify-center backdrop-blur-md transition-all ${
+            isFavorite ? 'bg-red-500 text-white' : 'bg-black/40 text-white hover:bg-black/60'
+          }`}
           aria-label={`Favorite ${displayName}`}
         >
           <Heart className={`w-3.5 h-3.5 ${isFavorite ? 'fill-current' : ''}`} />
@@ -282,14 +350,25 @@ export function ItemCard({
                   onQuickAdd(item);
                 }
               }}
-              className="action-prevent-modal h-8 px-2.5 sm:px-3 rounded-full flex items-center justify-center gap-1 text-white text-xs font-bold shadow-xs disabled:bg-neutral-400 disabled:cursor-not-allowed transition-transform active:scale-95"
-              style={{ backgroundColor: item.is_available ? 'var(--primary)' : undefined }}
+              className={`action-prevent-modal flex items-center justify-center text-white font-bold shadow-xs disabled:bg-neutral-400 disabled:cursor-not-allowed transition-transform active:scale-90 ${
+                layout === 'grid' && (!item.options || item.options.length === 0)
+                  ? 'w-8 h-8 rounded-full bg-red-600 hover:bg-red-700 shadow-sm'
+                  : 'h-8 px-2.5 sm:px-3 rounded-full gap-1 bg-red-600 hover:bg-red-700 text-xs'
+              }`}
               aria-label={`Add ${displayName} to order`}
             >
-              <Plus className="w-3.5 h-3.5" />
-              <span className="text-[11px] font-bold">
-                {item.options && item.options.length > 0 ? 'Options' : 'Add'}
-              </span>
+              <Plus
+                className={
+                  layout === 'grid' && (!item.options || item.options.length === 0)
+                    ? 'w-4 h-4 stroke-[2.5]'
+                    : 'w-3.5 h-3.5'
+                }
+              />
+              {!(layout === 'grid' && (!item.options || item.options.length === 0)) && (
+                <span className="text-[11px] font-bold">
+                  {item.options && item.options.length > 0 ? 'Options' : 'Add'}
+                </span>
+              )}
             </button>
           )}
         </div>

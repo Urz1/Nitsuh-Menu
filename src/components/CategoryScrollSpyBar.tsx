@@ -25,9 +25,9 @@ interface CategoryScrollSpyBarProps {
 /**
  * Dynamically resolves category cover image:
  * 1. Owner's explicit category image (from database / admin console)
- * 2. Dish photo lookup: finds the first dish in this exact category with an image
- * 3. Smart culinary keyword semantic fallback (never a burger unless category is burgers!)
- * 4. General culinary fallback: authentic banquet feast dish
+ * 2. Studio isolated category cutout (app-icon style like reference)
+ * 3. Dynamic lookup from dish items if available
+ * 4. General culinary fallback
  */
 function getCategoryPhoto(cat: Category, items: MenuItem[] = []): string {
   // 1. Owner-controlled explicit image (highest precedence)
@@ -35,30 +35,27 @@ function getCategoryPhoto(cat: Category, items: MenuItem[] = []): string {
     return cat.image_url;
   }
 
-  // 2. Dynamic lookup: find first dish belonging to this category with an image
-  const categoryDishes = items.filter(
-    (i) => i.category_id === cat.id && i.image_url && i.image_url.trim()
-  );
-  const activeDishWithImage = categoryDishes.find((i) => i.is_available !== false);
-  if (activeDishWithImage?.image_url) {
-    return activeDishWithImage.image_url;
-  }
-  if (categoryDishes[0]?.image_url) {
-    return categoryDishes[0].image_url;
-  }
-
-  // 3. Smart semantic culinary match based on category name & translations
   const combined = `${cat.name || ''} ${cat.name_am || ''} ${cat.id || ''}`.toLowerCase();
 
-  // Burgers ONLY if explicitly burgers
+  // 2. Studio isolated food cutout assets matching reference aesthetic
   if (combined.includes('burger') || combined.includes('በርገር')) {
-    return '/images/dishes/special-burger.jpg';
+    return '/images/categories/burger.jpg';
   }
-  // Pizzas
   if (combined.includes('pizza') || combined.includes('ፒዛ')) {
-    return '/images/dishes/woodfired-pizza.jpg';
+    return '/images/categories/pizza.jpg';
   }
-  // Hot beverages, Coffee, Tea, Latte, Espresso
+  if (
+    combined.includes('dessert') ||
+    combined.includes('cake') ||
+    combined.includes('pastry') ||
+    combined.includes('torta') ||
+    combined.includes('croissant') ||
+    combined.includes('sweet') ||
+    combined.includes('ጣፋጭ') ||
+    combined.includes('ኬክ')
+  ) {
+    return '/images/categories/dessert.jpg';
+  }
   if (
     combined.includes('hot') ||
     combined.includes('coffee') ||
@@ -72,40 +69,24 @@ function getCategoryPhoto(cat: Category, items: MenuItem[] = []): string {
     combined.includes('ትኩስ') ||
     combined.includes('ቡና')
   ) {
-    return '/images/dishes/macchiato-77.jpg';
+    return '/images/categories/hot-drink.jpg';
   }
-  // Cold drinks, Iced drinks, Juices, Smoothies
   if (
     combined.includes('ice') ||
     combined.includes('iced') ||
     combined.includes('cold') ||
+    combined.includes('ቀዝቃዛ')
+  ) {
+    return '/images/categories/iced-drink.jpg';
+  }
+  if (
     combined.includes('juice') ||
     combined.includes('shake') ||
     combined.includes('smoothie') ||
-    combined.includes('drink') ||
-    combined.includes('ቀዝቃዛ') ||
     combined.includes('ጭማቂ')
   ) {
-    return '/images/dishes/fresh-mango-juice.jpg';
+    return '/images/categories/juice.jpg';
   }
-  // Desserts, Cakes, Pastries, Sweets
-  if (
-    combined.includes('dessert') ||
-    combined.includes('cake') ||
-    combined.includes('pastry') ||
-    combined.includes('torta') ||
-    combined.includes('croissant') ||
-    combined.includes('sweet') ||
-    combined.includes('ጣፋጭ') ||
-    combined.includes('ኬክ')
-  ) {
-    return '/images/dishes/opera-cake-5.jpg';
-  }
-  // Breads & Bakery
-  if (combined.includes('bread') || combined.includes('baget') || combined.includes('dabo') || combined.includes('ዳቦ')) {
-    return '/images/dishes/gebis-baget-26.jpg';
-  }
-  // Breakfast
   if (
     combined.includes('breakfast') ||
     combined.includes('berak') ||
@@ -116,40 +97,54 @@ function getCategoryPhoto(cat: Category, items: MenuItem[] = []): string {
     combined.includes('egg') ||
     combined.includes('omelet')
   ) {
-    return '/images/dishes/chechebisa-51.jpg';
+    return '/images/categories/breakfast.jpg';
   }
-  // Snacks & Wings
-  if (combined.includes('snack') || combined.includes('wing') || combined.includes('fries') || combined.includes('ስናክ')) {
-    return '/images/dishes/fried-chicken-wings-70.jpg';
-  }
-  // Mendi
-  if (combined.includes('mendi') || combined.includes('መንዲ')) {
-    return '/images/dishes/special-mendi.jpg';
-  }
-  // Fasting
-  if (combined.includes('fasting') || combined.includes('tsom') || combined.includes('የፆም') || combined.includes('vegan')) {
-    return '/images/dishes/fasting-agelegil-151.jpg';
-  }
-  // Wraps & Shawarma
-  if (combined.includes('wrap') || combined.includes('shawarma') || combined.includes('sandwich') || combined.includes('roll') || combined.includes('ሻዋርማ')) {
-    return '/images/dishes/chicken-shewarma-148.jpg';
-  }
-  // Lunch, Dinner, Tibs, Mains
   if (
-    combined.includes('lunch') ||
-    combined.includes('dinner') ||
-    combined.includes('tibs') ||
-    combined.includes('wot') ||
-    combined.includes('fitfit') ||
-    combined.includes('half') ||
-    combined.includes('ምሳ') ||
-    combined.includes('እራት')
+    combined.includes('sandwich') ||
+    combined.includes('club') ||
+    combined.includes('ሳንድዊች')
   ) {
-    return '/images/dishes/1-2-roasted-chicken-141.jpg';
+    return '/images/categories/sandwich.jpg';
+  }
+  if (
+    combined.includes('wrap') ||
+    combined.includes('shawarma') ||
+    combined.includes('roll') ||
+    combined.includes('ሻዋርማ')
+  ) {
+    return '/images/categories/wrap.jpg';
+  }
+  if (
+    combined.includes('snack') ||
+    combined.includes('wing') ||
+    combined.includes('fries') ||
+    combined.includes('ስናክ')
+  ) {
+    return '/images/categories/snacks.jpg';
+  }
+  if (
+    combined.includes('bread') ||
+    combined.includes('baget') ||
+    combined.includes('dabo') ||
+    combined.includes('ዳቦ')
+  ) {
+    return '/images/dishes/gebis-baget-26.jpg';
   }
 
-  // 4. Default authentic culinary dish (roasted chicken feast platter, never a burger)
-  return '/images/dishes/roasted-chicken.jpg';
+  // 3. Dynamic lookup: find first dish belonging to this category with an image
+  const categoryDishes = items.filter(
+    (i) => i.category_id === cat.id && i.image_url && i.image_url.trim()
+  );
+  const activeDishWithImage = categoryDishes.find((i) => i.is_available !== false);
+  if (activeDishWithImage?.image_url) {
+    return activeDishWithImage.image_url;
+  }
+  if (categoryDishes[0]?.image_url) {
+    return categoryDishes[0].image_url;
+  }
+
+  // 4. Default authentic banquet feast cutout
+  return '/images/categories/all.jpg';
 }
 
 function formatCategoryLabel(cat: Category, locale: string): string {
@@ -253,11 +248,11 @@ export function CategoryScrollSpyBar({
         </button>
       </div>
 
-      {/* 2. Horizontal Scrollable Circular Food Avatars (Realistic Cutout/Photo Style) */}
-      <div className="max-w-4xl mx-auto px-3">
+      {/* 2. Horizontal Scrollable Circular Food Avatars (Airy Studio Cutout Style) */}
+      <div className="max-w-4xl mx-auto px-2 sm:px-3">
         <div
           ref={scrollContainerRef}
-          className="flex items-start gap-3 sm:gap-4 overflow-x-auto no-scrollbar scroll-smooth py-3 px-1"
+          className="flex items-start gap-3 sm:gap-4 overflow-x-auto no-scrollbar scroll-smooth py-3 px-2"
         >
           {/* 'All' Circular Avatar */}
           <button
@@ -272,37 +267,35 @@ export function CategoryScrollSpyBar({
             className="flex-shrink-0 flex flex-col items-center group cursor-pointer active:scale-95 transition-transform"
           >
             <div
-              className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-full p-[2.5px] transition-all duration-200 ${
+              className={`relative w-[54px] h-[54px] sm:w-[60px] sm:h-[60px] rounded-full p-[2px] transition-all duration-200 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)] ${
                 activeCategoryId === 'all'
-                  ? 'border-2 border-[var(--primary)] shadow-sm bg-[var(--card)]'
-                  : 'border-2 border-transparent hover:border-[var(--border)]'
+                  ? 'ring-2 ring-red-600 ring-offset-2 ring-offset-[var(--background)]'
+                  : 'border border-stone-200/80 hover:border-stone-300'
               }`}
             >
-              <div className="relative w-full h-full rounded-full overflow-hidden bg-[var(--surface)] shadow-2xs">
+              <div className="relative w-full h-full rounded-full overflow-hidden bg-white">
                 <Image
-                  src="/images/dishes/roasted-chicken.jpg"
+                  src="/images/categories/all.jpg"
                   alt="All Menu"
                   fill
                   sizes="64px"
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  priority
                 />
-                {activeCategoryId !== 'all' && (
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
-                )}
               </div>
             </div>
             <span
-              className={`text-[11px] sm:text-xs mt-1.5 font-bold text-center transition-colors max-w-[76px] truncate ${
+              className={`text-[11px] sm:text-xs mt-1.5 font-semibold text-center leading-tight line-clamp-2 max-w-[68px] sm:max-w-[76px] min-h-[26px] flex items-center justify-center transition-colors ${
                 activeCategoryId === 'all'
-                  ? 'text-[var(--primary)]'
-                  : 'text-[var(--foreground)]/75 group-hover:text-[var(--foreground)]'
+                  ? 'text-red-600 font-bold'
+                  : 'text-stone-700/80 group-hover:text-stone-950'
               }`}
             >
               {isAm ? 'ሁሉም' : 'All'}
             </span>
           </button>
 
-          {/* Individual Category Circular Avatars with Realistic Food Imagery */}
+          {/* Individual Category Circular Avatars with Studio Cutout Imagery */}
           {categories.map((cat) => {
             const isActive = activeCategoryId === cat.id;
             const displayName = formatCategoryLabel(cat, currentLocale);
@@ -322,13 +315,13 @@ export function CategoryScrollSpyBar({
                 className="flex-shrink-0 flex flex-col items-center group cursor-pointer active:scale-95 transition-transform"
               >
                 <div
-                  className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-full p-[2.5px] transition-all duration-200 ${
+                  className={`relative w-[54px] h-[54px] sm:w-[60px] sm:h-[60px] rounded-full p-[2px] transition-all duration-200 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)] ${
                     isActive
-                      ? 'border-2 border-[var(--primary)] shadow-sm bg-[var(--card)]'
-                      : 'border-2 border-transparent hover:border-[var(--border)]'
+                      ? 'ring-2 ring-red-600 ring-offset-2 ring-offset-[var(--background)]'
+                      : 'border border-stone-200/80 hover:border-stone-300'
                   }`}
                 >
-                  <div className="relative w-full h-full rounded-full overflow-hidden bg-[var(--surface)] shadow-2xs">
+                  <div className="relative w-full h-full rounded-full overflow-hidden bg-white">
                     <Image
                       src={photoUrl}
                       alt={displayName}
@@ -337,16 +330,13 @@ export function CategoryScrollSpyBar({
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
                       loading="lazy"
                     />
-                    {!isActive && (
-                      <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
-                    )}
                   </div>
                 </div>
                 <span
-                  className={`text-[11px] sm:text-xs mt-1.5 font-bold text-center transition-colors max-w-[76px] truncate ${
+                  className={`text-[11px] sm:text-xs mt-1.5 font-semibold text-center leading-tight line-clamp-2 max-w-[68px] sm:max-w-[76px] min-h-[26px] flex items-center justify-center transition-colors ${
                     isActive
-                      ? 'text-[var(--primary)]'
-                      : 'text-[var(--foreground)]/75 group-hover:text-[var(--foreground)]'
+                      ? 'text-red-600 font-bold'
+                      : 'text-stone-700/80 group-hover:text-stone-950'
                   }`}
                 >
                   {displayName}

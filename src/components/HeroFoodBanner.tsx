@@ -41,7 +41,7 @@ const HERO_SLIDES: BannerSlide[] = [
       am: 'አሁን ይዘዙ',
       so: 'Dalbo Hadda',
     },
-    imageUrl: '/images/dishes/special-burger.jpg',
+    imageUrl: '/images/brand/hero-burger-combo.jpg',
     bgGradient: 'from-[#7F0E17] via-[#9B111E] to-[#40070B]',
     accentColor: '#C11221',
     targetCategoryId: 'cat-burgers',
@@ -68,7 +68,7 @@ const HERO_SLIDES: BannerSlide[] = [
       am: 'ፒዛዎችን ይመልከቱ',
       so: 'Fiiri Pizzada',
     },
-    imageUrl: '/images/dishes/woodfired-pizza.jpg',
+    imageUrl: '/images/categories/pizza.jpg',
     bgGradient: 'from-[#8C2C0B] via-[#B83E10] to-[#3B1104]',
     accentColor: '#D97706',
     targetCategoryId: 'cat-pizzas',
@@ -95,7 +95,7 @@ const HERO_SLIDES: BannerSlide[] = [
       am: 'ቁርስ ይመልከቱ',
       so: 'Fiiri Quraacda',
     },
-    imageUrl: '/images/dishes/chechebisa-51.jpg',
+    imageUrl: '/images/categories/breakfast.jpg',
     bgGradient: 'from-[#5F370E] via-[#7B4612] to-[#2B1806]',
     accentColor: '#F59E0B',
     targetCategoryId: 'cat-breakfast',
@@ -214,18 +214,17 @@ export function HeroFoodBanner({ locale = 'en', onSelectCategory }: HeroFoodBann
             </div>
           </div>
 
-          {/* Right Image Showcase */}
+          {/* Right Hero Food Showcase */}
           <div className="flex-shrink-0 relative">
-            <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-white/30 shadow-2xl bg-black/20 transform rotate-1 hover:rotate-0 transition-transform">
+            <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_12px_28px_rgba(0,0,0,0.35)] ring-1 ring-white/20 bg-white/5 transition-transform duration-300">
               <Image
                 src={activeSlide.imageUrl}
                 alt={activeSlide.title.en}
                 fill
-                sizes="(max-width: 640px) 100px, 130px"
+                sizes="(max-width: 640px) 112px, 144px"
                 className="object-cover"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
             </div>
           </div>
         </div>
