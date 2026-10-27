@@ -30,7 +30,7 @@ export function OrderBar({
   return (
     <aside
       className="fixed left-0 right-0 z-40 flex justify-center px-3 sm:px-4 pointer-events-none animate-in slide-in-from-bottom duration-300"
-      style={{ bottom: 'calc(env(safe-area-inset-bottom, 0px) + 1rem)' }}
+      style={{ bottom: 'calc(env(safe-area-inset-bottom, 0px) + 4.5rem)' }}
     >
       <button
         onClick={() => {
@@ -43,10 +43,10 @@ export function OrderBar({
       >
         <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
           <ShoppingBag className="w-5 h-5 flex-shrink-0" />
-          <span className="bg-black/25 px-2 py-0.5 rounded-full text-xs font-bold flex-shrink-0">
+          <span className="bg-black/25 px-2 py-0.5 rounded-full text-xs font-bold flex-shrink-0 tabular-nums">
             {totalItems}
           </span>
-          <span className="font-extrabold text-sm sm:text-base tracking-tight truncate">
+          <span className="font-extrabold text-sm sm:text-base tracking-tight truncate tabular-nums">
             {formatMoney(subtotal, currencySymbol)}
           </span>
           {totalSavings > 0 && (

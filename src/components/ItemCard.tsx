@@ -166,15 +166,18 @@ export function ItemCard({
           </div>
 
           <h3
-            className={`font-bold text-[var(--foreground)] leading-snug ${layout === 'grid' ? 'text-sm truncate' : 'text-base line-clamp-2'
-              }`}
+            className={`font-bold text-[var(--foreground)] leading-snug ${
+              layout === 'grid' ? 'text-base truncate' : 'text-base sm:text-lg line-clamp-2'
+            }`}
           >
             {displayName}
           </h3>
 
-          <p className="text-xs text-[var(--muted)] mt-1 line-clamp-2 leading-relaxed">
-            {displayDesc}
-          </p>
+          {displayDesc && (
+            <p className="text-sm text-[var(--muted-foreground)] mt-1 line-clamp-2 leading-relaxed">
+              {displayDesc}
+            </p>
+          )}
 
           {/* Dietary tags */}
           <div className="flex items-center gap-1 mt-1.5 flex-wrap">
@@ -215,18 +218,18 @@ export function ItemCard({
 
         {/* Bottom Price & Add/Stepper Control */}
         <div className="flex items-center justify-between mt-3 pt-2 border-t border-[var(--border)]">
-          <div className="flex items-baseline gap-1.5">
+          <div className="flex items-baseline gap-1.5 tabular-nums">
             {hasOffer ? (
               <>
-                <span className="font-extrabold text-base" style={{ color: 'var(--primary)' }}>
+                <span className="font-extrabold text-base sm:text-lg tabular-nums" style={{ color: 'var(--primary)' }}>
                   {formatMoney(finalPrice, currencySymbol)}
                 </span>
-                <span className="text-xs text-[var(--muted)] line-through">
+                <span className="text-xs text-[var(--muted-foreground)] line-through tabular-nums">
                   {formatMoney(originalPrice, currencySymbol)}
                 </span>
               </>
             ) : (
-              <span className="font-extrabold text-base" style={{ color: 'var(--primary)' }}>
+              <span className="font-extrabold text-base sm:text-lg tabular-nums" style={{ color: 'var(--primary)' }}>
                 {formatMoney(item.price, currencySymbol)}
               </span>
             )}

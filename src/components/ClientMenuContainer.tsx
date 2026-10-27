@@ -5,6 +5,12 @@ import { Restaurant, Category, MenuItem, ItemOption, Offer, DishReview, Restaura
 import { CartItem, DietaryFilter, SortOrder } from '@/types/menu';
 import { MenuHeader } from './MenuHeader';
 import { MenuControlBar } from './MenuControlBar';
+import { SlimHeader } from './SlimHeader';
+import { StickySearchBar } from './StickySearchBar';
+import { CategoryScrollSpyBar } from './CategoryScrollSpyBar';
+import { BottomNavBar, BottomNavTab } from './BottomNavBar';
+import { FilterSheet } from './FilterSheet';
+import { RestaurantInfoModal } from './RestaurantInfoModal';
 import { CategoryTabs } from './CategoryTabs';
 import { FilterBar } from './FilterBar';
 import { ItemCard } from './ItemCard';
@@ -192,6 +198,9 @@ export function ClientMenuContainer({
 
   // Modals state
   const [selectedDetailItem, setSelectedDetailItem] = useState<MenuItem | null>(null);
+  const [activeTab, setActiveTab] = useState<BottomNavTab>('menu');
+  const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false);
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isOrderSheetOpen, setIsOrderSheetOpen] = useState(false);
   const [isServerCardOpen, setIsServerCardOpen] = useState(false);
   const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
@@ -200,6 +209,24 @@ export function ClientMenuContainer({
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
+
+  const handleTabChange = (tab: BottomNavTab) => {
+    setActiveTab(tab);
+    if (tab === 'menu') {
+      if (activeFilter === 'onOffer' || activeFilter === 'favorites') {
+        setActiveFilter('all');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (tab === 'offers') {
+      setActiveFilter('onOffer');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (tab === 'favorites') {
+      setActiveFilter('favorites');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (tab === 'info') {
+      setIsInfoModalOpen(true);
+    }
+  };
 
   // Initialize session storage on mount
   useEffect(() => {
@@ -644,13 +671,9 @@ export function ClientMenuContainer({
   };
 
   // Filtered & Sorted items computation
+  // Filtered & Sorted items computation (Continuous scroll across all categories)
   const filteredItems = useMemo(() => {
     let result = [...items];
-
-    // Specific category filter: if activeCategoryId is set and not 'all' or 'offers'
-    if (activeCategoryId && activeCategoryId !== 'all' && activeCategoryId !== 'offers') {
-      result = result.filter((i) => i.category_id === activeCategoryId);
-    }
 
     // Search query filter
     if (searchQuery.trim().length > 0) {
@@ -665,9 +688,18 @@ export function ClientMenuContainer({
       );
     }
 
-    // "On offer" Filter Chip or "Offers" tab
+    // Dietary & Special Filters
     if (activeFilter === 'onOffer' || activeCategoryId === 'offers') {
       result = result.filter((i) => itemPricingMap.get(i.id)?.hasOffer);
+    } else if (activeFilter === 'fasting') {
+      result = result.filter(
+        (i) =>
+          i.tags?.includes('fasting') ||
+          i.tags?.includes('tsom') ||
+          (i as any).is_fasting ||
+          i.category_id?.includes('fasting') ||
+          i.category_id === 'cat-fasting-lunch'
+      );
     } else if (activeFilter === 'chefsPick') {
       result = result.filter((i) => i.is_chefs_pick);
     } else if (activeFilter === 'favorites') {
@@ -694,23 +726,12 @@ export function ClientMenuContainer({
     }
 
     return result;
-  }, [items, searchQuery, activeFilter, activeCategoryId, sortOrder, favorites, itemPricingMap]);
+  }, [items, searchQuery, activeFilter, sortOrder, favorites, itemPricingMap]);
 
-  // Active Category object (null when in 'all' or 'offers' mode)
-  const activeCategory = useMemo(() => {
-    if (!activeCategoryId || activeCategoryId === 'all' || activeCategoryId === 'offers') {
-      return null;
-    }
-    return categories.find((c) => c.id === activeCategoryId) || null;
-  }, [categories, activeCategoryId]);
-
-  // Categories displayed on screen (all categories if 'all', or only the selected category)
+  // Categories displayed on screen (continuous stream for seamless scroll-spy)
   const displayedCategories = useMemo(() => {
-    if (!activeCategoryId || activeCategoryId === 'all' || activeCategoryId === 'offers') {
-      return categories;
-    }
-    return categories.filter((c) => c.id === activeCategoryId);
-  }, [categories, activeCategoryId]);
+    return categories;
+  }, [categories]);
 
   // Gentle pairing recommendations for "Goes well with"
   const pairingItems = useMemo(() => {
@@ -753,85 +774,76 @@ export function ClientMenuContainer({
         </div>
       )}
 
-      {/* 1. STICKY TOP HEADER */}
-      <MenuHeader
-        restaurant={restaurant}
-        tableNumber={tableNumber}
-        favCount={favorites.size}
-        locale={locale}
-        onLocaleChange={(newLocale) => {
-          setLocale(newLocale);
-          showToast(
-            newLocale === 'am'
-              ? 'ቋንቋ ወደ አማርኛ ተቀይሯል'
-              : newLocale === 'so'
-                ? 'Af-Soomaali ayaa loo beddelay'
-                : 'Switched to English'
-          );
-        }}
-        onToggleSearch={() => setIsSearchOpen(!isSearchOpen)}
-        onOpenFavorites={() => setActiveFilter(activeFilter === 'favorites' ? 'all' : 'favorites')}
-        onOpenSettingsModal={() => setIsSettingsModalOpen(true)}
-        onOpenLegendModal={() => setIsLegendModalOpen(true)}
-        onShowWifiToast={() =>
-          showToast(`📶 WiFi: ${restaurant.wifi_config.ssid} (Pass: ${restaurant.wifi_config.password || 'none'})`)
-        }
-        onShowNoticeToast={(msg) => showToast(msg)}
-      />
+      {/* 1. UNIFIED SLIM STICKY HEADER SYSTEM */}
+      <div className="sticky top-0 z-40 bg-[var(--card)]/95 backdrop-blur-md shadow-xs">
+        {/* 1.1 Slim Header: Logo, Name, Open/Closed status, and Segmented Language Toggle (EN | አማ | SO) */}
+        <SlimHeader
+          restaurant={restaurant}
+          locale={locale}
+          onLocaleChange={(newLocale) => {
+            setLocale(newLocale);
+            showToast(
+              newLocale === 'am'
+                ? 'ቋንቋ ወደ አማርኛ ተቀይሯል'
+                : newLocale === 'so'
+                  ? 'Af-Soomaali ayaa loo beddelay'
+                  : 'Switched to English'
+            );
+          }}
+          onLogoTap={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        />
 
-      {/* 1.1 CALM OFFER BANNER (Maximum ONE calm banner at the top, dismissible for session) */}
+        {/* 1.2 Sticky Search Bar: Persistent, prominent 16px search input */}
+        <StickySearchBar
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          locale={locale}
+        />
+
+        {/* 1.3 Sticky Category Chips Bar: Scroll-Spy chips, quick 1-tap Fasting toggle & Filter sheet trigger */}
+        <CategoryScrollSpyBar
+          categories={categories}
+          activeCategoryId={activeCategoryId}
+          onSelectCategory={(id) => {
+            isManualScrollRef.current = true;
+            setActiveCategoryId(id);
+            if (id === 'all') {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+              const el = document.getElementById(`cat-${id}`);
+              if (el) {
+                const headerOffset = 145;
+                const elementPosition = el.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+              }
+            }
+            setTimeout(() => {
+              isManualScrollRef.current = false;
+            }, 800);
+          }}
+          itemCounts={itemCountsByCategory}
+          totalItemsCount={items.length}
+          activeFilter={activeFilter}
+          onToggleFasting={() => {
+            const nextFilter = activeFilter === 'fasting' ? 'all' : 'fasting';
+            setActiveFilter(nextFilter);
+            if (nextFilter === 'fasting') {
+              showToast(locale === 'am' ? 'የጾም ምግቦች ብቻ ተመርጠዋል' : 'Showing fasting dishes (meat & dairy free)');
+            }
+          }}
+          onOpenFilterSheet={() => setIsFilterSheetOpen(true)}
+          activeFilterCount={
+            (activeFilter !== 'all' ? 1 : 0) + (sortOrder !== 'featured' ? 1 : 0)
+          }
+          locale={locale}
+        />
+      </div>
+
+      {/* 1.4 Calm Offer Banner (Dismissible single highlight) */}
       <CalmOfferBanner
         activeOffer={bannerOffer}
         onSeeOffer={handleSeeOffer}
-      />
-
-      {/* Collapsible Search Drawer */}
-      {isSearchOpen && (
-        <div className="px-4 py-2.5 bg-[var(--card)] border-b border-[var(--border)] animate-in slide-in-from-top-2">
-          <input
-            type="search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={TRANSLATIONS[locale]?.searchPlaceholder || "Search dishes, ingredients, dietary tags..."}
-            className="w-full h-11 px-4 rounded-full bg-[var(--background)] border border-[var(--border)] text-xs text-[var(--foreground)] outline-none focus:border-[var(--primary)]"
-            autoFocus
-          />
-        </div>
-      )}
-
-      {/* 2. UNIFIED SINGLE STICKY MENU CONTROL BAR (Zero horizontal scrolling, unified category picker & bottom sheets) */}
-      <MenuControlBar
-        categories={categories}
-        activeCategoryId={activeCategoryId}
-        hasActiveOffers={activeOffers.length > 0}
-        offersCount={activeOffers.length}
-        itemCounts={itemCountsByCategory}
-        locale={locale}
-        activeFilter={activeFilter}
-        onFilterChange={(filter) => {
-          setActiveFilter(filter);
-          if (filter !== 'onOffer' && activeCategoryId === 'offers') {
-            setActiveCategoryId('all');
-          }
-        }}
-        sortOrder={sortOrder}
-        onSortChange={setSortOrder}
-        layout={layout}
-        onToggleLayout={() => setLayout(layout === 'list' ? 'grid' : 'list')}
-        onOpenCategoryDirectory={() => setIsCategoryDrawerOpen(true)}
-        onSelectCategory={(id) => {
-          isManualScrollRef.current = true;
-          setActiveCategoryId(id);
-          if (id === 'offers') {
-            setActiveFilter('onOffer');
-          } else {
-            if (activeFilter === 'onOffer') setActiveFilter('all');
-          }
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          setTimeout(() => {
-            isManualScrollRef.current = false;
-          }, 800);
-        }}
       />
 
       {/* 4. MAIN MENU ITEMS */}
@@ -934,64 +946,7 @@ export function ClientMenuContainer({
           </section>
         ) : (
           <>
-            {/* Active Category Filter Header (Shown when viewing a specific category) */}
-            {activeCategoryId !== 'all' && activeCategoryId !== 'offers' && activeCategory && (
-              <div className="mb-5 p-3.5 rounded-2xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-between shadow-2xs">
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <span className="text-2xl flex-shrink-0">{activeCategory.icon || '🍽️'}</span>
-                  <div className="min-w-0">
-                    <h2 className="text-sm font-bold text-[var(--foreground)] truncate font-brand flex items-center gap-1.5">
-                      <span>
-                        {CATEGORY_TRANSLATIONS[activeCategory.id]?.[locale]?.name ||
-                          (locale === 'am' && activeCategory.name_am) ||
-                          (locale === 'so' && activeCategory.name_so) ||
-                          (locale === 'es' && activeCategory.name_es) ||
-                          activeCategory.name}
-                      </span>
-                      <span className="text-[11px] font-semibold text-[var(--muted)] px-1.5 py-0.2 rounded-full bg-[var(--background)] border border-[var(--border)]">
-                        {filteredItems.length}
-                      </span>
-                    </h2>
-                    <p className="text-[11px] text-[var(--muted)] truncate mt-0.5">
-                      {CATEGORY_TRANSLATIONS[activeCategory.id]?.[locale]?.description ||
-                        (locale === 'am' && activeCategory.description_am) ||
-                        (locale === 'so' && activeCategory.description_so) ||
-                        (locale === 'es' && activeCategory.description_es) ||
-                        activeCategory.description}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1.5 flex-shrink-0 ml-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      triggerHaptic(8);
-                      setActiveCategoryId('all');
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    className="px-2.5 py-1.5 rounded-full bg-[var(--background)] hover:bg-[var(--border)] text-[var(--foreground)] border border-[var(--border)] text-xs font-bold flex items-center gap-1.5 transition-colors active:scale-95 shadow-2xs"
-                    title="View All Menu"
-                  >
-                    <Utensils className="w-3.5 h-3.5 text-[var(--primary)]" />
-                    <span>{locale === 'am' ? 'ሁሉንም አሳይ' : 'Show All'}</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      triggerHaptic(8);
-                      setIsCategoryDrawerOpen(true);
-                    }}
-                    className="w-8 h-8 rounded-full bg-[var(--background)] hover:bg-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] border border-[var(--border)] flex items-center justify-center transition-colors active:scale-95"
-                    title={TRANSLATIONS[locale]?.browseCategories || 'Directory'}
-                    aria-label={TRANSLATIONS[locale]?.browseCategories || 'Directory'}
-                  >
-                    <Compass className="w-4 h-4 text-[var(--primary)]" />
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Category-grouped sections (all categories OR filtered single category) */}
+            {/* Category-grouped sections (continuous stream for scroll-spy) */}
             {displayedCategories.map((cat, catIdx) => {
               const catItems = filteredItems.filter((i) => i.category_id === cat.id);
               if (catItems.length === 0) return null;
@@ -1009,35 +964,20 @@ export function ClientMenuContainer({
                 (locale === 'es' && cat.description_es) ||
                 cat.description;
 
-              // Find next non-empty category from master list
-              const currentCatIdxInAll = categories.findIndex((c) => c.id === cat.id);
-              const nextCat = categories.slice(currentCatIdxInAll + 1).find((c) =>
-                items.some((i) => i.category_id === c.id)
-              );
-              const nextDisplayName = nextCat
-                ? (CATEGORY_TRANSLATIONS[nextCat.id]?.[locale]?.name ||
-                  (locale === 'am' && nextCat.name_am) ||
-                  (locale === 'so' && nextCat.name_so) ||
-                  (locale === 'es' && nextCat.name_es) ||
-                  nextCat.name)
-                : '';
-
               return (
                 <section key={cat.id} id={`cat-${cat.id}`} className="mb-10 scroll-mt-36">
-                  {activeCategoryId === 'all' && (
-                    <div className="mb-3 flex items-baseline justify-between">
-                      <div>
-                        <h2 className="text-lg font-bold text-[var(--foreground)] font-brand flex items-center gap-2">
-                          <span>{formatCategoryIcon(cat.icon, cat.name)}</span>
-                          <span>{displayName}</span>
-                        </h2>
-                        <p className="text-xs text-[var(--muted)] mt-0.5">{displayDesc}</p>
-                      </div>
-                      <span className="text-[11px] font-semibold text-[var(--muted)]">
-                        {catItems.length} {catItems.length === 1 ? 'dish' : 'dishes'}
-                      </span>
+                  <div className="mb-3 flex items-baseline justify-between">
+                    <div>
+                      <h2 className="text-lg font-bold text-[var(--foreground)] font-brand flex items-center gap-2">
+                        <span>{formatCategoryIcon(cat.icon, cat.name)}</span>
+                        <span>{displayName}</span>
+                      </h2>
+                      <p className="text-xs text-[var(--muted)] mt-0.5">{displayDesc}</p>
                     </div>
-                  )}
+                    <span className="text-[11px] font-semibold text-[var(--muted)]">
+                      {catItems.length} {catItems.length === 1 ? 'dish' : 'dishes'}
+                    </span>
+                  </div>
 
                   <div className={layout === 'grid' ? 'grid grid-cols-2 gap-3' : 'flex flex-col gap-3'}>
                     {catItems.map((item) => (
@@ -1058,64 +998,6 @@ export function ClientMenuContainer({
                         locale={locale}
                       />
                     ))}
-                  </div>
-
-                  {/* In-feed Next Category Transition Link & Directory Jump */}
-                  <div className="mt-4 pt-3 border-t border-dashed border-[var(--border)] flex flex-wrap items-center justify-between gap-2">
-                    <div className="flex items-center gap-2">
-                      {activeCategoryId !== 'all' ? (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            triggerHaptic(8);
-                            setActiveCategoryId('all');
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                          }}
-                          className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--primary)] hover:underline active:scale-95 transition-transform"
-                        >
-                          <Utensils className="w-3.5 h-3.5" />
-                          <span>{locale === 'am' ? '← ወደ ሙሉ ዝርዝር ተመለስ' : '← View All Categories'}</span>
-                        </button>
-                      ) : (
-                        <span className="text-[11px] text-[var(--muted)]">
-                          {TRANSLATIONS[locale]?.endOfCategory || 'End of'} {displayName}
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          triggerHaptic(8);
-                          setIsCategoryDrawerOpen(true);
-                        }}
-                        className="inline-flex items-center gap-1 text-[11px] font-semibold text-[var(--muted)] hover:text-[var(--foreground)] px-2 py-1 rounded-md hover:bg-[var(--border)]/40 transition-colors"
-                      >
-                        <Compass className="w-3 h-3 text-[var(--primary)]" />
-                        <span className="hidden sm:inline">{TRANSLATIONS[locale]?.browseCategories || 'Directory'}</span>
-                      </button>
-                      {nextCat && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            triggerHaptic(8);
-                            isManualScrollRef.current = true;
-                            setActiveCategoryId(nextCat.id);
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                            setTimeout(() => {
-                              isManualScrollRef.current = false;
-                            }, 800);
-                          }}
-                          className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--primary)] hover:underline active:scale-95 transition-transform"
-                        >
-                          <span>
-                            Next: {formatCategoryIcon(nextCat.icon, nextCat.name)} {nextDisplayName}
-                          </span>
-                          <ChevronDown className="w-3.5 h-3.5 -rotate-90" />
-                        </button>
-                      )}
-                    </div>
                   </div>
                 </section>
               );
@@ -1474,6 +1356,44 @@ export function ClientMenuContainer({
           </div>
         </div>
       )}
+
+      {/* 8. MOBILE BOTTOM NAVIGATION BAR */}
+      <BottomNavBar
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        offersCount={activeOffers.length}
+        favoritesCount={favorites.size}
+        locale={locale}
+      />
+
+      {/* 9. UNIFIED FILTER & SORT BOTTOM SHEET */}
+      <FilterSheet
+        isOpen={isFilterSheetOpen}
+        onClose={() => setIsFilterSheetOpen(false)}
+        activeFilter={activeFilter}
+        onFilterChange={(newFilter) => {
+          setActiveFilter(newFilter);
+          if (newFilter === 'onOffer') setActiveTab('offers');
+          else if (newFilter === 'favorites') setActiveTab('favorites');
+          else setActiveTab('menu');
+        }}
+        sortOrder={sortOrder}
+        onSortChange={setSortOrder}
+        layout={layout}
+        onLayoutChange={setLayout}
+        offersCount={activeOffers.length}
+        locale={locale}
+      />
+
+      {/* 10. CONSOLIDATED RESTAURANT INFO SHEET (WIFI, HOURS, ALLERGENS, MAP, THEME) */}
+      <RestaurantInfoModal
+        isOpen={isInfoModalOpen}
+        onClose={() => setIsInfoModalOpen(false)}
+        restaurant={restaurant}
+        tableNumber={tableNumber}
+        locale={locale}
+        onOpenQrModal={() => setIsQrModalOpen(true)}
+      />
 
       {/* Toast Notification */}
       {toastMessage && (

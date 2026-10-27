@@ -1,5 +1,5 @@
 // Offline PWA Service Worker for Digital Menu
-const CACHE_NAME = 'digital-menu-cache-v4';
+const CACHE_NAME = 'digital-menu-cache-v5';
 const OFFLINE_URLS = [
   '/',
   '/nitsuh',
@@ -38,10 +38,14 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(event.request.url);
 
-  // Bypass Service Worker for external CDN media:
-  // Cloudinary has native 30-day HTTP browser caching and global CDN edges.
-  // Direct browser network fetching guarantees 100% reliability with 0 service worker interception errors.
-  if (url.hostname === 'res.cloudinary.com' || url.hostname === 'images.unsplash.com') {
+  // Bypass Service Worker on localhost/dev, for internal Next.js build chunks, and external CDN media
+  if (
+    url.hostname === 'localhost' ||
+    url.hostname === '127.0.0.1' ||
+    url.pathname.startsWith('/_next/') ||
+    url.hostname === 'res.cloudinary.com' ||
+    url.hostname === 'images.unsplash.com'
+  ) {
     return;
   }
 
