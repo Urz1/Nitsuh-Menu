@@ -10,6 +10,7 @@ interface StickySearchBarProps {
   onSearchChange: (q: string) => void;
   locale?: Language | string;
   placeholder?: string;
+  inputRef?: React.RefObject<HTMLInputElement | null>;
 }
 
 export function StickySearchBar({
@@ -17,6 +18,7 @@ export function StickySearchBar({
   onSearchChange,
   locale = 'en',
   placeholder,
+  inputRef,
 }: StickySearchBarProps) {
   const currentLocale = (locale as Language) || 'en';
   const t = TRANSLATIONS[currentLocale] || TRANSLATIONS.en;
@@ -31,6 +33,7 @@ export function StickySearchBar({
       <div className="max-w-4xl mx-auto relative flex items-center">
         <Search className="absolute left-3.5 w-4 h-4 text-[var(--muted-foreground)] pointer-events-none" />
         <input
+          ref={inputRef}
           type="search"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}

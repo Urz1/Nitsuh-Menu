@@ -11,7 +11,7 @@ import { CategoryScrollSpyBar } from './CategoryScrollSpyBar';
 import { BottomNavBar, BottomNavTab } from './BottomNavBar';
 import { FilterSheet } from './FilterSheet';
 import { RestaurantInfoModal } from './RestaurantInfoModal';
-import { TableclothPullWrapper } from './TableclothPullWrapper';
+import { DraggableMenuSheet } from './DraggableMenuSheet';
 import { CategoryTabs } from './CategoryTabs';
 import { FilterBar } from './FilterBar';
 import { ItemCard } from './ItemCard';
@@ -210,6 +210,7 @@ export function ClientMenuContainer({
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const handleTabChange = (tab: BottomNavTab) => {
     setActiveTab(tab);
@@ -681,9 +682,10 @@ export function ClientMenuContainer({
       const q = searchQuery.toLowerCase();
       result = result.filter(
         (i) =>
-          i.name.toLowerCase().includes(q) ||
+          (i.name && i.name.toLowerCase().includes(q)) ||
           (i.name_es && i.name_es.toLowerCase().includes(q)) ||
-          i.description.toLowerCase().includes(q) ||
+          (i.name_am && i.name_am.includes(q)) ||
+          (i.description && i.description.toLowerCase().includes(q)) ||
           (i.tags && i.tags.join(' ').toLowerCase().includes(q)) ||
           (i.allergens && i.allergens.join(' ').toLowerCase().includes(q))
       );
@@ -789,82 +791,96 @@ export function ClientMenuContainer({
         </div>
       )}
 
-      {/* 1. TABLECLOTH PULL & DRAG INTERACTION SYSTEM */}
-      <TableclothPullWrapper onRefresh={handleRefreshMenu} locale={locale}>
-        {/* 1. UNIFIED SLIM STICKY HEADER SYSTEM */}
-        <div className="sticky top-0 z-40 bg-[var(--card)]/95 backdrop-blur-md shadow-xs">
-        {/* 1.1 Slim Header: Logo, Name, Open/Closed status, and Segmented Language Toggle (EN | አማ | SO) */}
-        <SlimHeader
-          restaurant={restaurant}
-          locale={locale}
-          onLocaleChange={(newLocale) => {
-            setLocale(newLocale);
-            showToast(
-              newLocale === 'am'
-                ? 'ቋንቋ ወደ አማርኛ ተቀይሯል'
-                : newLocale === 'so'
-                  ? 'Af-Soomaali ayaa loo beddelay'
-                  : 'Switched to English'
-            );
-          }}
-          onLogoTap={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        />
+      {/* 1. NATIVE DRAGGABLE MENU SHEET ARCHITECTURE */}
+      <DraggableMenuSheet
+        restaurant={restaurant}
+        locale={locale}
+        onLocaleChange={(newLocale) => {
+          setLocale(newLocale);
+          showToast(
+            newLocale === 'am'
+              ? 'ቋንቋ ወደ አማርኛ ተቀይሯል'
+              : newLocale === 'so'
+                ? 'Af-Soomaali ayaa loo beddelay'
+                : 'Switched to English'
+          );
+        }}
+        searchInputRef={searchInputRef}
+        fullHeaderContent={
+          <div className="bg-[var(--card)] shadow-xs">
+            {/* 1.1 Slim Header: Logo, Name, Open/Closed status, and Segmented Language Toggle */}
+            <SlimHeader
+              restaurant={restaurant}
+              locale={locale}
+              onLocaleChange={(newLocale) => {
+                setLocale(newLocale);
+                showToast(
+                  newLocale === 'am'
+                    ? 'ቋንቋ ወደ አማርኛ ተቀይሯል'
+                    : newLocale === 'so'
+                      ? 'Af-Soomaali ayaa loo beddelay'
+                      : 'Switched to English'
+                );
+              }}
+              onLogoTap={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            />
 
-        {/* 1.2 Sticky Search Bar: Persistent, prominent 16px search input */}
-        <StickySearchBar
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          locale={locale}
-        />
-
-        {/* 1.3 Sticky Category Chips Bar: Scroll-Spy chips, quick 1-tap Fasting toggle & Filter sheet trigger */}
-        <CategoryScrollSpyBar
-          categories={categories}
-          activeCategoryId={activeCategoryId}
-          onSelectCategory={(id) => {
-            isManualScrollRef.current = true;
-            setActiveCategoryId(id);
-            if (id === 'all') {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-              const el = document.getElementById(`cat-${id}`);
-              if (el) {
-                const headerOffset = 145;
-                const elementPosition = el.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            {/* 1.2 Sticky Search Bar: Persistent, prominent 16px search input */}
+            <StickySearchBar
+              inputRef={searchInputRef}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              locale={locale}
+            />
+          </div>
+        }
+        sheetHeaderContent={
+          <div className="bg-[var(--card)] border-b border-[var(--border)]">
+            {/* 1.3 Category Chips Bar: horizontal chips, quick 1-tap Fasting toggle & Filter sheet trigger */}
+            <CategoryScrollSpyBar
+              categories={categories}
+              activeCategoryId={activeCategoryId}
+              onSelectCategory={(id) => {
+                isManualScrollRef.current = true;
+                setActiveCategoryId(id);
+                if (id === 'all') {
+                  const scroller = document.querySelector('[style*="overflow-y"]');
+                  scroller?.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                  const el = document.getElementById(`cat-${id}`);
+                  if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }
+                setTimeout(() => {
+                  isManualScrollRef.current = false;
+                }, 800);
+              }}
+              itemCounts={itemCountsByCategory}
+              totalItemsCount={items.length}
+              activeFilter={activeFilter}
+              onToggleFasting={() => {
+                const nextFilter = activeFilter === 'fasting' ? 'all' : 'fasting';
+                setActiveFilter(nextFilter);
+                if (nextFilter === 'fasting') {
+                  showToast(locale === 'am' ? 'የጾም ምግቦች ብቻ ተመርጠዋል' : 'Showing fasting dishes (meat & dairy free)');
+                }
+              }}
+              onOpenFilterSheet={() => setIsFilterSheetOpen(true)}
+              activeFilterCount={
+                (activeFilter !== 'all' ? 1 : 0) + (sortOrder !== 'featured' ? 1 : 0)
               }
-            }
-            setTimeout(() => {
-              isManualScrollRef.current = false;
-            }, 800);
-          }}
-          itemCounts={itemCountsByCategory}
-          totalItemsCount={items.length}
-          activeFilter={activeFilter}
-          onToggleFasting={() => {
-            const nextFilter = activeFilter === 'fasting' ? 'all' : 'fasting';
-            setActiveFilter(nextFilter);
-            if (nextFilter === 'fasting') {
-              showToast(locale === 'am' ? 'የጾም ምግቦች ብቻ ተመርጠዋል' : 'Showing fasting dishes (meat & dairy free)');
-            }
-          }}
-          onOpenFilterSheet={() => setIsFilterSheetOpen(true)}
-          activeFilterCount={
-            (activeFilter !== 'all' ? 1 : 0) + (sortOrder !== 'featured' ? 1 : 0)
-          }
-          locale={locale}
-        />
-      </div>
+              locale={locale}
+            />
 
-      {/* 1.4 Calm Offer Banner (Dismissible single highlight) */}
-      <CalmOfferBanner
-        activeOffer={bannerOffer}
-        onSeeOffer={handleSeeOffer}
-      />
-
-      {/* 4. MAIN MENU ITEMS */}
-      <main className="px-4 py-4 flex-1">
+            {/* 1.4 Calm Offer Banner */}
+            <CalmOfferBanner
+              activeOffer={bannerOffer}
+              onSeeOffer={handleSeeOffer}
+            />
+          </div>
+        }
+      >
         {filteredItems.length === 0 ? (
           <div className="py-20 text-center text-[var(--muted)]">
             <div className="w-14 h-14 rounded-2xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-center mx-auto mb-3 shadow-xs">
@@ -1021,8 +1037,7 @@ export function ClientMenuContainer({
             })}
           </>
         )}
-      </main>
-      </TableclothPullWrapper>
+      </DraggableMenuSheet>
 
       {/* 5. FLOATING BOTTOM ORDER BAR */}
       <OrderBar

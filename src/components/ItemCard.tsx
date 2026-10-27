@@ -75,6 +75,7 @@ export function ItemCard({
   return (
     <article
       onClick={handleCardClick}
+      style={{ contentVisibility: 'auto', containIntrinsicSize: layout === 'grid' ? '280px' : '120px' }}
       className={`group relative bg-[var(--card)] rounded-2xl overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-md ${cartQuantity > 0
           ? 'border-2 border-[var(--primary)] shadow-xs ring-1 ring-[var(--primary)]/20'
           : 'border border-[var(--border)] hover:border-[var(--muted-foreground)]'
