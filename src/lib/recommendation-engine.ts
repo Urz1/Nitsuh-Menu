@@ -8,10 +8,10 @@ export interface PairingRecommendation {
 }
 
 /**
- * Culturally informed, research-backed recommendation engine for Nitsuh Cafeteria & Restaurant.
+ * Culturally informed, research-backed recommendation engine for Nitsuh Cafe & Restaurant.
  * Grounded in:
  * 1. Strict Ethiopian dietary rules (Orthodox Fasting isolation: never recommend dairy/meat with fasting dishes).
- * 2. Classic Ethiopian flavor complementarity (Ambo water / hot Buna after rich berbere/tibs).
+ * 2. Classic flavor complementarity (Ambo water / hot Buna after savory meals).
  * 3. Behavioral restaurant menu engineering (low-friction price anchoring between 10% - 40% of main dish).
  */
 export function getIntelligentPairings(
@@ -79,11 +79,11 @@ export function getIntelligentPairings(
   };
 
   // ---------------------------------------------------------------------------
-  // 1. FASTING CUISINE PAIRINGS (Beyaynetu, Shiro Fasting, Suf Fitfit, Fasting Agelegil)
+  // 1. FASTING DISHES (Fasting Burger, Fasting Pizza, Fasting Pasta, Salads)
   // ---------------------------------------------------------------------------
-  if (isFasting || targetCategory === 'cat-fasting-lunch' || targetCategory === 'cat-fasting') {
+  if (isFasting || targetId.includes('fasting') || targetItem.tags?.includes('fasting') || targetItem.tags?.includes('vegan')) {
     // Top pairing: 100% pure fresh layered juice (Spris) or Avocado Juice
-    const spris = findItem('item-spris', 'sprice juice', 'spris', 'avocado');
+    const spris = findItem('special juice', 'spris', 'avocado juice', 'mango juice');
     if (spris) {
       recommendations.push({
         item: spris,
@@ -93,8 +93,8 @@ export function getIntelligentPairings(
       });
     }
 
-    // Refreshing Palate Cleanser: Nitsuh Special Salad
-    const salad = findItem('item-nitsuh-salad', 'item-addis-salad', 'item-nitsuh-special-salad-153', 'salad');
+    // Refreshing Palate Cleanser: Normal / Fasting Special Salad
+    const salad = findItem('fasting special salad', 'special salad', 'normal salad', 'avocado salad');
     if (salad && targetId !== salad.id) {
       recommendations.push({
         item: salad,
@@ -105,7 +105,7 @@ export function getIntelligentPairings(
     }
 
     // Pure volcanic carbonation: Ambo Water
-    const ambo = findItem('item-ambo-water', 'ambo water', 'ambo');
+    const ambo = findItem('ambo water', 'ambo', 'water 1 liter');
     if (ambo) {
       recommendations.push({
         item: ambo,
@@ -116,7 +116,7 @@ export function getIntelligentPairings(
     }
 
     // Traditional black buna
-    const buna = findItem('item-coffee-buna', 'coffee', 'steam coffee', 'buna');
+    const buna = findItem('coffee', 'buna', 'espresso', 'tea');
     if (buna) {
       recommendations.push({
         item: buna,
@@ -132,56 +132,45 @@ export function getIntelligentPairings(
   }
 
   // ---------------------------------------------------------------------------
-  // 2. SAVORY ETHIOPIAN MEATS & TIBS (Yebeg Tibs, Chikina, Keywot, Siga Firfir)
+  // 2. CRISPY CHICKEN & WINGS (Fried Chicken Leg, Honey BBQ Wings, Strips)
   // ---------------------------------------------------------------------------
   if (
-    targetCategory === 'cat-lunch-dinner' ||
-    targetCategory === 'cat-half-half' ||
-    targetId.includes('tibs') ||
-    targetId.includes('keywot') ||
-    targetId.includes('firfir')
+    targetCategory === 'cat-chicken' ||
+    targetId.includes('chicken') ||
+    targetId.includes('wing') ||
+    targetId.includes('nuggate') ||
+    targetId.includes('strip')
   ) {
-    // Slot 1: Sparkling Ambo Water (essential palate cleanser after rich spiced niter kibbeh butter)
-    const ambo = findItem('item-ambo-water', 'ambo water', 'ambo');
-    if (ambo) {
+    // Slot 1: Chilled Soft Drink or Novida
+    const drink = findItem('soft drink', 'bottle soft drink', 'novida soft drink', 'classic mojito');
+    if (drink) {
       recommendations.push({
-        item: ambo,
-        intentBadge: 'Palate Cleanser',
-        reasonText: 'Sparkling mineral water cuts through rich berbere butter',
+        item: drink,
+        intentBadge: 'Chilled Sip',
+        reasonText: 'Ice-cold carbonation cuts through crispy golden seasoning',
         affinityScore: 97,
       });
     }
 
-    // Slot 2: Traditional Macchiato or Buna (universal Nitsuh post-tibs digestive)
-    const macchiato = findItem('item-macchiato', 'macchiato') || findItem('coffee', 'buna');
-    if (macchiato) {
+    // Slot 2: Fresh Shake
+    const shake = findItem('banana shake', 'strawberry shake', 'chocolate shake');
+    if (shake) {
       recommendations.push({
-        item: macchiato,
-        intentBadge: 'Digestive Pairing',
-        reasonText: 'Velvety espresso micro-foam — classic Nitsuh meal finisher',
-        affinityScore: 95,
+        item: shake,
+        intentBadge: 'Creamy Pairing',
+        reasonText: 'Thick creamy milkshake pairs sublimely with crispy chicken',
+        affinityScore: 93,
       });
     }
 
-    // Slot 3: Fresh Spris Layered Juice
-    const spris = findItem('item-spris', 'sprice juice', 'mango', 'avocado');
-    if (spris) {
-      recommendations.push({
-        item: spris,
-        intentBadge: 'Tropical Balance',
-        reasonText: 'Thick creamy fruit purée to balance spices',
-        affinityScore: 90,
-      });
-    }
-
-    // Slot 4: Sweet finish (Basbousa or Black forest cake)
-    const dessert = findItem('item-basbousa', 'basbousa', 'black forest', 'cream cake');
+    // Slot 3: Desserts
+    const dessert = findItem('classic dounut', 'croissant', 'tart cake');
     if (dessert) {
       recommendations.push({
         item: dessert,
         intentBadge: 'Sweet Finish',
-        reasonText: 'Delightful artisanal treat to complete your banquet',
-        affinityScore: 84,
+        reasonText: 'Artisanal sweet pastry to complete your meal',
+        affinityScore: 86,
       });
     }
 
@@ -191,49 +180,38 @@ export function getIntelligentPairings(
   }
 
   // ---------------------------------------------------------------------------
-  // 3. MENDI & ROAST SPECIFIC (Special Mendi, Full Mendi, Roasted Chicken)
+  // 3. CLUB SANDWICHES & WRAPS
   // ---------------------------------------------------------------------------
-  if (targetCategory === 'cat-mendi' || targetId.includes('mendi') || targetId.includes('chicken-full') || targetId.includes('roasted')) {
-    // Slot 1: Somali Spiced Tea (Shaah) - quintessential Mendi digestif
-    const somaliTea = findItem('item-somali-tea', 'somali tea', 'special tea');
-    if (somaliTea) {
+  if (targetCategory === 'cat-club-sandwich' || targetCategory === 'cat-wrap' || targetId.includes('sandwich') || targetId.includes('wrap')) {
+    // Slot 1: Fresh Mojito
+    const mojito = findItem('classic mojito', 'lemon mint mojito', 'strawberry mojito');
+    if (mojito) {
       recommendations.push({
-        item: somaliTea,
-        intentBadge: 'Authentic Digestif',
-        reasonText: 'Slow-simmered cardamom milk tea — traditional Mendi companion',
+        item: mojito,
+        intentBadge: 'Zesty Sip',
+        reasonText: 'Fresh lemon, mint, and crushed ice refreshment',
         affinityScore: 98,
       });
     }
 
-    // Slot 2: Fresh Spris Juice or Mango Juice
-    const juice = findItem('item-mango-juice', 'mango', 'sprice juice', 'orange');
+    // Slot 2: Fresh Tropical Juice
+    const juice = findItem('mango juice', 'special juice', 'avocado juice');
     if (juice) {
       recommendations.push({
         item: juice,
-        intentBadge: 'Refreshing Press',
-        reasonText: 'Chilled sweet fruit juice pairs sublimely with roasted meats',
+        intentBadge: 'Fresh Press',
+        reasonText: 'Thick natural fruit juice pressed daily',
         affinityScore: 92,
       });
     }
 
-    // Slot 3: Crispy French Fries
-    const fries = findItem('item-french-fries', 'french frise', 'french fries');
-    if (fries) {
+    // Slot 3: Hot Espresso or Macchiato
+    const coffee = findItem('macchiato', 'coffee', 'espresso');
+    if (coffee) {
       recommendations.push({
-        item: fries,
-        intentBadge: 'Crispy Side',
-        reasonText: 'Golden seasoned potatoes for the table',
-        affinityScore: 89,
-      });
-    }
-
-    // Slot 4: Basbousa semolina sweet
-    const basbousa = findItem('item-basbousa', 'basbousa', 'orange basbousa');
-    if (basbousa) {
-      recommendations.push({
-        item: basbousa,
-        intentBadge: 'Honey Finish',
-        reasonText: 'Almond-garnished semolina cake soaked in floral honey syrup',
+        item: coffee,
+        intentBadge: 'Coffee Finish',
+        reasonText: 'Smooth Ethiopian espresso finish',
         affinityScore: 85,
       });
     }
@@ -288,7 +266,7 @@ export function getIntelligentPairings(
   // ---------------------------------------------------------------------------
   // 5. BURGERS & WRAPS
   // ---------------------------------------------------------------------------
-  if (targetCategory === 'cat-burgers' || targetCategory === 'cat-wraps' || targetId.includes('burger') || targetId.includes('shawarma') || targetId.includes('shewarma')) {
+  if (targetCategory === 'cat-burger' || targetCategory === 'cat-wrap' || targetId.includes('burger') || targetId.includes('wrap')) {
     // Slot 1: Crispy Golden French Fries
     const fries = findItem('item-french-fries', 'french frise', 'french fries');
     if (fries) {
@@ -330,31 +308,31 @@ export function getIntelligentPairings(
   // ---------------------------------------------------------------------------
   // 6. PIZZAS
   // ---------------------------------------------------------------------------
-  if (targetCategory === 'cat-pizzas' || targetCategory === 'cat-woodfired' || targetId.includes('pizza') || targetItem.name.toLowerCase().includes('pizza')) {
+  if (targetCategory === 'cat-pizza' || targetId.includes('pizza') || targetItem.name.toLowerCase().includes('pizza')) {
     // Slot 1: Cold Drinks or Ambo Water
-    const coldDrink = findItem('soft drinks', 'ambo water', 'mojito', 'water', 'ice coffee');
+    const coldDrink = findItem('soft drink', 'ambo water', 'classic mojito', 'water 1 liter', 'ice latte');
     if (coldDrink) {
       recommendations.push({
         item: coldDrink,
         intentBadge: 'Crisp Refreshment',
-        reasonText: 'Naturally chilled sparkling drink pairs crisp with sourdough pizza crust',
+        reasonText: 'Naturally chilled sparkling drink pairs crisp with artisan pizza',
         affinityScore: 96,
       });
     }
 
-    // Slot 2: Snack / Fries
-    const snack = findItem('french frise', 'french fries', 'chicken nugget', 'spring roll');
+    // Slot 2: Chicken Wings side
+    const snack = findItem('chicken wings', 'chicken nuggate', 'crispy chicken strips');
     if (snack) {
       recommendations.push({
         item: snack,
         intentBadge: 'Table Share',
-        reasonText: 'Golden-fried tenders or crispy salted fries to share',
+        reasonText: 'Crispy seasoned chicken accompaniment to share',
         affinityScore: 92,
       });
     }
 
     // Slot 3: Sweet finish / cake
-    const sweet = findItem('basbousa', 'black forest', 'cream cake', 'croissant');
+    const sweet = findItem('tart cake', 'classic dounut', 'croissant', 'mini chocolate cake');
     if (sweet) {
       recommendations.push({
         item: sweet,
@@ -417,25 +395,24 @@ export function getIntelligentPairings(
   }
 
   // ---------------------------------------------------------------------------
-  // 8. BAKERY & DESSERTS (Cakes, Croissants, Breads)
+  // 8. BAKERY & DESSERTS (Cakes, Pastries, Torta by KG)
   // ---------------------------------------------------------------------------
   if (
-    targetCategory === 'cat-soft-cake' ||
-    targetCategory === 'cat-bread' ||
-    targetCategory === 'cat-desserts'
+    targetCategory === 'cat-desserts' ||
+    targetCategory === 'cat-desserts-kg'
   ) {
     // When ordering a dessert, recommend the coffee or tea pairing
-    const macchiato = findItem('macchiato', 'double macchiato');
+    const macchiato = findItem('macchiato', 'coffee');
     if (macchiato) {
       recommendations.push({
         item: macchiato,
         intentBadge: 'Espresso Pairing',
-        reasonText: 'Velvety espresso foam cuts through sweet rich sponge',
+        reasonText: 'Velvety espresso foam cuts through sweet rich pastry',
         affinityScore: 99,
       });
     }
 
-    const buna = findItem('coffee', 'steam coffee', 'special tea');
+    const buna = findItem('coffee', 'espresso', 'special tea');
     if (buna) {
       recommendations.push({
         item: buna,
@@ -445,7 +422,7 @@ export function getIntelligentPairings(
       });
     }
 
-    const spris = findItem('sprice juice', 'mango', 'avocado');
+    const spris = findItem('special juice', 'mango juice', 'avocado juice');
     if (spris) {
       recommendations.push({
         item: spris,
@@ -465,11 +442,11 @@ export function getIntelligentPairings(
   // ---------------------------------------------------------------------------
   const drink = safePool.find(
     (i) =>
-      (i.category_id === 'cat-juice' ||
-        i.category_id === 'cat-hot-beverage' ||
-        i.category_id === 'cat-cold-drinks' ||
-        i.category_id === 'cat-drinks' ||
-        i.category_id === 'cat-juices') &&
+      (i.category_id === 'cat-juices' ||
+        i.category_id === 'cat-hot-drinks' ||
+        i.category_id === 'cat-iced-drinks' ||
+        i.category_id === 'cat-mojito' ||
+        i.category_id === 'cat-soft-drinks') &&
       !recommendations.some((r) => r.item.id === i.id)
   );
   if (drink) {
@@ -483,7 +460,7 @@ export function getIntelligentPairings(
 
   const side = safePool.find(
     (i) =>
-      (i.category_id === 'cat-snack-menu' || i.category_id === 'cat-snacks') &&
+      (i.category_id === 'cat-chicken' || i.category_id === 'cat-salad') &&
       !recommendations.some((r) => r.item.id === i.id)
   );
   if (side) {
@@ -497,9 +474,8 @@ export function getIntelligentPairings(
 
   const dessert = safePool.find(
     (i) =>
-      (i.category_id === 'cat-soft-cake' ||
-        i.category_id === 'cat-bread' ||
-        i.category_id === 'cat-desserts') &&
+      (i.category_id === 'cat-desserts' ||
+        i.category_id === 'cat-desserts-kg') &&
       !recommendations.some((r) => r.item.id === i.id)
   );
   if (dessert) {

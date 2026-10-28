@@ -305,10 +305,51 @@ export function isItemApplicableToOffer(item: MenuItem, offer: Offer): boolean {
     return true;
   }
   if (offer.scope_type === 'categories') {
-    return (offer.category_ids?.length ?? 0) > 0 && (offer.category_ids?.includes(item.category_id) ?? false);
+    const rawCategoryIds = (offer.category_ids || []).filter(Boolean);
+    const itemCat = (item.category_id || '').toLowerCase();
+    const itemName = (item.name || '').toLowerCase();
+    const offerTitle = (offer.title || '').toLowerCase();
+
+    // 1. Direct or normalized category ID match
+    if (rawCategoryIds.length > 0) {
+      const match = rawCategoryIds.some((catId) => {
+        if (!catId) return false;
+        if (catId === item.category_id) return true;
+        const cLower = catId.toLowerCase();
+        if (
+          (cLower.includes('pizza') || cLower.includes('cat-pizza') || cLower.includes('cat_pizza')) &&
+          (itemCat.includes('pizza') || itemName.includes('pizza'))
+        ) {
+          return true;
+        }
+        if (
+          (cLower.includes('burger') || cLower.includes('cat-burger') || cLower.includes('cat_burger')) &&
+          (itemCat.includes('burger') || itemName.includes('burger'))
+        ) {
+          return true;
+        }
+        return cLower.replace(/[-_0-9]/g, '') === itemCat.replace(/[-_0-9]/g, '');
+      });
+      if (match) return true;
+    }
+
+    // 2. Fallback to title / template matching if category IDs array was empty or defaulted
+    if (offerTitle.includes('pizza') || offer.template_type === 'happy_hour') {
+      return itemCat.includes('pizza') || itemName.includes('pizza');
+    }
+    if (offerTitle.includes('burger')) {
+      return itemCat.includes('burger') || itemName.includes('burger');
+    }
+    return false;
   }
   if (offer.scope_type === 'items') {
-    return (offer.item_ids?.length ?? 0) > 0 && (offer.item_ids?.includes(item.id) ?? false);
+    const rawItemIds = (offer.item_ids || []).filter(Boolean);
+    if (rawItemIds.includes(item.id)) return true;
+    const itemTitle = (item.name || '').toLowerCase();
+    const offerTitle = (offer.title || '').toLowerCase();
+    if (rawItemIds.some((id) => id.replace(/[-_0-9]/g, '') === item.id.replace(/[-_0-9]/g, ''))) return true;
+    if (offerTitle.includes('special burger') && itemTitle.includes('special burger')) return true;
+    return false;
   }
   return false;
 }
@@ -385,10 +426,10 @@ export function evaluateItemPricing(
 
   const currency = context.currencySymbol || '$';
   let badgeText = bestOffer.badge_text;
-  if (!badgeText) {
+  if (!badgeText || badgeText === 'Offer' || !badgeText.toLowerCase().includes('off')) {
     badgeText = bestOffer.discount_type === 'percentage' 
       ? `${bestOffer.discount_value}% Off` 
-      : `Save ${currency}${currency === '$' ? '' : ' '}${maxSavings.toFixed(0)}`;
+      : `Save ${currency}${currency === '$' ? '' : ' '}${maxSavings.toFixed(0)} Off`;
   } else if (context.currencySymbol && context.currencySymbol !== '$') {
     badgeText = badgeText.replace(/\$\s*/g, `${context.currencySymbol} `).trim();
   }

@@ -128,8 +128,8 @@ export function RestaurantInfoModal({
 
         {/* Scrollable Content */}
         <div className="p-5 overflow-y-auto no-scrollbar space-y-4">
-          {/* 1. WiFi Card */}
-          {restaurant.wifi_config?.ssid && (
+          {/* 1. WiFi Card (Only visible when owner enables Wi-Fi sharing) */}
+          {Boolean(restaurant.wifi_config?.enabled && restaurant.wifi_config?.ssid) && (
             <div className="bg-[var(--surface)] rounded-2xl p-4 border border-[var(--border)]">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
@@ -255,11 +255,11 @@ export function RestaurantInfoModal({
             </div>
           </div>
 
-          {/* 5. Quick Tools: Dark Mode & QR Share */}
+          {/* 5. Quick Tools: Dark Mode, QR Share & Install App */}
           <div className="grid grid-cols-2 gap-2 pt-1">
             <button
               onClick={toggleTheme}
-              className="p-3 rounded-xl bg-[var(--surface)] border border-[var(--border)] flex items-center gap-2 text-xs font-bold text-[var(--foreground)] hover:border-[var(--primary)] transition-colors"
+              className="p-3 rounded-xl bg-[var(--surface)] border border-[var(--border)] flex items-center gap-2 text-xs font-bold text-[var(--foreground)] hover:border-[var(--primary)] transition-colors active:scale-95"
             >
               {theme === 'dark' ? (
                 <>
@@ -280,7 +280,7 @@ export function RestaurantInfoModal({
                   onClose();
                   onOpenQrModal();
                 }}
-                className="p-3 rounded-xl bg-[var(--surface)] border border-[var(--border)] flex items-center gap-2 text-xs font-bold text-[var(--foreground)] hover:border-[var(--primary)] transition-colors"
+                className="p-3 rounded-xl bg-[var(--surface)] border border-[var(--border)] flex items-center gap-2 text-xs font-bold text-[var(--foreground)] hover:border-[var(--primary)] transition-colors active:scale-95"
               >
                 <QrCode className="w-4 h-4 text-[var(--primary)]" />
                 <span>{isAm ? 'የሜኑ QR ኮድ' : 'Menu QR'}</span>

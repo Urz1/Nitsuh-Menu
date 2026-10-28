@@ -296,7 +296,7 @@ export function MenuManager({
     reader.onload = async (evt) => {
       try {
         const text = evt.target?.result as string;
-        const parsed = parseMenuFromCsv(text, restaurant.id, categories[0]?.id || 'cat-starters');
+        const parsed = parseMenuFromCsv(text, restaurant.id, categories[0]?.id || 'cat-breakfast');
         if (parsed.items.length > 0) {
           for (const item of parsed.items) {
             await onSaveItem(item);
@@ -487,7 +487,7 @@ export function MenuManager({
                 triggerHaptic(12);
                 setEditingItem({
                   restaurant_id: restaurant.id,
-                  category_id: categories[0]?.id || 'cat-starters',
+                  category_id: categories[0]?.id || 'cat-breakfast',
                   name: '',
                   price: 15.0,
                   image_url: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80',
@@ -997,7 +997,7 @@ export function MenuManager({
                       data-testid="dish-form-name"
                       value={editingItem.name || ''}
                       onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })}
-                      placeholder="e.g. Truffle Burrata & Heirloom Crudo"
+                      placeholder="e.g. Nitsuh Special Burger"
                       className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-amber-500"
                     />
                   </div>
@@ -1782,7 +1782,7 @@ export function MenuManager({
                 <div>
                   <h3 className="text-base font-bold text-white">Menu Categories</h3>
                   <p className="text-xs text-neutral-400">
-                    Add, edit, reorder, or remove categories across Nitsuh Cafeteria.
+                    Add, edit, reorder, or remove categories across Nitsuh Cafe & Restaurant.
                   </p>
                 </div>
               </div>
@@ -1949,14 +1949,14 @@ export function MenuManager({
                         </div>
                       </div>
                     ) : (
-                      <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-200/90 leading-relaxed">
+                      <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-900 dark:text-amber-200/90 leading-relaxed">
                         💡 <strong>Auto Dish Photo:</strong> If no custom image is uploaded, the digital menu dynamically displays the first dish photo from this category.
                       </div>
                     )}
 
                     {/* Camera & Gallery Upload */}
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 text-xs font-bold cursor-pointer transition-colors active:scale-95">
+                      <label className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-800 dark:text-amber-300 border border-amber-500/30 text-xs font-bold cursor-pointer transition-colors active:scale-95">
                         <Camera className="w-3.5 h-3.5" />
                         <span>Take Photo</span>
                         <input

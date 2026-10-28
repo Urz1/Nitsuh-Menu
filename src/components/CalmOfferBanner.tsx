@@ -8,20 +8,21 @@ import { triggerHaptic } from '@/lib/utils';
 interface CalmOfferBannerProps {
   activeOffer: Offer | null;
   onSeeOffer: (offer: Offer) => void;
+  onDismiss?: () => void;
 }
 
-export function CalmOfferBanner({ activeOffer, onSeeOffer }: CalmOfferBannerProps) {
-  const [isDismissed, setIsDismissed] = useState(true); // Default true until checked
+export function CalmOfferBanner({ activeOffer, onSeeOffer, onDismiss }: CalmOfferBannerProps) {
+  const [isDismissed, setIsDismissed] = useState(false);
 
   useEffect(() => {
     if (!activeOffer) return;
     try {
       const dismissed = sessionStorage.getItem(`calm_banner_dismissed_${activeOffer.id}`);
-      if (!dismissed) {
-        setIsDismissed(false);
+      if (dismissed) {
+        setIsDismissed(true);
       }
     } catch {
-      setIsDismissed(false);
+      // Storage access check
     }
   }, [activeOffer]);
 
@@ -30,6 +31,7 @@ export function CalmOfferBanner({ activeOffer, onSeeOffer }: CalmOfferBannerProp
   }
 
   const handleDismiss = (e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
     setIsDismissed(true);
     triggerHaptic(10);
@@ -38,6 +40,7 @@ export function CalmOfferBanner({ activeOffer, onSeeOffer }: CalmOfferBannerProp
     } catch {
       // Storage access check
     }
+    onDismiss?.();
   };
 
   const handleAction = () => {
@@ -79,6 +82,7 @@ export function CalmOfferBanner({ activeOffer, onSeeOffer }: CalmOfferBannerProp
       </div>
 
       <button
+        type="button"
         onClick={handleDismiss}
         className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--border)] transition-colors"
         aria-label="Dismiss offer notice for this session"

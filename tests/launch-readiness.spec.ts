@@ -27,7 +27,7 @@ test.describe('STAGE 6: Launch Readiness & QR Studio Suite', () => {
     await expect(page.getByTestId('preview-tent-card').getByText('Digital Menu')).toBeVisible();
 
     // Verify QR code uses offline vector SVG data URI
-    const tentQrImg = page.getByTestId('preview-tent-card').locator('img');
+    const tentQrImg = page.getByTestId('preview-tent-card').locator('img[alt="Restaurant menu QR code"]');
     await expect(tentQrImg).toBeVisible();
     const tentQrSrc = await tentQrImg.getAttribute('src');
     expect(tentQrSrc).toContain('data:image/svg+xml');

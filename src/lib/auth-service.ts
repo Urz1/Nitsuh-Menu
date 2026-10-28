@@ -388,15 +388,38 @@ export function getCurrentSession(): AdminAuthSession | null {
   }
 
   try {
+    const raw = localStorage.getItem(STORAGE_KEY_SESSION);
+    if (raw) {
+      try {
+        sessionStorage.removeItem('admin_explicitly_logged_out');
+      } catch {}
+      return JSON.parse(raw);
+    }
+
     // If explicitly logged out, strictly return null
     const hasLoggedOut = sessionStorage.getItem('admin_explicitly_logged_out');
     if (hasLoggedOut === 'true') {
       return null;
     }
 
-    const raw = localStorage.getItem(STORAGE_KEY_SESSION);
-    if (raw) {
-      return JSON.parse(raw);
+    // Check cookie fallback if storage was partitioned or initialized from cookies
+    if (typeof document !== 'undefined') {
+      const cookieMatch = document.cookie.match(/digital_menu_session=([^;]+)/);
+      if (cookieMatch && cookieMatch[1] && decodeURIComponent(cookieMatch[1]) !== '') {
+        const role = decodeURIComponent(cookieMatch[1]);
+        const fallbackSession: AdminAuthSession = {
+          role: role === 'staff' ? 'staff' : 'owner',
+          userId: role === 'staff' ? 'staff-selam-1' : 'owner-nitsuh-master',
+          name: role === 'staff' ? 'Selamawit Tadesse' : 'Abebe Bikila',
+          identifier: role === 'staff' ? 'staff_selam' : 'owner@nitsuhcafeteria.com',
+          token: 'cookie-fallback-token',
+          loggedInAt: Date.now(),
+        };
+        try {
+          localStorage.setItem(STORAGE_KEY_SESSION, JSON.stringify(fallbackSession));
+        } catch {}
+        return fallbackSession;
+      }
     }
 
     // Strict gating: No session in storage means unauthenticated.

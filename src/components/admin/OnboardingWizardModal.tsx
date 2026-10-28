@@ -199,7 +199,7 @@ export function OnboardingWizardModal({
                         setLogoLetter(e.target.value.charAt(0).toUpperCase());
                       }
                     }}
-                    placeholder="e.g. Nitsuh Cafeteria"
+                    placeholder="e.g. Nitsuh Cafe & Restaurant"
                     className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-amber-500 transition-colors"
                   />
                 </div>
@@ -518,7 +518,7 @@ export function OnboardingWizardModal({
                 >
                   {logoLetter || 'N'}
                 </div>
-                <h4 className="font-bold text-sm text-neutral-900">{name || 'Nitsuh Cafeteria'}</h4>
+                <h4 className="font-bold text-sm text-neutral-900">{name || 'Nitsuh Cafe & Restaurant'}</h4>
                 <p className="text-[10px] text-neutral-500">Scan to browse digital menu & order</p>
 
                 {/* Simulated QR Code Visual */}

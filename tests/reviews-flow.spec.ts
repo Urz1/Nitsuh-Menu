@@ -2,17 +2,21 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Dish Reviews System - Customer Submission & Owner Management Parity', () => {
   test('1. Customer Flow: Submit 5-star review with tag & comment, verify thank you state & duplicate prevention', async ({ page }) => {
-    // Open customer mobile view for Nitsuh Cafeteria
+    // Open customer mobile view for Nitsuh Cafe & Restaurant
     await page.goto('/nitsuh?table=Table%2014');
-    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Nitsuh Cafe & Restaurant")')).toBeVisible();
 
-    // Find Special Fetira card
-    const fetiraCard = page.locator('article:has-text("Special Fetira")').first();
+    // Find Fetira card (expand category if collapsed to 4 items)
+    const moreBreakfast = page.locator('button:has-text("more Breakfast")').first();
+    if (await moreBreakfast.isVisible({ timeout: 1500 }).catch(() => false)) {
+      await moreBreakfast.click();
+    }
+    const fetiraCard = page.locator('article:has-text("Fetira With Honey")').first();
     await expect(fetiraCard).toBeVisible({ timeout: 10000 });
     await fetiraCard.click({ force: true });
 
     // Detail Modal opens
-    await expect(page.locator('h2:has-text("Special Fetira")')).toBeVisible();
+    await expect(page.locator('h2:has-text("Fetira With Honey")')).toBeVisible();
 
     // Click "Rate this dish" button
     const rateBtn = page.locator('button:has-text("Rate this dish")');
@@ -68,15 +72,19 @@ test.describe('Dish Reviews System - Customer Submission & Owner Management Pari
 
   test('2. Customer Flow: Customer sees verified review and owner reply displayed on dish details', async ({ page }) => {
     await page.goto('/nitsuh?table=Table%2014');
-    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Nitsuh Cafe & Restaurant")')).toBeVisible();
 
-    // Open Special Fetira
-    const fetiraCard = page.locator('article:has-text("Special Fetira")').first();
+    // Open Fetira (expand category if collapsed to 4 items)
+    const moreBreakfast = page.locator('button:has-text("more Breakfast")').first();
+    if (await moreBreakfast.isVisible({ timeout: 1500 }).catch(() => false)) {
+      await moreBreakfast.click();
+    }
+    const fetiraCard = page.locator('article:has-text("Fetira With Honey")').first();
     await expect(fetiraCard).toBeVisible({ timeout: 10000 });
     await fetiraCard.click({ force: true });
 
     // Detail modal opens
-    await expect(page.locator('h2:has-text("Special Fetira")')).toBeVisible();
+    await expect(page.locator('h2:has-text("Fetira With Honey")')).toBeVisible();
 
     // Verify guest reviews section header is visible
     await expect(page.locator('h3:has-text("Guest Reviews")')).toBeVisible();
@@ -119,7 +127,7 @@ test.describe('Dish Reviews System - Customer Submission & Owner Management Pari
     await expect(page.locator('text=Quick Polite Starters')).toBeVisible();
     const replyTextarea = page.locator('textarea[placeholder*="Write your public response"]');
     await expect(replyTextarea).toBeVisible();
-    await replyTextarea.fill('Thank you for dining at Nitsuh Cafeteria! Our pastry chefs layer the dough fresh every morning. Delighted you loved the mountain honey pairing. See you again soon!');
+    await replyTextarea.fill('Thank you for dining at Nitsuh Cafe & Restaurant! Our pastry chefs layer the dough fresh every morning. Delighted you loved the mountain honey pairing. See you again soon!');
 
     // Post Reply
     const postReplyBtn = page.locator('button:has-text("Post Public Reply")');
@@ -152,9 +160,13 @@ test.describe('Dish Reviews System - Customer Submission & Owner Management Pari
   test('4. Customer Flow: Uploading an image does NOT auto-submit or close modal before clicking Submit', async ({ page }) => {
     // Open customer mobile view on a fresh table
     await page.goto('/nitsuh?table=Table%2019');
-    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Nitsuh Cafe & Restaurant")')).toBeVisible();
 
-    // Open Fetira
+    // Open Fetira (expand category if collapsed to 4 items)
+    const moreBreakfast = page.locator('button:has-text("more Breakfast")').first();
+    if (await moreBreakfast.isVisible({ timeout: 1500 }).catch(() => false)) {
+      await moreBreakfast.click();
+    }
     const dishCard = page.locator('article:has-text("Fetira")').first();
     await expect(dishCard).toBeVisible({ timeout: 10000 });
     await dishCard.click({ force: true });

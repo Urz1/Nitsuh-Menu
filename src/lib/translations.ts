@@ -304,7 +304,7 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     shareMenu: 'Share Menu',
     allergenGuide: 'Allergen Guide',
     staffOwnerPortal: 'Staff & Owner Portal',
-    installAppTitle: 'Install Nitsuh Cafeteria App',
+    installAppTitle: 'Install Nitsuh Cafe & Restaurant App',
     installAppDesc: 'Instant access & offline dining',
     installAppBtn: 'Install',
     notNowBtn: 'Not now',
@@ -676,7 +676,7 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     shareMenu: 'La wadaag Liiska',
     allergenGuide: 'Hagaha Xasaasiyadda',
     staffOwnerPortal: 'Bogga Shaqaalaha & Mulkiilaha',
-    installAppTitle: 'Ku rakibo App-ka Nitsuh Cafeteria',
+    installAppTitle: 'Ku rakibo App-ka Nitsuh Cafe & Restaurant',
     installAppDesc: 'Galitaanka degdega ah iyo cunto xilliga khadka la’aan',
     installAppBtn: 'Ku rakibo',
     notNowBtn: 'Hadda maya',
@@ -862,7 +862,7 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     shareMenu: 'Compartir menú',
     allergenGuide: 'Guía de alérgenos',
     staffOwnerPortal: 'Portal del personal y propietario',
-    installAppTitle: 'Instalar App de Nitsuh Cafeteria',
+    installAppTitle: 'Instalar App de Nitsuh Cafe & Restaurant',
     installAppDesc: 'Acceso instantáneo y pedidos sin conexión',
     installAppBtn: 'Instalar',
     notNowBtn: 'Ahora no',
@@ -947,58 +947,83 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
 
 export const CATEGORY_TRANSLATIONS: Record<string, Partial<Record<Language, CategoryTranslation>>> = {
   'cat-breakfast': {
-    en: { name: 'Breakfast (ቁርስ)', description: 'Freshly made morning staples with fresh injera & toasted artisan bread' },
-    am: { name: 'የጥዋት ቁርስ', description: 'በትኩስ እንጀራ እና ዳቦ የሚቀርቡ ምርጥ የጠዋት ምግቦች' },
-    so: { name: 'Quraac Fariish ah', description: 'Quraac fariish ah oo lagu diyaariyay canjeero iyo rooti macaan' },
+    en: { name: 'Breakfast (ቁርስ)', description: 'Traditional breakfast platters, foul, fetira, chechebsa, eggs and morning toasts.' },
+    am: { name: 'ቁርስ', description: 'ትኩስ ፉል፣ ፈጢራ፣ ጨጨብሳ፣ እንቁላል እና የጠዋት ቶስቶች።' },
+    so: { name: 'Quraac Fariish ah', description: 'Quraac macaan oo iskugu jirta fool, fetira, chechebsa iyo ukun.' },
   },
-  'cat-mains': {
-    en: { name: 'Lunch & Dinner (ምሳ እና እራት)', description: 'Sizzling Ethiopian meats and richly seasoned firfir platters' },
-    am: { name: 'ባህላዊ ምግቦች (ምሳ እና እራት)', description: 'በጋለ ምጣድ የሚቀርቡ የፍየል እና የበሬ ጥብሶች እና ልዩ ፍርፍሮች' },
-    so: { name: 'Qado & Casho (Hilib & Firfir)', description: 'Hilib shiilan iyo suqaar dhaqameed aad u macaan' },
+  'cat-burger': {
+    en: { name: 'Burgers (በርገር)', description: 'Handcrafted gourmet burgers, beef patties, chicken burgers and seasoned fries.' },
+    am: { name: 'በርገር', description: 'በጥንቃቄ የተዘጋጁ ድርብ የበሬ ስጋ እና የዶሮ በርገሮች ከፍሬንች ፍራይስ ጋር።' },
+    so: { name: 'Burgers', description: 'Burgers hilib lo’aad iyo digaag oo fariish ah iyo baradho shiilan.' },
   },
-  'cat-fasting': {
-    en: { name: 'Fasting Lunch (የፆም ምግብ)', description: 'Traditional Ethiopian Orthodox fasting dishes prepared with zero animal products' },
-    am: { name: 'የጾም ምግቦች', description: 'ከእንስሳት ተዋጽኦ ነፃ የሆኑ ልዩ የጾም በያይነቱ፣ ሽሮ እና የአትክልት ምግቦች' },
-    so: { name: 'Cuntooyinka Khudaarta (Fasting)', description: 'Cuntooyin khudradeed oo aan lahayn hilib ama caano' },
+  'cat-pizza': {
+    en: { name: 'Pizzas (ፒዛ)', description: 'Crispy crust pizzas baked with rich tomato sauce, melted mozzarella and fresh toppings.' },
+    am: { name: 'ፒዛ', description: 'በትኩስ የቲማቲም ሶስ፣ ሞዛሬላ ቺዝ እና ምርጥ ቅመሞች የተጋገሩ ፒዛዎች።' },
+    so: { name: 'Pizzas', description: 'Pizzas foorno lagu dubay oo farmaajo mozzarella iyo xawaash leh.' },
   },
-  'cat-mendi': {
-    en: { name: 'Mendi & Roasts (መንዲ)', description: 'Fragrant spiced basmati rice topped with tender roasted lamb, chicken & goat' },
-    am: { name: 'መንዲ እና የተጠበሱ ምግቦች', description: 'በቅመማ ቅመም የበለጸገ የባስማቲ ሩዝ ከተጠበሰ የበግ እና የዶሮ ስጋ ጋር' },
-    so: { name: 'Mandi & Hilib Duban', description: 'Bariis basmati udgoon oo lagu daray hilib ari, wan ama digaag duban' },
+  'cat-club-sandwich': {
+    en: { name: 'Club Sandwich (ክለብ ሳንድዊች)', description: 'Layered triple-decker club sandwiches, chicken, tuna, steak and avocado.' },
+    am: { name: 'ክለብ ሳንድዊች', description: 'ባለሶስት ድርብ ክለብ ሳንድዊቾች፡ በዶሮ፣ ቱና፣ ስቴክ እና አቮካዶ።' },
+    so: { name: 'Club Sandwich', description: 'Sandwiches waaweyn oo hilib digaag, tuna, steak iyo afakaadho leh.' },
   },
-  'cat-fastfood': {
-    en: { name: 'Burgers & Shawarma (በርገር)', description: 'Handcrafted beef patties, spiced club sandwiches and fresh wraps' },
-    am: { name: 'በርገር እና ሻዋርማ', description: 'በጥንቃቄ የተዘጋጁ ጭማቂ ያላቸው በርገሮች እና ሳንድዊቾች' },
-    so: { name: 'Burger & Shawarma', description: 'Burgero hilib lo’aad oo fariish ah iyo shawarma aad u macaan' },
+  'cat-wrap': {
+    en: { name: 'Wraps (ራፕ)', description: 'Rolled warm tortilla wraps filled with tender meats, cheese and house sauces.' },
+    am: { name: 'ራፕ', description: 'በጥንቃቄ የተጠቀለሉ ስስ ቶርቲላ ራፖች በስጋ፣ ቺዝ እና ልዩ ሶስ።' },
+    so: { name: 'Wraps', description: 'Wraps macaan oo lagu duubay hilib, farmaajo iyo suugo.' },
   },
-  'cat-shiro': {
-    en: { name: 'Traditional Clay Shiro (ሽሮ)', description: 'Slow-simmered spiced chickpea stew bubbling in authentic clay tagamino pots' },
-    am: { name: 'የሸክላ ሽሮ', description: 'በሸክላ ድስት የሚንተከተክ ተጋሚኖ እና ቦዘና ሽሮ' },
-    so: { name: 'Shiro Dhaqan ah (Dheri)', description: 'Shiro xawaash leh oo lagu kariyay dheri dhoobo ah' },
+  'cat-chicken': {
+    en: { name: 'Chicken (ዶሮ)', description: 'Crispy fried chicken legs, golden nuggets, strips, wings and honey BBQ platters.' },
+    am: { name: 'ዶሮ', description: 'የተጠበሰ ጥርት ያለ የዶሮ እግር፣ ዊንግስ በሃኒ BBQ፣ ናጌትስ እና ስትሪፕስ።' },
+    so: { name: 'Digaag (Chicken)', description: 'Digaag shiilan, baalal BBQ ah, nuggets iyo strips macaan.' },
   },
-  'cat-pastries': {
-    en: { name: 'Nitsuh Bakery (መጋገሪያ)', description: 'Buttery croissants, specialty donuts, and European-style layered cakes' },
-    am: { name: 'ኬኮች እና የዳቦ መጋገሪያ', description: 'በቅቤ የተዘጋጁ ክሩሳንቶች፣ ዶናት እና ልዩ ኬኮች' },
-    so: { name: 'Keeg & Rooti Macaan', description: 'Croissants subag leh, doonad iyo keegag kala duwan' },
+  'cat-salad': {
+    en: { name: 'Salad (ሰላጣ)', description: 'Crisp garden salads, tuna, chicken, avocado and fasting dressings.' },
+    am: { name: 'ሰላጣ', description: 'ትኩስ የተፈጥሮ ሰላጣዎች፡ ቱና፣ ዶሮ፣ አቮካዶ እና የጾም ድሬሲንግ።' },
+    so: { name: 'Salad', description: 'Salad fariish ah oo tuna, digaag, afakaadho iyo khudaar leh.' },
+  },
+  'cat-pasta': {
+    en: { name: 'Pasta (ፓስታ)', description: 'Italian style pasta bowls: tomato, Alfredo, creamy chicken, arrabbiata and pesto.' },
+    am: { name: 'ፓስታ', description: 'ጣፋጭ ፓስታዎች፡ ቲማቲም፣ አልፍሬዶ፣ ክሬሚ ዶሮ፣ አራቢያታ እና ፔስቶ።' },
+    so: { name: 'Baasto (Pasta)', description: 'Baasto talyaani ah: yaanyo, alfredo, digaag iyo pesto.' },
+  },
+  'cat-mojito': {
+    en: { name: 'Mojitos (ሞሂቶ)', description: 'Refreshing iced fruit mojitos, mint, lemon, pineapple, watermelon and strawberry.' },
+    am: { name: 'ሞሂቶ', description: 'ቀዝቃዛ መንፈስ የሚያድሱ የፍራፍሬ ሞሂቶዎች፡ ሚንት፣ ሎሚ፣ አናናስ፣ ሀብሀብ እና እንጆሪ።' },
+    so: { name: 'Mojitos', description: 'Cabitaanno qabow oo leh liin, naanaac iyo miro kala duwan.' },
+  },
+  'cat-soft-drinks': {
+    en: { name: 'Soft Drinks & Water (ለስላሳ መጠጦች እና ውሃ)', description: 'Chilled bottled and canned soft drinks, Novida, mineral water and Ambo water.' },
+    am: { name: 'ለስላሳ መጠጦች እና ውሃ', description: 'ቀዝቃዛ የታሸጉ ለስላሳ መጠጦች፣ ኖቪዳ፣ አምቦ ውሃ እና የታሸገ ውሃ።' },
+    so: { name: 'Cabitaanno Qabow & Biyo', description: 'Cabitaanno gasacadaysan, caagado, Ambo iyo biyo nadiif ah.' },
   },
   'cat-juices': {
-    en: { name: 'Fresh Juices & Drinks (ትኩስ ጭማቂዎች)', description: 'Handcrafted multi-layered avocado, mango, papaya and strawberry juices' },
-    am: { name: 'ትኩስ ጭማቂዎች እና ስፕሪስ', description: 'በጥበብ የተደረደሩ የአቮካዶ፣ ማንጎ፣ ፓፓያ እና እንጆሪ ስፕሪስ ጭማቂዎች' },
-    so: { name: 'Sharaab Fariish ah & Spris', description: 'Sharaab dabiici ah oo iskugu jira afakaadho, cambe, babaay iyo farawle' },
+    en: { name: 'Fresh Juices (ትኩስ ጭማቂዎች)', description: '100% freshly pressed juices: avocado, mango, papaya, watermelon, strawberry.' },
+    am: { name: 'ትኩስ ጭማቂዎች', description: '100% የተፈጥሮ ፍራፍሬ ጭማቂዎች፡ አቮካዶ፣ ማንጎ፣ ፓፓያ፣ ሀብሀብ፣ እንጆሪ እና ስፕሪስ።' },
+    so: { name: 'Sharaab Dabiici ah', description: 'Sharaab fariish ah oo afakaadho, cambe, babaay iyo farawle ah.' },
   },
-  'cat-drinks': {
-    en: { name: 'Nitsuh Cafe (ትኩስ መጠጦች)', description: 'Single-origin Ethiopian highland coffees, spiced teas and creamy macchiatos' },
-    am: { name: 'ሙቅ መጠጦች እና የቡና ስነ-ስርዓት', description: 'የሀበሻ ጀበና ቡና፣ ማኪያቶ፣ ልዩ ቅመም ሻይ እና ትኩስ ወተት' },
-    so: { name: 'Cabitaanno Kulul & Bun Dhaqan', description: 'Bun Itoobiyaan ah, shaah xawaash leh iyo macchiato caano leh' },
+  'cat-shakes': {
+    en: { name: 'Shakes (ሼክ)', description: 'Creamy thick milkshakes: banana, strawberry, mocha, avocado, flaxseed and protein.' },
+    am: { name: 'ሼክ', description: 'ወፍራም ጣፋጭ ሼኮች፡ ሙዝ፣ እንጆሪ፣ ሞካ፣ ተልባ እና ፕሮቲን ሼክ።' },
+    so: { name: 'Shakes', description: 'Shakes qabow oo caano leh: muus, farawle, mocha iyo protein.' },
   },
-  'cat-snacks': {
-    en: { name: 'Snack Menu (ስናክ)', description: 'Crispy samosas, loaded seasoned french fries and shareable appetizers' },
-    am: { name: 'መክሰስ እና ተጨማሪዎች', description: 'ተቆርሰው የሚበሉ ጥርት ያሉ ሳምቡሳዎች እና ቅመም የተነሰነሰባቸው ቺፕሶች' },
-    so: { name: 'Cunto Fudud & Wehel', description: 'Sambuusi shiilan, baradho shiilan iyo cunto fudud' },
+  'cat-hot-drinks': {
+    en: { name: 'Hot Drinks (ትኩስ መጠጦች)', description: 'Single-origin Ethiopian coffee, macchiato, espresso, teas, and specialty lattes.' },
+    am: { name: 'ትኩስ መጠጦች', description: 'የሀበሻ ቡና፣ ማኪያቶ፣ ኤስፕሬሶ፣ ልዩ ቅመም ሻይ፣ ካራሜል ላቴ እና ትኩስ ቸኮሌት።' },
+    so: { name: 'Cabitaanno Kulul', description: 'Bun Itoobiyaan ah, macchiato, shaah xawaash leh iyo latte.' },
   },
-  'cat-specialty': {
-    en: { name: 'Half Half (ግማሽ በግማሽ)', description: 'Signature wood-fired artisan dishes and seasonal culinary features' },
-    am: { name: 'ግማሽ በግማሽ ጥምረት', description: 'ሁለት አይነት የተመረጡ ምግቦች በአንድ ላይ የሚቀርቡበት' },
-    so: { name: 'Isku-dhafka Gaarka ah (Half Half)', description: 'Laba cunto oo kala duwan oo hal saxan ku wada jira' },
+  'cat-iced-drinks': {
+    en: { name: 'Iced Drinks (ቀዝቃዛ መጠጦች)', description: 'Chilled iced latte, iced tea, vanilla, caramel, strawberry and deluxe iced coffee.' },
+    am: { name: 'ቀዝቃዛ መጠጦች', description: 'አይስ ላቴ፣ አይስ ሻይ፣ አይስ ቫኒላ፣ አይስ ካራሜል እና አይስ ዲሉክስ።' },
+    so: { name: 'Iced Drinks', description: 'Cabitaanno qabow oo baraf leh: iced latte, iced tea iyo caramel.' },
+  },
+  'cat-desserts': {
+    en: { name: 'Desserts & Pastries (ጣፋጮች እና ኬኮች)', description: 'Freshly baked mini cakes, custard vanilla, donuts, croissants and cookies.' },
+    am: { name: 'ጣፋጮች እና ኬኮች', description: 'ትኩስ ሚኒ ቫኒላ ኬክ፣ ቸኮሌት ኬክ፣ ታርት፣ ዶናት፣ ክሮሳንት እና ኩኪስ።' },
+    so: { name: 'Keegyo & Macmacaan', description: 'Keegyo yaryar oo fariish ah, donuts, croissants iyo buskud.' },
+  },
+  'cat-desserts-kg': {
+    en: { name: 'Torta & Cakes (Per KG) (ኬክ በኪሎ)', description: 'Celebration tortas and whole cakes sold by the kilogram for events and gatherings.' },
+    am: { name: 'ኬክ በኪሎ', description: 'ለልደት እና ልዩ ፕሮግራሞች የሚሆኑ ቶርታ ኬኮች በኪሎ፡ ቫኒላ፣ ቸኮሌት፣ ቲራሚሱ።' },
+    so: { name: 'Keeg Kiilo ah', description: 'Keegyo waaweyn oo xafladaha loogu talagalay oo kiilo lagu iibiyo.' },
   },
 };

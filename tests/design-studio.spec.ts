@@ -4,7 +4,7 @@ test.describe('Owner Design Studio & Live Menu Theme Reflection Flow', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/admin');
     await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
-    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Nitsuh Cafe & Restaurant")')).toBeVisible();
 
     // Navigate to Design Studio (handles both desktop sidebar and mobile bottom nav)
     const designSidebarBtn = page.locator('aside [data-testid="admin-nav-design"]:visible');
@@ -72,7 +72,7 @@ test.describe('Owner Design Studio & Live Menu Theme Reflection Flow', () => {
 
     // 2. Navigate to customer menu at /nitsuh
     await page.goto('/nitsuh');
-    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Nitsuh Cafe & Restaurant")')).toBeVisible();
 
     // 3. Verify CSS variable on customer menu
     const menuPrimary = await page.evaluate(() => {
@@ -87,7 +87,7 @@ test.describe('Owner Design Studio & Live Menu Theme Reflection Flow', () => {
 
     // 4. Reload customer menu and verify persistence
     await page.reload();
-    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Nitsuh Cafe & Restaurant")')).toBeVisible();
 
     const reloadedPrimary = await page.evaluate(() => {
       return document.documentElement.style.getPropertyValue('--primary');
@@ -119,7 +119,7 @@ test.describe('Owner Design Studio & Live Menu Theme Reflection Flow', () => {
 
     // 4. Visit customer menu
     await page.goto('/nitsuh');
-    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Nitsuh Cafe & Restaurant")')).toBeVisible();
 
     const menuPrimary = await page.evaluate(() => {
       return document.documentElement.style.getPropertyValue('--primary');
@@ -131,7 +131,7 @@ test.describe('Owner Design Studio & Live Menu Theme Reflection Flow', () => {
     // Open customer menu tab
     const customerPage = await context.newPage();
     await customerPage.goto('/nitsuh');
-    await expect(customerPage.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
+    await expect(customerPage.locator('h1:has-text("Nitsuh Cafe & Restaurant")')).toBeVisible();
 
     // Open admin tab
     const adminPage = await context.newPage();

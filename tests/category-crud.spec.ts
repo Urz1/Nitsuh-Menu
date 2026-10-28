@@ -2,9 +2,18 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Category CRUD & Inline Creation Flow', () => {
   test.beforeEach(async ({ page }) => {
+    await page.context().addCookies([
+      { name: 'digital_menu_session', value: 'owner', domain: '127.0.0.1', path: '/' },
+      { name: 'digital_menu_session', value: 'owner', domain: 'localhost', path: '/' },
+    ]);
     await page.goto('/admin');
+    if (page.url().includes('/admin/login')) {
+      await page.fill('input[placeholder*="owner@nitsuhcafeteria.com"]', 'owner@nitsuhcafeteria.com');
+      await page.fill('input[placeholder="••••••••••••"]', 'Owner@2026');
+      await page.click('button:has-text("Sign In as Owner")');
+    }
     await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
-    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Nitsuh Cafe & Restaurant")')).toBeVisible();
 
     // Navigate to Menu tab
     const menuBtn = page.locator('[data-testid="admin-nav-menu"]:visible').first();
@@ -23,7 +32,8 @@ test.describe('Category CRUD & Inline Creation Flow', () => {
     await expect(formModal).toBeVisible();
 
     // Fill dish name and price as shown in user screenshot
-    await page.locator('[data-testid="dish-form-name"]').fill('Fanta Orange Bottle');
+    const testDishName = `Fanta Orange Bottle ${Date.now()}`;
+    await page.locator('[data-testid="dish-form-name"]').fill(testDishName);
     await page.locator('[data-testid="dish-form-price"]').fill('65');
 
     // Click "+ New Category" toggle
@@ -62,7 +72,7 @@ test.describe('Category CRUD & Inline Creation Flow', () => {
     await expect(formModal).toBeHidden();
 
     // Dish appears in menu list
-    await expect(page.locator('text=Fanta Orange Bottle').first()).toBeVisible();
+    await expect(page.locator(`text=${testDishName}`).first()).toBeVisible();
   });
 
   test('2. Central Category Manager: Create, Edit, Reorder, and Delete with safe dish reassignment', async ({ page }) => {
@@ -115,9 +125,27 @@ test.describe('Category CRUD & Inline Creation Flow', () => {
   test('3. Real-Time Customer Sync: Newly created category reflects in dining view', async ({ page }) => {
     // Open customer dining view in same browser context
     await page.goto('/nitsuh?table=Table%2014');
-    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Nitsuh Cafe & Restaurant")')).toBeVisible();
 
     // Categories are rendered on customer page
-    await expect(page.locator('text=Soft Cake').first()).toBeVisible();
+    await expect(page.locator('text=Soft Drinks').first()).toBeVisible();
+  });
+
+  test.afterAll(async () => {
+    try {
+      const { neon } = await import('@neondatabase/serverless');
+      const fs = await import('fs');
+      if (fs.existsSync('.env.local')) {
+        const env = fs.readFileSync('.env.local', 'utf8');
+        const match = env.match(/DATABASE_URL=([^\r\n]+)/);
+        if (match) {
+          const sql = neon(match[1].trim());
+          await sql`DELETE FROM public.items WHERE category_id IN ('cat-soft-drinks-sodas', 'cat-chef-seasonal-specials') OR name ILIKE '%Fanta Orange Bottle%'`;
+          await sql`DELETE FROM public.categories WHERE id IN ('cat-soft-drinks-sodas', 'cat-chef-seasonal-specials') OR name IN ('Soft Drinks & Sodas', 'Chef Signature Specials')`;
+        }
+      }
+    } catch {
+      // Ignore
+    }
   });
 });

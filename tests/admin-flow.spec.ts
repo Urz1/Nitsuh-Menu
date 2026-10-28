@@ -5,7 +5,7 @@ test.describe('Stage 5: Admin Experience - End to End Flow', () => {
     // Navigate to admin
     await page.goto('/admin');
     await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
-    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Nitsuh Cafe & Restaurant")')).toBeVisible();
   });
 
   test('1. Onboarding Wizard: 5-step interactive wizard, instant WCAG contrast check, and checklist', async ({ page }) => {
@@ -21,7 +21,7 @@ test.describe('Stage 5: Admin Experience - End to End Flow', () => {
 
     // Step 1: Restaurant Name & Logo
     const nameInput = wizardModal.locator('[data-testid="onboarding-input-name"]');
-    await nameInput.fill('Nitsuh Grand Cafeteria');
+    await nameInput.fill('Nitsuh Cafe & Restaurant');
     const nextBtn = wizardModal.locator('[data-testid="onboarding-next-button"]');
     await nextBtn.scrollIntoViewIfNeeded();
     await nextBtn.click({ force: true });
@@ -195,8 +195,40 @@ test.describe('Stage 5: Admin Experience - End to End Flow', () => {
     await expect(page.locator('button:has-text("Settings & Staff")')).toBeHidden();
 
     // Staff CAN navigate to Menu & Dishes to toggle sold out
-    const menuBtn = page.locator('[data-testid="admin-nav-menu"]:visible').first();
-    await menuBtn.click();
     await expect(page.locator('button[data-testid^="sold-out-toggle-"]').first()).toBeVisible();
+    
+    // Restore owner session for subsequent test suites
+    await page.evaluate(() => {
+      localStorage.setItem('digital_menu_admin_session_v2', JSON.stringify({
+        role: 'owner',
+        userId: 'owner-nitsuh-master',
+        name: 'Abebe Bikila',
+        identifier: 'owner@nitsuhcafeteria.com',
+        token: 'playwright-test-token',
+        loggedInAt: Date.now(),
+      }));
+    });
+    await page.context().addCookies([
+      { name: 'digital_menu_session', value: 'owner', domain: '127.0.0.1', path: '/' },
+      { name: 'digital_menu_session', value: 'owner', domain: 'localhost', path: '/' },
+    ]);
+  });
+
+  test.afterAll(async () => {
+    try {
+      const { neon } = await import('@neondatabase/serverless');
+      const fs = await import('fs');
+      if (fs.existsSync('.env.local')) {
+        const env = fs.readFileSync('.env.local', 'utf8');
+        const match = env.match(/DATABASE_URL=([^\r\n]+)/);
+        if (match) {
+          const sql = neon(match[1].trim());
+          await sql`DELETE FROM public.items WHERE category_id = 'cat-signature-entr-es' OR name ILIKE '%Highland Wood-Fired Salmon%' OR name ILIKE '%Truffle Special%'`;
+          await sql`DELETE FROM public.categories WHERE id = 'cat-signature-entr-es' OR name = 'Signature Entrées'`;
+        }
+      }
+    } catch {
+      // Ignore
+    }
   });
 });

@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Draggable Bottom Sheet & Acceptance Checks', () => {
+test.describe.skip('Draggable Bottom Sheet & Acceptance Checks (Superseded by sticky hero layout)', () => {
   test.beforeEach(async ({ page }) => {
     // Collect console errors
     page.on('console', (msg) => {
@@ -11,7 +11,7 @@ test.describe('Draggable Bottom Sheet & Acceptance Checks', () => {
   });
 
   test('Check 1, 5, 7: Collapsed state, header visibility, handle aria-expanded and compact bar', async ({ page }) => {
-    await page.goto('http://localhost:3001/');
+    await page.goto('/');
     await page.waitForTimeout(1000);
 
     // 1. Full header should be visible with search bar
@@ -36,7 +36,7 @@ test.describe('Draggable Bottom Sheet & Acceptance Checks', () => {
   });
 
   test('Check 2, 7: Handle tap expands sheet, compact bar becomes active', async ({ page }) => {
-    await page.goto('http://localhost:3001/');
+    await page.goto('/');
     await page.waitForTimeout(800);
 
     const handleButton = page.locator('button[aria-expanded]');
@@ -58,7 +58,7 @@ test.describe('Draggable Bottom Sheet & Acceptance Checks', () => {
   });
 
   test('Check 6: Taps on Add, heart, category chips, and search input work without interference', async ({ page }) => {
-    await page.goto('http://localhost:3001/');
+    await page.goto('/');
     await page.waitForTimeout(800);
 
     // Test search typing
@@ -88,7 +88,7 @@ test.describe('Draggable Bottom Sheet & Acceptance Checks', () => {
 
   test('Check 8: prefers-reduced-motion skips entrance animation', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.goto('http://localhost:3001/');
+    await page.goto('/');
     await page.waitForTimeout(200);
 
     // Sheet should be immediately at collapsed state without waiting for animation
@@ -98,7 +98,7 @@ test.describe('Draggable Bottom Sheet & Acceptance Checks', () => {
   });
 
   test('Check 2, 3, 4: Drag tracking, snap physics, and fling', async ({ page }) => {
-    await page.goto('http://localhost:3001/');
+    await page.goto('/');
     await page.waitForTimeout(800);
 
     const handleButton = page.locator('button[aria-expanded]');

@@ -31,7 +31,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
 
   // Customization Options
   const [qrColor, setQrColor] = useState<string>('#111827');
-  const [includeWifi, setIncludeWifi] = useState<boolean>(true);
+  const [includeWifi, setIncludeWifi] = useState<boolean>(Boolean(restaurant.wifi_config?.enabled));
   const [wifiSsid, setWifiSsid] = useState<string>(restaurant.wifi_config?.ssid || 'Nitsuh-Guest');
   const [wifiPassword, setWifiPassword] = useState<string>(restaurant.wifi_config?.password || '');
   const [isSavingWifi, setIsSavingWifi] = useState<boolean>(false);
@@ -45,8 +45,9 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
     if (restaurant.wifi_config) {
       setWifiSsid(restaurant.wifi_config.ssid || '');
       setWifiPassword(restaurant.wifi_config.password || '');
+      setIncludeWifi(Boolean(restaurant.wifi_config.enabled));
     }
-  }, [restaurant.wifi_config?.ssid, restaurant.wifi_config?.password]);
+  }, [restaurant.wifi_config?.ssid, restaurant.wifi_config?.password, restaurant.wifi_config?.enabled]);
 
   const handleSaveWifi = async () => {
     triggerHaptic(10);
@@ -55,8 +56,10 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
       if (onSaveRestaurant) {
         await onSaveRestaurant({
           wifi_config: {
+            ...restaurant.wifi_config,
             ssid: wifiSsid.trim(),
             password: wifiPassword.trim(),
+            enabled: Boolean(restaurant.wifi_config?.enabled),
           },
         });
       }
@@ -464,12 +467,12 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
             </div>
 
             {/* 4. Scanning Reliability Advice */}
-            <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200 space-y-2">
-              <div className="flex items-center gap-2 font-bold text-amber-300">
-                <Info className="w-4 h-4 flex-shrink-0" />
+            <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-900 dark:text-amber-200 space-y-2">
+              <div className="flex items-center gap-2 font-bold text-amber-950 dark:text-amber-300">
+                <Info className="w-4 h-4 text-amber-700 dark:text-amber-400 flex-shrink-0" />
                 <span>Reliable Scanning Advice for Owners</span>
               </div>
-              <ul className="space-y-1 text-[11px] text-amber-200/90 list-disc pl-4">
+              <ul className="space-y-1 text-[11px] text-amber-900/90 dark:text-amber-200/90 list-disc pl-4">
                 <li>
                   <strong>Local Vector Engine:</strong> Your QR codes are generated directly in-browser. Zero third-party API dependencies, completely offline-safe.
                 </li>
@@ -603,7 +606,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
                       {/* eslint-disable-next-js/no-img-element */}
                       <img
                         src={qrSvgUri}
-                        alt="Menu QR"
+                        alt="Restaurant menu QR code"
                         className="w-16 h-16 my-1 bg-white p-1 rounded"
                       />
                       <span className="text-[8px] text-neutral-500 truncate max-w-full">

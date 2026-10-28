@@ -25,19 +25,19 @@ import { getNeon, hasNeon } from './neon/client';
 export const MOCK_RESTAURANT_NITSUH: Restaurant = {
   id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
   slug: 'nitsuh',
-  name: 'Nitsuh Cafeteria',
+  name: 'Nitsuh Cafe & Restaurant',
   short_name: 'Nitsuh',
   logo_letter: 'N',
   logo_url: 'https://res.cloudinary.com/dekmg6rhe/image/upload/v1793051284/nitsuh-menu/brand/nitsuh-logo-clean.png',
-  tagline: 'Authentic Ethiopian Cuisine, Wood-Fired Mendi & Artisanal Bakery',
+  tagline: 'From Savour Bites to Sweet Delights – We Cater It All! • Hot & Fresh Fast Food, Handcrafted Sweets & Desserts',
   currency: 'ETB',
   currency_code: 'ETB',
   default_table: 'Table 1',
   hours: 'Mon – Sun: 6:30 AM – 11:00 PM',
-  branch_name: 'Main Branch — Nitsuh Cafe & Bakery',
+  branch_name: 'Main Branch — Nitsuh Cafe & Restaurant',
   address: 'XQHC+MJP Nitsuh Cafe and Bakery, Addis Ababa, Ethiopia',
   google_maps_url: 'https://maps.app.goo.gl/R8WN2zwM9dwVXT3h9?g_st=ac',
-  announcement: 'Welcome to Nitsuh Cafeteria & Bakery • Fresh injera, sizzling tibs, and artisanal pastries daily.',
+  announcement: 'Welcome to Nitsuh Cafe & Restaurant • Fresh burgers, artisan pizzas, handcrafted pastries, and specialty coffees daily.',
   is_open: true,
   tax_rate: 0.15,
   created_at: new Date().toISOString(),
@@ -58,6 +58,7 @@ export const MOCK_RESTAURANT_NITSUH: Restaurant = {
   wifi_config: {
     ssid: 'Nitsuh-Guest',
     password: 'tastethevibes',
+    enabled: false,
   },
   reviews_enabled: true,
   feature_flags: {
@@ -99,184 +100,194 @@ export const MOCK_RESTAURANT_NITSUH: Restaurant = {
 
 export const MOCK_CATEGORIES_NITSUH: Category[] = [
   {
-    "id": "cat-soft-cake",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "name": "Soft Cake",
-    "name_am": "ለስላሳ ኬክ",
-    "icon": "🍰",
-    "image_url": "/images/dishes/opera-cake-5.jpg",
-    "description": "Freshly baked artisanal cakes, pastries, tortas, and sweet confections.",
-    "sort_order": 1,
-    "is_active": true
-  },
-  {
-    "id": "cat-bread",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "name": "Bread",
-    "name_am": "ዳቦ",
-    "icon": "🥖",
-    "image_url": "/images/dishes/gebis-baget-26.jpg",
-    "description": "Oven-fresh artisanal breads, baguettes, and traditional bakery loaves.",
-    "sort_order": 2,
-    "is_active": true
-  },
-  {
     "id": "cat-breakfast",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "name": "Berak Fast",
+    "name": "Breakfast",
     "name_am": "ቁርስ",
     "icon": "🍳",
-    "image_url": "/images/dishes/chechebisa-51.jpg",
-    "description": "Traditional morning platters, fetira, ful, and hearty breakfast combos.",
-    "sort_order": 3,
-    "is_active": true
-  },
-  {
-    "id": "cat-burgers",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "name": "Burgers",
-    "name_am": "በርገር",
-    "icon": "🍔",
-    "image_url": "/images/dishes/special-burger.jpg",
-    "description": "Juicy handcrafted patties, melted cheese, and toasted brioche buns.",
-    "sort_order": 4,
-    "is_active": true
-  },
-  {
-    "id": "cat-pizzas",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "name": "Pizzas",
-    "name_am": "ፒዛ",
-    "icon": "🍕",
-    "image_url": "/images/dishes/woodfired-pizza.jpg",
-    "description": "Wood-fired sourdough crust baked with mozzarella and fresh toppings.",
-    "sort_order": 5,
-    "is_active": true
-  },
-  {
-    "id": "cat-snack-menu",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "name": "Snack Menu",
-    "name_am": "ስናክ",
-    "icon": "🍟",
-    "image_url": "/images/dishes/fried-chicken-wings-70.jpg",
-    "description": "Crispy fries, golden spring rolls, wings, and chicken tenders.",
-    "sort_order": 6,
-    "is_active": true
-  },
-  {
-    "id": "cat-hot-beverage",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "name": "Hot Beverage (Nitsuh Cafe)",
-    "name_am": "ትኩስ መጠጦች",
-    "icon": "☕",
-    "image_url": "/images/dishes/macchiato-77.jpg",
-    "description": "Single-origin Ethiopian coffee, rich macchiato, and aromatic teas.",
-    "sort_order": 7,
-    "is_active": true
-  },
-  {
-    "id": "cat-juice",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "name": "Juice",
-    "name_am": "ጭማቂ",
-    "icon": "🥤",
-    "image_url": "/images/dishes/fresh-mango-juice.jpg",
-    "description": "100% freshly pressed tropical fruits, creamy avocados, and thick shakes.",
-    "sort_order": 8,
-    "is_active": true
-  },
-  {
-    "id": "cat-cold-drinks",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "name": "Cold Drinks",
-    "name_am": "ቀዝቃዛ መጠጦች",
-    "icon": "🧊",
-    "image_url": "/images/dishes/ice-coffee-111.jpg",
-    "description": "Chilled coffees, refreshing mojitos, natural mineral water, and sodas.",
-    "sort_order": 9,
-    "is_active": true
-  },
-  {
-    "id": "cat-lunch-dinner",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "name": "Lunch and Dinner",
-    "name_am": "ምሳ እና እራት",
-    "icon": "🥘",
-    "image_url": "/images/dishes/1-2-roasted-chicken-141.jpg",
-    "description": "Sizzling lamb and beef tibs, slow-simmered wots, aromatic rice, and pasta.",
+    "image_url": "/images/dishes/full-normal-43.jpg",
+    "description": "Traditional breakfast platters, foul, fetira, chechebsa, eggs and morning toasts.",
     "sort_order": 10,
     "is_active": true
   },
   {
-    "id": "cat-mendi",
+    "id": "cat-burger",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "name": "Mendi",
-    "name_am": "መንዲ",
-    "icon": "🍖",
-    "image_url": "/images/dishes/special-mendi.jpg",
-    "description": "Slow-cooked fragrant spiced rice served with tender roasted meats.",
-    "sort_order": 11,
+    "name": "Burgers",
+    "name_am": "በርገር",
+    "icon": "🍔",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041103/nitsuh-menu/dishes/sauxrh8xiqtzh1lxaihl.jpg",
+    "description": "Handcrafted gourmet burgers, beef patties, chicken burgers and seasoned fries.",
+    "sort_order": 20,
     "is_active": true
   },
   {
-    "id": "cat-half-half",
+    "id": "cat-pizza",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "name": "Half Half",
-    "name_am": "ግማሽ በግማሽ",
-    "icon": "🍲",
-    "image_url": "/images/dishes/keywot-and-fitfit-143.jpg",
-    "description": "Two hearty signature dishes combined side-by-side on fresh injera.",
-    "sort_order": 12,
+    "name": "Pizzas",
+    "name_am": "ፒዛ",
+    "icon": "🍕",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041087/nitsuh-menu/dishes/ky9kasyuyvofqpepovy9.jpg",
+    "description": "Crispy crust pizzas baked with rich tomato sauce, melted mozzarella and fresh toppings.",
+    "sort_order": 30,
     "is_active": true
   },
   {
-    "id": "cat-wraps",
+    "id": "cat-club-sandwich",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "name": "Club Sandwich",
+    "name_am": "ክለብ ሳንድዊች",
+    "icon": "🥪",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041113/nitsuh-menu/dishes/plxtnsfafhnlwyvss89e.jpg",
+    "description": "Layered triple-decker club sandwiches, chicken, tuna, steak and avocado.",
+    "sort_order": 40,
+    "is_active": true
+  },
+  {
+    "id": "cat-wrap",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "name": "Wraps",
-    "name_am": "ሻዋርማ እና ሳንድዊች",
+    "name_am": "ራፕ",
     "icon": "🌯",
-    "image_url": "/images/dishes/chicken-shewarma-148.jpg",
-    "description": "Warm pita wraps and toasted sandwiches loaded with fillings and sauce.",
-    "sort_order": 13,
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041114/nitsuh-menu/dishes/qwc9frfwwyvnkjupkfsa.jpg",
+    "description": "Rolled warm tortilla wraps filled with tender meats, cheese and house sauces.",
+    "sort_order": 50,
     "is_active": true
   },
   {
-    "id": "cat-fasting-lunch",
+    "id": "cat-chicken",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "name": "Fasting Lunch",
-    "name_am": "የፆም ምግብ",
-    "icon": "🥬",
-    "image_url": "/images/dishes/fasting-agelegil-151.jpg",
-    "description": "100% plant-based Ethiopian vegan specialties, Beyaynetu, and fresh salads.",
-    "sort_order": 14,
+    "name": "Chicken",
+    "name_am": "ዶሮ",
+    "icon": "🍗",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041065/nitsuh-menu/dishes/iviqnmpjmgv93jne2u7a.jpg",
+    "description": "Crispy fried chicken legs, golden nuggets, strips, wings and honey BBQ platters.",
+    "sort_order": 60,
     "is_active": true
   },
   {
-    "id": "cat-takeaway-extras",
+    "id": "cat-salad",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "name": "Takeaway & Extras",
-    "name_am": "ተጨማሪዎች",
-    "icon": "📦",
-    "image_url": "/images/dishes/special-burger.jpg",
-    "description": "Packaging, takeaway boxes, and extra gourmet toppings.",
-    "sort_order": 15,
+    "name": "Salad",
+    "name_am": "ሰላጣ",
+    "icon": "🥗",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041113/nitsuh-menu/dishes/kggchipcxsmjclgakqjy.jpg",
+    "description": "Crisp garden salads, tuna, chicken, avocado and fasting dressings.",
+    "sort_order": 70,
+    "is_active": true
+  },
+  {
+    "id": "cat-pasta",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "name": "Pasta",
+    "name_am": "ፓስታ",
+    "icon": "🍝",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041121/nitsuh-menu/dishes/fq6jd3em4ox2zveh9k13.jpg",
+    "description": "Italian style pasta bowls: tomato, Alfredo, creamy chicken, arrabbiata and pesto.",
+    "sort_order": 80,
+    "is_active": true
+  },
+  {
+    "id": "cat-mojito",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "name": "Mojitos",
+    "name_am": "ሞሂቶ",
+    "icon": "🍹",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041074/nitsuh-menu/dishes/iciwxll5jdtr9onzkcl4.jpg",
+    "description": "Refreshing iced fruit mojitos, mint, lemon, pineapple, watermelon and strawberry.",
+    "sort_order": 90,
+    "is_active": true
+  },
+  {
+    "id": "cat-soft-drinks",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "name": "Soft Drinks & Water",
+    "name_am": "ለስላሳ መጠጦች እና ውሃ",
+    "icon": "🥤",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041111/nitsuh-menu/dishes/ga0vubbafzchiv5en8ym.jpg",
+    "description": "Chilled bottled and canned soft drinks, Novida, mineral water and Ambo water.",
+    "sort_order": 100,
+    "is_active": true
+  },
+  {
+    "id": "cat-juices",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "name": "Fresh Juices",
+    "name_am": "ትኩስ ጭማቂዎች",
+    "icon": "🧃",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041113/nitsuh-menu/dishes/jmil4upegrojwzezxy1c.jpg",
+    "description": "100% freshly pressed juices: avocado, mango, papaya, watermelon, strawberry.",
+    "sort_order": 110,
+    "is_active": true
+  },
+  {
+    "id": "cat-shakes",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "name": "Shakes",
+    "name_am": "ሼክ",
+    "icon": "🥛",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041059/nitsuh-menu/dishes/vudraahudym4plg9muft.jpg",
+    "description": "Creamy thick milkshakes: banana, strawberry, mocha, avocado, flaxseed and protein.",
+    "sort_order": 120,
+    "is_active": true
+  },
+  {
+    "id": "cat-hot-drinks",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "name": "Hot Drinks",
+    "name_am": "ትኩስ መጠጦች",
+    "icon": "☕",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041131/nitsuh-menu/dishes/k0k6d9gyrikfmrdpsfgi.jpg",
+    "description": "Single-origin Ethiopian coffee, macchiato, espresso, teas, and specialty lattes.",
+    "sort_order": 130,
+    "is_active": true
+  },
+  {
+    "id": "cat-iced-drinks",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "name": "Iced Drinks",
+    "name_am": "ቀዝቃዛ መጠጦች",
+    "icon": "🧊",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041089/nitsuh-menu/dishes/ijbaoshw8scfdtaxqsem.jpg",
+    "description": "Chilled iced latte, iced tea, vanilla, caramel, strawberry and deluxe iced coffee.",
+    "sort_order": 140,
+    "is_active": true
+  },
+  {
+    "id": "cat-desserts",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "name": "Desserts & Pastries",
+    "name_am": "ጣፋጮች እና ኬኮች",
+    "icon": "🧁",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041101/nitsuh-menu/dishes/gbmqzx61bktna2gswrx6.jpg",
+    "description": "Freshly baked mini cakes, custard vanilla, donuts, croissants and cookies.",
+    "sort_order": 150,
+    "is_active": true
+  },
+  {
+    "id": "cat-desserts-kg",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "name": "Torta & Cakes (Per KG)",
+    "name_am": "ኬክ በኪሎ",
+    "icon": "🎂",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041076/nitsuh-menu/dishes/gnfchwipgbgs7fhfoodm.jpg",
+    "description": "Celebration tortas and whole cakes sold by the kilogram for events and gatherings.",
+    "sort_order": 160,
     "is_active": true
   }
 ];
 
 export const MOCK_ITEMS_NITSUH: MenuItem[] = [
   {
-    "id": "item-cream-cake-1",
+    "id": "item-foul-1",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "cream cake",
-    "price": 200,
-    "description": "cream cake prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/cream-cake-1.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-breakfast",
+    "name": "Foul",
+    "name_am": "ፉል",
+    "price": 350,
+    "description": "Foul prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "/images/dishes/full-normal-43.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -284,33 +295,34 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 1
   },
   {
-    "id": "item-black-forest-2",
+    "id": "item-foul-special-2",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "Black Forest",
-    "price": 230,
-    "description": "Black Forest prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/black-forest-2.jpg",
+    "category_id": "cat-breakfast",
+    "name": "Foul Special",
+    "name_am": "ፉል ስፔሻል",
+    "price": 450,
+    "description": "Foul Special prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "/images/dishes/ful-special.jpg",
     "tags": [
-      "popular",
-      "vegetarian"
+      "popular"
     ],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": true,
+    "is_chefs_pick": false,
     "sort_order": 2
   },
   {
-    "id": "item-black-white-forest-3",
+    "id": "item-fetira-with-honey-11",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "Black&White Forest",
-    "price": 230,
-    "description": "Black&White Forest prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/black-white-forest-3.jpg",
+    "category_id": "cat-breakfast",
+    "name": "Fetira With Honey",
+    "name_am": "ፈጢራ በማር",
+    "price": 350,
+    "description": "Fetira With Honey prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "/images/dishes/fetira.jpeg",
     "tags": [
-      "vegetarian"
+      "popular"
     ],
     "allergens": [],
     "spice_level": 0,
@@ -319,16 +331,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 3
   },
   {
-    "id": "item-strawberry-cake-4",
+    "id": "item-scrambled-egg-with-meat-4",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "strawberry cake",
-    "price": 230,
-    "description": "strawberry cake prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/strawberry-cake-4.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-breakfast",
+    "name": "Scrambled Egg With Meat",
+    "name_am": "እንቁላል ፍርፍር በስጋ",
+    "price": 500,
+    "description": "Scrambled Egg With Meat prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041130/nitsuh-menu/dishes/vltksewkfkrxicfu9ho3.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -336,16 +347,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 4
   },
   {
-    "id": "item-opera-cake-5",
+    "id": "item-egg-sandwich-5",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "Opera cake",
-    "price": 250,
-    "description": "Opera cake prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/opera-cake-5.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-breakfast",
+    "name": "Egg Sandwich",
+    "name_am": "እንቁላል ሳንድች",
+    "price": 400,
+    "description": "Egg Sandwich prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041078/nitsuh-menu/dishes/lqwzh73i5taazryk6b5d.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -353,17 +363,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 5
   },
   {
-    "id": "item-torta-cake-6",
+    "id": "item-omelet-6",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "Torta cake",
-    "price": 1500,
-    "description": "Torta cake prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/torta-cake-6.jpg",
-    "tags": [
-      "popular",
-      "vegetarian"
-    ],
+    "category_id": "cat-breakfast",
+    "name": "Omelet",
+    "name_am": "አምሌት",
+    "price": 400,
+    "description": "Omelet prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "/images/dishes/roasted-chicken.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -371,16 +379,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 6
   },
   {
-    "id": "item-cup-cake-7",
+    "id": "item-omelet-with-cheese-7",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "Cup cake",
-    "price": 150,
-    "description": "Cup cake prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/cup-cake-7.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-breakfast",
+    "name": "Omelet With Cheese",
+    "name_am": "አምሌት በቺዝ",
+    "price": 500,
+    "description": "Omelet With Cheese prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041105/nitsuh-menu/dishes/jy4cosnl4hohva3umf8u.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -388,15 +395,16 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 7
   },
   {
-    "id": "item-english-cake-8",
+    "id": "item-special-omelet-8",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "English Cake",
-    "price": 1050,
-    "description": "English Cake prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/english-cake-8.jpg",
+    "category_id": "cat-breakfast",
+    "name": "Special Omelet",
+    "name_am": "ስፔሻል አምሌት",
+    "price": 550,
+    "description": "Special Omelet prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041113/nitsuh-menu/dishes/xmy67yadwvvkjhtmdkpq.jpg",
     "tags": [
-      "vegetarian"
+      "popular"
     ],
     "allergens": [],
     "spice_level": 0,
@@ -405,16 +413,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 8
   },
   {
-    "id": "item-basbousa-9",
+    "id": "item-chechebsa-with-honey-9",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "Basbousa",
-    "price": 100,
-    "description": "Basbousa prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/basbousa-9.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-breakfast",
+    "name": "Chechebsa With Honey",
+    "name_am": "ጨጨብሳ በማር",
+    "price": 350,
+    "description": "Chechebsa With Honey prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "/images/dishes/chechebisa.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -422,16 +429,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 9
   },
   {
-    "id": "item-orange-basbousa-10",
+    "id": "item-chechebsa-with-egg-10",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "Orange Basbousa",
-    "price": 190,
-    "description": "Orange Basbousa prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/orange-basbousa-10.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-breakfast",
+    "name": "Chechebsa With Egg",
+    "name_am": "ጨጨብሳ በእንቁላል",
+    "price": 400,
+    "description": "Chechebsa With Egg prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "/images/dishes/chechebisa.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -439,16 +445,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 10
   },
   {
-    "id": "item-croissant-plain-11",
+    "id": "item-scrambled-egg-3",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "Croissant Plain",
-    "price": 150,
-    "description": "Croissant Plain prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/croissant-plain-11.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-breakfast",
+    "name": "Scrambled Egg",
+    "name_am": "እንቁላል ፍርፍር",
+    "price": 400,
+    "description": "Scrambled Egg prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041109/nitsuh-menu/dishes/lf4qmtdtaive8wqyez9f.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -456,16 +461,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 11
   },
   {
-    "id": "item-white-plain-12",
+    "id": "item-fetira-with-egg-12",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "White Plain",
-    "price": 150,
-    "description": "White Plain prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/white-plain-12.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-breakfast",
+    "name": "Fetira With Egg",
+    "name_am": "ፈጢራ በእንቁላል",
+    "price": 400,
+    "description": "Fetira With Egg prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "/images/dishes/fetira.jpeg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -473,17 +477,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 12
   },
   {
-    "id": "item-orange-fasting-13",
+    "id": "item-avocado-toast-13",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "Orange Fasting",
-    "price": 150,
-    "description": "Orange Fasting prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/orange-fasting-13.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-breakfast",
+    "name": "Avocado Toast",
+    "name_am": "አቮካዶ በቶስት ዳቦ",
+    "price": 450,
+    "description": "Avocado Toast prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041059/nitsuh-menu/dishes/yhi6mxkeajwywjz58poa.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -491,16 +493,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 13
   },
   {
-    "id": "item-orange-cake-14",
+    "id": "item-beef-cheese-sandwich-14",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "Orange cake",
-    "price": 150,
-    "description": "Orange cake prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/orange-cake-14.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-breakfast",
+    "name": "Beef & Cheese Sandwich",
+    "name_am": "ቢፍ በቺዝ ሳንድች",
+    "price": 600,
+    "description": "Beef & Cheese Sandwich prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041059/nitsuh-menu/dishes/rbnshwmcjljfnrbgrytk.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -508,16 +509,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 14
   },
   {
-    "id": "item-venus-plain-big-15",
+    "id": "item-french-toast-15",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "Venus plain BIG",
-    "price": 150,
-    "description": "Venus plain BIG prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/venus-plain-big-15.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-breakfast",
+    "name": "French Toast",
+    "name_am": "ፍሬንች ቶስት",
+    "price": 500,
+    "description": "French Toast prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041083/nitsuh-menu/dishes/ppqtnbqj6aowb65vtueb.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -525,16 +525,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 15
   },
   {
-    "id": "item-venus-plane-short-16",
+    "id": "item-pan-cake-16",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "Venus plane SHORT",
-    "price": 100,
-    "description": "Venus plane SHORT prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/venus-plane-short-16.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-breakfast",
+    "name": "Pan Cake",
+    "name_am": "ፓን ኬክ",
+    "price": 500,
+    "description": "Pan Cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041105/nitsuh-menu/dishes/zw36dchhheua8o9akdwk.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -542,33 +541,33 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 16
   },
   {
-    "id": "item-beckewhe-17",
+    "id": "item-nitsuh-special-burger-17",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "Beckewhe",
-    "price": 80,
-    "description": "Beckewhe prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/beckewhe-17.jpg",
+    "category_id": "cat-burger",
+    "name": "Nitsuh Special Burger",
+    "name_am": "",
+    "price": 800,
+    "description": "Double Beef, Double Cheese, Egg, House Mayo, tomato, onion, lettuce & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041103/nitsuh-menu/dishes/sauxrh8xiqtzh1lxaihl.jpg",
     "tags": [
-      "vegetarian"
+      "popular"
     ],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": false,
+    "is_chefs_pick": true,
     "sort_order": 17
   },
   {
-    "id": "item-cookise-18",
+    "id": "item-texas-style-bbq-burger-18",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-soft-cake",
-    "name": "COOKISE",
-    "price": 800,
-    "description": "COOKISE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/cookise-18.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-burger",
+    "name": "Texas Style BBQ Burger",
+    "name_am": "",
+    "price": 750,
+    "description": "Double Beef, Cheese, triple BBQ Sauce, Mayo, tomato, onion, lettuce & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041120/nitsuh-menu/dishes/rrwytwfvolbrhofto9gf.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -576,33 +575,31 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 18
   },
   {
-    "id": "item-calvine-bread-19",
+    "id": "item-spicy-burger-19",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "CALVINE BREAD",
-    "price": 50,
-    "description": "CALVINE BREAD prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/calvine-bread-19.jpg",
-    "tags": [
-      "vegan"
-    ],
+    "category_id": "cat-burger",
+    "name": "Spicy Burger",
+    "name_am": "",
+    "price": 750,
+    "description": "Double beef, Cheese, Double Chili Sauce, Mayo, tomato, onion, lettuce & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041114/nitsuh-menu/dishes/uepwvp2slodcwbnbojqh.jpg",
+    "tags": [],
     "allergens": [],
-    "spice_level": 0,
+    "spice_level": 2,
     "is_available": true,
     "is_chefs_pick": false,
     "sort_order": 19
   },
   {
-    "id": "item-otes-bread-20",
+    "id": "item-junky-burger-20",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "OTES BREAD",
-    "price": 50,
-    "description": "OTES BREAD prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/otes-bread-20.jpg",
-    "tags": [
-      "vegan"
-    ],
+    "category_id": "cat-burger",
+    "name": "Junky Burger",
+    "name_am": "",
+    "price": 950,
+    "description": "Tripple Beef, Double Cheese, Double egg, House Sauce Mayo, tomato, onion, lettuce & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041103/nitsuh-menu/dishes/sauxrh8xiqtzh1lxaihl.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -610,16 +607,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 20
   },
   {
-    "id": "item-fewast-bread-21",
+    "id": "item-beef-burger-21",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "FEWAST BREAD",
-    "price": 50,
-    "description": "FEWAST BREAD prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/fewast-bread-21.jpg",
-    "tags": [
-      "vegan"
-    ],
+    "category_id": "cat-burger",
+    "name": "Beef Burger",
+    "name_am": "",
+    "price": 500,
+    "description": "Beef, Mayo, tomato, onion, lettuce & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041059/nitsuh-menu/dishes/vextlzoihqbx8gwy9m4p.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -627,16 +623,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 21
   },
   {
-    "id": "item-ragest-brade-22",
+    "id": "item-cheese-burger-22",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "RAGEST BRADE",
-    "price": 50,
-    "description": "RAGEST BRADE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/ragest-brade-22.jpg",
-    "tags": [
-      "vegan"
-    ],
+    "category_id": "cat-burger",
+    "name": "Cheese Burger",
+    "name_am": "",
+    "price": 550,
+    "description": "Beef, Cheese, Mayo, tomato, onion, lettuce & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041063/nitsuh-menu/dishes/fjbcfvhbhqermblxexxy.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -644,16 +639,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 22
   },
   {
-    "id": "item-aja-bread-23",
+    "id": "item-double-beef-burger-23",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "AJA BREAD",
-    "price": 20,
-    "description": "AJA BREAD prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/aja-bread-23.jpg",
-    "tags": [
-      "vegan"
-    ],
+    "category_id": "cat-burger",
+    "name": "Double Beef Burger",
+    "name_am": "",
+    "price": 600,
+    "description": "Double Beef, Mayo, tomato, onion, lettuce & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041077/nitsuh-menu/dishes/ifmzjjrsnnbvr3vqsec4.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -661,16 +655,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 23
   },
   {
-    "id": "item-aja-ragkeste-24",
+    "id": "item-double-cheese-burger-24",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "AJA RAGKESTE",
-    "price": 10,
-    "description": "AJA RAGKESTE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/aja-ragkeste-24.jpg",
-    "tags": [
-      "vegan"
-    ],
+    "category_id": "cat-burger",
+    "name": "Double Cheese Burger",
+    "name_am": "",
+    "price": 670,
+    "description": "Double Beef, Double Cheese, tomato, onion, lettuce & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041078/nitsuh-menu/dishes/davmjhahhhx92wcy5bfl.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -678,16 +671,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 24
   },
   {
-    "id": "item-gebis-bread-25",
+    "id": "item-chicken-burger-25",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "GEBIS BREAD",
-    "price": 15,
-    "description": "GEBIS BREAD prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/gebis-bread-25.jpg",
-    "tags": [
-      "vegan"
-    ],
+    "category_id": "cat-burger",
+    "name": "Chicken Burger",
+    "name_am": "",
+    "price": 600,
+    "description": "Chicken, Mayo, Honey Mustard sauce, tomato, onion, lettuce & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041063/nitsuh-menu/dishes/bmtsndi3cvdrjwxudsli.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -695,15 +687,16 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 25
   },
   {
-    "id": "item-gebis-baget-26",
+    "id": "item-special-chicken-burger-26",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "GEBIS BAGET",
-    "price": 15,
-    "description": "GEBIS BAGET prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/gebis-baget-26.jpg",
+    "category_id": "cat-burger",
+    "name": "Special Chicken Burger",
+    "name_am": "",
+    "price": 950,
+    "description": "Double Chicken, Cheese, Mayo, Honey Mustard sauce, tomato, onion, lettuce & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041111/nitsuh-menu/dishes/j4mfcvnhexep3p1bfnfj.jpg",
     "tags": [
-      "vegan"
+      "popular"
     ],
     "allergens": [],
     "spice_level": 0,
@@ -712,391 +705,14 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 26
   },
   {
-    "id": "item-gebis-mini-27",
+    "id": "item-fasting-burger-27",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "GEBIS MINI",
-    "price": 15,
-    "description": "GEBIS MINI prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/gebis-mini-27.jpg",
-    "tags": [
-      "vegan"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 27
-  },
-  {
-    "id": "item-min-bread-rog-28",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "MIN BREAD ROG",
-    "price": 10,
-    "description": "MIN BREAD ROG prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/min-bread-rog-28.jpg",
-    "tags": [
-      "vegan"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 28
-  },
-  {
-    "id": "item-normal-bread-180g-29",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "NORMAL BREAD 180G",
-    "price": 50,
-    "description": "NORMAL BREAD 180G prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/normal-bread-180g-29.jpg",
-    "tags": [
-      "vegan"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 29
-  },
-  {
-    "id": "item-normal-bread-110g-30",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "NORMAL BREAD 110G",
-    "price": 20,
-    "description": "NORMAL BREAD 110G prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/normal-bread-110g-30.jpg",
-    "tags": [
-      "vegan"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 30
-  },
-  {
-    "id": "item-care-bread-31",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "CARE BREAD",
-    "price": 100,
-    "description": "CARE BREAD prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/care-bread-31.jpg",
-    "tags": [
-      "vegan"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 31
-  },
-  {
-    "id": "item-crizil-bread-32",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "CRIZIL BREAD",
-    "price": 50,
-    "description": "CRIZIL BREAD prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/crizil-bread-32.jpg",
-    "tags": [
-      "vegan"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 32
-  },
-  {
-    "id": "item-gebic-cake-33",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "GEBIC CAKE",
-    "price": 100,
-    "description": "GEBIC CAKE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/gebic-cake-33.jpg",
-    "tags": [
-      "vegetarian"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 33
-  },
-  {
-    "id": "item-aja-bageste-long-34",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "AJA BAGESTE LONG",
-    "price": 50,
-    "description": "AJA BAGESTE LONG prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/aja-bageste-long-34.jpg",
-    "tags": [
-      "vegan"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 34
-  },
-  {
-    "id": "item-babesfi-bread-35",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "BABESFI BREAD",
-    "price": 150,
-    "description": "BABESFI BREAD prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/babesfi-bread-35.jpg",
-    "tags": [
-      "vegan"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 35
-  },
-  {
-    "id": "item-bombolino-36",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "BOMBOLINO",
-    "price": 60,
-    "description": "BOMBOLINO prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/bombolino-36.jpg",
-    "tags": [
-      "vegetarian"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 36
-  },
-  {
-    "id": "item-boksenya-37",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-bread",
-    "name": "BOKSENYA",
-    "price": 110,
-    "description": "BOKSENYA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/boksenya-37.jpg",
-    "tags": [
-      "vegan"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 37
-  },
-  {
-    "id": "item-feta-with-honey-38",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Feta with Honey",
-    "price": 350,
-    "description": "Feta with Honey prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/feta-with-honey-38.jpg",
-    "tags": [
-      "vegetarian",
-      "popular"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 38
-  },
-  {
-    "id": "item-feta-with-tamer-39",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Feta with Tamer",
-    "price": 350,
-    "description": "Feta with Tamer prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/feta-with-tamer-39.jpg",
-    "tags": [
-      "vegetarian"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 39
-  },
-  {
-    "id": "item-feta-with-honey-tamer-and-banana-40",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Feta with Honey, Tamer, and banana",
-    "price": 450,
-    "description": "Feta with Honey, Tamer, and banana prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/feta-with-honey-tamer-and-banana-40.jpg",
-    "tags": [
-      "vegetarian",
-      "popular"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": true,
-    "sort_order": 40
-  },
-  {
-    "id": "item-fetira-41",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Fetira",
-    "price": 300,
-    "description": "Fetira prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/fetira.jpeg",
-    "tags": [
-      "vegetarian"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 41
-  },
-  {
-    "id": "item-special-fetira-42",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Special Fetira",
-    "price": 450,
-    "description": "Special Fetira prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/special-fetira.jpg",
-    "tags": [
-      "vegetarian",
-      "popular"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": true,
-    "sort_order": 42
-  },
-  {
-    "id": "item-full-normal-43",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Full Normal",
-    "price": 280,
-    "description": "Full Normal prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/full-normal-43.jpg",
-    "tags": [
-      "vegetarian"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 43
-  },
-  {
-    "id": "item-full-special-44",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Full Special",
-    "price": 575,
-    "description": "Full Special prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/ful-special.jpg",
-    "tags": [
-      "vegetarian",
-      "popular"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 44
-  },
-  {
-    "id": "item-nitsuh-combo-break-fast-45",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Nitsuh Combo Break fast",
-    "price": 750,
-    "description": "Nitsuh Combo Break fast prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/nitsuh-combo-break-fast-45.jpg",
-    "tags": [
-      "popular"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": true,
-    "sort_order": 45
-  },
-  {
-    "id": "item-scramble-egg-46",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Scramble Egg",
-    "price": 300,
-    "description": "Scramble Egg prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/scramble-egg-46.jpg",
-    "tags": [
-      "vegetarian"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 46
-  },
-  {
-    "id": "item-egg-sandwich-47",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Egg Sandwich",
-    "price": 350,
-    "description": "Egg Sandwich prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/egg-sandwich-47.jpg",
-    "tags": [
-      "vegetarian"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 47
-  },
-  {
-    "id": "item-omelet-48",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Omelet",
-    "price": 350,
-    "description": "Omelet prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/omelet-48.jpg",
-    "tags": [
-      "vegetarian"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 48
-  },
-  {
-    "id": "item-avocado-toast-49",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Avocado Toast",
-    "price": 350,
-    "description": "Avocado Toast prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/avocado-toast-49.jpg",
+    "category_id": "cat-burger",
+    "name": "Fasting Burger",
+    "name_am": "",
+    "price": 400,
+    "description": "Fasting Burger, ketchup, tomato, onion, lettuce & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041082/nitsuh-menu/dishes/ng8nmwgvmrt11guextps.jpg",
     "tags": [
       "vegan",
       "fasting"
@@ -1105,16 +721,401 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
+    "sort_order": 27
+  },
+  {
+    "id": "item-slider-burger-28",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-burger",
+    "name": "Slider Burger",
+    "name_am": "",
+    "price": 750,
+    "description": "3 mini buns, 3 mini Beef, Cheese, Mayo, Tomato, Onion, Lettuce & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041111/nitsuh-menu/dishes/bfsoapzpmdunpzyeykgz.jpg",
+    "tags": [],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 28
+  },
+  {
+    "id": "item-fried-egg-29",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-burger",
+    "name": "Fried Egg",
+    "name_am": "",
+    "price": 60,
+    "description": "Fried Egg prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041085/nitsuh-menu/dishes/fiptenkr217b1diexyzi.jpg",
+    "tags": [
+      "extra"
+    ],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 29
+  },
+  {
+    "id": "item-ketchup-30",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-burger",
+    "name": "Ketchup",
+    "name_am": "",
+    "price": 60,
+    "description": "Ketchup prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041080/nitsuh-menu/dishes/vkwdwx1hq5uvt08trpng.jpg",
+    "tags": [
+      "extra"
+    ],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 30
+  },
+  {
+    "id": "item-mayonnaise-31",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-burger",
+    "name": "Mayonnaise",
+    "name_am": "",
+    "price": 80,
+    "description": "Mayonnaise prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041080/nitsuh-menu/dishes/wxml8xs4archekjwdbkd.jpg",
+    "tags": [
+      "extra"
+    ],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 31
+  },
+  {
+    "id": "item-slice-cheese-32",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-burger",
+    "name": "Slice Cheese",
+    "name_am": "",
+    "price": 60,
+    "description": "Slice Cheese prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041111/nitsuh-menu/dishes/nsqyhswp25l0f0khqvtv.jpg",
+    "tags": [
+      "extra"
+    ],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 32
+  },
+  {
+    "id": "item-house-special-pizza-33",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-pizza",
+    "name": "House Special Pizza",
+    "name_am": "",
+    "price": 950,
+    "description": "Tomato Sauce, Beef, Chicken, Boiled egg, Slice beef, Olive & Mozzarella Cheese",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041087/nitsuh-menu/dishes/ky9kasyuyvofqpepovy9.jpg",
+    "tags": [
+      "popular"
+    ],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": true,
+    "sort_order": 33
+  },
+  {
+    "id": "item-tuna-pizza-34",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-pizza",
+    "name": "Tuna Pizza",
+    "name_am": "",
+    "price": 850,
+    "description": "Tomato Sauce, Tuna & Mozzarella Cheese",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/hdkr7hzv7v8duwqzeo8o.jpg",
+    "tags": [],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 34
+  },
+  {
+    "id": "item-chicken-pizza-35",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-pizza",
+    "name": "Chicken Pizza",
+    "name_am": "",
+    "price": 850,
+    "description": "Tomato Sauce, Chicken & Mozzarella Cheese",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041065/nitsuh-menu/dishes/ziz953msfrn9xlray0o5.jpg",
+    "tags": [],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 35
+  },
+  {
+    "id": "item-meet-pizza-36",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-pizza",
+    "name": "Meet Pizza",
+    "name_am": "",
+    "price": 800,
+    "description": "Tomato Sauce, Beef & Mozzarella Cheese",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041093/nitsuh-menu/dishes/ldwn5xpxyxhrpitrftub.jpg",
+    "tags": [],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 36
+  },
+  {
+    "id": "item-pizza-margarita-37",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-pizza",
+    "name": "Pizza Margarita",
+    "name_am": "",
+    "price": 750,
+    "description": "Tomato Sauce & Mozzarella Cheese",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041108/nitsuh-menu/dishes/jiiz7x0ardonbkvmlaon.jpg",
+    "tags": [],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 37
+  },
+  {
+    "id": "item-fasting-vegetable-pizza-38",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-pizza",
+    "name": "Fasting Vegetable Pizza",
+    "name_am": "",
+    "price": 550,
+    "description": "Tomato Sauce & Vegetables",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041083/nitsuh-menu/dishes/iy5usm4ioedesdhhzrpm.jpg",
+    "tags": [
+      "vegan",
+      "fasting"
+    ],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 38
+  },
+  {
+    "id": "item-fasting-special-pizza-39",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-pizza",
+    "name": "Fasting Special Pizza",
+    "name_am": "",
+    "price": 750,
+    "description": "Tomato Sauce, Vegetables, Tuna, & Olive",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041083/nitsuh-menu/dishes/iy5usm4ioedesdhhzrpm.jpg",
+    "tags": [
+      "vegan",
+      "fasting",
+      "popular"
+    ],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 39
+  },
+  {
+    "id": "item-fasting-tuna-pizza-40",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-pizza",
+    "name": "Fasting Tuna Pizza",
+    "name_am": "",
+    "price": 700,
+    "description": "Tomato Sauce, Tuna",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/hdkr7hzv7v8duwqzeo8o.jpg",
+    "tags": [
+      "vegan",
+      "fasting"
+    ],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 40
+  },
+  {
+    "id": "item-boil-egg-41",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-pizza",
+    "name": "Boil Egg",
+    "name_am": "",
+    "price": 60,
+    "description": "Boil Egg prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041080/nitsuh-menu/dishes/zomp5ils0mpsmzlwjbnb.jpg",
+    "tags": [
+      "extra"
+    ],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 41
+  },
+  {
+    "id": "item-chili-42",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-pizza",
+    "name": "Chili",
+    "name_am": "",
+    "price": 60,
+    "description": "Chili prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "/images/dishes/roasted-chicken.jpg",
+    "tags": [
+      "extra"
+    ],
+    "allergens": [],
+    "spice_level": 2,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 42
+  },
+  {
+    "id": "item-mozzarella-cheese-43",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-pizza",
+    "name": "Mozzarella Cheese",
+    "name_am": "",
+    "price": 180,
+    "description": "Mozzarella Cheese prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "/images/dishes/roasted-chicken.jpg",
+    "tags": [
+      "extra"
+    ],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 43
+  },
+  {
+    "id": "item-tuna-44",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-pizza",
+    "name": "Tuna",
+    "name_am": "",
+    "price": 180,
+    "description": "Tuna prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "/images/dishes/roasted-chicken.jpg",
+    "tags": [
+      "extra"
+    ],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 44
+  },
+  {
+    "id": "item-chicken-45",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-pizza",
+    "name": "Chicken",
+    "name_am": "",
+    "price": 300,
+    "description": "Chicken prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "/images/dishes/roasted-chicken.jpg",
+    "tags": [
+      "extra"
+    ],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 45
+  },
+  {
+    "id": "item-special-club-sandwich-46",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-club-sandwich",
+    "name": "Special Club Sandwich",
+    "name_am": "",
+    "price": 750,
+    "description": "Beef, Chicken, Boiled egg, Mayo, Tomato, Lettuce, Onion, & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041113/nitsuh-menu/dishes/plxtnsfafhnlwyvss89e.jpg",
+    "tags": [
+      "popular"
+    ],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": true,
+    "sort_order": 46
+  },
+  {
+    "id": "item-chicken-club-sandwich-47",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-club-sandwich",
+    "name": "Chicken Club Sandwich",
+    "name_am": "",
+    "price": 700,
+    "description": "Chicken, Boiled egg, Mayo, Tomato, Lettuce, Onion, & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041063/nitsuh-menu/dishes/u4qme7u7usm0abwgull8.jpg",
+    "tags": [],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 47
+  },
+  {
+    "id": "item-tuna-club-sandwich-48",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-club-sandwich",
+    "name": "Tuna Club Sandwich",
+    "name_am": "",
+    "price": 700,
+    "description": "Tuna, Boiled egg, Mayo, Tomato, Lettuce, Onion, & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/lwhpi9qgyrcg7ch64xxd.jpg",
+    "tags": [],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 48
+  },
+  {
+    "id": "item-beef-club-sandwich-49",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-club-sandwich",
+    "name": "Beef Club Sandwich",
+    "name_am": "",
+    "price": 650,
+    "description": "Beef, Boiled egg, Mayo, Tomato, Lettuce, Onion, & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/hh30wyrkylvss0xodoo3.jpg",
+    "tags": [],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
     "sort_order": 49
   },
   {
-    "id": "item-chechebisa-fasting-50",
+    "id": "item-fasting-tuna-club-sand-50",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Chechebisa Fasting",
-    "price": 300,
-    "description": "Chechebisa Fasting prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/chechebisa-fasting-50.jpg",
+    "category_id": "cat-club-sandwich",
+    "name": "Fasting Tuna Club Sand.",
+    "name_am": "",
+    "price": 650,
+    "description": "Tuna, Ketchup, Tomato, Lettuce, Onion, & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/lwhpi9qgyrcg7ch64xxd.jpg",
     "tags": [
       "vegan",
       "fasting"
@@ -1126,17 +1127,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 50
   },
   {
-    "id": "item-chechebisa-51",
+    "id": "item-chicken-sandwich-51",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Chechebisa",
-    "price": 400,
-    "description": "Chechebisa prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/chechebisa-51.jpg",
-    "tags": [
-      "vegetarian",
-      "popular"
-    ],
+    "category_id": "cat-club-sandwich",
+    "name": "Chicken Sandwich",
+    "name_am": "",
+    "price": 900,
+    "description": "Chicken, Cheese, Mayo, Tomato, Lettuce, Onion, & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041065/nitsuh-menu/dishes/co9lz2atn7gojpak4nfu.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1144,17 +1143,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 51
   },
   {
-    "id": "item-chechebisa-teff-52",
+    "id": "item-steak-sandwich-52",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Chechebisa Teff",
-    "price": 400,
-    "description": "Chechebisa Teff prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/chechebisa-teff-52.jpg",
-    "tags": [
-      "gluten-free",
-      "vegetarian"
-    ],
+    "category_id": "cat-club-sandwich",
+    "name": "Steak Sandwich",
+    "name_am": "",
+    "price": 900,
+    "description": "Beef, Cheese, Mayo, Tomato, Lettuce, Onion, & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041114/nitsuh-menu/dishes/a6wha3avezcys8ix9ulx.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1162,17 +1159,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 52
   },
   {
-    "id": "item-oats-53",
+    "id": "item-tuna-sandwich-53",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Oats",
-    "price": 300,
-    "description": "Oats prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/oats-53.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-club-sandwich",
+    "name": "Tuna Sandwich",
+    "name_am": "",
+    "price": 900,
+    "description": "Tuna, Cheese, Mayo, Tomato, Lettuce, Onion, & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041121/nitsuh-menu/dishes/sxgil8mwetardqqdls9y.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1180,16 +1175,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 53
   },
   {
-    "id": "item-siga-firfir-54",
+    "id": "item-avocado-sandwich-54",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Siga Firfir",
-    "price": 500,
-    "description": "Siga Firfir prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/siga-firfir-54.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-club-sandwich",
+    "name": "Avocado Sandwich",
+    "name_am": "",
+    "price": 600,
+    "description": "Avocado, Ketchup, Tomato, Lettuce, Onion, & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041057/nitsuh-menu/dishes/g4batwakr2fapek98uz8.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1197,31 +1191,14 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 54
   },
   {
-    "id": "item-injera-firfir-55",
+    "id": "item-special-wrap-55",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-breakfast",
-    "name": "Injera Firfir",
-    "price": 350,
-    "description": "Injera Firfir prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/injera-firfir-55.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 55
-  },
-  {
-    "id": "item-special-burger-56",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-burgers",
-    "name": "Special Burger",
-    "price": 799,
-    "description": "Special Burger prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/special-burger-56.jpg",
+    "category_id": "cat-wrap",
+    "name": "Special Wrap",
+    "name_am": "",
+    "price": 850,
+    "description": "Beef, Chicken, Boiled egg, Cheese, Mayo, Tomato, Onion, & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041114/nitsuh-menu/dishes/qwc9frfwwyvnkjupkfsa.jpg",
     "tags": [
       "popular"
     ],
@@ -1229,19 +1206,34 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": true,
+    "sort_order": 55
+  },
+  {
+    "id": "item-chicken-wrap-56",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-wrap",
+    "name": "Chicken Wrap",
+    "name_am": "",
+    "price": 750,
+    "description": "Chicken, Cheese, Mayo, Tomato, Onion, & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041066/nitsuh-menu/dishes/lfajwcltgqwhkvznpswc.jpg",
+    "tags": [],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
     "sort_order": 56
   },
   {
-    "id": "item-chicken-burger-57",
+    "id": "item-tuna-wrap-57",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-burgers",
-    "name": "Chicken Burger",
-    "price": 599,
-    "description": "Chicken Burger prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/chicken-burger-57.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-wrap",
+    "name": "Tuna Wrap",
+    "name_am": "",
+    "price": 750,
+    "description": "Tuna, Cheese, Mayo, Tomato, Onion, & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/o0kcl4f2l3m5kxr66xoe.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1249,16 +1241,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 57
   },
   {
-    "id": "item-cheese-burger-58",
+    "id": "item-beef-wrap-58",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-burgers",
-    "name": "Cheese Burger",
-    "price": 599,
-    "description": "Cheese Burger prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/cheese-burger-58.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-wrap",
+    "name": "Beef Wrap",
+    "name_am": "",
+    "price": 650,
+    "description": "Beef, Cheese, Mayo, Tomato, Onion, & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/p3a7afyhyml0wjvuuwqv.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1266,15 +1257,17 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 58
   },
   {
-    "id": "item-beef-burger-59",
+    "id": "item-fasting-tuna-wrap-59",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-burgers",
-    "name": "Beef Burger",
-    "price": 498,
-    "description": "Beef Burger prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/beef-burger-59.jpg",
+    "category_id": "cat-wrap",
+    "name": "Fasting Tuna Wrap",
+    "name_am": "",
+    "price": 650,
+    "description": "Tuna, Ketchup, Tomato, Onion, & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/o0kcl4f2l3m5kxr66xoe.jpg",
     "tags": [
-      "popular"
+      "vegan",
+      "fasting"
     ],
     "allergens": [],
     "spice_level": 0,
@@ -1283,33 +1276,34 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 59
   },
   {
-    "id": "item-speacial-pizza-60",
+    "id": "item-fasting-vegetable-wrap-60",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-pizzas",
-    "name": "Speacial Pizza",
-    "price": 1099,
-    "description": "Speacial Pizza prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/speacial-pizza-60.jpg",
+    "category_id": "cat-wrap",
+    "name": "Fasting Vegetable Wrap",
+    "name_am": "",
+    "price": 550,
+    "description": "Vegetables, Ketchup, Tomato, Onion, & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041082/nitsuh-menu/dishes/wzgqpcbcyucfwtwmrgee.jpg",
     "tags": [
-      "popular"
+      "vegan",
+      "fasting"
     ],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": true,
+    "is_chefs_pick": false,
     "sort_order": 60
   },
   {
-    "id": "item-margarita-pizza-61",
+    "id": "item-chicken-nuggate-61",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-pizzas",
-    "name": "Margarita Pizza",
-    "price": 700,
-    "description": "Margarita Pizza prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/margarita-pizza-61.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-chicken",
+    "name": "Chicken Nuggate",
+    "name_am": "",
+    "price": 1200,
+    "description": "Chicken, Mayo, Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041065/nitsuh-menu/dishes/iviqnmpjmgv93jne2u7a.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1317,16 +1311,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 61
   },
   {
-    "id": "item-chicken-pizza-62",
+    "id": "item-crispy-chicken-strips-62",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-pizzas",
-    "name": "Chicken Pizza",
-    "price": 899,
-    "description": "Chicken Pizza prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/chicken-pizza-62.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-chicken",
+    "name": "Crispy Chicken Strips",
+    "name_am": "",
+    "price": 1500,
+    "description": "Slice Chicken Strips, Mayo, Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041070/nitsuh-menu/dishes/pxiji5izmrzhv7tn8stl.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1334,16 +1327,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 62
   },
   {
-    "id": "item-tuna-pizza-63",
+    "id": "item-crispy-fried-chicken-leg-1-pic-63",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-pizzas",
-    "name": "Tuna Pizza",
-    "price": 899,
-    "description": "Tuna Pizza prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/tuna-pizza-63.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-chicken",
+    "name": "Crispy Fried Chicken Leg (1 pic)",
+    "name_am": "",
+    "price": 1200,
+    "description": "1 Chicken leg, Mayo, Salad & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041076/nitsuh-menu/dishes/iltf7zucjql3n8znvo2t.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1351,17 +1343,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 63
   },
   {
-    "id": "item-vegetable-pizza-64",
+    "id": "item-crispy-fried-chicken-leg-2-pic-64",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-pizzas",
-    "name": "Vegetable Pizza",
-    "price": 460,
-    "description": "Vegetable Pizza prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/vegetable-pizza-64.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-chicken",
+    "name": "Crispy Fried Chicken Leg (2 pic)",
+    "name_am": "",
+    "price": 2200,
+    "description": "2 Chicken leg, Mayo, Salad & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041076/nitsuh-menu/dishes/iltf7zucjql3n8znvo2t.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1369,17 +1359,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 64
   },
   {
-    "id": "item-french-frise-65",
+    "id": "item-chicken-leg-with-honey-bbq-souce-65",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-snack-menu",
-    "name": "French frise",
-    "price": 345,
-    "description": "French frise prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/french-frise-65.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-chicken",
+    "name": "Chicken Leg with Honey BBQ Souce",
+    "name_am": "",
+    "price": 1500,
+    "description": "1 pic Chicken Leg, Honey BBQ Sauce, Mayo, Salad & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041063/nitsuh-menu/dishes/ds5mqolveib58z4rmeku.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1387,17 +1375,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 65
   },
   {
-    "id": "item-spring-roll-vegetable-66",
+    "id": "item-chicken-wings-66",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-snack-menu",
-    "name": "Spring roll vegetable",
-    "price": 345,
-    "description": "Spring roll vegetable prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/spring-roll-vegetable-66.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-chicken",
+    "name": "Chicken Wings",
+    "name_am": "",
+    "price": 1000,
+    "description": "Chicken Wings, Mayo, Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041066/nitsuh-menu/dishes/joa47lvnmir6zrpkor22.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1405,16 +1391,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 66
   },
   {
-    "id": "item-spring-roll-meat-67",
+    "id": "item-chicken-wings-with-honey-bbq-souce-67",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-snack-menu",
-    "name": "Spring roll meat",
-    "price": 500,
-    "description": "Spring roll meat prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/spring-roll-meat-67.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-chicken",
+    "name": "Chicken Wings with Honey BBQ Souce",
+    "name_am": "",
+    "price": 1300,
+    "description": "Chicken Wings, Honey BBQ Souce, Mayo, Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041125/nitsuh-menu/dishes/vekwpnrdbbqmzrwkrbkc.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1422,30 +1407,14 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 67
   },
   {
-    "id": "item-nitsuh-snack-68",
+    "id": "item-chicken-special-combo-68",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-snack-menu",
-    "name": "Nitsuh snack",
-    "price": 575,
-    "description": "Nitsuh snack prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/nitsuh-snack-68.jpg",
-    "tags": [
-      "popular"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 68
-  },
-  {
-    "id": "item-fish-chips-69",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-snack-menu",
-    "name": "Fish & chips",
-    "price": 750,
-    "description": "Fish & chips prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/fish-chips-69.jpg",
+    "category_id": "cat-chicken",
+    "name": "Chicken Special Combo",
+    "name_am": "",
+    "price": 2500,
+    "description": "1 pic Chicken Fried Leg, Wings, Chicken Strip, Mayo, Salad & Fries",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041066/nitsuh-menu/dishes/hj5h2ttotfkmfizby7uj.jpg",
     "tags": [
       "popular"
     ],
@@ -1453,17 +1422,38 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": true,
+    "sort_order": 68
+  },
+  {
+    "id": "item-special-salad-69",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-salad",
+    "name": "Special salad",
+    "name_am": "",
+    "price": 1100,
+    "description": "Chicken, tuna, Salad, tomato, carrot, cucumber, onion, chili, olives, kidney bean, mayo, salad souce",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041113/nitsuh-menu/dishes/kggchipcxsmjclgakqjy.jpg",
+    "tags": [
+      "popular"
+    ],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
     "sort_order": 69
   },
   {
-    "id": "item-fried-chicken-wings-70",
+    "id": "item-fasting-special-salad-70",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-snack-menu",
-    "name": "Fried Chicken wings",
-    "price": 750,
-    "description": "Fried Chicken wings prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/fried-chicken-wings-70.jpg",
+    "category_id": "cat-salad",
+    "name": "Fasting Special salad",
+    "name_am": "",
+    "price": 900,
+    "description": "Avocado Salad, tomato, carrot, cucumber, onion, chili, olives, kidney bean, salad souce",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041082/nitsuh-menu/dishes/qck5jizuutup1gcoij9y.jpg",
     "tags": [
+      "vegan",
+      "fasting",
       "popular"
     ],
     "allergens": [],
@@ -1473,16 +1463,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 70
   },
   {
-    "id": "item-chicken-nugget-71",
+    "id": "item-tuna-salad-71",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-snack-menu",
-    "name": "Chicken nugget",
-    "price": 750,
-    "description": "Chicken nugget prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/chicken-nugget-71.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-salad",
+    "name": "Tuna Salad",
+    "name_am": "",
+    "price": 900,
+    "description": "Tuna, Salad, tomato, carrot, cucumber, onion, chili, mayo, salad souce",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041121/nitsuh-menu/dishes/eqokbmmdnhntu0f75yrg.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1490,16 +1479,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 71
   },
   {
-    "id": "item-a-chicken-tender-4pcs-72",
+    "id": "item-chicken-salad-72",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-snack-menu",
-    "name": "A. Chicken Tender 4pcs",
-    "price": 600,
-    "description": "A. Chicken Tender 4pcs prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/a-chicken-tender-4pcs-72.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-salad",
+    "name": "Chicken Salad",
+    "name_am": "",
+    "price": 900,
+    "description": "Chicken, Salad, tomato, carrot, cucumber, onion, chili, mayo, salad souce",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041064/nitsuh-menu/dishes/wekifchc8swwyiwh1xcs.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1507,33 +1495,31 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 72
   },
   {
-    "id": "item-a-chicken-tender-6pcs-73",
+    "id": "item-avocado-salad-73",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-snack-menu",
-    "name": "A. Chicken Tender 6pcs",
-    "price": 800,
-    "description": "A. Chicken Tender 6pcs prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/a-chicken-tender-6pcs-73.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-salad",
+    "name": "Avocado Salad",
+    "name_am": "",
+    "price": 700,
+    "description": "Avocado Salad, tomato, carrot, cucumber, onion, chili, salad souce",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041057/nitsuh-menu/dishes/cgcykz0pczufjttgir0c.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": true,
+    "is_chefs_pick": false,
     "sort_order": 73
   },
   {
-    "id": "item-special-milk-74",
+    "id": "item-normal-salad-74",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "SPECIAL MILK",
-    "price": 200,
-    "description": "SPECIAL MILK prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/special-milk-74.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-salad",
+    "name": "Normal Salad",
+    "name_am": "",
+    "price": 700,
+    "description": "Salad, tomato, carrot, cucumber, onion, chili, kidney bean, salad souce",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041103/nitsuh-menu/dishes/giotydwog4po6ibiabxf.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1541,17 +1527,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 74
   },
   {
-    "id": "item-coffee-75",
+    "id": "item-tomato-pasta-75",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "COFFEE",
-    "price": 120,
-    "description": "COFFEE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/ethiopian-buna.jpg",
-    "tags": [
-      "vegan",
-      "popular"
-    ],
+    "category_id": "cat-pasta",
+    "name": "Tomato Pasta",
+    "name_am": "",
+    "price": 500,
+    "description": "Pasta With Tomato souce & Bread",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041121/nitsuh-menu/dishes/fq6jd3em4ox2zveh9k13.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1559,15 +1543,17 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 75
   },
   {
-    "id": "item-tea-76",
+    "id": "item-vegi-pasta-76",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "TEA",
-    "price": 60,
-    "description": "TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/tea-76.jpg",
+    "category_id": "cat-pasta",
+    "name": "Vegi Pasta",
+    "name_am": "",
+    "price": 500,
+    "description": "Pasta With Vegtables & Bread",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041125/nitsuh-menu/dishes/hibwelmw10l8rp2blmop.jpg",
     "tags": [
-      "vegan"
+      "vegan",
+      "fasting"
     ],
     "allergens": [],
     "spice_level": 0,
@@ -1576,17 +1562,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 76
   },
   {
-    "id": "item-macchiato-77",
+    "id": "item-tuna-pasta-77",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "MACCHIATO",
-    "price": 120,
-    "description": "MACCHIATO prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/macchiato-77.jpg",
-    "tags": [
-      "vegetarian",
-      "popular"
-    ],
+    "category_id": "cat-pasta",
+    "name": "Tuna Pasta",
+    "name_am": "",
+    "price": 500,
+    "description": "Pasta With Tomato souce Tuna & Bread",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041121/nitsuh-menu/dishes/zjm0fju8hdmketpqnqxi.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1594,34 +1578,31 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 77
   },
   {
-    "id": "item-double-macchiato-78",
+    "id": "item-tomato-pasta-with-meat-78",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "DOUBLE MACCHIATO",
-    "price": 220,
-    "description": "DOUBLE MACCHIATO prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/double-macchiato-78.jpg",
-    "tags": [
-      "vegetarian",
-      "popular"
-    ],
+    "category_id": "cat-pasta",
+    "name": "Tomato Pasta With Meat",
+    "name_am": "",
+    "price": 650,
+    "description": "Pasta With Tomato souce, Meat & Bread",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041120/nitsuh-menu/dishes/lyjzjjt8ltfe3jlstyo2.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": true,
+    "is_chefs_pick": false,
     "sort_order": 78
   },
   {
-    "id": "item-steam-coffee-79",
+    "id": "item-arabiyata-pasta-79",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "STEAM COFFEE",
-    "price": 100,
-    "description": "STEAM COFFEE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/steam-coffee-79.jpg",
-    "tags": [
-      "vegan"
-    ],
+    "category_id": "cat-pasta",
+    "name": "Arabiyata Pasta",
+    "name_am": "",
+    "price": 650,
+    "description": "Pasta With Tomato souce, Hot Spicy & Bread",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041056/nitsuh-menu/dishes/hiozsoyehskrhasxpnnh.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1629,17 +1610,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 79
   },
   {
-    "id": "item-special-tea-80",
+    "id": "item-alfredo-pasta-80",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "SPECIAL TEA",
-    "price": 200,
-    "description": "SPECIAL TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/special-tea-80.jpg",
-    "tags": [
-      "vegan",
-      "popular"
-    ],
+    "category_id": "cat-pasta",
+    "name": "Alfredo Pasta",
+    "name_am": "",
+    "price": 750,
+    "description": "Pasta With Creamy souce, Cheese & Bread",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041055/nitsuh-menu/dishes/oxbj3kfv8c8x7alj0fwn.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1647,16 +1626,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 80
   },
   {
-    "id": "item-safi-milk-81",
+    "id": "item-alfredo-pasta-with-chicken-81",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "SAFI MILK",
-    "price": 120,
-    "description": "SAFI MILK prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/safi-milk-81.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-pasta",
+    "name": "Alfredo Pasta With Chicken",
+    "name_am": "",
+    "price": 900,
+    "description": "Pasta With Creamy souce, Chicken, Cheese & Bread",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041055/nitsuh-menu/dishes/lmycpw8mgtpflyrnite9.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1664,16 +1642,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 81
   },
   {
-    "id": "item-cafe-late-82",
+    "id": "item-pesto-pasta-82",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "CAFE LATE",
-    "price": 150,
-    "description": "CAFE LATE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/cafe-late-82.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-pasta",
+    "name": "Pesto Pasta",
+    "name_am": "",
+    "price": 750,
+    "description": "Pasta With Pesto souce, Cheese & Bread",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041107/nitsuh-menu/dishes/u4gctqfkdl6l0htgwqzw.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1681,16 +1658,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 82
   },
   {
-    "id": "item-cappuccino-83",
+    "id": "item-classic-mojito-83",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "CAPPUCCINO",
-    "price": 200,
-    "description": "CAPPUCCINO prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/cappuccino-83.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-mojito",
+    "name": "Classic Mojito",
+    "name_am": "",
+    "price": 450,
+    "description": "Lemon, Mint, Pineapple, Cinnamon, Honey syrup, Fresh Mint, Soft drink, Ice",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041074/nitsuh-menu/dishes/iciwxll5jdtr9onzkcl4.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1698,17 +1674,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 83
   },
   {
-    "id": "item-ginger-tea-84",
+    "id": "item-lemon-mint-mojito-84",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "GINGER TEA",
-    "price": 100,
-    "description": "GINGER TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/ginger-tea-84.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-mojito",
+    "name": "Lemon Mint Mojito",
+    "name_am": "",
+    "price": 350,
+    "description": "Lemon juice, Fresh Mint, Soft drink, Honey syrup, Ice",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041091/nitsuh-menu/dishes/czoizyvboi8okrsrm3ok.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1716,16 +1690,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 84
   },
   {
-    "id": "item-lewoze-tea-85",
+    "id": "item-pineapple-mojito-85",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "LEWOZE TEA",
-    "price": 170,
-    "description": "LEWOZE TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/lewoze-tea-85.jpg",
-    "tags": [
-      "vegan"
-    ],
+    "category_id": "cat-mojito",
+    "name": "Pineapple Mojito",
+    "name_am": "",
+    "price": 350,
+    "description": "Pineapple Rum, Lemon juice, Mint, Soft drink, Ice",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041106/nitsuh-menu/dishes/hgtvu9elf92ed1c88rel.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1733,16 +1706,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 85
   },
   {
-    "id": "item-milk-tea-86",
+    "id": "item-watermelon-mojito-86",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "MILK TEA",
-    "price": 140,
-    "description": "MILK TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/milk-tea-86.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-mojito",
+    "name": "Watermelon Mojito",
+    "name_am": "",
+    "price": 350,
+    "description": "Watermelon Rum, Honey syrup, Lemon, Fresh Mint, Ambo water, Ice",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041127/nitsuh-menu/dishes/lomommsl0xmc9lc5qcfn.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1750,17 +1722,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 86
   },
   {
-    "id": "item-somali-tea-87",
+    "id": "item-strawberry-mojito-87",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "SOMALI TEA",
-    "price": 140,
-    "description": "SOMALI TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/somali-tea-87.jpg",
-    "tags": [
-      "vegan",
-      "popular"
-    ],
+    "category_id": "cat-mojito",
+    "name": "Strawberry Mojito",
+    "name_am": "",
+    "price": 350,
+    "description": "Strawberry Rum, Honey syrup, Lemon, Soft drink, Fresh Mint, Ice",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041118/nitsuh-menu/dishes/bd1d3sgxf1w7rm1trjft.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1768,17 +1738,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 87
   },
   {
-    "id": "item-green-tea-88",
+    "id": "item-ginger-mojito-88",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "GREEN TEA",
-    "price": 80,
-    "description": "GREEN TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/green-tea-88.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-mojito",
+    "name": "Ginger Mojito",
+    "name_am": "",
+    "price": 350,
+    "description": "Ginger juice, Sugar syrup, Soft drink, Lemon, Fresh Mint, Ice",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041086/nitsuh-menu/dishes/eexcys2lkt1wcwk6lolv.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1786,17 +1754,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 88
   },
   {
-    "id": "item-orange-tea-89",
+    "id": "item-cinnamon-mojito-89",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "ORANGE TEA",
-    "price": 120,
-    "description": "ORANGE TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/orange-tea-89.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-mojito",
+    "name": "Cinnamon Mojito",
+    "name_am": "",
+    "price": 350,
+    "description": "Cinnamon, Lemon, Soft drink, Sugar syrup, Fresh Mint, Ice, Mojito",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041070/nitsuh-menu/dishes/uyfuy1fksqh7dfepg89y.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1804,16 +1770,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 89
   },
   {
-    "id": "item-americano-coffee-90",
+    "id": "item-soft-drink-90",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "AMERICANO COFFEE",
-    "price": 200,
-    "description": "AMERICANO COFFEE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/americano-coffee-90.jpg",
-    "tags": [
-      "vegan"
-    ],
+    "category_id": "cat-soft-drinks",
+    "name": "Soft Drink",
+    "name_am": "",
+    "price": 90,
+    "description": "Soft Drink prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041111/nitsuh-menu/dishes/ga0vubbafzchiv5en8ym.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1821,17 +1786,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 90
   },
   {
-    "id": "item-lemon-tea-91",
+    "id": "item-novida-soft-drink-91",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "LEMON TEA",
-    "price": 80,
-    "description": "LEMON TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/lemon-tea-91.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-soft-drinks",
+    "name": "Novida Soft Drink",
+    "name_am": "",
+    "price": 90,
+    "description": "Novida Soft Drink prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041103/nitsuh-menu/dishes/ptuap4elwsz0jsqza4we.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1839,16 +1802,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 91
   },
   {
-    "id": "item-sprice-tea-92",
+    "id": "item-bottle-soft-drink-92",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "SPRICE TEA",
-    "price": 120,
-    "description": "SPRICE TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/sprice-tea-92.jpg",
-    "tags": [
-      "vegan"
-    ],
+    "category_id": "cat-soft-drinks",
+    "name": "Bottle Soft Drink",
+    "name_am": "",
+    "price": 100,
+    "description": "Bottle Soft Drink prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/fmnxextfvpywtzmpbk9z.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1856,16 +1818,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 92
   },
   {
-    "id": "item-hot-chocolate-93",
+    "id": "item-ambo-water-93",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "HOT CHOCOLATE",
-    "price": 200,
-    "description": "HOT CHOCOLATE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/hot-chocolate-93.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-soft-drinks",
+    "name": "Ambo water",
+    "name_am": "",
+    "price": 90,
+    "description": "Ambo water prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041055/nitsuh-menu/dishes/gbvbnloskqvzcp0nn77i.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1873,17 +1834,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 93
   },
   {
-    "id": "item-nana-tea-94",
+    "id": "item-water-liter-94",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "NANA TEA",
-    "price": 100,
-    "description": "NANA TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/nana-tea-94.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-soft-drinks",
+    "name": "Water ½ Liter",
+    "name_am": "",
+    "price": 50,
+    "description": "Water ½ Liter prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/hghrqph8pdx1b8plshwe.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1891,16 +1850,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 94
   },
   {
-    "id": "item-lipton-tea-95",
+    "id": "item-water-1-liter-95",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-hot-beverage",
-    "name": "LIPTON TEA",
-    "price": 80,
-    "description": "LIPTON TEA prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/lipton-tea-95.jpg",
-    "tags": [
-      "vegan"
-    ],
+    "category_id": "cat-soft-drinks",
+    "name": "Water 1 Liter",
+    "name_am": "",
+    "price": 70,
+    "description": "Water 1 Liter prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/hghrqph8pdx1b8plshwe.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1908,54 +1866,49 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 95
   },
   {
-    "id": "item-avocado-96",
+    "id": "item-water-2-liter-96",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-juice",
-    "name": "AVOCADO",
-    "price": 300,
-    "description": "AVOCADO prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/avocado-96.jpg",
+    "category_id": "cat-soft-drinks",
+    "name": "Water 2 Liter",
+    "name_am": "",
+    "price": 80,
+    "description": "Water 2 Liter prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/hghrqph8pdx1b8plshwe.jpg",
+    "tags": [],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 96
+  },
+  {
+    "id": "item-special-juice-97",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-juices",
+    "name": "Special Juice",
+    "name_am": "",
+    "price": 450,
+    "description": "Special Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041113/nitsuh-menu/dishes/jmil4upegrojwzezxy1c.jpg",
     "tags": [
-      "vegan",
-      "fasting",
       "popular"
     ],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": true,
-    "sort_order": 96
-  },
-  {
-    "id": "item-papaya-juice-97",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-juice",
-    "name": "PAPAYA JUICE",
-    "price": 300,
-    "description": "PAPAYA JUICE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/papaya-juice-97.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
     "sort_order": 97
   },
   {
-    "id": "item-watermelon-juice-98",
+    "id": "item-papaya-juice-98",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-juice",
-    "name": "WATERMELON JUICE",
-    "price": 300,
-    "description": "WATERMELON JUICE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/watermelon-juice-98.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-juices",
+    "name": "Papaya Juice",
+    "name_am": "",
+    "price": 320,
+    "description": "Papaya Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041105/nitsuh-menu/dishes/bbgniire8laoamq2h8nv.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1963,18 +1916,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 98
   },
   {
-    "id": "item-mango-99",
+    "id": "item-avocado-juice-99",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-juice",
-    "name": "MANGO",
-    "price": 350,
-    "description": "MANGO prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/mango-99.jpg",
-    "tags": [
-      "vegan",
-      "fasting",
-      "popular"
-    ],
+    "category_id": "cat-juices",
+    "name": "Avocado Juice",
+    "name_am": "",
+    "price": 320,
+    "description": "Avocado Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041057/nitsuh-menu/dishes/yfunjaelohtajhbcdd6s.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -1982,18 +1932,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 99
   },
   {
-    "id": "item-sprice-juice-100",
+    "id": "item-watermelon-juice-100",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-juice",
-    "name": "SPRICE JUICE",
-    "price": 350,
-    "description": "SPRICE JUICE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/spris-juice.jpg",
-    "tags": [
-      "vegan",
-      "fasting",
-      "popular"
-    ],
+    "category_id": "cat-juices",
+    "name": "Watermelon Juice",
+    "name_am": "",
+    "price": 400,
+    "description": "Watermelon Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041124/nitsuh-menu/dishes/fnq3bcrlfjyzulrcpdte.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2001,17 +1948,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 100
   },
   {
-    "id": "item-gishita-juice-101",
+    "id": "item-mango-juice-101",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-juice",
-    "name": "GISHITA JUICE",
-    "price": 350,
-    "description": "GISHITA JUICE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/gishita-juice-101.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-juices",
+    "name": "Mango Juice",
+    "name_am": "",
+    "price": 400,
+    "description": "Mango Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041092/nitsuh-menu/dishes/uzcbfsh8xf5utdzzqmef.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2019,17 +1964,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 101
   },
   {
-    "id": "item-ananas-102",
+    "id": "item-pineapple-juice-102",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-juice",
-    "name": "ANANAS",
-    "price": 350,
-    "description": "ANANAS prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/ananas-102.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-juices",
+    "name": "Pineapple Juice",
+    "name_am": "",
+    "price": 400,
+    "description": "Pineapple Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041107/nitsuh-menu/dishes/bqhhfr9z28z4kp7vy6b6.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2037,17 +1980,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 102
   },
   {
-    "id": "item-orange-103",
+    "id": "item-strawberry-juice-103",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-juice",
-    "name": "ORANGE",
-    "price": 350,
-    "description": "ORANGE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/orange-103.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-juices",
+    "name": "Strawberry Juice",
+    "name_am": "",
+    "price": 400,
+    "description": "Strawberry Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041118/nitsuh-menu/dishes/bovydy8kn0nstzellkiq.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2055,17 +1996,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 103
   },
   {
-    "id": "item-ginger-juice-104",
+    "id": "item-lemon-mint-juice-104",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-juice",
-    "name": "GINGER JUICE",
-    "price": 280,
-    "description": "GINGER JUICE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/ginger-juice-104.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-juices",
+    "name": "Lemon Mint Juice",
+    "name_am": "",
+    "price": 400,
+    "description": "Lemon Mint Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041090/nitsuh-menu/dishes/ovdjiunyxgmcajgf53mc.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2073,16 +2012,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 104
   },
   {
-    "id": "item-stroberry-shake-105",
+    "id": "item-banana-shake-105",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-juice",
-    "name": "STROBERRY SHAKE",
-    "price": 280,
-    "description": "STROBERRY SHAKE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/stroberry-shake-105.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-shakes",
+    "name": "Banana Shake",
+    "name_am": "",
+    "price": 450,
+    "description": "Banana Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041059/nitsuh-menu/dishes/vudraahudym4plg9muft.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2090,16 +2028,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 105
   },
   {
-    "id": "item-banana-shake-106",
+    "id": "item-strawberry-shake-106",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-juice",
-    "name": "BANANA SHAKE",
-    "price": 400,
-    "description": "BANANA SHAKE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/banana-shake-106.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-shakes",
+    "name": "Strawberry Shake",
+    "name_am": "",
+    "price": 450,
+    "description": "Strawberry Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041118/nitsuh-menu/dishes/sbsunf5dwcqnrx36dqx4.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2109,14 +2046,13 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
   {
     "id": "item-avocado-shake-107",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-juice",
-    "name": "AVOCADO SHAKE",
-    "price": 400,
-    "description": "AVOCADO SHAKE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/avocado-shake-107.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-shakes",
+    "name": "Avocado Shake",
+    "name_am": "",
+    "price": 450,
+    "description": "Avocado Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041057/nitsuh-menu/dishes/lhqoalppvbhvatf20sr9.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2124,16 +2060,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 107
   },
   {
-    "id": "item-mango-shake-108",
+    "id": "item-mocha-shake-108",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-juice",
-    "name": "MANGO SHAKE",
-    "price": 400,
-    "description": "MANGO SHAKE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/mango-shake-108.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-shakes",
+    "name": "Mocha Shake",
+    "name_am": "",
+    "price": 450,
+    "description": "Mocha Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041103/nitsuh-menu/dishes/bxsmhyltromyh7sovjlk.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2141,16 +2076,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 108
   },
   {
-    "id": "item-chocolate-shake-109",
+    "id": "item-flaxseed-shake-109",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-juice",
-    "name": "CHOCOLATE SHAKE",
+    "category_id": "cat-shakes",
+    "name": "Flaxseed Shake",
+    "name_am": "",
     "price": 450,
-    "description": "CHOCOLATE SHAKE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/chocolate-shake-109.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "description": "Flaxseed Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041083/nitsuh-menu/dishes/vuyb1ucxvjlnknchrzus.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2158,35 +2092,31 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 109
   },
   {
-    "id": "item-special-juice-110",
+    "id": "item-chocolate-shake-110",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-juice",
-    "name": "Special juice",
+    "category_id": "cat-shakes",
+    "name": "Chocolate Shake",
+    "name_am": "",
     "price": 450,
-    "description": "Special juice prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/special-juice-110.jpg",
-    "tags": [
-      "vegan",
-      "popular"
-    ],
+    "description": "Chocolate Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041069/nitsuh-menu/dishes/if0kyrlx0okwlskzd1qf.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": true,
+    "is_chefs_pick": false,
     "sort_order": 110
   },
   {
-    "id": "item-ice-coffee-111",
+    "id": "item-protien-shake-111",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-cold-drinks",
-    "name": "ICE COFFEE",
-    "price": 200,
-    "description": "ICE COFFEE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/ice-coffee-111.jpg",
-    "tags": [
-      "vegan",
-      "popular"
-    ],
+    "category_id": "cat-shakes",
+    "name": "Protien Shake",
+    "name_am": "",
+    "price": 600,
+    "description": "Protien Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041109/nitsuh-menu/dishes/ve4vvrhaxsxqahvauw8p.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2194,16 +2124,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 111
   },
   {
-    "id": "item-ice-late-americano-112",
+    "id": "item-tea-112",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-cold-drinks",
-    "name": "ICE LATE/AMERICANO",
-    "price": 200,
-    "description": "ICE LATE/AMERICANO prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/ice-late-americano-112.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Tea",
+    "name_am": "",
+    "price": 60,
+    "description": "Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041131/nitsuh-menu/dishes/k0k6d9gyrikfmrdpsfgi.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2211,17 +2140,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 112
   },
   {
-    "id": "item-mojito-113",
+    "id": "item-coffee-113",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-cold-drinks",
-    "name": "MOJITO",
-    "price": 350,
-    "description": "MOJITO prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/mojito-113.jpg",
-    "tags": [
-      "vegan",
-      "popular"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Coffee",
+    "name_am": "",
+    "price": 70,
+    "description": "Coffee prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041130/nitsuh-menu/dishes/veed0cxidtvqsiu5a1qf.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2229,16 +2156,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 113
   },
   {
-    "id": "item-soft-drinks-114",
+    "id": "item-espresso-114",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-cold-drinks",
-    "name": "SOFT DRINKS",
-    "price": 80,
-    "description": "SOFT DRINKS prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/soft-drinks-114.jpg",
-    "tags": [
-      "vegan"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Espresso",
+    "name_am": "",
+    "price": 140,
+    "description": "Espresso prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041080/nitsuh-menu/dishes/y9yoj6bm73dzyngt7hgy.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2246,17 +2172,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 114
   },
   {
-    "id": "item-ambo-water-115",
+    "id": "item-macchiato-115",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-cold-drinks",
-    "name": "AMBO WATER",
-    "price": 100,
-    "description": "AMBO WATER prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/ambo-water-115.jpg",
-    "tags": [
-      "vegan",
-      "popular"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Macchiato",
+    "name_am": "",
+    "price": 110,
+    "description": "Macchiato prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041096/nitsuh-menu/dishes/tnyjy4radumocnq6pvwd.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2264,16 +2188,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 115
   },
   {
-    "id": "item-water-300ml-116",
+    "id": "item-milk-116",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-cold-drinks",
-    "name": "WATER 300ML",
-    "price": 305,
-    "description": "WATER 300ML prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/water-300ml-116.jpg",
-    "tags": [
-      "vegan"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Milk",
+    "name_am": "",
+    "price": 120,
+    "description": "Milk prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041098/nitsuh-menu/dishes/pang3vzasaiaxrskxklu.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2281,16 +2204,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 116
   },
   {
-    "id": "item-water-600ml-117",
+    "id": "item-milk-with-coffee-117",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-cold-drinks",
-    "name": "WATER 600ML",
-    "price": 50,
-    "description": "WATER 600ML prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/water-600ml-117.jpg",
-    "tags": [
-      "vegan"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Milk with coffee",
+    "name_am": "",
+    "price": 140,
+    "description": "Milk with coffee prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "/images/dishes/roasted-chicken.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2298,16 +2220,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 117
   },
   {
-    "id": "item-water-1000ml-118",
+    "id": "item-milk-with-tea-118",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-cold-drinks",
-    "name": "WATER 1000ML",
-    "price": 70,
-    "description": "WATER 1000ML prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/water-1000ml-118.jpg",
-    "tags": [
-      "vegan"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Milk with Tea",
+    "name_am": "",
+    "price": 140,
+    "description": "Milk with Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041098/nitsuh-menu/dishes/mdut2mirewmlcvogqoth.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2315,15 +2236,17 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 118
   },
   {
-    "id": "item-caramel-iced-coffee-119",
+    "id": "item-fasting-macchiato-119",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-cold-drinks",
-    "name": "CARAMEL ICED COFFEE",
+    "category_id": "cat-hot-drinks",
+    "name": "Fasting Macchiato",
+    "name_am": "",
     "price": 200,
-    "description": "CARAMEL ICED COFFEE prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/caramel-iced-coffee-119.jpg",
+    "description": "Fasting Macchiato prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041082/nitsuh-menu/dishes/hn6wq1klnyjdrxoicehb.jpg",
     "tags": [
-      "vegetarian"
+      "vegan",
+      "fasting"
     ],
     "allergens": [],
     "spice_level": 0,
@@ -2332,33 +2255,31 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 119
   },
   {
-    "id": "item-yebeg-tibs-120",
+    "id": "item-tea-sprice-120",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-lunch-dinner",
-    "name": "Yebeg Tibs",
-    "price": 900,
-    "description": "Yebeg Tibs prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/yebeg-tibs.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Tea Sprice",
+    "name_am": "",
+    "price": 100,
+    "description": "Tea Sprice prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041118/nitsuh-menu/dishes/a8r4sp83k3bdnbpez7rb.jpg",
+    "tags": [],
     "allergens": [],
-    "spice_level": 2,
+    "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": true,
+    "is_chefs_pick": false,
     "sort_order": 120
   },
   {
-    "id": "item-rice-with-meat-121",
+    "id": "item-lemon-tea-121",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-lunch-dinner",
-    "name": "Rice with meat",
-    "price": 575,
-    "description": "Rice with meat prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/rice-with-meat-121.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Lemon Tea",
+    "name_am": "",
+    "price": 70,
+    "description": "Lemon Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041091/nitsuh-menu/dishes/fnfuh4lgzdpi4irlyqul.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2366,17 +2287,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 121
   },
   {
-    "id": "item-rice-with-vegetable-122",
+    "id": "item-mint-tea-122",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-lunch-dinner",
-    "name": "Rice with Vegetable",
-    "price": 450,
-    "description": "Rice with Vegetable prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/rice-with-vegetable-122.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Mint Tea",
+    "name_am": "",
+    "price": 70,
+    "description": "Mint Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041101/nitsuh-menu/dishes/biby0eypxe4vhjokpuga.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2384,16 +2303,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 122
   },
   {
-    "id": "item-quanta-firfir-123",
+    "id": "item-peanut-tea-123",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-lunch-dinner",
-    "name": "Quanta Firfir",
-    "price": 550,
-    "description": "Quanta Firfir prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/quanta-firfir.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Peanut Tea",
+    "name_am": "",
+    "price": 140,
+    "description": "Peanut Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041106/nitsuh-menu/dishes/uvxhfhn07czophmzb2nr.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2401,17 +2319,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 123
   },
   {
-    "id": "item-shiro-with-butter-124",
+    "id": "item-pineapple-tea-124",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-lunch-dinner",
-    "name": "Shiro with Butter",
-    "price": 400,
-    "description": "Shiro with Butter prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/shiro.jpg",
-    "tags": [
-      "vegetarian",
-      "popular"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Pineapple Tea",
+    "name_am": "",
+    "price": 140,
+    "description": "Pineapple Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041108/nitsuh-menu/dishes/sj90dmt4dzdpz0r0hd4c.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2419,16 +2335,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 124
   },
   {
-    "id": "item-smart-shiro-125",
+    "id": "item-orange-tea-125",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-lunch-dinner",
-    "name": "Smart shiro",
-    "price": 400,
-    "description": "Smart shiro prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/smart-shiro-125.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Orange Tea",
+    "name_am": "",
+    "price": 140,
+    "description": "Orange Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041105/nitsuh-menu/dishes/lx34cy62he3wzxgjx3w1.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2436,17 +2351,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 125
   },
   {
-    "id": "item-pasta-with-vegetable-126",
+    "id": "item-caramel-latte-126",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-lunch-dinner",
-    "name": "Pasta with Vegetable",
-    "price": 450,
-    "description": "Pasta with Vegetable prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/pasta-with-vegetable-126.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Caramel Latte",
+    "name_am": "",
+    "price": 170,
+    "description": "Caramel Latte prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041062/nitsuh-menu/dishes/ph1wjknqhatwo6ubyrii.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2454,16 +2367,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 126
   },
   {
-    "id": "item-pasta-with-meat-127",
+    "id": "item-vanilla-latte-127",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-lunch-dinner",
-    "name": "Pasta with meat",
-    "price": 575,
-    "description": "Pasta with meat prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/pasta-with-meat-127.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Vanilla Latte",
+    "name_am": "",
+    "price": 170,
+    "description": "Vanilla Latte prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/hkstjfyblwnexlcetron.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2471,17 +2383,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 127
   },
   {
-    "id": "item-pasta-with-tomato-128",
+    "id": "item-ginger-latte-128",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-lunch-dinner",
-    "name": "Pasta with tomato",
-    "price": 400,
-    "description": "Pasta with tomato prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/pasta-with-tomato-128.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Ginger Latte",
+    "name_am": "",
+    "price": 170,
+    "description": "Ginger Latte prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041085/nitsuh-menu/dishes/vfypfkllotffrep5zw6m.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2489,34 +2399,31 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 128
   },
   {
-    "id": "item-doro-tibs-129",
+    "id": "item-hot-chocolate-129",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-lunch-dinner",
-    "name": "Doro Tibs",
-    "price": 800,
-    "description": "Doro Tibs prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/doro-tibs-129.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Hot Chocolate",
+    "name_am": "",
+    "price": 170,
+    "description": "Hot Chocolate prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041087/nitsuh-menu/dishes/xmjphybs9kpqdqkdyo2s.jpg",
+    "tags": [],
     "allergens": [],
-    "spice_level": 2,
+    "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": true,
+    "is_chefs_pick": false,
     "sort_order": 129
   },
   {
-    "id": "item-vigitable-sup-130",
+    "id": "item-hot-caramel-130",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-lunch-dinner",
-    "name": "Vigitable sup",
-    "price": 300,
-    "description": "Vigitable sup prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/vigitable-sup-130.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Hot Caramel",
+    "name_am": "",
+    "price": 170,
+    "description": "Hot Caramel prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041085/nitsuh-menu/dishes/fbr6bfam8mtsvisvt9sj.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2524,50 +2431,49 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 130
   },
   {
-    "id": "item-chikina-tibs-131",
+    "id": "item-cuppuchino-131",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-lunch-dinner",
-    "name": "Chikina Tibs",
-    "price": 900,
-    "description": "Chikina Tibs prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/chikina-tibs-131.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-hot-drinks",
+    "name": "Cuppuchino",
+    "name_am": "",
+    "price": 170,
+    "description": "Cuppuchino prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041062/nitsuh-menu/dishes/gquibaftrzfgmv7zk3ja.jpg",
+    "tags": [],
     "allergens": [],
-    "spice_level": 2,
+    "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": true,
+    "is_chefs_pick": false,
     "sort_order": 131
   },
   {
-    "id": "item-tibs-tefersho-132",
+    "id": "item-special-tea-132",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-lunch-dinner",
-    "name": "Tibs Tefersho",
-    "price": 700,
-    "description": "Tibs Tefersho prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/tibs-tefersho-132.jpg",
+    "category_id": "cat-hot-drinks",
+    "name": "Special Tea",
+    "name_am": "",
+    "price": 180,
+    "description": "Special Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041105/nitsuh-menu/dishes/lx34cy62he3wzxgjx3w1.jpg",
     "tags": [
       "popular"
     ],
     "allergens": [],
-    "spice_level": 2,
+    "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": false,
+    "is_chefs_pick": true,
     "sort_order": 132
   },
   {
-    "id": "item-yebeg-keywot-133",
+    "id": "item-ice-latte-133",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-lunch-dinner",
-    "name": "Yebeg Keywot",
-    "price": 700,
-    "description": "Yebeg Keywot prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/yebeg-keywot.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-iced-drinks",
+    "name": "ICE Latte",
+    "name_am": "",
+    "price": 450,
+    "description": "Coffee, milk, sugar syrup, Ice",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041089/nitsuh-menu/dishes/ijbaoshw8scfdtaxqsem.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2575,33 +2481,31 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 133
   },
   {
-    "id": "item-agelegil-134",
+    "id": "item-ice-tea-134",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-lunch-dinner",
-    "name": "Agelegil",
-    "price": 900,
-    "description": "Agelegil prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/agelegil-134.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-iced-drinks",
+    "name": "ICE Tea",
+    "name_am": "",
+    "price": 450,
+    "description": "Tea, milk, sugar syrup, Ice",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041089/nitsuh-menu/dishes/sijyn58zxvdxdd4rh9vz.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": true,
+    "is_chefs_pick": false,
     "sort_order": 134
   },
   {
-    "id": "item-gomen-besiga-135",
+    "id": "item-ice-vanilla-135",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-lunch-dinner",
-    "name": "Gomen Besiga",
-    "price": 700,
-    "description": "Gomen Besiga prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/gomen-besiga-135.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-iced-drinks",
+    "name": "ICE Vanilla",
+    "name_am": "",
+    "price": 450,
+    "description": "Vanilla, coffee, milk, sugar syrup, Ice",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041090/nitsuh-menu/dishes/wbpcs2h4p8tep83q9nxz.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2609,16 +2513,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 135
   },
   {
-    "id": "item-grilled-fish-136",
+    "id": "item-ice-chocolate-136",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-lunch-dinner",
-    "name": "Grilled Fish",
-    "price": 850,
-    "description": "Grilled Fish prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/grilled-fish-136.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-iced-drinks",
+    "name": "ICE Chocolate",
+    "name_am": "",
+    "price": 450,
+    "description": "Chocolate syrup, coffee, milk, sugar syrup, Ice",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041087/nitsuh-menu/dishes/pag1zlp1oqjqdy3arnfo.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2626,16 +2529,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 136
   },
   {
-    "id": "item-mofo-137",
+    "id": "item-ice-caramel-137",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-mendi",
-    "name": "Mofo",
-    "price": 700,
-    "description": "Mofo prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/mofo-137.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-iced-drinks",
+    "name": "ICE Caramel",
+    "name_am": "",
+    "price": 450,
+    "description": "Caramel syrup, coffee, milk, sugar syrup, Ice",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041087/nitsuh-menu/dishes/ngdyvmycdtsxrwlugxdj.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2643,30 +2545,30 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 137
   },
   {
-    "id": "item-special-mendi-138",
+    "id": "item-ice-strawberry-138",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-mendi",
-    "name": "Special Mendi",
-    "price": 2000,
-    "description": "Special Mendi prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/special-mendi.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-iced-drinks",
+    "name": "ICE Strawberry",
+    "name_am": "",
+    "price": 450,
+    "description": "Strawberry syrup, coffee, milk, sugar syrup, Ice",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041089/nitsuh-menu/dishes/ynnrg75rej1a7raxxprv.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": true,
+    "is_chefs_pick": false,
     "sort_order": 138
   },
   {
-    "id": "item-mend-1-2-139",
+    "id": "item-ice-deluxe-139",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-mendi",
-    "name": "Mend 1/2",
-    "price": 900,
-    "description": "Mend 1/2 prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/mend-1-2-139.jpg",
+    "category_id": "cat-iced-drinks",
+    "name": "ICE Deluxe",
+    "name_am": "",
+    "price": 600,
+    "description": "Chocolate, caramel, vanilla, coffee, milk, sugar syrup, Ice",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041089/nitsuh-menu/dishes/birl5pgbgobn8qkxaasb.jpg",
     "tags": [
       "popular"
     ],
@@ -2677,33 +2579,31 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 139
   },
   {
-    "id": "item-mend-full-140",
+    "id": "item-mini-custard-vanilla-cake-140",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-mendi",
-    "name": "Mend Full",
-    "price": 1800,
-    "description": "Mend Full prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/mend-full-140.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-desserts",
+    "name": "Mini Custard Vanilla cake",
+    "name_am": "",
+    "price": 80,
+    "description": "Mini Custard Vanilla cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041101/nitsuh-menu/dishes/gbmqzx61bktna2gswrx6.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": true,
+    "is_chefs_pick": false,
     "sort_order": 140
   },
   {
-    "id": "item-1-2-roasted-chicken-141",
+    "id": "item-mini-millifoni-cake-141",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-mendi",
-    "name": "1/2 Roasted Chicken",
-    "price": 1098,
-    "description": "1/2 Roasted Chicken prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/1-2-roasted-chicken-141.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-desserts",
+    "name": "Mini Millifoni cake",
+    "name_am": "",
+    "price": 80,
+    "description": "Mini Millifoni cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041101/nitsuh-menu/dishes/hul9aj4jg95oashit3py.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2711,68 +2611,63 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 141
   },
   {
-    "id": "item-roasted-chicken-full-142",
+    "id": "item-mini-chocolate-cake-142",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-mendi",
-    "name": "Roasted Chicken Full",
-    "price": 1900,
-    "description": "Roasted Chicken Full prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/roasted-chicken-full-142.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-desserts",
+    "name": "Mini Chocolate cake",
+    "name_am": "",
+    "price": 100,
+    "description": "Mini Chocolate cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041101/nitsuh-menu/dishes/tjgbm5dkfcgg3okf6whi.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": true,
+    "is_chefs_pick": false,
     "sort_order": 142
   },
   {
-    "id": "item-keywot-and-fitfit-143",
+    "id": "item-tart-cake-143",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-half-half",
-    "name": "Keywot and Fitfit",
-    "price": 790,
-    "description": "Keywot and Fitfit prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/keywot-and-fitfit-143.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-desserts",
+    "name": "Tart cake",
+    "name_am": "",
+    "price": 80,
+    "description": "Tart cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041131/nitsuh-menu/dishes/vm4rygeyrsblzgt96y0v.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": true,
+    "is_chefs_pick": false,
     "sort_order": 143
   },
   {
-    "id": "item-tibs-and-fitfit-144",
+    "id": "item-mini-boxega-cake-144",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-half-half",
-    "name": "Tibs and Fitfit",
-    "price": 900,
-    "description": "Tibs and Fitfit prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/tibs-and-fitfit-144.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-desserts",
+    "name": "Mini Boxega cake",
+    "name_am": "",
+    "price": 80,
+    "description": "Mini Boxega cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041098/nitsuh-menu/dishes/hznywmufhjxepvszypgw.jpg",
+    "tags": [],
     "allergens": [],
-    "spice_level": 2,
+    "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": true,
+    "is_chefs_pick": false,
     "sort_order": 144
   },
   {
-    "id": "item-cooked-vegs-and-aja-145",
+    "id": "item-english-cake-145",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-half-half",
-    "name": "Cooked Vegs and Aja",
-    "price": 600,
-    "description": "Cooked Vegs and Aja prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/cooked-vegs-and-aja-145.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-desserts",
+    "name": "English Cake",
+    "name_am": "",
+    "price": 150,
+    "description": "English Cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041078/nitsuh-menu/dishes/fui6gjghyjuu2hnse4zw.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2780,16 +2675,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 145
   },
   {
-    "id": "item-tuna-sandwich-146",
+    "id": "item-classic-dounut-146",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-wraps",
-    "name": "Tuna Sandwich",
-    "price": 600,
-    "description": "Tuna Sandwich prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/tuna-sandwich-146.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-desserts",
+    "name": "Classic Dounut",
+    "name_am": "",
+    "price": 200,
+    "description": "Classic Dounut prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041071/nitsuh-menu/dishes/kjrssz0b2kk3fjglroej.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2797,33 +2691,31 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 146
   },
   {
-    "id": "item-beef-shewarema-147",
+    "id": "item-chocolate-chips-cookie-147",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-wraps",
-    "name": "Beef Shewarema",
-    "price": 699,
-    "description": "Beef Shewarema prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/beef-shewarema-147.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-desserts",
+    "name": "Chocolate Chips Cookie",
+    "name_am": "",
+    "price": 250,
+    "description": "Chocolate Chips Cookie prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041067/nitsuh-menu/dishes/auy6u6sui7os4cis4jzm.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": true,
+    "is_chefs_pick": false,
     "sort_order": 147
   },
   {
-    "id": "item-chicken-shewarma-148",
+    "id": "item-croissant-148",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-wraps",
-    "name": "Chicken Shewarma",
-    "price": 600,
-    "description": "Chicken Shewarma prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/chicken-shewarma-148.jpg",
-    "tags": [
-      "popular"
-    ],
+    "category_id": "cat-desserts",
+    "name": "Croissant",
+    "name_am": "",
+    "price": 250,
+    "description": "Croissant prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041076/nitsuh-menu/dishes/t1adb7tozz3mpys5abyd.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2831,18 +2723,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 148
   },
   {
-    "id": "item-shiro-149",
+    "id": "item-chocolate-croissant-149",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-fasting-lunch",
-    "name": "Shiro",
+    "category_id": "cat-desserts",
+    "name": "Chocolate Croissant",
+    "name_am": "",
     "price": 350,
-    "description": "Shiro prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/shiro-149.jpg",
-    "tags": [
-      "vegan",
-      "fasting",
-      "popular"
-    ],
+    "description": "Chocolate Croissant prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041069/nitsuh-menu/dishes/sxbylouxyxzghrxjdqwe.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2850,37 +2739,31 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 149
   },
   {
-    "id": "item-beyaynetu-150",
+    "id": "item-tiramisu-cake-150",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-fasting-lunch",
-    "name": "Beyaynetu",
-    "price": 500,
-    "description": "Beyaynetu prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/beyaynetu.jpg",
-    "tags": [
-      "vegan",
-      "fasting",
-      "popular"
-    ],
+    "category_id": "cat-desserts",
+    "name": "Tiramisu cake",
+    "name_am": "",
+    "price": 400,
+    "description": "Tiramisu cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041119/nitsuh-menu/dishes/b5cpkaz85wry6zq4mr50.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
-    "is_chefs_pick": true,
+    "is_chefs_pick": false,
     "sort_order": 150
   },
   {
-    "id": "item-fasting-agelegil-151",
+    "id": "item-custard-vanilla-torta-1kg-151",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-fasting-lunch",
-    "name": "Fasting Agelegil",
-    "price": 600,
-    "description": "Fasting Agelegil prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/fasting-agelegil-151.jpg",
-    "tags": [
-      "vegan",
-      "fasting",
-      "popular"
-    ],
+    "category_id": "cat-desserts-kg",
+    "name": "Custard Vanilla Torta 1Kg",
+    "name_am": "",
+    "price": 2000,
+    "description": "Custard Vanilla Torta 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041076/nitsuh-menu/dishes/gnfchwipgbgs7fhfoodm.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2888,17 +2771,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 151
   },
   {
-    "id": "item-suf-fitfit-152",
+    "id": "item-millifoni-torta-1kg-152",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-fasting-lunch",
-    "name": "Suf fitfit",
-    "price": 350,
-    "description": "Suf fitfit prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/suf-fitfit-152.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-desserts-kg",
+    "name": "Millifoni Torta 1Kg",
+    "name_am": "",
+    "price": 2200,
+    "description": "Millifoni Torta 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041098/nitsuh-menu/dishes/fcskgzdramfzw4smuvhi.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2906,17 +2787,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 152
   },
   {
-    "id": "item-nitsuh-special-salad-153",
+    "id": "item-chocolate-torta-1kg-153",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-fasting-lunch",
-    "name": "Nitsuh special Salad",
-    "price": 400,
-    "description": "Nitsuh special Salad prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/nitsuh-special-salad-153.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-desserts-kg",
+    "name": "Chocolate Torta 1Kg",
+    "name_am": "",
+    "price": 2500,
+    "description": "Chocolate Torta 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041068/nitsuh-menu/dishes/bfonwbylxzlmwqsrx2ji.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2924,17 +2803,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 153
   },
   {
-    "id": "item-aja-with-spinach-154",
+    "id": "item-tiramisu-1kg-154",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-fasting-lunch",
-    "name": "Aja with spinach",
-    "price": 400,
-    "description": "Aja with spinach prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/aja-with-spinach-154.jpg",
-    "tags": [
-      "vegan",
-      "fasting"
-    ],
+    "category_id": "cat-desserts-kg",
+    "name": "Tiramisu 1Kg",
+    "name_am": "",
+    "price": 2500,
+    "description": "Tiramisu 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041119/nitsuh-menu/dishes/lwkg2cimfah9hxqlen9p.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
@@ -2942,13 +2819,14 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 154
   },
   {
-    "id": "item-takeaway-155",
+    "id": "item-butter-cookeis-1kg-155",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-takeaway-extras",
-    "name": "Takeaway",
-    "price": 50,
-    "description": "Takeaway prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/takeaway-155.jpg",
+    "category_id": "cat-desserts-kg",
+    "name": "Butter Cookeis 1Kg",
+    "name_am": "",
+    "price": 1600,
+    "description": "Butter Cookeis 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041062/nitsuh-menu/dishes/fy1gojvmyczhz8ltdiji.jpg",
     "tags": [],
     "allergens": [],
     "spice_level": 0,
@@ -2957,13 +2835,14 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 155
   },
   {
-    "id": "item-pizza-takeaway-156",
+    "id": "item-chocolate-chips-cookeis-1kg-156",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-takeaway-extras",
-    "name": "Pizza takeaway",
-    "price": 100,
-    "description": "Pizza takeaway prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/pizza-takeaway-156.jpg",
+    "category_id": "cat-desserts-kg",
+    "name": "Chocolate Chips Cookeis 1Kg",
+    "name_am": "",
+    "price": 2000,
+    "description": "Chocolate Chips Cookeis 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041069/nitsuh-menu/dishes/hgbmysarp0aifdak0vne.jpg",
     "tags": [],
     "allergens": [],
     "spice_level": 0,
@@ -2972,21 +2851,36 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "sort_order": 156
   },
   {
-    "id": "item-extra-cheese-157",
+    "id": "item-english-cake-1kg-157",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-takeaway-extras",
-    "name": "Extra cheese",
-    "price": 100,
-    "description": "Extra cheese prepared freshly at Nitsuh Cafeteria with authentic premium ingredients.",
-    "image_url": "/images/dishes/extra-cheese-157.jpg",
-    "tags": [
-      "vegetarian"
-    ],
+    "category_id": "cat-desserts-kg",
+    "name": "English Cake 1Kg",
+    "name_am": "",
+    "price": 800,
+    "description": "English Cake 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041078/nitsuh-menu/dishes/ssszlh0yhqsgqbwveump.jpg",
+    "tags": [],
     "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
     "sort_order": 157
+  },
+  {
+    "id": "item-marble-cake-1kg-158",
+    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "category_id": "cat-desserts-kg",
+    "name": "Marble Cake 1Kg",
+    "name_am": "",
+    "price": 800,
+    "description": "Marble Cake 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
+    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041092/nitsuh-menu/dishes/gnobfvzsrbecdzxhzdbq.jpg",
+    "tags": [],
+    "allergens": [],
+    "spice_level": 0,
+    "is_available": true,
+    "is_chefs_pick": false,
+    "sort_order": 158
   }
 ];
 
@@ -2997,9 +2891,9 @@ const inMemoryOrders: Order[] = [
     table_number: 'Table 1',
     items: [
       {
-        item_id: 'item-yebeg-tibs',
-        name: 'Yebeg Tibs (የበግ ጥብስ)',
-        price: 900,
+        item_id: 'item-nitsuh-special-burger-17',
+        name: 'Nitsuh Special Burger',
+        price: 800,
         quantity: 1,
         selected_options: [],
         line_total: 900,
@@ -3017,7 +2911,7 @@ const inMemoryOrders: Order[] = [
     tax: 171,
     total: 1311,
     status: 'pending',
-    notes: 'Please make the tibs extra sizzling with rosemary',
+    notes: 'Please make the burger well done with extra sauce',
     created_at: new Date(Date.now() - 1000 * 60 * 12).toISOString(),
     updated_at: new Date().toISOString(),
   }
@@ -3047,6 +2941,17 @@ export function getStoredRestaurant(slug?: string): Restaurant | null {
     if (!raw) return null;
     const parsed = JSON.parse(raw);
     if (!slug || parsed.slug === slug) {
+      if (
+        parsed.name === 'Nitsuh Cafeteria' ||
+        parsed.name === 'Addis Cafeteria' ||
+        parsed.name === 'Nitsuh Cafeteria & Bakery' ||
+        parsed.name === 'Nitsuh Grand Cafeteria'
+      ) {
+        parsed.name = 'Nitsuh Cafe & Restaurant';
+        parsed.branch_name = 'Main Branch — Nitsuh Cafe & Restaurant';
+        parsed.announcement = (parsed.announcement || '').replace(/Nitsuh Cafeteria/g, 'Nitsuh Cafe & Restaurant');
+        persistRestaurant(parsed);
+      }
       return parsed;
     }
   } catch {}
@@ -3097,6 +3002,31 @@ export async function getRestaurantBySlug(slug: string): Promise<Restaurant | nu
     };
   }
 
+  // 0. In browser: fetch live restaurant settings from Neon API route
+  if (typeof window !== 'undefined') {
+    try {
+      const res = await fetch(`/api/restaurant?slug=${encodeURIComponent(slug)}`);
+      if (res.ok) {
+        const live = await res.json();
+        if (live && live.id) {
+          inMemoryRestaurant = {
+            ...inMemoryRestaurant,
+            ...live,
+            theme_config: {
+              ...(MOCK_RESTAURANT_NITSUH.theme_config || {}),
+              ...(live.theme_config || {}),
+              ...inMemoryRestaurant.theme_config,
+            },
+          };
+          persistRestaurant(inMemoryRestaurant);
+          return inMemoryRestaurant;
+        }
+      }
+    } catch {
+      // Fallback to local or server
+    }
+  }
+
   // 1. If Neon is connected (server-side):
   if (hasNeon()) {
     try {
@@ -3114,7 +3044,7 @@ export async function getRestaurantBySlug(slug: string): Promise<Restaurant | nu
             ...inMemoryRestaurant,
             ...data,
             slug: 'nitsuh',
-            name: (data.name === 'Addis Cafeteria' ? 'Nitsuh Cafeteria' : data.name) || 'Nitsuh Cafeteria',
+            name: (data.name === 'Addis Cafeteria' || data.name === 'Nitsuh Cafeteria' || data.name === 'Nitsuh Cafeteria & Bakery' || data.name === 'Nitsuh Grand Cafeteria' ? 'Nitsuh Cafe & Restaurant' : data.name) || 'Nitsuh Cafe & Restaurant',
             short_name: (data.short_name === 'Addis' ? 'Nitsuh' : data.short_name) || 'Nitsuh',
             logo_letter: data.logo_letter === 'A' ? 'N' : (data.logo_letter || 'N'),
             announcement: ((data.announcement || inMemoryRestaurant.announcement) || '').replace(/\bAddis\b/g, 'Nitsuh'),
@@ -3162,7 +3092,7 @@ export async function getRestaurantBySlug(slug: string): Promise<Restaurant | nu
           ...inMemoryRestaurant,
           ...(data as Restaurant),
           slug: 'nitsuh',
-          name: (data.name === 'Addis Cafeteria' ? 'Nitsuh Cafeteria' : data.name) || 'Nitsuh Cafeteria',
+          name: (data.name === 'Addis Cafeteria' || data.name === 'Nitsuh Cafeteria' || data.name === 'Nitsuh Cafeteria & Bakery' || data.name === 'Nitsuh Grand Cafeteria' ? 'Nitsuh Cafe & Restaurant' : data.name) || 'Nitsuh Cafe & Restaurant',
           short_name: (data.short_name === 'Addis' ? 'Nitsuh' : data.short_name) || 'Nitsuh',
           logo_letter: data.logo_letter === 'A' ? 'N' : (data.logo_letter || 'N'),
           announcement: ((data as any).announcement || inMemoryRestaurant.announcement || '').replace(/\bAddis\b/g, 'Nitsuh'),
@@ -3203,7 +3133,7 @@ const STORAGE_KEY_CATEGORIES = 'digital_menu_categories_cache_v3';
 
 let inMemoryCategories: Category[] = [];
 
-function getStoredCategories(): Category[] {
+export function getStoredCategories(): Category[] {
   if (typeof window === 'undefined') return [];
   try {
     const raw = localStorage.getItem(STORAGE_KEY_CATEGORIES);
@@ -3361,7 +3291,7 @@ export async function getMenuItems(restaurantId: string): Promise<MenuItem[]> {
             price: Number(item.price) || 0,
             name: item.name ? item.name.replace(/\bAddis\b/g, 'Nitsuh') : item.name,
             description: item.description
-              ? item.description.replace(/\bAddis Cafeteria\b/g, 'Nitsuh Cafeteria').replace(/\bAddis\b/g, 'Nitsuh')
+              ? item.description.replace(/\bAddis Cafeteria\b/g, 'Nitsuh Cafe & Restaurant').replace(/\bAddis\b/g, 'Nitsuh')
               : item.description,
           }));
           inMemoryItems = sanitized;
@@ -3393,7 +3323,7 @@ export async function getMenuItems(restaurantId: string): Promise<MenuItem[]> {
           ...item,
           name: item.name ? item.name.replace(/\bAddis\b/g, 'Nitsuh') : item.name,
           description: item.description
-            ? item.description.replace(/\bAddis Cafeteria\b/g, 'Nitsuh Cafeteria').replace(/\bAddis\b/g, 'Nitsuh')
+            ? item.description.replace(/\bAddis Cafeteria\b/g, 'Nitsuh Cafe & Restaurant').replace(/\bAddis\b/g, 'Nitsuh')
             : item.description,
         }));
         inMemoryItems = sanitized;
@@ -3536,8 +3466,8 @@ export const MOCK_OFFERS_NITSUH: Offer[] = [
   {
     id: 'f1a8c1e2-3456-4789-a012-3456789abc01',
     restaurant_id: MOCK_RESTAURANT_NITSUH.id,
-    title: 'Happy Hour: 20% Off Handcrafted Pizzas',
-    description: 'Enjoy 20% off all artisan sourdough pizzas every afternoon.',
+    title: 'Happy Hour: 20% Off Wood-Fired Pizzas',
+    description: 'Enjoy 20% off all artisan wood-fired pizzas every day.',
     badge_text: '20% Off',
     template_type: 'happy_hour',
     status: 'live',
@@ -3545,14 +3475,14 @@ export const MOCK_OFFERS_NITSUH: Offer[] = [
     discount_type: 'percentage',
     discount_value: 20,
     scope_type: 'categories',
-    category_ids: ['cat-pizzas'],
+    category_ids: ['cat-pizza'],
     timezone: 'Africa/Addis_Ababa',
     days_of_week: [0, 1, 2, 3, 4, 5, 6],
-    start_time: '08:00',
+    start_time: '00:00',
     end_time: '23:59',
     honest_urgency_hours: 2,
     show_top_banner: true,
-    banner_text: 'Afternoon Happy Hour: 20% off all handcrafted pizzas until late.',
+    banner_text: '🌿 Afternoon Happy Hour: 20% off all artisan pizzas until late.',
     banner_link_text: 'See offer',
     stacking_rule: 'best_discount',
     priority: 10,
@@ -3564,20 +3494,22 @@ export const MOCK_OFFERS_NITSUH: Offer[] = [
     updated_at: new Date().toISOString(),
   },
   {
-    id: 'f2b9d2e3-4567-4890-b123-456789abc002',
+    id: 'f2b9d2e3-4567-4890-b123-456789abc02',
     restaurant_id: MOCK_RESTAURANT_NITSUH.id,
-    title: 'Special Mendi Feast (100 ETB Off)',
-    description: 'Save 100 ETB when ordering our authentic slow-cooked Special Mendi.',
-    badge_text: '100 ETB Off',
+    title: 'Nitsuh Burger Special: 40 ETB Off',
+    description: 'Save 40 ETB when enjoying our signature House Special Burger.',
+    badge_text: '40 ETB Off',
     template_type: 'money_off',
     status: 'live',
     is_paused: false,
     discount_type: 'fixed_amount',
-    discount_value: 100.0,
+    discount_value: 40.0,
     scope_type: 'items',
-    item_ids: ['item-special-mendi-138'],
+    item_ids: ['item-nitsuh-special-burger-17'],
     timezone: 'Africa/Addis_Ababa',
     days_of_week: [0, 1, 2, 3, 4, 5, 6],
+    start_time: '00:00',
+    end_time: '23:59',
     honest_urgency_hours: 0,
     show_top_banner: false,
     stacking_rule: 'best_discount',
@@ -3585,12 +3517,12 @@ export const MOCK_OFFERS_NITSUH: Offer[] = [
     views_count: 96,
     taps_count: 28,
     orders_count: 9,
-    total_savings: 360.0,
+    total_savings: 36.0,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   },
   {
-    id: 'f3c0e3f4-5678-4901-c234-567890abc003',
+    id: 'f3c0e3f4-5678-4901-c234-56789abc03',
     restaurant_id: MOCK_RESTAURANT_NITSUH.id,
     title: 'Complimentary Single-Origin Espresso over 500 ETB',
     description: 'Free single-origin Yirgacheffe espresso automatically added to orders over 500 ETB.',
@@ -3601,10 +3533,12 @@ export const MOCK_OFFERS_NITSUH: Offer[] = [
     discount_type: 'free_item',
     discount_value: 0,
     min_order_amount: 500.0,
-    free_item_id: 'item-coffee-75',
+    free_item_id: 'item-espresso-114',
     scope_type: 'all',
     timezone: 'Africa/Addis_Ababa',
     days_of_week: [0, 1, 2, 3, 4, 5, 6],
+    start_time: '00:00',
+    end_time: '23:59',
     honest_urgency_hours: 0,
     show_top_banner: false,
     stacking_rule: 'allow_stack',
@@ -3618,7 +3552,7 @@ export const MOCK_OFFERS_NITSUH: Offer[] = [
   },
 ];
 
-let inMemoryOffers: Offer[] = [];
+let inMemoryOffers: Offer[] = [...MOCK_OFFERS_NITSUH];
 
 export async function getOffers(restaurantId: string): Promise<Offer[]> {
   const cacheKey = `offers_${restaurantId}`;
@@ -3628,6 +3562,23 @@ export async function getOffers(restaurantId: string): Promise<Offer[]> {
       return cachedEntry.data;
     }
   }
+
+  // In browser, query Neon through server API endpoint to guarantee exact Neon DB state
+  if (typeof window !== 'undefined') {
+    try {
+      const res = await fetch(`/api/offers?restaurantId=${encodeURIComponent(restaurantId)}`);
+      if (res.ok) {
+        const liveOffers = await res.json();
+        if (Array.isArray(liveOffers)) {
+          inMemoryOffers = liveOffers;
+          return inMemoryOffers;
+        }
+      }
+    } catch {
+      // Fallback below if API route fails
+    }
+  }
+
   if (hasNeon()) {
     try {
       const sql = getNeon();
@@ -3637,22 +3588,29 @@ export async function getOffers(restaurantId: string): Promise<Offer[]> {
           WHERE restaurant_id = ${restaurantId}
           ORDER BY priority DESC
         `;
-        if (rows && rows.length > 0) {
+        if (rows) {
           const mapped = (rows as any[])
             .map((d: any) => {
-              const rawCategoryIds: string[] = Array.isArray(d.category_ids) && d.category_ids.length > 0
-                ? d.category_ids
-                : Array.isArray(d.target_category_ids) && d.target_category_ids.length > 0
-                ? d.target_category_ids
-                : d.offer_type === 'category_discount'
-                ? ['cat-pizzas']
+              const rawCategoryIds: string[] = Array.isArray(d.category_ids) && d.category_ids.filter(Boolean).length > 0
+                ? d.category_ids.filter(Boolean)
+                : Array.isArray(d.target_category_ids) && d.target_category_ids.filter(Boolean).length > 0
+                ? d.target_category_ids.filter(Boolean)
+                : d.offer_type === 'category_discount' || d.template_type === 'happy_hour' || (d.title && d.title.toLowerCase().includes('pizza'))
+                ? ['cat-pizza', 'cat_pizza_30']
                 : [];
+
+              if (rawCategoryIds.some((c: string) => c.toLowerCase().includes('pizza')) || d.template_type === 'happy_hour' || (d.title && d.title.toLowerCase().includes('pizza'))) {
+                if (!rawCategoryIds.includes('cat-pizza')) rawCategoryIds.push('cat-pizza');
+                if (!rawCategoryIds.includes('cat_pizza_30')) rawCategoryIds.push('cat_pizza_30');
+              }
+              if (rawCategoryIds.some((c: string) => c.toLowerCase().includes('burger')) || (d.title && d.title.toLowerCase().includes('burger'))) {
+                if (!rawCategoryIds.includes('cat-burger')) rawCategoryIds.push('cat-burger');
+                if (!rawCategoryIds.includes('cat_burger_20')) rawCategoryIds.push('cat_burger_20');
+              }
               const rawItemIds: string[] = Array.isArray(d.item_ids) && d.item_ids.length > 0
                 ? d.item_ids
                 : Array.isArray(d.target_item_ids) && d.target_item_ids.length > 0
                 ? d.target_item_ids
-                : d.offer_type === 'item_discount'
-                ? ['item-special-mendi-138', 'item-nitsuh-combo-break-fast-45']
                 : [];
 
               let scopeType: 'all' | 'categories' | 'items' = 'items';
@@ -3706,6 +3664,8 @@ export async function getOffers(restaurantId: string): Promise<Offer[]> {
             }
             return mapped;
           }
+          inMemoryOffers = [...MOCK_OFFERS_NITSUH];
+          return inMemoryOffers;
         }
       }
     } catch {}
@@ -3723,19 +3683,19 @@ export async function getOffers(restaurantId: string): Promise<Offer[]> {
       if (!error && data && data.length > 0) {
         const mapped = data
           .map((d: any) => {
-            const rawCategoryIds: string[] = Array.isArray(d.category_ids) && d.category_ids.length > 0
-              ? d.category_ids
-              : Array.isArray(d.target_category_ids) && d.target_category_ids.length > 0
-              ? d.target_category_ids
-              : d.offer_type === 'category_discount'
-              ? ['cat-pizzas']
+            const rawCategoryIds: string[] = Array.isArray(d.category_ids) && d.category_ids.filter(Boolean).length > 0
+              ? d.category_ids.filter(Boolean)
+              : Array.isArray(d.target_category_ids) && d.target_category_ids.filter(Boolean).length > 0
+              ? d.target_category_ids.filter(Boolean)
+              : d.offer_type === 'category_discount' || d.template_type === 'happy_hour' || (d.title && d.title.toLowerCase().includes('pizza'))
+              ? ['cat-pizza']
               : [];
             const rawItemIds: string[] = Array.isArray(d.item_ids) && d.item_ids.length > 0
               ? d.item_ids
               : Array.isArray(d.target_item_ids) && d.target_item_ids.length > 0
               ? d.target_item_ids
               : d.offer_type === 'item_discount'
-              ? ['item-special-mendi-138', 'item-nitsuh-combo-break-fast-45']
+              ? ['item-nitsuh-special-burger-17', 'item-house-special-pizza-33']
               : [];
 
             let scopeType: 'all' | 'categories' | 'items' = 'items';
@@ -3806,6 +3766,17 @@ export async function saveOffer(offer: Partial<Offer> & { restaurant_id: string 
     );
     const updated = inMemoryOffers.find((o) => o.id === offer.id)!;
 
+    // Sync to Neon DB via API route in browser
+    if (typeof window !== 'undefined') {
+      try {
+        fetch('/api/offers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updated),
+        }).catch((e) => console.warn('Could not sync offer update to Neon:', e));
+      } catch {}
+    }
+
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
       try {
         const supabase = createClient();
@@ -3814,6 +3785,7 @@ export async function saveOffer(offer: Partial<Offer> & { restaurant_id: string 
         // Handled
       }
     }
+    invalidateServerMenuCache('offers');
     return updated;
   }
 
@@ -3831,7 +3803,13 @@ export async function saveOffer(offer: Partial<Offer> & { restaurant_id: string 
     min_order_amount: offer.min_order_amount,
     free_item_id: offer.free_item_id,
     scope_type: offer.scope_type || 'all',
-    category_ids: offer.category_ids || [],
+    category_ids: offer.category_ids && offer.category_ids.filter(Boolean).length > 0
+      ? Array.from(new Set([
+          ...offer.category_ids.filter(Boolean),
+          ...(offer.category_ids.some((c: string) => c.toLowerCase().includes('pizza')) || offer.template_type === 'happy_hour' ? ['cat-pizza', 'cat_pizza_30'] : []),
+          ...(offer.category_ids.some((c: string) => c.toLowerCase().includes('burger')) ? ['cat-burger', 'cat_burger_20'] : [])
+        ]))
+      : (offer.scope_type === 'categories' || offer.template_type === 'happy_hour' ? ['cat-pizza', 'cat_pizza_30'] : []),
     item_ids: offer.item_ids || [],
     timezone: offer.timezone || 'Africa/Addis_Ababa',
     starts_at: offer.starts_at || null,
@@ -3854,6 +3832,26 @@ export async function saveOffer(offer: Partial<Offer> & { restaurant_id: string 
   };
 
   inMemoryOffers.unshift(newOffer);
+  invalidateServerMenuCache('offers');
+
+  // Sync to Neon DB via API route in browser
+  if (typeof window !== 'undefined') {
+    try {
+      const res = await fetch('/api/offers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newOffer),
+      });
+      if (res.ok) {
+        const saved = await res.json();
+        if (saved && saved.id) {
+          return saved;
+        }
+      }
+    } catch (e) {
+      console.warn('Could not sync new offer to Neon:', e);
+    }
+  }
 
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
     try {
@@ -3874,6 +3872,17 @@ export async function togglePauseOffer(offerId: string, isPaused: boolean): Prom
   offer.is_paused = isPaused;
   offer.updated_at = new Date().toISOString();
 
+  // Sync to Neon DB via API route in browser
+  if (typeof window !== 'undefined') {
+    try {
+      fetch('/api/offers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(offer),
+      }).catch((e) => console.warn('Could not sync togglePauseOffer to Neon:', e));
+    } catch {}
+  }
+
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
     try {
       const supabase = createClient();
@@ -3883,11 +3892,22 @@ export async function togglePauseOffer(offerId: string, isPaused: boolean): Prom
     }
   }
 
+  invalidateServerMenuCache('offers');
   return offer;
 }
 
 export async function deleteOffer(offerId: string): Promise<boolean> {
   inMemoryOffers = inMemoryOffers.filter((o) => o.id !== offerId);
+  invalidateServerMenuCache('offers');
+
+  // Sync to Neon DB via API route in browser
+  if (typeof window !== 'undefined') {
+    try {
+      fetch(`/api/offers?id=${encodeURIComponent(offerId)}`, {
+        method: 'DELETE',
+      }).catch((e) => console.warn('Could not sync offer delete to Neon:', e));
+    } catch {}
+  }
 
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
     try {
@@ -3958,9 +3978,27 @@ export const DEFAULT_REVIEW_SETTINGS_NITSUH: RestaurantReviewSettings = {
 
 let inMemoryReviewSettings: RestaurantReviewSettings = { ...DEFAULT_REVIEW_SETTINGS_NITSUH };
 
-export const MOCK_REVIEWS_NITSUH: DishReview[] = [];
+export const MOCK_REVIEWS_NITSUH: DishReview[] = [
+  {
+    id: 'rev-fetira-honey-seed-1',
+    restaurant_id: MOCK_RESTAURANT_NITSUH.id,
+    item_id: 'item-fetira-with-honey-11',
+    rating: 5,
+    tags: ['Crispy texture', 'Fresh ingredients', 'Great portion'],
+    comment: 'Crispy, layered pastry with sweet mountain honey and fresh bananas. The best breakfast in Addis Ababa!',
+    session_token: 'guest-seed-1',
+    table_number: 'Table 14',
+    status: 'published',
+    report_count: 0,
+    created_at: new Date(Date.now() - 3600000).toISOString(),
+    updated_at: new Date(Date.now() - 3600000).toISOString(),
+    owner_reply: 'Thank you for dining at Nitsuh Cafe & Restaurant! Our pastry chefs layer the dough fresh every morning. Delighted you loved the mountain honey pairing. See you again soon!',
+    owner_reply_at: new Date(Date.now() - 1800000).toISOString(),
+    owner_reply_by: 'Nitsuh Staff',
+  },
+];
 
-let inMemoryReviews: DishReview[] = [];
+let inMemoryReviews: DishReview[] = [...MOCK_REVIEWS_NITSUH];
 
 export const MOCK_MODERATION_LOGS_NITSUH: ReviewModerationLog[] = [];
 
@@ -4051,7 +4089,7 @@ export async function getDishReviews(
           }
         }
         for (const r of inMemoryReviews) {
-          if (!mergedMap.has(r.id) && r.restaurant_id === restaurantId && (!itemId || r.item_id === itemId)) {
+          if (!mergedMap.has(r.id) && (!itemId || r.item_id === itemId)) {
             mergedMap.set(r.id, overrides[r.id] ? { ...r, ...overrides[r.id] } : r);
           }
         }
@@ -4481,7 +4519,7 @@ export const MOCK_SCHEDULED_MENUS_NITSUH: ScheduledMenu[] = [
     start_time: '11:30',
     end_time: '22:00',
     days_of_week: [0, 1, 2, 3, 4, 5, 6],
-    category_ids: ['cat-lunch-dinner', 'cat-woodfired', 'cat-mendi', 'cat-desserts'],
+    category_ids: ['cat-burger', 'cat-pizza', 'cat-club-sandwich', 'cat-wrap', 'cat-chicken', 'cat-salad', 'cat-pasta', 'cat-desserts'],
     is_active: true,
   },
 ];
@@ -4548,6 +4586,17 @@ export async function saveMenuItem(itemData: Partial<MenuItem>): Promise<MenuIte
   if (typeof window !== 'undefined') {
     try {
       localStorage.setItem('digital_menu_items_cache_v3', JSON.stringify(inMemoryItems));
+    } catch {}
+  }
+
+  // Sync to Neon DB via API route in browser
+  if (typeof window !== 'undefined') {
+    try {
+      fetch('/api/menu/items', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(savedItem),
+      }).catch((e) => console.warn('Could not sync item to Neon:', e));
     } catch {}
   }
 
@@ -4675,6 +4724,15 @@ export async function deleteMenuItem(itemId: string): Promise<boolean> {
   inMemoryItems = inMemoryItems.filter((i) => i.id !== itemId);
   broadcastSync({ type: 'ITEM_DELETED', itemId });
 
+  // Sync to Neon DB via API route in browser
+  if (typeof window !== 'undefined') {
+    try {
+      fetch(`/api/menu/items?id=${encodeURIComponent(itemId)}`, {
+        method: 'DELETE',
+      }).catch((e) => console.warn('Could not sync item delete to Neon:', e));
+    } catch {}
+  }
+
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
     try {
       const supabase = createClient();
@@ -4761,6 +4819,17 @@ export async function saveCategory(categoryData: Partial<Category>): Promise<Cat
   // Broadcast update immediately to customer & admin across tabs
   broadcastSync({ type: 'CATEGORY_UPDATED', category: savedCategory });
 
+  // Sync to Neon DB via API route in browser
+  if (typeof window !== 'undefined') {
+    try {
+      fetch('/api/menu/categories', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(savedCategory),
+      }).catch((e) => console.warn('Could not sync category to Neon:', e));
+    } catch {}
+  }
+
   // Sync to Supabase
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
     try {
@@ -4835,6 +4904,15 @@ export async function deleteCategory(
 
   broadcastSync({ type: 'CATEGORY_DELETED', categoryId });
 
+  // Sync to Neon DB via API route in browser
+  if (typeof window !== 'undefined') {
+    try {
+      fetch(`/api/menu/categories?id=${encodeURIComponent(categoryId)}`, {
+        method: 'DELETE',
+      }).catch((e) => console.warn('Could not sync category delete to Neon:', e));
+    } catch {}
+  }
+
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
     try {
       const isUuid = (val?: string) =>
@@ -4904,6 +4982,21 @@ export async function updateRestaurantSettings(
 
   // 2. Broadcast immediately across all open tabs/windows
   broadcastSync({ type: 'RESTAURANT_UPDATED', restaurant: inMemoryRestaurant });
+
+  // 2b. Sync to Neon DB via API route in browser
+  if (typeof window !== 'undefined') {
+    try {
+      fetch('/api/restaurant', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: restaurantId,
+          slug: inMemoryRestaurant.slug,
+          updates,
+        }),
+      }).catch((e) => console.warn('Could not sync restaurant updates to Neon:', e));
+    } catch {}
+  }
 
   // 3. Sync to Supabase
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {

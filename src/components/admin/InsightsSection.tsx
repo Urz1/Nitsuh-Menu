@@ -99,7 +99,7 @@ export function InsightsSection({
               </div>
             </div>
             <h3 className="text-base font-bold text-white line-clamp-1">
-              {menuItems[1]?.name || 'Special Mendi Platter'}
+              {menuItems[1]?.name || 'Nitsuh Special Burger'}
             </h3>
             <p className="text-2xl font-extrabold text-white font-mono mt-1 flex items-center gap-1">
               4.9 <Star className="w-4 h-4 text-amber-400 fill-amber-400" />

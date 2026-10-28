@@ -226,18 +226,19 @@ export function MenuHeader({
 
       {/* Quick Info & Action Strip */}
       <div className="flex items-center justify-end px-3.5 py-1 border-t border-[var(--border)] text-xs text-[var(--muted)]">
-        <div className="flex items-center gap-1.5">
-          <button
-            type="button"
-            onClick={() => {
-              triggerHaptic(8);
-              onShowWifiToast();
-            }}
-            className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[var(--background)] border border-[var(--border)] font-medium text-[11px] hover:bg-[var(--border)] transition-colors active:scale-95"
-          >
-            <Wifi className="w-3 h-3 text-[var(--primary)]" />
-            <span>{t.wifi}</span>
-          </button>
+          {Boolean(restaurant.wifi_config?.enabled && restaurant.wifi_config?.ssid) && (
+            <button
+              type="button"
+              onClick={() => {
+                triggerHaptic(8);
+                onShowWifiToast();
+              }}
+              className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[var(--background)] border border-[var(--border)] font-medium text-[11px] hover:bg-[var(--border)] transition-colors active:scale-95"
+            >
+              <Wifi className="w-3 h-3 text-[var(--primary)]" />
+              <span>{t.wifi}</span>
+            </button>
+          )}
           <button
             type="button"
             onClick={() => {
@@ -250,7 +251,6 @@ export function MenuHeader({
             <span>{t.allergens}</span>
           </button>
         </div>
-      </div>
     </header>
   );
 }

@@ -62,20 +62,17 @@ function getDishFallbackPhoto(name?: string, name_am?: string, category_id?: str
   if (combined.includes('sandwich') || combined.includes('ሳንድች') || combined.includes('ሳንድዊች')) {
     return '/images/categories/sandwich.jpg';
   }
-  if (combined.includes('wrap') || combined.includes('shawarma') || combined.includes('ሻዋርማ')) {
+  if (combined.includes('wrap') || combined.includes('ሻዋርማ')) {
     return '/images/categories/wrap.jpg';
   }
-  if (combined.includes('tibs') || combined.includes('ጥብስ')) {
-    return '/images/dishes/chikina-tibs-131.jpg';
-  }
-  if (combined.includes('shiro') || combined.includes('ሽሮ')) {
-    return '/images/dishes/shiro.jpg';
-  }
   if (combined.includes('chicken') || combined.includes('ዶሮ')) {
-    return '/images/dishes/1-2-roasted-chicken-141.jpg';
+    return '/images/categories/snacks.jpg';
   }
-  if (combined.includes('mendi') || combined.includes('መንዲ')) {
-    return '/images/dishes/special-mendi.jpg';
+  if (combined.includes('pasta') || combined.includes('ፓስታ')) {
+    return '/images/categories/all.jpg';
+  }
+  if (combined.includes('salad') || combined.includes('ሰላጣ')) {
+    return '/images/categories/all.jpg';
   }
   if (combined.includes('macchiato') || combined.includes('coffee') || combined.includes('buna') || combined.includes('ቡና')) {
     return '/images/categories/hot-drink.jpg';

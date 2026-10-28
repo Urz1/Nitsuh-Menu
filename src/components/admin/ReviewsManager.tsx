@@ -363,7 +363,7 @@ export function ReviewsManager({
               onClick={handleToggleGlobalReviews}
               className={`h-9 px-4 rounded-full text-xs font-bold transition-all ${
                 settings?.reviews_enabled
-                  ? 'bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30'
+                  ? 'bg-rose-500/10 hover:bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/30'
                   : 'bg-emerald-500 hover:bg-emerald-400 text-black shadow-md'
               }`}
             >
@@ -376,24 +376,24 @@ export function ReviewsManager({
       {/* 2. WEEKLY SUMMARY IN PLAIN LANGUAGE */}
       <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-amber-600/5 to-transparent border border-amber-500/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+          <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
             <Star className="w-5 h-5 fill-current" />
           </div>
           <div>
-            <span className="text-[10px] font-bold text-amber-400 uppercase tracking-wider block">
+            <span className="text-[10px] font-bold text-amber-950 dark:text-amber-400 uppercase tracking-wider block">
               Weekly Feedback Digest
             </span>
-            <p className="text-xs text-white font-medium mt-0.5 leading-relaxed">
+            <p className="text-xs text-amber-950 dark:text-neutral-100 font-semibold mt-0.5 leading-relaxed">
               {weeklySummary.headlineSentence}
             </p>
-            <div className="flex items-center gap-3 mt-1.5 text-[11px] text-neutral-400 flex-wrap">
+            <div className="flex items-center gap-3 mt-1.5 text-[11px] text-amber-900 dark:text-neutral-300 flex-wrap">
               {weeklySummary.topRatedDish && (
-                <span className="text-emerald-400">
+                <span className="text-emerald-900 dark:text-emerald-300 font-bold">
                   ★ Top: <strong>{weeklySummary.topRatedDish.name}</strong> ({weeklySummary.topRatedDish.rating} avg)
                 </span>
               )}
               {weeklySummary.needsAttentionDish && (
-                <span className="text-amber-300">
+                <span className="text-amber-950 dark:text-amber-200 font-bold">
                   ⚡ Focus: <strong>{weeklySummary.needsAttentionDish.name}</strong> ({weeklySummary.needsAttentionDish.rating} avg)
                 </span>
               )}
@@ -402,17 +402,17 @@ export function ReviewsManager({
         </div>
 
         <div className="flex items-center gap-2 self-end md:self-center">
-          <span className="text-[11px] text-neutral-500">
-            Threshold: <strong>{settings?.min_reviews_threshold || 3} reviews</strong> to show rating badge
+          <span className="text-[11px] text-neutral-700 dark:text-neutral-400 font-medium">
+            Threshold: <strong className="text-neutral-900 dark:text-neutral-200">{settings?.min_reviews_threshold || 3} reviews</strong> to show rating badge
           </span>
         </div>
       </div>
 
       {/* 3. FAIRNESS REMINDER ALERT */}
-      <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-200 flex items-center gap-2.5">
-        <Info className="w-4 h-4 text-blue-400 flex-shrink-0" />
-        <p className="text-[11px] leading-relaxed">
-          <strong>Fairness Rule:</strong> Genuine negative reviews (1-2 stars) help your culinary team improve and build trust with diners. Moderation strictly removes abuse, hate speech, spam, and personal data.
+      <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-900 dark:text-blue-200 flex items-center gap-2.5">
+        <Info className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+        <p className="text-[11px] leading-relaxed text-blue-900 dark:text-blue-200">
+          <strong className="font-bold text-blue-950 dark:text-blue-100">Fairness Rule:</strong> Genuine negative reviews (1-2 stars) help your culinary team improve and build trust with diners. Moderation strictly removes abuse, hate speech, spam, and personal data.
         </p>
       </div>
 

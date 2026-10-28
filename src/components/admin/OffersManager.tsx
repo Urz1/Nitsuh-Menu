@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Restaurant, MenuItem, Category, Offer, OfferTemplateType, OfferStatus, OfferStackingRule, UserRole } from '@/types/database';
-import { getOffers, saveOffer, togglePauseOffer, deleteOffer, MOCK_OFFERS_NITSUH } from '@/lib/data-provider';
+import { getOffers, saveOffer, togglePauseOffer, deleteOffer } from '@/lib/data-provider';
 import {
   evaluateOfferSchedule,
   evaluateItemPricing,
@@ -71,15 +71,15 @@ const OFFER_TEMPLATES: TemplatePreset[] = [
     tagline: 'Discount drinks or dishes during specific afternoon or late-night hours',
     defaultTitle: 'Afternoon Happy Hour: 25% Off',
     defaultDesc: 'Enjoy 25% off all craft beverages and small plates every weekday afternoon.',
-    defaultBadge: 'Happy Hour',
+    defaultBadge: '25% Off',
     discountType: 'percentage',
     defaultDiscountValue: 25,
     defaultScope: 'categories',
-    defaultStartTime: '16:00',
-    defaultEndTime: '18:00',
+    defaultStartTime: '00:00',
+    defaultEndTime: '23:59',
     defaultHonestUrgency: 2,
     defaultShowBanner: true,
-    defaultBannerText: '🍹 Afternoon Happy Hour: 25% off selected dishes until 6 PM.',
+    defaultBannerText: '🍹 Afternoon Happy Hour: 25% off selected dishes until late.',
   },
   {
     id: 'percentage_off',
@@ -100,31 +100,31 @@ const OFFER_TEMPLATES: TemplatePreset[] = [
     id: 'money_off',
     name: 'Money Off',
     emoji: '🏷️',
-    tagline: 'Specific money saving on signature dishes (e.g. 40 ETB Off)',
-    defaultTitle: '40 ETB Off Sizzling Special Tibs',
-    defaultDesc: 'Save 40 ETB on our tender spiced lamb tibs served with injera.',
-    defaultBadge: '40 ETB Off',
+    tagline: 'Specific money saving on signature dishes (e.g. 50 ETB Off)',
+    defaultTitle: '50 ETB Off Nitsuh Special Burger',
+    defaultDesc: 'Save 50 ETB on our signature double beef Nitsuh Special Burger with fries.',
+    defaultBadge: '50 ETB Off',
     discountType: 'fixed_amount',
-    defaultDiscountValue: 40.0,
+    defaultDiscountValue: 50.0,
     defaultScope: 'items',
     defaultHonestUrgency: 0,
     defaultShowBanner: false,
-    defaultBannerText: 'Save 40 ETB on our Chef Special Sizzling Tibs.',
+    defaultBannerText: 'Save 50 ETB on our signature Nitsuh Special Burger.',
   },
   {
     id: 'combo_deal',
     name: 'Combo Deal',
     emoji: '🍽️',
     tagline: 'Bundle an entrée and beverage or side for an attractive joint price',
-    defaultTitle: 'Wood-Fired Burger & Brew Combo',
-    defaultDesc: 'Order any prime burger and get 50 ETB off your accompanying craft drink.',
+    defaultTitle: 'Burger & Shake Combo',
+    defaultDesc: 'Order any burger and get 50 ETB off your accompanying fresh shake.',
     defaultBadge: 'Combo Saving',
     discountType: 'fixed_amount',
     defaultDiscountValue: 50.0,
     defaultScope: 'categories',
     defaultHonestUrgency: 0,
     defaultShowBanner: true,
-    defaultBannerText: 'Burger & Craft Drink Combo: Save 50 ETB on your pairing.',
+    defaultBannerText: 'Burger & Shake Combo: Save 50 ETB on your pairing.',
   },
   {
     id: 'bogo',
@@ -132,14 +132,14 @@ const OFFER_TEMPLATES: TemplatePreset[] = [
     emoji: '👯',
     tagline: 'Buy one dish and get a second dish discounted or free',
     defaultTitle: 'Buy 1 Specialty Coffee, Get 50% Off Second',
-    defaultDesc: 'Order any single-origin pour-over and receive 50% off your second cup.',
+    defaultDesc: 'Order any coffee and receive 50% off your second cup.',
     defaultBadge: 'BOGO 50%',
     discountType: 'percentage',
     defaultDiscountValue: 50,
     defaultScope: 'categories',
     defaultHonestUrgency: 0,
     defaultShowBanner: true,
-    defaultBannerText: '☕ Afternoon BOGO: 50% off your second specialty coffee.',
+    defaultBannerText: '☕ Afternoon BOGO: 50% off your second coffee.',
   },
   {
     id: 'free_item',
@@ -147,37 +147,37 @@ const OFFER_TEMPLATES: TemplatePreset[] = [
     emoji: '🎁',
     tagline: 'Gift a complimentary item when dining tables spend over a threshold',
     defaultTitle: 'Free Single-Origin Espresso Over 500 ETB',
-    defaultDesc: 'Complimentary Yirgacheffe espresso automatically added to orders over 500 ETB.',
+    defaultDesc: 'Complimentary single-origin espresso automatically added to orders over 500 ETB.',
     defaultBadge: 'Free Gift',
     discountType: 'free_item',
     defaultDiscountValue: 0,
     defaultScope: 'all',
     defaultHonestUrgency: 0,
     defaultShowBanner: true,
-    defaultBannerText: 'Free artisanal espresso with all table orders over 500 ETB.',
+    defaultBannerText: 'Free espresso with all table orders over 500 ETB.',
   },
   {
     id: 'todays_special',
     name: "Today's Special",
     emoji: '⭐',
     tagline: 'Highlight a fresh daily arrival or special kitchen dish at promotional pricing',
-    defaultTitle: "Chef's Special Slow-Roasted Mendi",
-    defaultDesc: 'Tender slow-roasted lamb mendi platter at special daily price.',
+    defaultTitle: "Chef's Special House Pizza",
+    defaultDesc: 'House Special Pizza loaded with meats, mozzarella cheese and fresh toppings.',
     defaultBadge: "Today's Special",
     discountType: 'fixed_amount',
     defaultDiscountValue: 50.0,
     defaultScope: 'items',
     defaultHonestUrgency: 2,
     defaultShowBanner: false,
-    defaultBannerText: "Today's Special: Chef's Special Mendi platter at 50 ETB off.",
+    defaultBannerText: "Today's Special: Chef's House Special Pizza at 50 ETB off.",
   },
   {
     id: 'limited_time',
     name: 'Limited-Time Item',
     emoji: '⏳',
     tagline: 'Seasonal limited run with genuine urgency before ingredients sell out',
-    defaultTitle: 'Seasonal Morel Truffle Sourdough (This Week Only)',
-    defaultDesc: 'Harvested wild morels on fermented sourdough, available only while seasonal supplies last.',
+    defaultTitle: 'Chicken Special Combo (Daily Batch)',
+    defaultDesc: 'Fried chicken leg, wings, crispy strips, mayo, salad and golden fries.',
     defaultBadge: 'Limited Time',
     discountType: 'fixed_amount',
     defaultDiscountValue: 3.0,
@@ -222,9 +222,9 @@ export function OffersManager({
   const [startsAt, setStartsAt] = useState<string>('');
   const [endsAt, setEndsAt] = useState<string>('');
   const [useTimeWindow, setUseTimeWindow] = useState<boolean>(false);
-  const [startTime, setStartTime] = useState<string>('16:00');
-  const [endTime, setEndTime] = useState<string>('18:00');
-  const [selectedDays, setSelectedDays] = useState<number[]>([1, 2, 3, 4, 5]); // Weekdays default
+  const [startTime, setStartTime] = useState<string>('00:00');
+  const [endTime, setEndTime] = useState<string>('23:59');
+  const [selectedDays, setSelectedDays] = useState<number[]>([0, 1, 2, 3, 4, 5, 6]); // All days default
   const [honestUrgencyHours, setHonestUrgencyHours] = useState<number>(2);
 
   // Calm banner presentation state
@@ -267,7 +267,8 @@ export function OffersManager({
     }
 
     if (tmpl.defaultScope === 'categories') {
-      setSelectedCategoryIds([categories[0]?.id || '']);
+      const pizzaCat = categories.find((c) => c.name.toLowerCase().includes('pizza') || c.id.includes('pizza'));
+      setSelectedCategoryIds([pizzaCat?.id || 'cat_pizza_30', 'cat-pizza']);
     } else if (tmpl.defaultScope === 'items') {
       setSelectedItemIds([menuItems[0]?.id || '']);
     }
@@ -406,7 +407,11 @@ export function OffersManager({
       min_order_amount: discountType === 'free_item' ? Number(minOrderAmount) : undefined,
       free_item_id: discountType === 'free_item' ? freeItemId : undefined,
       scope_type: scopeType,
-      category_ids: scopeType === 'categories' ? selectedCategoryIds : [],
+      category_ids: scopeType === 'categories'
+        ? (selectedCategoryIds.filter(Boolean).length > 0
+            ? Array.from(new Set([...selectedCategoryIds.filter(Boolean), ...(selectedCategoryIds.some(c => c.toLowerCase().includes('pizza')) ? ['cat-pizza', 'cat_pizza_30'] : [])]))
+            : [categories.find(c => c.name.toLowerCase().includes('pizza'))?.id || 'cat_pizza_30', 'cat-pizza'])
+        : [],
       item_ids: scopeType === 'items' ? selectedItemIds : [],
       timezone: 'Africa/Addis_Ababa',
       starts_at: scheduleType === 'scheduled' && startsAt ? new Date(startsAt).toISOString() : null,
@@ -607,30 +612,30 @@ export function OffersManager({
         <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col justify-between">
           <div className="flex items-center justify-between text-neutral-400 text-xs">
             <span>Dishes Ordered</span>
-            <ShoppingBag className="w-4 h-4 text-emerald-400" />
+            <ShoppingBag className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
           </div>
-          <span className="text-2xl font-black text-emerald-400 mt-2">{totalOrders}</span>
+          <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-2">{totalOrders}</span>
           <span className="text-[11px] text-neutral-500 mt-1">Dishes ordered with offers</span>
         </div>
 
         <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col justify-between">
           <div className="flex items-center justify-between text-neutral-400 text-xs">
             <span>Total Savings</span>
-            <BadgePercent className="w-4 h-4 text-emerald-400" />
+            <BadgePercent className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
           </div>
-          <span className="text-2xl font-black text-white mt-2">
+          <span className="text-2xl font-black text-neutral-900 dark:text-white mt-2">
             {formatMoney(totalSavings, restaurant.currency)}
           </span>
-          <span className="text-[11px] text-emerald-400 mt-1">Passed to dining guests</span>
+          <span className="text-[11px] text-emerald-700 dark:text-emerald-400 font-medium mt-1">Passed to dining guests</span>
         </div>
       </div>
 
       {/* Performance Summary Banner */}
-      <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200 flex items-center gap-2.5">
-        <BadgePercent className="w-4 h-4 text-amber-400 flex-shrink-0" />
-        <p className="font-medium">
-          Guests ordered <strong className="text-white">{totalOrders} dishes</strong> using your live offers, saving a total of{' '}
-          <strong className="text-white">{formatMoney(totalSavings, restaurant.currency)}</strong> with 0 intrusive popups.
+      <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-900 dark:text-amber-200 flex items-center gap-2.5">
+        <BadgePercent className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0" />
+        <p className="font-medium text-amber-900 dark:text-amber-200">
+          Guests ordered <strong className="font-bold text-amber-950 dark:text-white">{totalOrders} dishes</strong> using your live offers, saving a total of{' '}
+          <strong className="font-bold text-amber-950 dark:text-white">{formatMoney(totalSavings, restaurant.currency)}</strong> with 0 intrusive popups.
         </p>
       </div>
 

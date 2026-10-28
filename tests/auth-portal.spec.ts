@@ -89,5 +89,22 @@ test.describe('Owner and Staff Authentication & Access Gating Flow', () => {
     // Re-accessing /admin directly should now fail and redirect back
     await page.goto('/admin');
     await expect(page).toHaveURL(/.*\/admin\/login/);
+
+    // Restore owner session for subsequent test suites
+    await page.evaluate(() => {
+      sessionStorage.removeItem('admin_explicitly_logged_out');
+      localStorage.setItem('digital_menu_admin_session_v2', JSON.stringify({
+        role: 'owner',
+        userId: 'owner-nitsuh-master',
+        name: 'Abebe Bikila',
+        identifier: 'owner@nitsuhcafeteria.com',
+        token: 'playwright-test-token',
+        loggedInAt: Date.now(),
+      }));
+    });
+    await page.context().addCookies([
+      { name: 'digital_menu_session', value: 'owner', domain: '127.0.0.1', path: '/' },
+      { name: 'digital_menu_session', value: 'owner', domain: 'localhost', path: '/' },
+    ]);
   });
 });

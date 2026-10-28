@@ -17,6 +17,7 @@ export interface ThemeConfig {
 export interface WifiConfig {
   ssid: string;
   password?: string;
+  enabled?: boolean;
 }
 
 export interface RestaurantFeatureFlags {

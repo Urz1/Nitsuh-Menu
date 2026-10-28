@@ -64,7 +64,7 @@ async function main() {
   }
   console.log(`✓ Schema applied successfully (${statements.length} DDL statements).`);
 
-  console.log('🏪 Upserting Nitsuh Cafeteria restaurant record...');
+  console.log('🏪 Upserting Nitsuh Cafe & Restaurant restaurant record...');
   await sql`
     INSERT INTO public.restaurants (
       id, slug, name, short_name, logo_letter, logo_url, tagline,

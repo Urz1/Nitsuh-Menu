@@ -46,6 +46,7 @@ import {
   getMenuItems,
   getMenuCategories,
   getStoredRestaurant,
+  getStoredCategories,
 } from '@/lib/data-provider';
 import { applyThemeTokensToDOM } from '@/components/ThemeManager';
 import { AdminSidebar, AdminSection } from '@/components/admin/AdminSidebar';
@@ -113,6 +114,20 @@ export default function AdminDashboardPage() {
     showToast(`Switched admin console to ${next.toUpperCase()} mode.`, 'info');
   };
 
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      if (adminTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        document.documentElement.setAttribute('data-admin-theme', 'light');
+      } else {
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-admin-theme', 'dark');
+      }
+    }
+  }, [adminTheme]);
+
   // Authentication & Session State
   const [session, setSession] = useState<AdminAuthSession | null>(null);
   const [isAuthChecking, setIsAuthChecking] = useState(true);
@@ -153,7 +168,13 @@ export default function AdminDashboardPage() {
     }
     return MOCK_ITEMS_NITSUH;
   });
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<Category[]>(() => {
+    if (typeof window !== 'undefined') {
+      const stored = getStoredCategories();
+      if (stored && stored.length > 0) return stored;
+    }
+    return MOCK_CATEGORIES_NITSUH;
+  });
   const [orders, setOrders] = useState<Order[]>([]);
   const [serviceRequests, setServiceRequests] = useState<ServiceRequest[]>([]);
   const [reviews, setReviews] = useState<DishReview[]>([]);
@@ -482,7 +503,7 @@ export default function AdminDashboardPage() {
     if (data.newDish) {
       await handleSaveItem({
         ...data.newDish,
-        category_id: createdCategory?.id || categories[0]?.id || 'cat-starters',
+        category_id: createdCategory?.id || categories[0]?.id || 'cat-breakfast',
         image_url:
           'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80',
       });

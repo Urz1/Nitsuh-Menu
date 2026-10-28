@@ -86,11 +86,12 @@ export default async function RestaurantMenuPage({ params, searchParams }: PageP
     '@type': 'Restaurant',
     name: restaurant.name,
     description: restaurant.tagline,
-    servesCuisine: 'Artisanal & Modern',
-    telephone: '+1-555-0199',
+    servesCuisine: categories.map((c) => c.name.split('/')[0].trim()).join(', '),
+    telephone: '0966833177',
     address: {
       '@type': 'PostalAddress',
       streetAddress: restaurant.address,
+      addressCountry: 'ET',
     },
     hasMenu: {
       '@type': 'Menu',

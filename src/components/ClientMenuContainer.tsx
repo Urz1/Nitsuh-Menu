@@ -25,6 +25,7 @@ import { ServiceAssistanceModal } from './ServiceAssistanceModal';
 import { SettingsModal } from './SettingsModal';
 import { AllergenLegendModal } from './AllergenLegendModal';
 import { QrModal } from './QrModal';
+import { PWAInstallPrompt } from './PWAInstallPrompt';
 import { applyThemeTokensToDOM } from './ThemeManager';
 import { createClient } from '@/lib/supabase/client';
 import { subscribeSync } from '@/lib/sync-channel';
@@ -34,8 +35,6 @@ import {
   getStoredRestaurant,
   createServiceRequest,
   recordOfferInteraction,
-  MOCK_OFFERS_NITSUH,
-  MOCK_REVIEWS_NITSUH,
   DEFAULT_REVIEW_SETTINGS_NITSUH,
   submitDishReview,
   reportDishReview,
@@ -50,7 +49,7 @@ import {
 import { calculateDishReviewStats } from '@/lib/review-engine';
 import { triggerHaptic, formatCategoryIcon } from '@/lib/utils';
 import Link from 'next/link';
-import { ArrowUp, Share2, QrCode, Info, Tag, Clock, X, WifiOff, Lock, ChevronDown, Compass, BookOpen, Search, Heart, MapPin, ExternalLink, Utensils } from 'lucide-react';
+import { ArrowUp, Share2, QrCode, Info, Tag, Clock, X, WifiOff, Lock, ChevronDown, ChevronUp, Compass, BookOpen, Search, Heart, MapPin, ExternalLink, Utensils } from 'lucide-react';
 import { Language, TRANSLATIONS, CATEGORY_TRANSLATIONS } from '@/lib/translations';
 
 interface ClientMenuContainerProps {
@@ -159,6 +158,7 @@ export function ClientMenuContainer({
 
   // PWA Offline detection
   const [isOffline, setIsOffline] = useState(false);
+  const [isBannerDismissed, setIsBannerDismissed] = useState(false);
 
   useEffect(() => {
     if (typeof navigator !== 'undefined') {
@@ -192,6 +192,20 @@ export function ClientMenuContainer({
   const [sortOrder, setSortOrder] = useState<SortOrder>('featured');
   const [isCategoryDrawerOpen, setIsCategoryDrawerOpen] = useState(false);
   const [browseMode, setBrowseMode] = useState<'continuous' | 'focused'>('continuous');
+  const [expandedCategoryIds, setExpandedCategoryIds] = useState<Set<string>>(new Set());
+
+  const toggleCategoryExpand = (catId: string) => {
+    triggerHaptic(8);
+    setExpandedCategoryIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(catId)) {
+        next.delete(catId);
+      } else {
+        next.add(catId);
+      }
+      return next;
+    });
+  };
 
   // Favorites & Cart (Session memory)
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
@@ -652,9 +666,10 @@ export function ClientMenuContainer({
       const q = searchQuery.toLowerCase();
       result = result.filter(
         (i) =>
-          i.name.toLowerCase().includes(q) ||
+          (i.name || '').toLowerCase().includes(q) ||
           (i.name_es && i.name_es.toLowerCase().includes(q)) ||
-          i.description.toLowerCase().includes(q) ||
+          (i.name_am && i.name_am.toLowerCase().includes(q)) ||
+          (i.description || '').toLowerCase().includes(q) ||
           (i.tags && i.tags.join(' ').toLowerCase().includes(q)) ||
           (i.allergens && i.allergens.join(' ').toLowerCase().includes(q))
       );
@@ -667,10 +682,10 @@ export function ClientMenuContainer({
       result = result.filter(
         (i) =>
           i.tags?.includes('fasting') ||
+          i.tags?.includes('vegan') ||
           i.tags?.includes('tsom') ||
           (i as any).is_fasting ||
-          i.category_id?.includes('fasting') ||
-          i.category_id === 'cat-fasting-lunch'
+          i.category_id?.includes('fasting')
       );
     } else if (activeFilter === 'chefsPick') {
       result = result.filter((i) => i.is_chefs_pick);
@@ -732,7 +747,7 @@ export function ClientMenuContainer({
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div className="w-full max-w-lg mx-auto bg-[#FAF6F0] dark:bg-[#14100E] min-h-screen relative flex flex-col pb-28 md:shadow-2xl md:border md:border-stone-200/70 dark:md:border-stone-800/80 md:rounded-[36px] md:my-4 md:overflow-hidden transition-colors">
+    <div className="w-full max-w-lg mx-auto bg-[#FAF6F0] dark:bg-[#14100E] min-h-screen relative flex flex-col md:shadow-2xl md:border md:border-stone-200/70 dark:md:border-stone-800/80 md:rounded-[36px] md:my-4 md:overflow-hidden transition-colors">
       {/* 0. PWA GRACEFUL OFFLINE BANNER */}
       {isOffline && (
         <div
@@ -751,6 +766,15 @@ export function ClientMenuContainer({
 
       {/* 1. UNIFIED SLIM STICKY HEADER & INLINE SEARCH SYSTEM */}
       <div className="sticky top-0 z-40 bg-[#FAF6F0]/95 dark:bg-[#14100E]/95 backdrop-blur-md">
+        {/* Calm Offer Top Notice Banner */}
+        {!isBannerDismissed && bannerOffer && (
+          <CalmOfferBanner
+            activeOffer={bannerOffer}
+            onSeeOffer={handleSeeOffer}
+            onDismiss={() => setIsBannerDismissed(true)}
+          />
+        )}
+
         {/* 1.1 Slim Header: App-like persona with welcoming greeting */}
         <SlimHeader
           restaurant={restaurant}
@@ -780,12 +804,31 @@ export function ClientMenuContainer({
         />
       </div>
 
-      {/* 2. RELATABLE HERO FOOD PROMO BANNER (KFC-style appetizing billboard carousel) */}
+      {/* 2. RELATABLE HERO FOOD PROMO BANNER (Appetizing billboard carousel with live offers) */}
       <HeroFoodBanner
         locale={locale}
+        offers={activeOffers}
         onSelectCategory={(catId) => {
           triggerHaptic(12);
-          setActiveCategoryId(catId);
+          if (catId === 'offers') {
+            setActiveFilter('onOffer');
+            setActiveCategoryId('offers');
+          } else {
+            const cleanId = catId.toLowerCase().replace(/[^a-z0-9]/g, '');
+            const matched = categories.find((c) => {
+              const cleanCId = c.id.toLowerCase().replace(/[^a-z0-9]/g, '');
+              const cleanName = c.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+              return (
+                c.id === catId ||
+                cleanCId === cleanId ||
+                cleanCId.includes(cleanId) ||
+                cleanId.includes(cleanCId) ||
+                cleanName.includes(cleanId.replace('cat', ''))
+              );
+            });
+            setActiveCategoryId(matched ? matched.id : catId);
+            setActiveFilter('all');
+          }
           const anchor = document.getElementById('menu-items-anchor');
           if (anchor) {
             const headerOffset = 180;
@@ -827,6 +870,17 @@ export function ClientMenuContainer({
               showToast(locale === 'am' ? 'የጾም ምግቦች ብቻ ተመርጠዋል' : 'Showing fasting dishes (meat & dairy free)');
             }
           }}
+          onToggleOnOffer={() => {
+            if (activeFilter === 'onOffer') {
+              setActiveFilter('all');
+              if (activeCategoryId === 'offers') setActiveCategoryId(categories[0]?.id || 'all');
+            } else {
+              setActiveFilter('onOffer');
+              setActiveCategoryId('offers');
+            }
+          }}
+          hasOffers={activeOffers.length > 0}
+          offersCount={activeOffers.length}
           onOpenFilterSheet={() => setIsFilterSheetOpen(true)}
           activeFilterCount={
             (activeFilter !== 'all' ? 1 : 0) + (sortOrder !== 'featured' ? 1 : 0)
@@ -854,7 +908,7 @@ export function ClientMenuContainer({
               {items.length === 0
                 ? 'No dishes on the menu yet'
                 : activeFilter === 'onOffer' || activeCategoryId === 'offers'
-                ? (TRANSLATIONS[locale]?.noActiveOffers || 'No active offers right now')
+                ? `${TRANSLATIONS[locale]?.dishesOnOfferCount || 'Dishes on Offer'} (0)`
                 : activeFilter === 'favorites'
                   ? (TRANSLATIONS[locale]?.noFavoritesSaved || 'No favorites saved yet')
                   : (TRANSLATIONS[locale]?.noMatchingDishes || 'No matching dishes found')}
@@ -940,6 +994,10 @@ export function ClientMenuContainer({
               const catItems = filteredItems.filter((i) => i.category_id === cat.id);
               if (catItems.length === 0) return null;
 
+              const isExpanded = expandedCategoryIds.has(cat.id) || (activeCategoryId !== 'all' && activeCategoryId === cat.id);
+              const visibleItems = isExpanded ? catItems : catItems.slice(0, 4);
+              const remainingCount = catItems.length - 4;
+
               const displayName =
                 CATEGORY_TRANSLATIONS[cat.id]?.[locale]?.name ||
                 (locale === 'am' && cat.name_am) ||
@@ -969,7 +1027,7 @@ export function ClientMenuContainer({
                   </div>
 
                   <div className={layout === 'grid' ? 'grid grid-cols-2 gap-3' : 'flex flex-col gap-3'}>
-                    {catItems.map((item) => (
+                    {visibleItems.map((item) => (
                       <ItemCard
                         key={item.id}
                         item={item}
@@ -988,6 +1046,32 @@ export function ClientMenuContainer({
                       />
                     ))}
                   </div>
+
+                  {remainingCount > 0 && activeCategoryId === 'all' && (
+                    <div className="mt-3.5 flex items-center justify-center">
+                      <button
+                        type="button"
+                        onClick={() => toggleCategoryExpand(cat.id)}
+                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[var(--card)] hover:bg-[var(--accent)]/15 border border-[var(--border)] text-xs font-bold text-[var(--foreground)] hover:text-[var(--primary)] transition-all shadow-xs active:scale-95"
+                      >
+                        {isExpanded ? (
+                          <>
+                            <span>{locale === 'am' ? 'ያነሰ አሳይ' : 'Show less'}</span>
+                            <ChevronUp className="w-3.5 h-3.5 text-[var(--primary)]" />
+                          </>
+                        ) : (
+                          <>
+                            <span>
+                              {locale === 'am'
+                                ? `ተጨማሪ ${remainingCount} ${displayName} ምግቦች አሳይ...`
+                                : `+ ${remainingCount} more ${displayName}...`}
+                            </span>
+                            <ChevronDown className="w-3.5 h-3.5 text-[var(--primary)]" />
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  )}
                 </section>
               );
             })}
@@ -1030,7 +1114,7 @@ export function ClientMenuContainer({
             triggerHaptic(10);
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="fixed bottom-20 right-4 z-30 w-10 h-10 rounded-full bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] shadow-lg flex items-center justify-center hover:bg-[var(--border)] transition-transform active:scale-95"
+          className="fixed bottom-20 right-4 sm:right-[max(1rem,calc(50%-15rem))] z-30 w-10 h-10 rounded-full bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] shadow-lg flex items-center justify-center hover:bg-[var(--border)] transition-transform active:scale-95"
           aria-label="Back to top"
         >
           <ArrowUp className="w-4 h-4" />
@@ -1038,7 +1122,7 @@ export function ClientMenuContainer({
       )}
 
       {/* 6. FOOTER */}
-      <footer className="px-5 pt-8 pb-36 sm:pb-28 border-t border-[var(--border)] text-center text-xs text-[var(--muted)] flex flex-col gap-3 mt-auto">
+      <footer className="px-5 pt-8 pb-24 sm:pb-24 border-t border-[var(--border)] text-center text-xs text-[var(--muted)] flex flex-col gap-3 mt-auto">
         <h3 className="font-bold text-sm text-[var(--foreground)] font-brand">
           {restaurant.name}
         </h3>
@@ -1049,7 +1133,7 @@ export function ClientMenuContainer({
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-1.5 text-[var(--primary)] hover:underline font-semibold"
-            title="Open Nitsuh Cafe & Bakery on Google Maps"
+            title="Open Nitsuh Cafe & Restaurant on Google Maps"
           >
             <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
             <span>{restaurant.address}</span>
@@ -1117,7 +1201,13 @@ export function ClientMenuContainer({
         reviewStats={selectedDetailItem ? reviewStatsMap.get(selectedDetailItem.id) : undefined}
         dishReviews={
           selectedDetailItem
-            ? reviews.filter((r) => r.item_id === selectedDetailItem.id && r.status === 'published')
+            ? reviews.filter(
+                (r) =>
+                  (r.item_id === selectedDetailItem.id ||
+                    (selectedDetailItem.name?.toLowerCase().includes('fetira') &&
+                      (r.item_id === 'item-fetira-with-honey-11' || r.comment?.toLowerCase().includes('pastry')))) &&
+                  r.status === 'published'
+              )
             : []
         }
         pairingRecommendations={pairingItems}
@@ -1403,6 +1493,9 @@ export function ClientMenuContainer({
         locale={locale}
         onOpenQrModal={() => setIsQrModalOpen(true)}
       />
+
+      {/* 11. PWA INSTALL PROMPT & OFFLINE BANNER */}
+      <PWAInstallPrompt locale={locale} />
 
       {/* Toast Notification */}
       {toastMessage && (

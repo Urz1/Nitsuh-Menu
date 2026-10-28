@@ -4,7 +4,7 @@ test.describe('Stage 3: Offers System - End to End Flow', () => {
   test('1. Admin Flow: Create offer, see live phone preview, and publish', async ({ page }) => {
     // Navigate to Admin dashboard
     await page.goto('/admin');
-    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Nitsuh Cafe & Restaurant")')).toBeVisible();
 
     // Switch to Offers & Deals tab
     const offersTab = page.locator('[data-testid="admin-nav-offers"]:visible').first();
@@ -53,7 +53,7 @@ test.describe('Stage 3: Offers System - End to End Flow', () => {
     await continueStep3.scrollIntoViewIfNeeded();
     await continueStep3.click({ force: true });
     await expect(page.locator('text=Offer Summary')).toBeVisible();
-    await expect(page.locator('text=Sunset Happy Hour: 30% Off Sourdough Pizzas')).toBeVisible();
+    await expect(page.locator('text=Sunset Happy Hour: 30% Off Sourdough Pizzas').first()).toBeVisible();
 
     // Publish Offer
     const publishBtn = page.locator('button:has-text("Publish Offer Live")');
@@ -66,13 +66,13 @@ test.describe('Stage 3: Offers System - End to End Flow', () => {
     await expect(page.locator('text=Your Offer is Live!')).toBeHidden();
 
     // Verify new offer is now in the offers list
-    await expect(page.locator('text=Sunset Happy Hour: 30% Off Sourdough Pizzas')).toBeVisible();
+    await expect(page.locator('text=Sunset Happy Hour: 30% Off Sourdough Pizzas').first()).toBeVisible();
   });
 
   test('2. Customer Menu: Single calm banner, dismissibility, inline badges, struck prices, and order savings', async ({ page }) => {
-    // Open customer mobile view for Nitsuh Cafeteria
+    // Open customer mobile view for Nitsuh Cafe & Restaurant
     await page.goto('/nitsuh?table=Table%2014');
-    await expect(page.locator('h1:has-text("Nitsuh Cafeteria")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Nitsuh Cafe & Restaurant")')).toBeVisible();
 
     // Verify at most ONE calm banner is visible at the top
     const banner = page.locator('aside[aria-label="Current restaurant offer"]');
@@ -167,5 +167,21 @@ test.describe('Stage 3: Offers System - End to End Flow', () => {
     } else {
       await expect(page.locator('button:has-text("Pause")').first()).toBeVisible();
     }
+
+    // Restore owner session for subsequent tests
+    await page.evaluate(() => {
+      localStorage.setItem('digital_menu_admin_session_v2', JSON.stringify({
+        role: 'owner',
+        userId: 'owner-nitsuh-master',
+        name: 'Abebe Bikila',
+        identifier: 'owner@nitsuhcafeteria.com',
+        token: 'playwright-test-token',
+        loggedInAt: Date.now(),
+      }));
+    });
+    await page.context().addCookies([
+      { name: 'digital_menu_session', value: 'owner', domain: '127.0.0.1', path: '/' },
+      { name: 'digital_menu_session', value: 'owner', domain: 'localhost', path: '/' },
+    ]);
   });
 });

@@ -18,7 +18,7 @@ interface BannerSlide {
   targetCategoryId: string;
 }
 
-// 100% Authentic Slides Grounded in Nitsuh's Real Menu & Real Database Offers
+// 100% Authentic Slides Grounded in Nitsuh's Real Menu
 const AUTHENTIC_HERO_SLIDES: BannerSlide[] = [
   {
     id: 'slide-breakfast-ful',
@@ -48,11 +48,38 @@ const AUTHENTIC_HERO_SLIDES: BannerSlide[] = [
     targetCategoryId: 'cat-breakfast',
   },
   {
-    id: 'slide-pizza-happy-hour',
+    id: 'slide-nitsuh-burger',
     badge: {
-      en: '20% OFF HAPPY HOUR',
-      am: 'የከሰዓት 20% ቅናሽ በፒዛ',
-      so: '20% QIIMO DHIMIS PIZZA',
+      en: 'SIGNATURE SPECIAL',
+      am: 'ልዩ የበርገር ምርጫ',
+      so: 'BURGER GAAR AH',
+    },
+    title: {
+      en: 'NITSUH SPECIAL BURGER',
+      am: 'ንፁህ ስፔሻል በርገር',
+      so: 'NITSUH SPECIAL BURGER',
+    },
+    description: {
+      en: 'Handcrafted double beef patty, melted double cheese, fried egg, house mayo & golden fries.',
+      am: 'ድርብ ስጋ፣ ድርብ ቺዝ፣ እንቁላል፣ የቤት ማዮኔዝ እና ጥርት ያለ ፍሬንች ፍራይስ።',
+      so: 'Labo hilib, labo farmaajo, ukun, suugo mayo iyo baradho shiilan oo cusub.',
+    },
+    cta: {
+      en: 'Explore Burgers',
+      am: 'በርገር ይመልከቱ',
+      so: 'Fiiri Burger-ka',
+    },
+    imageUrl: '/images/categories/burger.jpg',
+    bgGradient: 'from-[#5A200A] via-[#7B2E10] to-[#2E1005]',
+    accentColor: '#E65100',
+    targetCategoryId: 'cat-burger',
+  },
+  {
+    id: 'slide-pizza-artisan',
+    badge: {
+      en: 'OVEN FRESH',
+      am: 'ትኩስ ከምድጃ',
+      so: 'FOORNO CUSUB',
     },
     title: {
       en: 'HANDCRAFTED ARTISAN PIZZAS',
@@ -60,82 +87,58 @@ const AUTHENTIC_HERO_SLIDES: BannerSlide[] = [
       so: 'PIZZA CASRI AH OO CARAF LEH',
     },
     description: {
-      en: 'Enjoy 20% off all artisan pizzas freshly baked in our kitchen with melted mozzarella & toppings.',
-      am: 'በኩሽናችን ትኩስ ሆነው የተጋገሩ ፒዛዎች ላይ የ20% ቅናሽ ይደሰቱ።',
-      so: 'Ku raaxayso 20% qiimo dhimis dhammaan pizzada cusub ee lagu dubo foornadeena.',
+      en: 'Baked fresh in our kitchen with rich tomato sauce, melted mozzarella cheese & savory toppings.',
+      am: 'በኩሽናችን ትኩስ ሆነው በሞዛሬላ ቺዝ፣ ምርጥ ቲማቲም ሶስ እና ልዩ ቅመሞች የተጋገሩ።',
+      so: 'Ku raaxayso pizza cusub oo lagu dubo foornadeena xawaash iyo farmaajo mozzarella leh.',
     },
     cta: {
-      en: 'View Pizzas (20% Off)',
+      en: 'Explore Pizzas',
       am: 'ፒዛዎችን ይመልከቱ',
       so: 'Fiiri Pizzada',
     },
     imageUrl: '/images/categories/pizza.jpg',
     bgGradient: 'from-[#7A1C0E] via-[#9E2612] to-[#3B0C05]',
     accentColor: '#C11221',
-    targetCategoryId: 'cat-pizzas',
+    targetCategoryId: 'cat-pizza',
   },
   {
-    id: 'slide-mendi-special',
+    id: 'slide-sweets-bakery',
     badge: {
-      en: '100 ETB OFF SPECIAL',
-      am: '100 ብር ቅናሽ በመንዲ ላይ',
-      so: '100 ETB QIIMO DHIMIS MENDI',
+      en: 'HANDCRAFTED SWEETS',
+      am: 'ጣፋጮች እና ኬኮች',
+      so: 'KEEG IYO MACAAN',
     },
     title: {
-      en: 'AUTHENTIC SPECIAL MENDI',
-      am: 'ልዩ ትኩስ መንዲ',
-      so: 'MENDI GAAR AH OO CARAF LEH',
+      en: 'PASTRIES & TORTAS BY KG',
+      am: 'ጣፋጭ ኬኮች እና ኬክ በኪሎ',
+      so: 'KEEG IYO MACAAN CUSUB',
     },
     description: {
-      en: 'Slow-cooked tender spiced meat served over aromatic basmati rice with house dipping sauces.',
-      am: 'በጥንቃቄ የተዘጋጀ ለስላሳ ስጋ ከጥሩ የባስማቲ ሩዝ እና ማጣፈጫ መረቅ ጋር።',
-      so: 'Hilib jilicsan oo lagu kariyey bariis caraf leh iyo suugo macaan.',
+      en: 'Fresh mini custard cakes, donuts, croissants, and celebration tortas by the kilogram.',
+      am: 'በየቀኑ የሚጋገሩ ሚኒ ኬኮች፣ ዶናት፣ ክሮሳንት እና ለዝግጅት የሚሆኑ ኬኮች በኪሎ።',
+      so: 'Keegyo macaan oo maalin kasta lagu dubo iyo keegyo waaweyn oo kiilo ah.',
     },
     cta: {
-      en: 'Order Mendi (Save 100 ETB)',
-      am: 'መንዲ ይዘዙ',
-      so: 'Dalbo Mendi',
-    },
-    imageUrl: '/images/dishes/special-mendi.jpg',
-    bgGradient: 'from-[#5A380A] via-[#7A4D0E] to-[#2B1B04]',
-    accentColor: '#D97706',
-    targetCategoryId: 'cat-mendi',
-  },
-  {
-    id: 'slide-cakes-bakery',
-    badge: {
-      en: 'BAKED FRESH DAILY',
-      am: 'ትኩስ ከዳቦ ቤታችን',
-      so: 'MAALIN WALBA CUSUB',
-    },
-    title: {
-      en: 'BLACK FOREST & FRESH CAKES',
-      am: 'ብላክ ፎረስት እና ለስላሳ ኬኮች',
-      so: 'KEEG CUSUB IYO DAHAB',
-    },
-    description: {
-      en: 'Handcrafted daily in our in-house pastry bakery using real cream, rich chocolate & fresh fruit.',
-      am: 'በየቀኑ በእኛ ካፌ የተጋገሩ ምርጥ ኬኮች፣ ብላክ ፎረስት እና ጣፋጭ መክሰሶች።',
-      so: 'Keegyo macaan oo maalin kasta lagu dubo khubarada rootiga ee Nitsuh.',
-    },
-    cta: {
-      en: 'View Cakes & Bakery',
-      am: 'ኬኮችን ይመልከቱ',
+      en: 'Explore Desserts',
+      am: 'ጣፋጮችን ይመልከቱ',
       so: 'Fiiri Keegyada',
     },
-    imageUrl: '/images/dishes/black-forest-2.jpg',
+    imageUrl: '/images/categories/dessert.jpg',
     bgGradient: 'from-[#48121E] via-[#631828] to-[#24080F]',
     accentColor: '#E11D48',
-    targetCategoryId: 'cat-soft-cake',
+    targetCategoryId: 'cat-desserts',
   },
 ];
 
+import { Offer } from '@/types/database';
+
 interface HeroFoodBannerProps {
   locale?: Language | string;
+  offers?: Offer[];
   onSelectCategory?: (categoryId: string) => void;
 }
 
-export function HeroFoodBanner({ locale = 'en', onSelectCategory }: HeroFoodBannerProps) {
+export function HeroFoodBanner({ locale = 'en', offers = [], onSelectCategory }: HeroFoodBannerProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
@@ -143,6 +146,49 @@ export function HeroFoodBanner({ locale = 'en', onSelectCategory }: HeroFoodBann
 
   const lang = (locale as 'en' | 'am' | 'so') || 'en';
   const validLang = lang === 'am' || lang === 'so' ? lang : 'en';
+
+  // Construct dynamic slides: combine live active offers from database with authentic product showcases
+  const slides = React.useMemo<BannerSlide[]>(() => {
+    const liveOfferSlides: BannerSlide[] = (offers || [])
+      .filter((o) => !o.is_paused && o.status === 'live')
+      .slice(0, 3)
+      .map((o) => ({
+        id: `slide-offer-${o.id}`,
+        badge: {
+          en: o.badge_text || 'SPECIAL OFFER',
+          am: 'ልዩ ቅናሽ',
+          so: 'QIIMO DHIMIS GAAR AH',
+        },
+        title: {
+          en: o.title,
+          am: o.title,
+          so: o.title,
+        },
+        description: {
+          en: o.description || 'Exclusive limited-time special offer at Nitsuh Cafe & Restaurant.',
+          am: o.description || 'ልዩ የቅናሽ ምርጫ በንፁህ ካፌ እና ሬስቶራንት።',
+          so: o.description || 'Dalab gaar ah oo ku kooban waqti cayiman.',
+        },
+        cta: {
+          en: o.banner_link_text || 'View Offer',
+          am: 'ቅናሹን ይመልከቱ',
+          so: 'Fiiri Qiimo Dhimista',
+        },
+        imageUrl: '/images/categories/burger.jpg',
+        bgGradient: 'from-[#6B1800] via-[#8B2200] to-[#3A0A00]',
+        accentColor: '#F59E0B',
+        targetCategoryId: 'offers',
+      }));
+
+    return liveOfferSlides.length > 0 ? [...liveOfferSlides, ...AUTHENTIC_HERO_SLIDES] : AUTHENTIC_HERO_SLIDES;
+  }, [offers]);
+
+  // Keep currentIdx valid if slides change
+  useEffect(() => {
+    if (currentIdx >= slides.length) {
+      setCurrentIdx(0);
+    }
+  }, [slides.length, currentIdx]);
 
   // Clear any legacy dismissed flag from previous sessions so banner always displays
   useEffect(() => {
@@ -157,7 +203,7 @@ export function HeroFoodBanner({ locale = 'en', onSelectCategory }: HeroFoodBann
   useEffect(() => {
     const startTimer = () => {
       autoPlayRef.current = setInterval(() => {
-        setCurrentIdx((prev) => (prev + 1) % AUTHENTIC_HERO_SLIDES.length);
+        setCurrentIdx((prev) => (prev + 1) % slides.length);
       }, 5500);
     };
 
@@ -165,9 +211,9 @@ export function HeroFoodBanner({ locale = 'en', onSelectCategory }: HeroFoodBann
     return () => {
       if (autoPlayRef.current) clearInterval(autoPlayRef.current);
     };
-  }, []);
+  }, [slides.length]);
 
-  const activeSlide = AUTHENTIC_HERO_SLIDES[currentIdx];
+  const activeSlide = slides[currentIdx] || slides[0] || AUTHENTIC_HERO_SLIDES[0];
 
   const handleAction = () => {
     triggerHaptic(12);
@@ -190,11 +236,11 @@ export function HeroFoodBanner({ locale = 'en', onSelectCategory }: HeroFoodBann
       if (diff > 45) {
         // Swiped left
         triggerHaptic(6);
-        setCurrentIdx((prev) => (prev + 1) % AUTHENTIC_HERO_SLIDES.length);
+        setCurrentIdx((prev) => (prev + 1) % slides.length);
       } else if (diff < -45) {
         // Swiped right
         triggerHaptic(6);
-        setCurrentIdx((prev) => (prev - 1 + AUTHENTIC_HERO_SLIDES.length) % AUTHENTIC_HERO_SLIDES.length);
+        setCurrentIdx((prev) => (prev - 1 + slides.length) % slides.length);
       }
     }
     touchStartX.current = null;
@@ -261,7 +307,7 @@ export function HeroFoodBanner({ locale = 'en', onSelectCategory }: HeroFoodBann
 
         {/* Carousel Pagination Dots */}
         <div className="flex items-center justify-center gap-1.5 mt-3 pt-1 border-t border-white/10">
-          {AUTHENTIC_HERO_SLIDES.map((slide, idx) => (
+          {slides.map((slide, idx) => (
             <button
               key={slide.id}
               type="button"

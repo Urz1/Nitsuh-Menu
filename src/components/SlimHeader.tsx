@@ -71,32 +71,35 @@ export function SlimHeader({
       <div className="max-w-4xl mx-auto px-3.5 flex items-center justify-between gap-2.5">
         {/* Left: Brand Logo Lockup with Inline Live Status (Un-sandwiched, ample breathing room) */}
         <div className="min-w-0 flex items-center gap-2.5">
-          <button
-            type="button"
-            onClick={handleTapLogo}
-            title={`${restaurant.name} • Tap to scroll to top`}
-            aria-label={`${restaurant.name} logo`}
-            className="cursor-pointer active:scale-95 transition-transform flex items-center py-0.5"
-          >
-            {/* Light Mode Official Full Logo */}
-            <Image
-              src="/images/brand/nitsuh-full-logo.png"
-              alt={restaurant.name}
-              width={124}
-              height={42}
-              className="h-8 sm:h-9 w-auto object-contain dark:hidden pointer-events-none"
-              priority
-            />
-            {/* Dark Mode Official Full Logo (Crisp warm-white typography) */}
-            <Image
-              src="/images/brand/nitsuh-full-logo-dark.png"
-              alt={restaurant.name}
-              width={124}
-              height={42}
-              className="h-8 sm:h-9 w-auto object-contain hidden dark:block pointer-events-none"
-              priority
-            />
-          </button>
+          <h1 className="m-0 p-0 leading-none flex items-center">
+            <button
+              type="button"
+              onClick={handleTapLogo}
+              title={`${restaurant.name} • Tap to scroll to top`}
+              aria-label={`${restaurant.name} logo`}
+              className="cursor-pointer active:scale-95 transition-transform flex items-center py-0.5"
+            >
+              <span className="sr-only">{restaurant.name}</span>
+              {/* Light Mode Official Full Logo */}
+              <Image
+                src="/images/brand/nitsuh-full-logo.png"
+                alt={restaurant.name}
+                width={124}
+                height={42}
+                className="h-8 sm:h-9 w-auto object-contain dark:hidden pointer-events-none"
+                priority
+              />
+              {/* Dark Mode Official Full Logo (Crisp warm-white typography) */}
+              <Image
+                src="/images/brand/nitsuh-full-logo-dark.png"
+                alt={restaurant.name}
+                width={124}
+                height={42}
+                className="h-8 sm:h-9 w-auto object-contain hidden dark:block pointer-events-none"
+                priority
+              />
+            </button>
+          </h1>
 
           {/* Inline Live Status Pill (Zero vertical clutter) */}
           <span

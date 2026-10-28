@@ -1,18 +1,25 @@
-// Offline PWA Service Worker for Digital Menu
-const CACHE_NAME = 'digital-menu-cache-v5';
-const OFFLINE_URLS = [
+// Offline PWA Service Worker for Nitsuh Cafe & Restaurant Digital Menu
+const CACHE_VERSION = 'nitsuh-pwa-v6';
+const STATIC_CACHE = `${CACHE_VERSION}-static`;
+const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
+const IMAGES_CACHE = `${CACHE_VERSION}-images`;
+
+const PRECACHE_URLS = [
   '/',
-  '/nitsuh',
   '/manifest.webmanifest',
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png',
-  '/icons/apple-touch-icon.png'
+  '/icons/icon-maskable-512x512.png',
+  '/icons/apple-touch-icon.png',
+  '/icons/favicon-32x32.png'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(OFFLINE_URLS).catch(() => {});
+    caches.open(STATIC_CACHE).then((cache) => {
+      return cache.addAll(PRECACHE_URLS).catch((err) => {
+        console.warn('Precache failed for some assets:', err);
+      });
     })
   );
   self.skipWaiting();
@@ -20,11 +27,11 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
+    caches.keys().then((keys) => {
       return Promise.all(
-        cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) {
-            return caches.delete(cache);
+        keys.map((key) => {
+          if (!key.startsWith(CACHE_VERSION)) {
+            return caches.delete(key);
           }
         })
       );
@@ -34,59 +41,91 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  // Only handle GET requests
   if (event.request.method !== 'GET') return;
 
   const url = new URL(event.request.url);
 
-  // Bypass Service Worker on localhost/dev, for internal Next.js build chunks, and external CDN media
+  // 1. Bypass dev HMR, Turbopack, and WebSocket requests
   if (
-    url.hostname === 'localhost' ||
-    url.hostname === '127.0.0.1' ||
-    url.pathname.startsWith('/_next/') ||
-    url.hostname === 'res.cloudinary.com' ||
-    url.hostname === 'images.unsplash.com'
+    url.pathname.includes('/_next/webpack-hmr') ||
+    url.pathname.includes('hot-update') ||
+    url.pathname.includes('__turbopack__') ||
+    event.request.headers.get('Upgrade') === 'websocket'
   ) {
     return;
   }
 
-  // Navigation requests: Network-first, fallback to cache
+  // 2. Navigation requests: Network-first, fallback to cache for offline support
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
           if (response && response.status === 200) {
             const clone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone).catch(() => {}));
+            caches.open(RUNTIME_CACHE).then((cache) => cache.put(event.request, clone).catch(() => {}));
           }
           return response;
         })
         .catch(async () => {
           const cached = await caches.match(event.request);
           if (cached) return cached;
-          const fallback = (await caches.match('/nitsuh')) || (await caches.match('/addis'));
-          return fallback || (await caches.match('/'));
+          const fallback = await caches.match('/');
+          if (fallback) return fallback;
+          return new Response(
+            `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nitsuh Menu Offline</title><style>body{font-family:sans-serif;background:#FAF6F0;color:#2E2623;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;padding:20px;text-align:center;}h1{color:#C11221;font-size:1.5rem}p{color:#6E635F}</style></head><body><div><h1>Nitsuh Cafe & Restaurant</h1><p>You are currently offline. Please reconnect to view live updates or explore cached items.</p><button onclick="window.location.reload()" style="background:#C11221;color:#fff;border:none;padding:10px 20px;border-radius:20px;font-weight:bold;cursor:pointer;">Retry Connection</button></div></body></html>`,
+            { headers: { 'Content-Type': 'text/html' } }
+          );
         })
     );
     return;
   }
 
-  // Same-origin static assets (Fonts, local images, CSS, JS): Cache-first
+  // 3. Cloudinary and food dish photos: Stale-While-Revalidate with images cache
+  if (url.hostname === 'res.cloudinary.com' || url.hostname === 'images.unsplash.com') {
+    event.respondWith(
+      caches.open(IMAGES_CACHE).then(async (cache) => {
+        const cached = await cache.match(event.request);
+        const fetchPromise = fetch(event.request)
+          .then((networkRes) => {
+            if (networkRes && networkRes.status === 200) {
+              cache.put(event.request, networkRes.clone()).catch(() => {});
+            }
+            return networkRes;
+          })
+          .catch(() => cached);
+        return cached || fetchPromise;
+      })
+    );
+    return;
+  }
+
+  // 4. Next.js static bundles, fonts, local icons: Cache-first with network background revalidation
   if (
     url.origin === self.location.origin &&
-    (event.request.destination === 'image' ||
-      event.request.destination === 'font' ||
-      event.request.destination === 'style' ||
-      event.request.destination === 'script')
+    (url.pathname.startsWith('/_next/static/') ||
+      url.pathname.startsWith('/icons/') ||
+      url.pathname.startsWith('/images/'))
   ) {
     event.respondWith(
       caches.match(event.request).then((cachedResponse) => {
-        if (cachedResponse) return cachedResponse;
-        return fetch(event.request).then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            const clone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone).catch(() => {}));
+        if (cachedResponse) {
+          // Fetch update in background
+          fetch(event.request)
+            .then((networkRes) => {
+              if (networkRes && networkRes.status === 200) {
+                caches.open(STATIC_CACHE).then((cache) => cache.put(event.request, networkRes).catch(() => {}));
+              }
+            })
+            .catch(() => {});
+          return cachedResponse;
+        }
+        return fetch(event.request).then((networkRes) => {
+          if (networkRes && networkRes.status === 200) {
+            const clone = networkRes.clone();
+            caches.open(STATIC_CACHE).then((cache) => cache.put(event.request, clone).catch(() => {}));
           }
-          return networkResponse;
+          return networkRes;
         });
       })
     );

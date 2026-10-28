@@ -12,7 +12,7 @@ interface SettingsModalProps {
   onLocaleChange: (loc: Language) => void;
   tableNumber?: string;
   onTableNumberChange?: (table: string) => void;
-  wifiInfo: { ssid: string; password?: string };
+  wifiInfo: { ssid: string; password?: string; enabled?: boolean };
 }
 
 export function SettingsModal({
@@ -259,35 +259,37 @@ export function SettingsModal({
               />
             </div>
           )}
-          <div className="flex justify-between items-center">
-            <span className="text-[var(--muted)] font-semibold">{t.guestWifiLabel}:</span>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-[var(--foreground)]">
-                {wifiInfo?.ssid || 'Guest WiFi'}{' '}
-                {wifiInfo?.password ? `(${wifiInfo.password})` : '• Open'}
-              </span>
-              {wifiInfo?.password && (
-                <button
-                  type="button"
-                  onClick={handleCopyPassword}
-                  className="px-2 py-0.5 rounded-md bg-[var(--border)] hover:bg-[rgba(var(--primary-rgb),0.15)] text-[var(--foreground)] text-[11px] font-semibold flex items-center gap-1 transition-colors cursor-pointer"
-                  title="Copy Wi-Fi password"
-                >
-                  {copiedWifi ? (
-                    <>
-                      <Check className="w-3 h-3 text-emerald-500" />
-                      <span className="text-emerald-500">Copied</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3 h-3 text-[var(--muted)]" />
-                      <span>Copy</span>
-                    </>
-                  )}
-                </button>
-              )}
+          {Boolean(wifiInfo?.enabled && wifiInfo?.ssid) && (
+            <div className="flex justify-between items-center">
+              <span className="text-[var(--muted)] font-semibold">{t.guestWifiLabel}:</span>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-[var(--foreground)]">
+                  {wifiInfo?.ssid || 'Guest WiFi'}{' '}
+                  {wifiInfo?.password ? `(${wifiInfo.password})` : '• Open'}
+                </span>
+                {wifiInfo?.password && (
+                  <button
+                    type="button"
+                    onClick={handleCopyPassword}
+                    className="px-2 py-0.5 rounded-md bg-[var(--border)] hover:bg-[rgba(var(--primary-rgb),0.15)] text-[var(--foreground)] text-[11px] font-semibold flex items-center gap-1 transition-colors cursor-pointer"
+                    title="Copy Wi-Fi password"
+                  >
+                    {copiedWifi ? (
+                      <>
+                        <Check className="w-3 h-3 text-emerald-500" />
+                        <span className="text-emerald-500">Copied</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3 h-3 text-[var(--muted)]" />
+                        <span>Copy</span>
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

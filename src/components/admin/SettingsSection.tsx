@@ -74,6 +74,7 @@ export function SettingsSection({
 
   const [wifiSsid, setWifiSsid] = useState(restaurant.wifi_config?.ssid || 'Nitsuh-Guest');
   const [wifiPassword, setWifiPassword] = useState(restaurant.wifi_config?.password || '');
+  const [wifiEnabled, setWifiEnabled] = useState<boolean>(restaurant.wifi_config?.enabled ?? false);
   const [isSavingWifi, setIsSavingWifi] = useState(false);
   const [wifiSaved, setWifiSaved] = useState(false);
   const [showWifiPassword, setShowWifiPassword] = useState(false);
@@ -83,8 +84,9 @@ export function SettingsSection({
     if (restaurant.wifi_config) {
       setWifiSsid(restaurant.wifi_config.ssid || '');
       setWifiPassword(restaurant.wifi_config.password || '');
+      setWifiEnabled(Boolean(restaurant.wifi_config.enabled));
     }
-  }, [restaurant.wifi_config?.ssid, restaurant.wifi_config?.password]);
+  }, [restaurant.wifi_config?.ssid, restaurant.wifi_config?.password, restaurant.wifi_config?.enabled]);
 
   const handleSaveWifi = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -95,11 +97,17 @@ export function SettingsSection({
         wifi_config: {
           ssid: wifiSsid.trim(),
           password: wifiPassword.trim(),
+          enabled: wifiEnabled,
         },
       });
       setWifiSaved(true);
       setTimeout(() => setWifiSaved(false), 2500);
-      onShowToast('Guest Wi-Fi network and password saved successfully!', 'success');
+      onShowToast(
+        wifiEnabled
+          ? 'Guest Wi-Fi enabled and shared with customers!'
+          : 'Guest Wi-Fi disabled and hidden from customers.',
+        'success'
+      );
     } catch {
       onShowToast('Failed to save Wi-Fi settings.', 'error');
     } finally {
@@ -157,6 +165,7 @@ export function SettingsSection({
       wifi_config: {
         ssid: wifiSsid,
         password: wifiPassword,
+        enabled: wifiEnabled,
       },
     };
 
@@ -794,7 +803,7 @@ export function SettingsSection({
                     type="text"
                     value={branchName}
                     onChange={(e) => setBranchName(e.target.value)}
-                    placeholder="Main Branch — Nitsuh Cafe & Bakery"
+                    placeholder="Main Branch — Nitsuh Cafe & Restaurant"
                     className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
                   />
                 </div>
@@ -854,16 +863,16 @@ export function SettingsSection({
               </div>
             </div>
 
-            {/* Wi-Fi Configuration Card */}
-            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 space-y-3">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            {/* Wi-Fi Configuration Card (Owner Enable / Disable & Credentials) */}
+            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
-                    <Wifi className="w-4 h-4 text-amber-400" />
+                    <Wifi className={`w-4 h-4 ${wifiEnabled ? 'text-amber-400' : 'text-neutral-500'}`} />
                     <span>Guest Wi-Fi Network & Password</span>
                   </h4>
                   <p className="text-[11px] text-neutral-400 mt-0.5">
-                    Customers viewing your menu header or table QR card can see and tap to copy your Wi-Fi password.
+                    Choose whether to share your dining-room Wi-Fi with customers on their digital menu and table QR cards.
                   </p>
                 </div>
                 <button
@@ -887,7 +896,64 @@ export function SettingsSection({
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              {/* Wi-Fi Sharing Toggle Switch */}
+              <div className={`p-3.5 rounded-xl border transition-all flex items-center justify-between gap-3 ${
+                wifiEnabled 
+                  ? 'bg-emerald-500/10 border-emerald-500/25' 
+                  : 'bg-white/[0.03] border-white/10'
+              }`}>
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${
+                    wifiEnabled ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/10 text-neutral-400'
+                  }`}>
+                    <Wifi className="w-4 h-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-xs font-bold text-white">
+                        {wifiEnabled ? 'Wi-Fi Sharing: Enabled' : 'Wi-Fi Sharing: Disabled'}
+                      </span>
+                      <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider ${
+                        wifiEnabled 
+                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' 
+                          : 'bg-neutral-800 text-neutral-400 border border-white/10'
+                      }`}>
+                        {wifiEnabled ? 'Shared with Customers' : 'Hidden from Customers'}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-neutral-400 mt-0.5 truncate">
+                      {wifiEnabled 
+                        ? 'Customers can see network details and tap to copy password from their phones.'
+                        : 'Credentials are kept private and hidden from customer menu and QR cards.'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Switch Control */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    triggerHaptic(10);
+                    setWifiEnabled(!wifiEnabled);
+                  }}
+                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                    wifiEnabled ? 'bg-emerald-500' : 'bg-neutral-700'
+                  }`}
+                  role="switch"
+                  aria-checked={wifiEnabled}
+                  aria-label="Toggle Wi-Fi sharing with customers"
+                >
+                  <span
+                    aria-hidden="true"
+                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                      wifiEnabled ? 'translate-x-5' : 'translate-x-0'
+                    }`}
+                  />
+                </button>
+              </div>
+
+              {/* SSID and Password Fields */}
+              <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 transition-opacity ${wifiEnabled ? 'opacity-100' : 'opacity-65'}`}>
                 <div>
                   <label className="block text-xs font-semibold text-neutral-300 mb-1">
                     Wi-Fi Network Name (SSID)
@@ -931,15 +997,21 @@ export function SettingsSection({
 
               {/* Status helper */}
               <div className="flex items-center gap-2 pt-1 text-[11px] text-neutral-400">
-                <span className="inline-block w-2 h-2 rounded-full bg-emerald-400" />
+                <span className={`inline-block w-2 h-2 rounded-full ${wifiEnabled ? 'bg-emerald-400' : 'bg-neutral-600'}`} />
                 <span>
-                  Currently active: <strong>{wifiSsid || 'None'}</strong> •{' '}
-                  {wifiPassword ? (
-                    <span>
-                      Password: <code>{wifiPassword}</code>
-                    </span>
+                  {wifiEnabled ? (
+                    <>
+                      Currently active: <strong>{wifiSsid || 'None'}</strong> •{' '}
+                      {wifiPassword ? (
+                        <span>
+                          Password: <code>{wifiPassword}</code>
+                        </span>
+                      ) : (
+                        <span className="text-amber-400">Open Network (No password required)</span>
+                      )}
+                    </>
                   ) : (
-                    <span className="text-amber-400">Open Network (No password required)</span>
+                    <span className="text-neutral-400">Wi-Fi is currently disabled and hidden from customers.</span>
                   )}
                 </span>
               </div>

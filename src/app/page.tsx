@@ -24,7 +24,7 @@ interface PageProps {
 export async function generateMetadata(): Promise<Metadata> {
   const restaurant = (await getRestaurantBySlug('nitsuh')) || (await getRestaurantBySlug('addis')) || MOCK_RESTAURANT_NITSUH;
   const title = `${restaurant.name} — Digital Menu`;
-  const description = `${restaurant.tagline}. Authentic Ethiopian cuisine, sizzling tibs, wood-fired mendi & artisanal bakery.`;
+  const description = `${restaurant.tagline}. Hot & fresh fast food, burgers, pizzas, sandwiches, handcrafted sweets & desserts, and specialty coffees.`;
 
   return {
     title,
@@ -57,7 +57,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 // -----------------------------------------------------------------------------
-// SERVER-RENDERED ROOT PAGE: NITSUH CAFETERIA DIGITAL MENU DIRECTLY
+// SERVER-RENDERED ROOT PAGE: NITSUH CAFE & RESTAURANT DIGITAL MENU DIRECTLY
 // -----------------------------------------------------------------------------
 export default async function HomePage({ searchParams }: PageProps) {
   const { table } = await searchParams;
@@ -77,12 +77,11 @@ export default async function HomePage({ searchParams }: PageProps) {
     '@type': 'Restaurant',
     name: restaurant.name,
     description: restaurant.tagline,
-    servesCuisine: 'Authentic Ethiopian, Mendi & Artisanal Bakery',
-    telephone: '+251-11-661-0000',
+    servesCuisine: categories.map((c) => c.name.split('/')[0].trim()).join(', '),
+    telephone: '0966833177',
     address: {
       '@type': 'PostalAddress',
       streetAddress: restaurant.address,
-      addressLocality: 'Addis Ababa',
       addressCountry: 'ET',
     },
     hasMenu: {
