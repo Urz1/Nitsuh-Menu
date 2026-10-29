@@ -24,10 +24,9 @@ export function getIntelligentPairings(
   const candidates = allItems.filter((i) => i.id !== targetItem.id && i.is_available !== false);
 
   const isFasting =
-    targetItem.tags.includes('fasting') ||
+    targetItem.tags?.includes('fasting') ||
     targetItem.category_id === 'cat-fasting';
 
-  const isVegetarian = targetItem.tags.includes('vegetarian');
   const targetCategory = targetItem.category_id;
   const targetId = targetItem.id;
 
@@ -36,28 +35,16 @@ export function getIntelligentPairings(
   // Helper to check dietary safety
   const isDietarySafe = (candidate: MenuItem): boolean => {
     if (isFasting) {
-      // Must not contain meat, poultry, dairy, or egg
-      const forbiddenAllergens = ['Dairy', 'Egg', 'Meat', 'Seafood'];
-      const hasForbiddenAllergen = candidate.allergens?.some((a) => forbiddenAllergens.includes(a));
-      if (hasForbiddenAllergen) return false;
-
-      // Must be tagged fasting or vegan
+      // Must be tagged fasting or fasting-safe drink/category
       const isCandidateFasting =
-        candidate.tags.includes('fasting') ||
-        candidate.tags.includes('vegan') ||
+        candidate.tags?.includes('fasting') ||
         candidate.category_id === 'cat-fasting' ||
         candidate.category_id === 'cat-juices' ||
         candidate.id === 'item-coffee-buna' ||
         candidate.id === 'item-special-tea' ||
         candidate.id === 'item-ambo-water';
 
-      return isCandidateFasting;
-    }
-
-    if (isVegetarian) {
-      const forbiddenAllergens = ['Seafood', 'Meat'];
-      if (candidate.allergens?.some((a) => forbiddenAllergens.includes(a))) return false;
-      return candidate.tags.includes('vegetarian') || candidate.tags.includes('vegan') || candidate.tags.includes('fasting');
+      return Boolean(isCandidateFasting);
     }
 
     return true;

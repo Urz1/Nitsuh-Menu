@@ -52,11 +52,14 @@ CREATE TABLE IF NOT EXISTS public.staff_users (
     user_id UUID,
     email VARCHAR(255) NOT NULL,
     username VARCHAR(64),
+    phone VARCHAR(32),
     pin VARCHAR(8),
+    password_hash TEXT,
     full_name VARCHAR(120),
     role VARCHAR(32) DEFAULT 'staff' NOT NULL,
     is_active BOOLEAN DEFAULT true,
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- 3. CATEGORIES

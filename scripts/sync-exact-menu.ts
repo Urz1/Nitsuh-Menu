@@ -26,7 +26,6 @@ export interface RawDish {
   price: number;
   category_id: string;
   tags?: string[];
-  allergens?: string[];
   spice_level?: number;
   is_chefs_pick?: boolean;
 }
@@ -399,46 +398,6 @@ export const DISHES_DATA: RawDish[] = [
     "is_chefs_pick": false
   },
   {
-    "name": "Fried Egg",
-    "price": 60,
-    "category_id": "cat-burger",
-    "tags": [
-      "extra"
-    ],
-    "spice_level": 0,
-    "is_chefs_pick": false
-  },
-  {
-    "name": "Ketchup",
-    "price": 60,
-    "category_id": "cat-burger",
-    "tags": [
-      "extra"
-    ],
-    "spice_level": 0,
-    "is_chefs_pick": false
-  },
-  {
-    "name": "Mayonnaise",
-    "price": 80,
-    "category_id": "cat-burger",
-    "tags": [
-      "extra"
-    ],
-    "spice_level": 0,
-    "is_chefs_pick": false
-  },
-  {
-    "name": "Slice Cheese",
-    "price": 60,
-    "category_id": "cat-burger",
-    "tags": [
-      "extra"
-    ],
-    "spice_level": 0,
-    "is_chefs_pick": false
-  },
-  {
     "name": "House Special Pizza",
     "price": 950,
     "category_id": "cat-pizza",
@@ -510,56 +469,6 @@ export const DISHES_DATA: RawDish[] = [
     "tags": [
       "vegan",
       "fasting"
-    ],
-    "spice_level": 0,
-    "is_chefs_pick": false
-  },
-  {
-    "name": "Boil Egg",
-    "price": 60,
-    "category_id": "cat-pizza",
-    "tags": [
-      "extra"
-    ],
-    "spice_level": 0,
-    "is_chefs_pick": false
-  },
-  {
-    "name": "Chili",
-    "price": 60,
-    "category_id": "cat-pizza",
-    "tags": [
-      "extra"
-    ],
-    "spice_level": 2,
-    "is_chefs_pick": false
-  },
-  {
-    "name": "Mozzarella Cheese",
-    "price": 180,
-    "category_id": "cat-pizza",
-    "tags": [
-      "extra"
-    ],
-    "spice_level": 0,
-    "is_chefs_pick": false
-  },
-  {
-    "name": "Tuna",
-    "price": 180,
-    "category_id": "cat-pizza",
-    "tags": [
-      "extra"
-    ],
-    "spice_level": 0,
-    "is_chefs_pick": false
-  },
-  {
-    "name": "Chicken",
-    "price": 300,
-    "category_id": "cat-pizza",
-    "tags": [
-      "extra"
     ],
     "spice_level": 0,
     "is_chefs_pick": false

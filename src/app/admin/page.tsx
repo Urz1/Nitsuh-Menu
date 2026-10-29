@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { getCurrentSession, clearAuthSession, AdminAuthSession } from '@/lib/auth-service';
+import { getCurrentSession, clearAuthSession, setAuthSession, AdminAuthSession } from '@/lib/auth-service';
 import {
   Restaurant,
   MenuItem,
@@ -196,30 +196,62 @@ export default function AdminDashboardPage() {
   const [isHydrated, setIsHydrated] = useState(false);
   const [isTestRunner, setIsTestRunner] = useState(false);
 
-  // Strict Authentication Check on Mount
+  // Strict Server-Backed Authentication Check on Mount
   useEffect(() => {
+    // 1. Immediate local session check to avoid flicker
     const active = getCurrentSession();
-    if (!active) {
-      router.replace('/admin/login');
-      return;
+    if (active) {
+      setSession(active);
+      setUserRole(active.role);
     }
-    setSession(active);
-    setUserRole(active.role);
-    if (active.role === 'staff') {
-      if (
-        activeSection !== 'menu' &&
-        activeSection !== 'offers' &&
-        activeSection !== 'reviews' &&
-        activeSection !== 'profile'
-      ) {
-        setActiveSection('menu');
-      }
-    }
-    if (typeof navigator !== 'undefined' && (navigator.userAgent.includes('Headless') || navigator.userAgent.includes('Playwright'))) {
+
+    // 2. Authoritative verification with server /api/auth/me
+    fetch('/api/auth/me', { credentials: 'include' })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.authenticated && data.user) {
+          const verifiedSession: AdminAuthSession = {
+            role: data.user.role,
+            userId: data.user.id,
+            name: data.user.name,
+            identifier: data.user.email || data.user.username || data.user.role,
+            token: 'server-verified',
+            loggedInAt: Date.now(),
+          };
+          setSession(verifiedSession);
+          setUserRole(verifiedSession.role);
+          setAuthSession(verifiedSession);
+
+          if (verifiedSession.role === 'staff') {
+            if (
+              activeSection !== 'menu' &&
+              activeSection !== 'offers' &&
+              activeSection !== 'reviews' &&
+              activeSection !== 'profile'
+            ) {
+              setActiveSection('menu');
+            }
+          }
+        } else if (!active) {
+          router.replace('/admin/login');
+        }
+      })
+      .catch(() => {
+        if (!active) {
+          router.replace('/admin/login');
+        }
+      })
+      .finally(() => {
+        setIsAuthChecking(false);
+        setIsHydrated(true);
+      });
+
+    if (
+      typeof navigator !== 'undefined' &&
+      (navigator.userAgent.includes('Headless') || navigator.userAgent.includes('Playwright'))
+    ) {
       setIsTestRunner(true);
     }
-    setIsAuthChecking(false);
-    setIsHydrated(true);
   }, [router]);
 
   // Poll / fetch live data & listen to real-time events

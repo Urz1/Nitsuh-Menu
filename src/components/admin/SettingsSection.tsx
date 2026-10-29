@@ -7,13 +7,15 @@ import { triggerHaptic } from '@/lib/utils';
 import { generateQrSvgDataUri } from '@/lib/qr-code';
 import {
   getOwnerProfile,
-  updateOwnerProfile,
-  changeOwnerPassword,
+  fetchOwnerProfileAsync,
+  updateOwnerProfileAsync,
+  changeOwnerPasswordAsync,
   getStaffAccounts,
-  createStaffAccount,
-  updateStaffPassword,
-  toggleStaffActive,
-  deleteStaffAccount,
+  fetchStaffAccountsAsync,
+  createStaffAccountAsync,
+  updateStaffPasswordAsync,
+  toggleStaffActiveAsync,
+  deleteStaffAccountAsync,
   OwnerProfile,
 } from '@/lib/auth-service';
 import {
@@ -137,14 +139,17 @@ export function SettingsSection({
   const [editingStaffId, setEditingStaffId] = useState<string | null>(null);
   const [editingStaffPin, setEditingStaffPin] = useState('');
 
-  // Sync auth state on client mount
+  // Sync auth state from server on client mount
   useEffect(() => {
-    const prof = getOwnerProfile();
-    setOwnerProfile(prof);
-    setOwnerName(prof.name);
-    setOwnerEmail(prof.email);
-    setOwnerPhone(prof.phone);
-    setStaffAccounts(getStaffAccounts());
+    fetchOwnerProfileAsync().then((prof) => {
+      setOwnerProfile(prof);
+      setOwnerName(prof.name);
+      setOwnerEmail(prof.email);
+      setOwnerPhone(prof.phone);
+    });
+    fetchStaffAccountsAsync().then((accounts) => {
+      setStaffAccounts(accounts);
+    });
   }, []);
 
   const handleSave = async (e: React.FormEvent) => {
@@ -173,20 +178,24 @@ export function SettingsSection({
     onShowToast('Restaurant settings and tax configuration saved.', 'success');
   };
 
-  // Owner Actions
-  const handleSaveOwnerProfile = (e: React.FormEvent) => {
+  // Owner Actions (Authoritative on Server)
+  const handleSaveOwnerProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     triggerHaptic(10);
-    const updated = updateOwnerProfile({
+    const result = await updateOwnerProfileAsync({
       name: ownerName.trim(),
       email: ownerEmail.trim(),
       phone: ownerPhone.trim(),
     });
-    setOwnerProfile(updated);
-    onShowToast('Owner profile details updated successfully!', 'success');
+    if (result.success && result.profile) {
+      setOwnerProfile(result.profile);
+      onShowToast('Owner profile details updated and saved to database!', 'success');
+    } else {
+      onShowToast(result.error || 'Failed to update owner profile.', 'error');
+    }
   };
 
-  const handleChangeOwnerPassword = (e: React.FormEvent) => {
+  const handleChangeOwnerPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     triggerHaptic(12);
 
@@ -195,81 +204,103 @@ export function SettingsSection({
       return;
     }
 
-    const result = changeOwnerPassword(currentOwnerPassword, newOwnerPassword);
+    const result = await changeOwnerPasswordAsync(currentOwnerPassword, newOwnerPassword);
     if (!result.success) {
       onShowToast(result.error || 'Failed to update owner password.', 'error');
       return;
     }
 
-    setOwnerProfile(getOwnerProfile());
+    const refreshed = await fetchOwnerProfileAsync();
+    setOwnerProfile(refreshed);
     setCurrentOwnerPassword('');
     setNewOwnerPassword('');
     setConfirmOwnerPassword('');
     setIsChangingOwnerPassword(false);
-    onShowToast('Owner password changed successfully!', 'success');
+    onShowToast('Owner password changed and saved securely in database!', 'success');
   };
 
-  // Staff Actions
-  const handleAddStaff = (e: React.FormEvent) => {
+  // Staff Actions (Authoritative on Neon DB)
+  const handleAddStaff = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newStaffName.trim() || !newStaffUsername.trim() || !newStaffPin.trim()) {
       onShowToast('Please fill all staff fields.', 'error');
       return;
     }
 
-    const created = createStaffAccount({
+    const result = await createStaffAccountAsync({
       name: newStaffName,
       username: newStaffUsername,
       passwordOrPin: newStaffPin,
-      restaurantId: restaurant.id,
     });
 
-    setStaffAccounts(getStaffAccounts());
+    if (!result.success || !result.staff) {
+      onShowToast(result.error || 'Failed to create staff member.', 'error');
+      return;
+    }
+
+    const refreshed = await fetchStaffAccountsAsync();
+    setStaffAccounts(refreshed);
     setNewStaffName('');
     setNewStaffUsername('');
     setNewStaffPin('');
     setIsAddingStaff(false);
     triggerHaptic(12);
-    onShowToast(`Staff account created for ${created.name} successfully.`, 'success');
+    onShowToast(`Staff account created for ${result.staff.name} and saved to database.`, 'success');
   };
 
-  const handleUpdateStaffPin = (staffId: string) => {
+  const handleUpdateStaffPin = async (staffId: string) => {
     if (!editingStaffPin.trim()) {
       onShowToast('Please enter a new password or PIN.', 'error');
       return;
     }
-    const res = updateStaffPassword(staffId, editingStaffPin);
+    const res = await updateStaffPasswordAsync(staffId, editingStaffPin);
     if (res.success) {
-      setStaffAccounts(getStaffAccounts());
+      const refreshed = await fetchStaffAccountsAsync();
+      setStaffAccounts(refreshed);
       setEditingStaffId(null);
       setEditingStaffPin('');
       triggerHaptic(10);
-      onShowToast('Staff password updated successfully!', 'success');
+      onShowToast('Staff password updated and hashed on database!', 'success');
     } else {
       onShowToast(res.error || 'Failed to update staff password.', 'error');
     }
   };
 
-  const handleResetPin = (staffId: string) => {
+  const handleResetPin = async (staffId: string) => {
     triggerHaptic(12);
     const randomPin = Math.floor(1000 + Math.random() * 9000).toString();
-    updateStaffPassword(staffId, randomPin);
-    setStaffAccounts(getStaffAccounts());
-    const staff = staffAccounts.find((s) => s.id === staffId);
-    onShowToast(`New PIN generated for ${staff?.name}: ${randomPin}`, 'info');
+    const res = await updateStaffPasswordAsync(staffId, randomPin);
+    if (res.success) {
+      const refreshed = await fetchStaffAccountsAsync();
+      setStaffAccounts(refreshed);
+      const staff = refreshed.find((s) => s.id === staffId);
+      onShowToast(`New PIN generated for ${staff?.name}: ${randomPin}`, 'info');
+    } else {
+      onShowToast(res.error || 'Failed to reset staff PIN.', 'error');
+    }
   };
 
-  const handleToggleStaffActive = (staffId: string) => {
+  const handleToggleStaffActive = async (staffId: string) => {
     triggerHaptic(8);
-    const updated = toggleStaffActive(staffId);
-    setStaffAccounts(updated);
+    const res = await toggleStaffActiveAsync(staffId);
+    if (res.success) {
+      const refreshed = await fetchStaffAccountsAsync();
+      setStaffAccounts(refreshed);
+    } else {
+      onShowToast(res.error || 'Failed to toggle staff status.', 'error');
+    }
   };
 
-  const handleDeleteStaff = (staffId: string) => {
+  const handleDeleteStaff = async (staffId: string) => {
     triggerHaptic(10);
-    const updated = deleteStaffAccount(staffId);
-    setStaffAccounts(updated);
-    onShowToast('Staff account removed.', 'info');
+    const res = await deleteStaffAccountAsync(staffId);
+    if (res.success) {
+      const refreshed = await fetchStaffAccountsAsync();
+      setStaffAccounts(refreshed);
+      onShowToast('Staff account removed from database.', 'info');
+    } else {
+      onShowToast(res.error || 'Failed to delete staff account.', 'error');
+    }
   };
 
   // Tenant Data Export (JSON dump)

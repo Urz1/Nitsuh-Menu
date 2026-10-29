@@ -33,11 +33,6 @@ export function FilterBar({
     { id: 'onOffer', label: t.filterOnOffer },
     { id: 'chefsPick', label: t.filterChefsPick },
     { id: 'fasting', label: t.filterFasting },
-    { id: 'vegetarian', label: t.filterVegetarian },
-    { id: 'vegan', label: t.filterVegan },
-    { id: 'gluten-free', label: t.filterGlutenFree },
-    { id: 'halal', label: t.filterHalal },
-    { id: 'spicy', label: t.filterSpicy },
   ];
 
   const SORT_OPTIONS: { id: SortOrder; label: string; icon: React.ComponentType<{ className?: string }>; desc: string }[] = [

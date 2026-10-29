@@ -27,7 +27,6 @@ export interface RestaurantFeatureFlags {
   offers_enabled?: boolean;
   dietary_filters_enabled?: boolean;
   favorites_enabled?: boolean;
-  allergens_enabled?: boolean;
   calories_enabled?: boolean;
 }
 
@@ -115,7 +114,7 @@ export interface Category {
 
 export interface ItemOption {
   id: string;
-  item_id: string;
+  item_id?: string;
   name: string;
   name_am?: string;
   name_so?: string;
@@ -139,8 +138,8 @@ export interface MenuItem {
   description_es?: string;
   price: number;
   image_url: string;
-  tags: string[]; // e.g. ['vegetarian', 'vegan', 'gluten-free', 'halal', 'spicy', 'nut-free', 'chefsPick', 'fasting']
-  allergens: string[];
+  tags: string[]; // e.g. ['fasting']
+  allergens?: string[];
   spice_level: number; // 0, 1, 2, 3
   calories?: number;
   custom_badge?: string;

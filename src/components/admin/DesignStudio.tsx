@@ -69,7 +69,6 @@ export function DesignStudio({
       offers_enabled: true,
       dietary_filters_enabled: true,
       favorites_enabled: true,
-      allergens_enabled: true,
       calories_enabled: true,
     }
   );
@@ -609,18 +608,13 @@ export function DesignStudio({
                   },
                   {
                     key: 'dietary_filters_enabled',
-                    label: 'Dietary Filters (Vegan, Halal, etc.)',
-                    desc: 'Quick dietary pills allowing diners to filter dishes by lifestyle.',
+                    label: 'Dietary Filters (Fasting)',
+                    desc: 'Quick dietary pills allowing diners to filter dishes by Ethiopian fasting (Tsom).',
                   },
                   {
                     key: 'favorites_enabled',
                     label: 'Guest Favorites / Bookmarking',
                     desc: 'Allow guests to heart dishes to compare before ordering.',
-                  },
-                  {
-                    key: 'allergens_enabled',
-                    label: 'Allergen Badges',
-                    desc: 'Show Dairy, Gluten, Nut warnings on dish cards.',
                   },
                   {
                     key: 'calories_enabled',
@@ -927,7 +921,7 @@ export function DesignStudio({
                   All Items
                 </span>
                 <span className="px-2 py-0.5 rounded-full text-[10px] bg-white/10 text-neutral-400">
-                  Vegetarian
+                  Fasting
                 </span>
                 <span className="px-2 py-0.5 rounded-full text-[10px] bg-white/10 text-neutral-400">
                   Chef's Pick

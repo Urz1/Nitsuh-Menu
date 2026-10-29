@@ -60,5 +60,5 @@
 ## ♿ Section 5: Accessibility & Contrast Audit
 
 - [ ] **Reduced Motion:** Turn on "Reduce Motion" in iOS Settings (`Accessibility > Motion > Reduce Motion`). Verify that bottom sheet and dish tabs transition without disorienting slides or zoom effects.
-- [ ] **Dark Mode Contrast:** Switch phone between Light and Dark mode. Confirm all ingredients, price tags, and allergens remain comfortably legible with at least 4.5:1 contrast.
+- [ ] **Dark Mode Contrast:** Switch phone between Light and Dark mode. Confirm all ingredients, price tags, and badges remain comfortably legible with at least 4.5:1 contrast.
 - [ ] **Touch Targets:** All interactive icons, chips, and buttons have at least 44x44px touch bounding boxes to prevent accidental mis-taps.

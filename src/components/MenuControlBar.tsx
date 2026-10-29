@@ -21,11 +21,6 @@ import {
   Utensils,
   ChefHat,
   Leaf,
-  Sprout,
-  Salad,
-  WheatOff,
-  ShieldCheck,
-  Flame,
   Tag,
   Grid,
 } from 'lucide-react';
@@ -96,11 +91,6 @@ export function MenuControlBar({
     { id: 'all', label: t.filterAll, icon: Utensils, desc: 'Show all dishes on the menu' },
     { id: 'chefsPick', label: t.filterChefsPick, icon: ChefHat, desc: 'Signature dishes recommended by the kitchen' },
     { id: 'fasting', label: t.filterFasting, icon: Leaf, desc: 'Ethiopian fasting dishes (meat & dairy free)' },
-    { id: 'vegetarian', label: t.filterVegetarian, icon: Sprout, desc: 'Dishes prepared without meat or poultry' },
-    { id: 'vegan', label: t.filterVegan, icon: Salad, desc: '100% plant-based, no animal ingredients' },
-    { id: 'gluten-free', label: t.filterGlutenFree, icon: WheatOff, desc: 'Prepared without gluten-containing ingredients' },
-    { id: 'halal', label: t.filterHalal, icon: ShieldCheck, desc: 'Prepared according to Halal standards' },
-    { id: 'spicy', label: t.filterSpicy, icon: Flame, desc: 'Dishes with chili, awaze, or spicy seasoning' },
   ];
 
   // Sort definitions

@@ -13,13 +13,12 @@ Designed for high-traffic restaurant environments where speed, thumb-friendly in
 - **Dynamic Restaurant Branding**: Design tokens (primary brand color, border radius, typography) are loaded per restaurant tenant from Supabase. Each restaurant's custom look and feel is a data update, never a code redeployment.
 - **Realtime Sold-Out & Price Sync**: Supabase Realtime automatically syncs dish availability toggles and price updates directly to customers' active screens without page refreshes.
 - **Floating Cart & Order Bar**: Thumb-friendly bottom sticky order bar with haptic feedback, order preview sheet, table selection, and dietary summary.
-- **Smart Search & Dietary Filters**: Instant client-side filtering for Vegetarian, Vegan, Halal, Gluten-Free, Dairy-Free, Nut-Free, and Chef Picks, with live result counters.
+- **Smart Search & Fasting Filters**: Instant client-side filtering for Fasting (Tsom) and Chef Picks, with live result counters.
 - **Interactive Modals**:
-  - Item detail bottom-sheet with dietary tags, spice meters, ingredients, and allergen breakdown.
+  - Item detail bottom-sheet with fasting tags, spice meters, and ingredients.
   - Waiter / Service assistance call modal (Water, Napkins, Server assistance, Bill request).
   - Digital Table QR generator for in-store printing and table-top placement.
   - Server card with quick-share and restaurant info.
-  - Allergen legend modal explaining safety icons.
 - **Progressive Web App (PWA)**: Web app manifest (`/manifest.webmanifest`) and Cache-First Service Worker (`/sw.js`) ensure full offline viewing under poor dining-room connectivity.
 - **SEO & Rich Snippets**: Dynamic Open Graph preview cards and structured **Schema.org Menu** & **Restaurant** JSON-LD on all tenant routes for search engine indexing and social sharing.
 
@@ -72,7 +71,6 @@ Designed for high-traffic restaurant environments where speed, thumb-friendly in
 │   │   ├── page.tsx                 # Multi-tenant portal landing page
 │   │   └── manifest.ts              # Dynamic Web App Manifest
 │   ├── components/
-│   │   ├── AllergenLegendModal.tsx  # Dietary & allergen guide modal
 │   │   ├── CategoryTabs.tsx         # Horizontally scrollable sticky category bar
 │   │   ├── ClientMenuContainer.tsx  # Customer menu state, cart & realtime listener
 │   │   ├── FilterBar.tsx            # Sticky search bar & dietary badge filter pills
@@ -95,7 +93,7 @@ Designed for high-traffic restaurant environments where speed, thumb-friendly in
 │   │       └── server.ts            # Supabase SSR / Cookie-backed server client
 │   └── types/
 │       ├── database.ts              # Database schema TypeScript types
-│       └── menu.ts                  # Cart, filter, allergen and order types
+│       └── menu.ts                  # Cart, filter, and order types
 ├── supabase/
 │   └── migrations/
 │       └── 20261014_init_digital_menu.sql # Complete PostgreSQL schema, RLS, and seed data

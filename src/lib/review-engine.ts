@@ -281,10 +281,26 @@ export function generateWeeklyReviewSummary(
     }
   }
 
-  const loveText = guestsLove.length > 0 ? guestsLove.join(', ') : 'great flavors & portion sizes';
-  const mentionText = guestsMention.length > 0 ? guestsMention.join(' and ') : 'consistent temperature';
+  if (published.length === 0) {
+    return {
+      headlineSentence: 'No guest feedback has been submitted this week yet.',
+      guestsLove: [],
+      guestsMention: [],
+      topRatedDish: null,
+      needsAttentionDish: null,
+    };
+  }
 
-  const headlineSentence = `Guests love: ${loveText}. Guests mention: ${mentionText}.`;
+  let headlineSentence = '';
+  if (guestsLove.length > 0 && guestsMention.length > 0) {
+    headlineSentence = `Guests love: ${guestsLove.join(', ')}. Guests mention: ${guestsMention.join(' and ')}.`;
+  } else if (guestsLove.length > 0) {
+    headlineSentence = `Guests love: ${guestsLove.join(', ')}.`;
+  } else if (guestsMention.length > 0) {
+    headlineSentence = `Guests mention: ${guestsMention.join(' and ')}.`;
+  } else {
+    headlineSentence = `${published.length} verified review${published.length === 1 ? '' : 's'} logged this week.`;
+  }
 
   return {
     headlineSentence,

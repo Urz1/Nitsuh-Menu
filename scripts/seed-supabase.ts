@@ -82,7 +82,6 @@ async function seed() {
       price: item.price,
       image_url: currentImageUrl,
       tags: item.tags || [],
-      allergens: item.allergens || [],
       spice_level: item.spice_level ?? 0,
       is_available: item.is_available ?? true,
       is_chefs_pick: item.is_chefs_pick ?? false,

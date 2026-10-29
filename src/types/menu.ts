@@ -14,12 +14,6 @@ export type DietaryFilter =
   | 'onOffer'
   | 'chefsPick'
   | 'fasting'
-  | 'vegetarian'
-  | 'vegan'
-  | 'gluten-free'
-  | 'halal'
-  | 'spicy'
-  | 'nut-free'
   | 'favorites';
 
 export type SortOrder = 'featured' | 'price-asc' | 'price-desc' | 'name-asc';

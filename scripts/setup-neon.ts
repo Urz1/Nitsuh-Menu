@@ -163,7 +163,7 @@ async function main() {
         ${item.price},
         ${item.image_url || null},
         ${item.tags || []},
-        ${item.allergens || []},
+        ${[]},
         ${item.spice_level ?? 0},
         ${item.calories || null},
         ${item.custom_badge || null},
@@ -179,7 +179,7 @@ async function main() {
         price = EXCLUDED.price,
         image_url = EXCLUDED.image_url,
         tags = EXCLUDED.tags,
-        allergens = EXCLUDED.allergens,
+        allergens = ARRAY[]::text[],
         is_available = EXCLUDED.is_available,
         is_chefs_pick = EXCLUDED.is_chefs_pick,
         is_fasting = EXCLUDED.is_fasting;

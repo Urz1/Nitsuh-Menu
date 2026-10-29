@@ -40,6 +40,7 @@ import {
   ArrowDown,
   Camera,
   Info,
+  Leaf,
 } from 'lucide-react';
 
 interface MenuManagerProps {
@@ -492,7 +493,6 @@ export function MenuManager({
                   price: 15.0,
                   image_url: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80',
                   tags: [],
-                  allergens: [],
                   spice_level: 0,
                   is_available: true,
                   is_chefs_pick: false,
@@ -1239,7 +1239,7 @@ export function MenuManager({
                   className="w-full py-2 flex items-center justify-between text-xs font-bold text-amber-400 hover:text-amber-300"
                 >
                   <span>
-                    {isMoreOptionsOpen ? '− Hide optional details' : '+ More options (allergens, spice, calories, tags, schedule)'}
+                    {isMoreOptionsOpen ? '− Hide optional details' : '+ More options (fasting, spice, calories, schedule)'}
                   </span>
                   {isMoreOptionsOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                 </button>
@@ -1387,72 +1387,43 @@ export function MenuManager({
                       </div>
                     </div>
 
-                    {/* Common Allergens checkboxes */}
+                    {/* Fasting Tag */}
                     <div>
                       <label className="block text-xs font-semibold text-neutral-300 mb-1.5">
-                        Allergens
+                        Dietary Tag
                       </label>
-                      <div className="flex flex-wrap gap-2">
-                        {['Dairy', 'Gluten', 'Nuts', 'Seafood', 'Egg', 'Soy'].map((all) => {
-                          const hasAllergen = editingItem.allergens?.includes(all);
+                      <div>
+                        {(() => {
+                          const isFasting = editingItem.tags?.includes('fasting');
                           return (
                             <button
-                              key={all}
-                              type="button"
-                              onClick={() => {
-                                const current = editingItem.allergens || [];
-                                const updated = hasAllergen
-                                  ? current.filter((a) => a !== all)
-                                  : [...current, all];
-                                setEditingItem({ ...editingItem, allergens: updated });
-                              }}
-                              className={`px-3 py-1 rounded-xl text-xs font-medium border transition-colors ${
-                                hasAllergen
-                                  ? 'bg-rose-500/20 border-rose-500/40 text-rose-300'
-                                  : 'bg-white/5 border-white/10 text-neutral-400 hover:text-white'
-                              }`}
-                            >
-                              {all}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    {/* Dietary Tags */}
-                    <div>
-                      <label className="block text-xs font-semibold text-neutral-300 mb-1.5">
-                        Dietary Tags
-                      </label>
-                      <div className="flex flex-wrap gap-2">
-                        {['vegetarian', 'vegan', 'gluten-free', 'halal', 'chefsPick'].map((tag) => {
-                          const hasTag = editingItem.tags?.includes(tag);
-                          return (
-                            <button
-                              key={tag}
                               type="button"
                               onClick={() => {
                                 const current = editingItem.tags || [];
-                                const updated = hasTag
-                                  ? current.filter((t) => t !== tag)
-                                  : [...current, tag];
+                                const updated = isFasting
+                                  ? current.filter((t) => t !== 'fasting')
+                                  : [...current.filter((t) => t === 'fasting'), 'fasting'];
                                 setEditingItem({
                                   ...editingItem,
                                   tags: updated,
-                                  is_chefs_pick: tag === 'chefsPick' ? !hasTag : editingItem.is_chefs_pick,
                                 });
                               }}
-                              className={`px-3 py-1 rounded-xl text-xs font-medium capitalize border transition-colors ${
-                                hasTag
-                                  ? 'bg-amber-500/20 border-amber-500/40 text-amber-300'
-                                  : 'bg-white/5 border-white/10 text-neutral-400 hover:text-white'
+                              className={`px-4 py-2 rounded-xl text-xs font-bold border transition-all inline-flex items-center gap-2 ${
+                                isFasting
+                                  ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-sm'
+                                  : 'bg-white/5 border-white/10 text-neutral-400 hover:text-white hover:border-white/20'
                               }`}
                             >
-                              {tag}
+                              <Leaf className="w-3.5 h-3.5 text-emerald-400" />
+                              <span>Fasting (የጾም)</span>
+                              {isFasting && <Check className="w-3.5 h-3.5 text-emerald-400" />}
                             </button>
                           );
-                        })}
+                        })()}
                       </div>
+                      <p className="text-[11px] text-neutral-500 mt-1">
+                        Tag this dish as fasting-friendly for customers observing Ethiopian Orthodox fasting.
+                      </p>
                     </div>
 
                     {/* Draft vs Published */}

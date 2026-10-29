@@ -68,7 +68,6 @@ export const MOCK_RESTAURANT_NITSUH: Restaurant = {
     offers_enabled: true,
     dietary_filters_enabled: true,
     favorites_enabled: true,
-    allergens_enabled: true,
     calories_enabled: true,
   },
   custom_badges: [
@@ -288,7 +287,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Foul prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "/images/dishes/full-normal-43.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -306,7 +304,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "tags": [
       "popular"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -324,7 +321,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "tags": [
       "popular"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -340,7 +336,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Scrambled Egg With Meat prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041130/nitsuh-menu/dishes/vltksewkfkrxicfu9ho3.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -356,7 +351,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Egg Sandwich prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041078/nitsuh-menu/dishes/lqwzh73i5taazryk6b5d.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -372,7 +366,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Omelet prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "/images/dishes/roasted-chicken.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -388,7 +381,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Omelet With Cheese prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041105/nitsuh-menu/dishes/jy4cosnl4hohva3umf8u.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -406,7 +398,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "tags": [
       "popular"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -422,7 +413,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Chechebsa With Honey prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "/images/dishes/chechebisa.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -438,7 +428,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Chechebsa With Egg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "/images/dishes/chechebisa.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -454,7 +443,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Scrambled Egg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041109/nitsuh-menu/dishes/lf4qmtdtaive8wqyez9f.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -470,7 +458,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Fetira With Egg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "/images/dishes/fetira.jpeg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -486,7 +473,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Avocado Toast prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041059/nitsuh-menu/dishes/yhi6mxkeajwywjz58poa.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -502,7 +488,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Beef & Cheese Sandwich prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041059/nitsuh-menu/dishes/rbnshwmcjljfnrbgrytk.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -518,7 +503,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "French Toast prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041083/nitsuh-menu/dishes/ppqtnbqj6aowb65vtueb.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -534,7 +518,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Pan Cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041105/nitsuh-menu/dishes/zw36dchhheua8o9akdwk.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -552,7 +535,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "tags": [
       "popular"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": true,
@@ -568,7 +550,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Double Beef, Cheese, triple BBQ Sauce, Mayo, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041120/nitsuh-menu/dishes/rrwytwfvolbrhofto9gf.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -584,7 +565,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Double beef, Cheese, Double Chili Sauce, Mayo, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041114/nitsuh-menu/dishes/uepwvp2slodcwbnbojqh.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 2,
     "is_available": true,
     "is_chefs_pick": false,
@@ -600,7 +580,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Tripple Beef, Double Cheese, Double egg, House Sauce Mayo, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041103/nitsuh-menu/dishes/sauxrh8xiqtzh1lxaihl.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -616,7 +595,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Beef, Mayo, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041059/nitsuh-menu/dishes/vextlzoihqbx8gwy9m4p.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -632,7 +610,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Beef, Cheese, Mayo, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041063/nitsuh-menu/dishes/fjbcfvhbhqermblxexxy.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -648,7 +625,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Double Beef, Mayo, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041077/nitsuh-menu/dishes/ifmzjjrsnnbvr3vqsec4.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -664,7 +640,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Double Beef, Double Cheese, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041078/nitsuh-menu/dishes/davmjhahhhx92wcy5bfl.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -680,7 +655,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Chicken, Mayo, Honey Mustard sauce, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041063/nitsuh-menu/dishes/bmtsndi3cvdrjwxudsli.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -698,7 +672,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "tags": [
       "popular"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -717,7 +690,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
       "vegan",
       "fasting"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -733,83 +705,10 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "3 mini buns, 3 mini Beef, Cheese, Mayo, Tomato, Onion, Lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041111/nitsuh-menu/dishes/bfsoapzpmdunpzyeykgz.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
     "sort_order": 28
-  },
-  {
-    "id": "item-fried-egg-29",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-burger",
-    "name": "Fried Egg",
-    "name_am": "",
-    "price": 60,
-    "description": "Fried Egg prepared fresh daily at Nitsuh Cafe & Restaurant.",
-    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041085/nitsuh-menu/dishes/fiptenkr217b1diexyzi.jpg",
-    "tags": [
-      "extra"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 29
-  },
-  {
-    "id": "item-ketchup-30",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-burger",
-    "name": "Ketchup",
-    "name_am": "",
-    "price": 60,
-    "description": "Ketchup prepared fresh daily at Nitsuh Cafe & Restaurant.",
-    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041080/nitsuh-menu/dishes/vkwdwx1hq5uvt08trpng.jpg",
-    "tags": [
-      "extra"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 30
-  },
-  {
-    "id": "item-mayonnaise-31",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-burger",
-    "name": "Mayonnaise",
-    "name_am": "",
-    "price": 80,
-    "description": "Mayonnaise prepared fresh daily at Nitsuh Cafe & Restaurant.",
-    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041080/nitsuh-menu/dishes/wxml8xs4archekjwdbkd.jpg",
-    "tags": [
-      "extra"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 31
-  },
-  {
-    "id": "item-slice-cheese-32",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-burger",
-    "name": "Slice Cheese",
-    "name_am": "",
-    "price": 60,
-    "description": "Slice Cheese prepared fresh daily at Nitsuh Cafe & Restaurant.",
-    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041111/nitsuh-menu/dishes/nsqyhswp25l0f0khqvtv.jpg",
-    "tags": [
-      "extra"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 32
   },
   {
     "id": "item-house-special-pizza-33",
@@ -823,7 +722,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "tags": [
       "popular"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": true,
@@ -839,7 +737,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Tomato Sauce, Tuna & Mozzarella Cheese",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/hdkr7hzv7v8duwqzeo8o.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -855,7 +752,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Tomato Sauce, Chicken & Mozzarella Cheese",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041065/nitsuh-menu/dishes/ziz953msfrn9xlray0o5.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -871,7 +767,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Tomato Sauce, Beef & Mozzarella Cheese",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041093/nitsuh-menu/dishes/ldwn5xpxyxhrpitrftub.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -887,7 +782,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Tomato Sauce & Mozzarella Cheese",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041108/nitsuh-menu/dishes/jiiz7x0ardonbkvmlaon.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -906,7 +800,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
       "vegan",
       "fasting"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -926,7 +819,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
       "fasting",
       "popular"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -945,101 +837,10 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
       "vegan",
       "fasting"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
     "sort_order": 40
-  },
-  {
-    "id": "item-boil-egg-41",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-pizza",
-    "name": "Boil Egg",
-    "name_am": "",
-    "price": 60,
-    "description": "Boil Egg prepared fresh daily at Nitsuh Cafe & Restaurant.",
-    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041080/nitsuh-menu/dishes/zomp5ils0mpsmzlwjbnb.jpg",
-    "tags": [
-      "extra"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 41
-  },
-  {
-    "id": "item-chili-42",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-pizza",
-    "name": "Chili",
-    "name_am": "",
-    "price": 60,
-    "description": "Chili prepared fresh daily at Nitsuh Cafe & Restaurant.",
-    "image_url": "/images/dishes/roasted-chicken.jpg",
-    "tags": [
-      "extra"
-    ],
-    "allergens": [],
-    "spice_level": 2,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 42
-  },
-  {
-    "id": "item-mozzarella-cheese-43",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-pizza",
-    "name": "Mozzarella Cheese",
-    "name_am": "",
-    "price": 180,
-    "description": "Mozzarella Cheese prepared fresh daily at Nitsuh Cafe & Restaurant.",
-    "image_url": "/images/dishes/roasted-chicken.jpg",
-    "tags": [
-      "extra"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 43
-  },
-  {
-    "id": "item-tuna-44",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-pizza",
-    "name": "Tuna",
-    "name_am": "",
-    "price": 180,
-    "description": "Tuna prepared fresh daily at Nitsuh Cafe & Restaurant.",
-    "image_url": "/images/dishes/roasted-chicken.jpg",
-    "tags": [
-      "extra"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 44
-  },
-  {
-    "id": "item-chicken-45",
-    "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-    "category_id": "cat-pizza",
-    "name": "Chicken",
-    "name_am": "",
-    "price": 300,
-    "description": "Chicken prepared fresh daily at Nitsuh Cafe & Restaurant.",
-    "image_url": "/images/dishes/roasted-chicken.jpg",
-    "tags": [
-      "extra"
-    ],
-    "allergens": [],
-    "spice_level": 0,
-    "is_available": true,
-    "is_chefs_pick": false,
-    "sort_order": 45
   },
   {
     "id": "item-special-club-sandwich-46",
@@ -1053,7 +854,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "tags": [
       "popular"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": true,
@@ -1069,7 +869,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Chicken, Boiled egg, Mayo, Tomato, Lettuce, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041063/nitsuh-menu/dishes/u4qme7u7usm0abwgull8.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1085,7 +884,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Tuna, Boiled egg, Mayo, Tomato, Lettuce, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/lwhpi9qgyrcg7ch64xxd.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1101,7 +899,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Beef, Boiled egg, Mayo, Tomato, Lettuce, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/hh30wyrkylvss0xodoo3.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1120,7 +917,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
       "vegan",
       "fasting"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1136,7 +932,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Chicken, Cheese, Mayo, Tomato, Lettuce, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041065/nitsuh-menu/dishes/co9lz2atn7gojpak4nfu.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1152,7 +947,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Beef, Cheese, Mayo, Tomato, Lettuce, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041114/nitsuh-menu/dishes/a6wha3avezcys8ix9ulx.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1168,7 +962,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Tuna, Cheese, Mayo, Tomato, Lettuce, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041121/nitsuh-menu/dishes/sxgil8mwetardqqdls9y.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1184,7 +977,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Avocado, Ketchup, Tomato, Lettuce, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041057/nitsuh-menu/dishes/g4batwakr2fapek98uz8.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1202,7 +994,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "tags": [
       "popular"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": true,
@@ -1218,7 +1009,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Chicken, Cheese, Mayo, Tomato, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041066/nitsuh-menu/dishes/lfajwcltgqwhkvznpswc.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1234,7 +1024,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Tuna, Cheese, Mayo, Tomato, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/o0kcl4f2l3m5kxr66xoe.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1250,7 +1039,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Beef, Cheese, Mayo, Tomato, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/p3a7afyhyml0wjvuuwqv.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1269,7 +1057,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
       "vegan",
       "fasting"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1288,7 +1075,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
       "vegan",
       "fasting"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1304,7 +1090,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Chicken, Mayo, Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041065/nitsuh-menu/dishes/iviqnmpjmgv93jne2u7a.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1320,7 +1105,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Slice Chicken Strips, Mayo, Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041070/nitsuh-menu/dishes/pxiji5izmrzhv7tn8stl.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1336,7 +1120,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "1 Chicken leg, Mayo, Salad & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041076/nitsuh-menu/dishes/iltf7zucjql3n8znvo2t.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1352,7 +1135,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "2 Chicken leg, Mayo, Salad & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041076/nitsuh-menu/dishes/iltf7zucjql3n8znvo2t.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1368,7 +1150,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "1 pic Chicken Leg, Honey BBQ Sauce, Mayo, Salad & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041063/nitsuh-menu/dishes/ds5mqolveib58z4rmeku.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1384,7 +1165,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Chicken Wings, Mayo, Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041066/nitsuh-menu/dishes/joa47lvnmir6zrpkor22.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1400,7 +1180,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Chicken Wings, Honey BBQ Souce, Mayo, Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041125/nitsuh-menu/dishes/vekwpnrdbbqmzrwkrbkc.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1418,7 +1197,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "tags": [
       "popular"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": true,
@@ -1436,7 +1214,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "tags": [
       "popular"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1456,7 +1233,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
       "fasting",
       "popular"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1472,7 +1248,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Tuna, Salad, tomato, carrot, cucumber, onion, chili, mayo, salad souce",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041121/nitsuh-menu/dishes/eqokbmmdnhntu0f75yrg.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1488,7 +1263,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Chicken, Salad, tomato, carrot, cucumber, onion, chili, mayo, salad souce",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041064/nitsuh-menu/dishes/wekifchc8swwyiwh1xcs.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1504,7 +1278,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Avocado Salad, tomato, carrot, cucumber, onion, chili, salad souce",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041057/nitsuh-menu/dishes/cgcykz0pczufjttgir0c.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1520,7 +1293,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Salad, tomato, carrot, cucumber, onion, chili, kidney bean, salad souce",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041103/nitsuh-menu/dishes/giotydwog4po6ibiabxf.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1536,7 +1308,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Pasta With Tomato souce & Bread",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041121/nitsuh-menu/dishes/fq6jd3em4ox2zveh9k13.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1555,7 +1326,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
       "vegan",
       "fasting"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1571,7 +1341,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Pasta With Tomato souce Tuna & Bread",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041121/nitsuh-menu/dishes/zjm0fju8hdmketpqnqxi.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1587,7 +1356,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Pasta With Tomato souce, Meat & Bread",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041120/nitsuh-menu/dishes/lyjzjjt8ltfe3jlstyo2.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1603,7 +1371,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Pasta With Tomato souce, Hot Spicy & Bread",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041056/nitsuh-menu/dishes/hiozsoyehskrhasxpnnh.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1619,7 +1386,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Pasta With Creamy souce, Cheese & Bread",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041055/nitsuh-menu/dishes/oxbj3kfv8c8x7alj0fwn.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1635,7 +1401,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Pasta With Creamy souce, Chicken, Cheese & Bread",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041055/nitsuh-menu/dishes/lmycpw8mgtpflyrnite9.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1651,7 +1416,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Pasta With Pesto souce, Cheese & Bread",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041107/nitsuh-menu/dishes/u4gctqfkdl6l0htgwqzw.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1667,7 +1431,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Lemon, Mint, Pineapple, Cinnamon, Honey syrup, Fresh Mint, Soft drink, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041074/nitsuh-menu/dishes/iciwxll5jdtr9onzkcl4.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1683,7 +1446,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Lemon juice, Fresh Mint, Soft drink, Honey syrup, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041091/nitsuh-menu/dishes/czoizyvboi8okrsrm3ok.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1699,7 +1461,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Pineapple Rum, Lemon juice, Mint, Soft drink, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041106/nitsuh-menu/dishes/hgtvu9elf92ed1c88rel.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1715,7 +1476,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Watermelon Rum, Honey syrup, Lemon, Fresh Mint, Ambo water, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041127/nitsuh-menu/dishes/lomommsl0xmc9lc5qcfn.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1731,7 +1491,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Strawberry Rum, Honey syrup, Lemon, Soft drink, Fresh Mint, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041118/nitsuh-menu/dishes/bd1d3sgxf1w7rm1trjft.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1747,7 +1506,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Ginger juice, Sugar syrup, Soft drink, Lemon, Fresh Mint, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041086/nitsuh-menu/dishes/eexcys2lkt1wcwk6lolv.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1763,7 +1521,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Cinnamon, Lemon, Soft drink, Sugar syrup, Fresh Mint, Ice, Mojito",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041070/nitsuh-menu/dishes/uyfuy1fksqh7dfepg89y.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1779,7 +1536,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Soft Drink prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041111/nitsuh-menu/dishes/ga0vubbafzchiv5en8ym.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1795,7 +1551,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Novida Soft Drink prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041103/nitsuh-menu/dishes/ptuap4elwsz0jsqza4we.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1811,7 +1566,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Bottle Soft Drink prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/fmnxextfvpywtzmpbk9z.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1827,7 +1581,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Ambo water prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041055/nitsuh-menu/dishes/gbvbnloskqvzcp0nn77i.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1843,7 +1596,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Water ½ Liter prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/hghrqph8pdx1b8plshwe.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1859,7 +1611,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Water 1 Liter prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/hghrqph8pdx1b8plshwe.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1875,7 +1626,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Water 2 Liter prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/hghrqph8pdx1b8plshwe.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1893,7 +1643,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "tags": [
       "popular"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": true,
@@ -1909,7 +1658,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Papaya Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041105/nitsuh-menu/dishes/bbgniire8laoamq2h8nv.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1925,7 +1673,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Avocado Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041057/nitsuh-menu/dishes/yfunjaelohtajhbcdd6s.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1941,7 +1688,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Watermelon Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041124/nitsuh-menu/dishes/fnq3bcrlfjyzulrcpdte.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1957,7 +1703,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Mango Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041092/nitsuh-menu/dishes/uzcbfsh8xf5utdzzqmef.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1973,7 +1718,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Pineapple Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041107/nitsuh-menu/dishes/bqhhfr9z28z4kp7vy6b6.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -1989,7 +1733,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Strawberry Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041118/nitsuh-menu/dishes/bovydy8kn0nstzellkiq.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2005,7 +1748,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Lemon Mint Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041090/nitsuh-menu/dishes/ovdjiunyxgmcajgf53mc.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2021,7 +1763,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Banana Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041059/nitsuh-menu/dishes/vudraahudym4plg9muft.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2037,7 +1778,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Strawberry Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041118/nitsuh-menu/dishes/sbsunf5dwcqnrx36dqx4.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2053,7 +1793,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Avocado Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041057/nitsuh-menu/dishes/lhqoalppvbhvatf20sr9.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2069,7 +1808,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Mocha Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041103/nitsuh-menu/dishes/bxsmhyltromyh7sovjlk.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2085,7 +1823,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Flaxseed Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041083/nitsuh-menu/dishes/vuyb1ucxvjlnknchrzus.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2101,7 +1838,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Chocolate Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041069/nitsuh-menu/dishes/if0kyrlx0okwlskzd1qf.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2117,7 +1853,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Protien Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041109/nitsuh-menu/dishes/ve4vvrhaxsxqahvauw8p.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2133,7 +1868,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041131/nitsuh-menu/dishes/k0k6d9gyrikfmrdpsfgi.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2149,7 +1883,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Coffee prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041130/nitsuh-menu/dishes/veed0cxidtvqsiu5a1qf.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2165,7 +1898,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Espresso prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041080/nitsuh-menu/dishes/y9yoj6bm73dzyngt7hgy.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2181,7 +1913,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Macchiato prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041096/nitsuh-menu/dishes/tnyjy4radumocnq6pvwd.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2197,7 +1928,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Milk prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041098/nitsuh-menu/dishes/pang3vzasaiaxrskxklu.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2213,7 +1943,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Milk with coffee prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "/images/dishes/roasted-chicken.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2229,7 +1958,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Milk with Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041098/nitsuh-menu/dishes/mdut2mirewmlcvogqoth.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2248,7 +1976,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
       "vegan",
       "fasting"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2264,7 +1991,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Tea Sprice prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041118/nitsuh-menu/dishes/a8r4sp83k3bdnbpez7rb.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2280,7 +2006,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Lemon Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041091/nitsuh-menu/dishes/fnfuh4lgzdpi4irlyqul.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2296,7 +2021,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Mint Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041101/nitsuh-menu/dishes/biby0eypxe4vhjokpuga.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2312,7 +2036,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Peanut Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041106/nitsuh-menu/dishes/uvxhfhn07czophmzb2nr.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2328,7 +2051,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Pineapple Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041108/nitsuh-menu/dishes/sj90dmt4dzdpz0r0hd4c.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2344,7 +2066,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Orange Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041105/nitsuh-menu/dishes/lx34cy62he3wzxgjx3w1.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2360,7 +2081,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Caramel Latte prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041062/nitsuh-menu/dishes/ph1wjknqhatwo6ubyrii.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2376,7 +2096,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Vanilla Latte prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/hkstjfyblwnexlcetron.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2392,7 +2111,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Ginger Latte prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041085/nitsuh-menu/dishes/vfypfkllotffrep5zw6m.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2408,7 +2126,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Hot Chocolate prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041087/nitsuh-menu/dishes/xmjphybs9kpqdqkdyo2s.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2424,7 +2141,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Hot Caramel prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041085/nitsuh-menu/dishes/fbr6bfam8mtsvisvt9sj.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2440,7 +2156,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Cuppuchino prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041062/nitsuh-menu/dishes/gquibaftrzfgmv7zk3ja.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2458,7 +2173,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "tags": [
       "popular"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": true,
@@ -2474,7 +2188,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Coffee, milk, sugar syrup, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041089/nitsuh-menu/dishes/ijbaoshw8scfdtaxqsem.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2490,7 +2203,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Tea, milk, sugar syrup, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041089/nitsuh-menu/dishes/sijyn58zxvdxdd4rh9vz.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2506,7 +2218,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Vanilla, coffee, milk, sugar syrup, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041090/nitsuh-menu/dishes/wbpcs2h4p8tep83q9nxz.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2522,7 +2233,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Chocolate syrup, coffee, milk, sugar syrup, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041087/nitsuh-menu/dishes/pag1zlp1oqjqdy3arnfo.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2538,7 +2248,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Caramel syrup, coffee, milk, sugar syrup, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041087/nitsuh-menu/dishes/ngdyvmycdtsxrwlugxdj.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2554,7 +2263,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Strawberry syrup, coffee, milk, sugar syrup, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041089/nitsuh-menu/dishes/ynnrg75rej1a7raxxprv.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2572,7 +2280,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "tags": [
       "popular"
     ],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2588,7 +2295,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Mini Custard Vanilla cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041101/nitsuh-menu/dishes/gbmqzx61bktna2gswrx6.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2604,7 +2310,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Mini Millifoni cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041101/nitsuh-menu/dishes/hul9aj4jg95oashit3py.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2620,7 +2325,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Mini Chocolate cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041101/nitsuh-menu/dishes/tjgbm5dkfcgg3okf6whi.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2636,7 +2340,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Tart cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041131/nitsuh-menu/dishes/vm4rygeyrsblzgt96y0v.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2652,7 +2355,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Mini Boxega cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041098/nitsuh-menu/dishes/hznywmufhjxepvszypgw.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2668,7 +2370,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "English Cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041078/nitsuh-menu/dishes/fui6gjghyjuu2hnse4zw.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2684,7 +2385,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Classic Dounut prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041071/nitsuh-menu/dishes/kjrssz0b2kk3fjglroej.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2700,7 +2400,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Chocolate Chips Cookie prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041067/nitsuh-menu/dishes/auy6u6sui7os4cis4jzm.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2716,7 +2415,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Croissant prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041076/nitsuh-menu/dishes/t1adb7tozz3mpys5abyd.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2732,7 +2430,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Chocolate Croissant prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041069/nitsuh-menu/dishes/sxbylouxyxzghrxjdqwe.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2748,7 +2445,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Tiramisu cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041119/nitsuh-menu/dishes/b5cpkaz85wry6zq4mr50.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2764,7 +2460,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Custard Vanilla Torta 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041076/nitsuh-menu/dishes/gnfchwipgbgs7fhfoodm.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2780,7 +2475,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Millifoni Torta 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041098/nitsuh-menu/dishes/fcskgzdramfzw4smuvhi.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2796,7 +2490,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Chocolate Torta 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041068/nitsuh-menu/dishes/bfonwbylxzlmwqsrx2ji.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2812,7 +2505,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Tiramisu 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041119/nitsuh-menu/dishes/lwkg2cimfah9hxqlen9p.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2828,7 +2520,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Butter Cookeis 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041062/nitsuh-menu/dishes/fy1gojvmyczhz8ltdiji.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2844,7 +2535,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Chocolate Chips Cookeis 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041069/nitsuh-menu/dishes/hgbmysarp0aifdak0vne.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2860,7 +2550,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "English Cake 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041078/nitsuh-menu/dishes/ssszlh0yhqsgqbwveump.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -2876,7 +2565,6 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "description": "Marble Cake 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041092/nitsuh-menu/dishes/gnobfvzsrbecdzxhzdbq.jpg",
     "tags": [],
-    "allergens": [],
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
@@ -3978,27 +3666,9 @@ export const DEFAULT_REVIEW_SETTINGS_NITSUH: RestaurantReviewSettings = {
 
 let inMemoryReviewSettings: RestaurantReviewSettings = { ...DEFAULT_REVIEW_SETTINGS_NITSUH };
 
-export const MOCK_REVIEWS_NITSUH: DishReview[] = [
-  {
-    id: 'rev-fetira-honey-seed-1',
-    restaurant_id: MOCK_RESTAURANT_NITSUH.id,
-    item_id: 'item-fetira-with-honey-11',
-    rating: 5,
-    tags: ['Crispy texture', 'Fresh ingredients', 'Great portion'],
-    comment: 'Crispy, layered pastry with sweet mountain honey and fresh bananas. The best breakfast in Addis Ababa!',
-    session_token: 'guest-seed-1',
-    table_number: 'Table 14',
-    status: 'published',
-    report_count: 0,
-    created_at: new Date(Date.now() - 3600000).toISOString(),
-    updated_at: new Date(Date.now() - 3600000).toISOString(),
-    owner_reply: 'Thank you for dining at Nitsuh Cafe & Restaurant! Our pastry chefs layer the dough fresh every morning. Delighted you loved the mountain honey pairing. See you again soon!',
-    owner_reply_at: new Date(Date.now() - 1800000).toISOString(),
-    owner_reply_by: 'Nitsuh Staff',
-  },
-];
+export const MOCK_REVIEWS_NITSUH: DishReview[] = [];
 
-let inMemoryReviews: DishReview[] = [...MOCK_REVIEWS_NITSUH];
+let inMemoryReviews: DishReview[] = [];
 
 export const MOCK_MODERATION_LOGS_NITSUH: ReviewModerationLog[] = [];
 
@@ -4006,6 +3676,16 @@ let inMemoryModerationLogs: ReviewModerationLog[] = [];
 
 const STORAGE_KEY_REVIEW_OVERRIDES = 'digital_menu_review_overrides';
 const STORAGE_KEY_REVIEWS = 'digital_menu_reviews_cache';
+
+export function clearReviewCache() {
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.removeItem(STORAGE_KEY_REVIEWS);
+      localStorage.removeItem(STORAGE_KEY_REVIEW_OVERRIDES);
+    } catch {}
+  }
+  inMemoryReviews = [];
+}
 
 function getStoredReviews(): DishReview[] {
   if (typeof window === 'undefined') return [];
@@ -4054,9 +3734,74 @@ export async function getDishReviews(
       return cachedEntry.data;
     }
   }
-  const overrides = getStoredReviewOverrides();
-  const cached = getStoredReviews();
 
+  // 1. Client-side: fetch from live Neon API
+  if (typeof window !== 'undefined') {
+    try {
+      const url = `/api/reviews?restaurantId=${encodeURIComponent(restaurantId)}${itemId ? `&itemId=${encodeURIComponent(itemId)}` : ''}`;
+      const res = await fetch(url);
+      if (res.ok) {
+        const liveRevs = (await res.json()) as DishReview[];
+        if (Array.isArray(liveRevs)) {
+          inMemoryReviews = liveRevs;
+          persistReviews(liveRevs);
+          return liveRevs;
+        }
+      }
+    } catch {}
+  }
+
+  // 2. Server-side: fetch directly via Neon PostgreSQL
+  if (hasNeon()) {
+    try {
+      const sql = getNeon();
+      if (sql) {
+        const rows = itemId
+          ? await sql`
+              SELECT * FROM public.reviews
+              WHERE restaurant_id = ${restaurantId} AND item_id = ${itemId}
+              ORDER BY created_at DESC
+            `
+          : await sql`
+              SELECT * FROM public.reviews
+              WHERE restaurant_id = ${restaurantId}
+              ORDER BY created_at DESC
+            `;
+
+        const formatted: DishReview[] = (rows || []).map((r: any) => ({
+          id: r.id,
+          restaurant_id: r.restaurant_id,
+          item_id: r.item_id,
+          rating: Number(r.rating),
+          tags: Array.isArray(r.tags)
+            ? r.tags
+            : typeof r.tags === 'string'
+            ? (() => { try { return JSON.parse(r.tags); } catch { return []; } })()
+            : [],
+          comment: r.comment || undefined,
+          photo_url: r.photo_url || undefined,
+          session_token: r.session_token,
+          table_number: r.table_number || undefined,
+          status: r.status,
+          report_count: Number(r.report_count || 0),
+          flagged_reason: r.flagged_reason || undefined,
+          owner_reply: r.owner_reply || undefined,
+          owner_reply_at: r.owner_reply_at ? new Date(r.owner_reply_at).toISOString() : undefined,
+          owner_reply_by: r.owner_reply_by || undefined,
+          created_at: r.created_at ? new Date(r.created_at).toISOString() : new Date().toISOString(),
+          updated_at: r.updated_at ? new Date(r.updated_at).toISOString() : new Date().toISOString(),
+        }));
+
+        if (typeof window === 'undefined') {
+          serverDataCache.set(cacheKey, { data: formatted, timestamp: Date.now() });
+        }
+        inMemoryReviews = formatted;
+        return formatted;
+      }
+    } catch {}
+  }
+
+  // 3. Fallback to Supabase if configured
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
     try {
       const supabase = createClient();
@@ -4071,71 +3816,16 @@ export async function getDishReviews(
 
       const { data, error } = await query.order('created_at', { ascending: false });
       if (!error && data) {
-        const supabaseRevs = (data as DishReview[]).map((r) => {
-          if (overrides[r.id]) {
-            return { ...r, ...overrides[r.id] };
-          }
-          return r;
-        });
-
-        // Merge Supabase reviews with any locally cached reviews so nothing is lost
-        const mergedMap = new Map<string, DishReview>();
-        for (const r of supabaseRevs) {
-          mergedMap.set(r.id, r);
-        }
-        for (const r of cached) {
-          if (!mergedMap.has(r.id) && r.restaurant_id === restaurantId && (!itemId || r.item_id === itemId)) {
-            mergedMap.set(r.id, overrides[r.id] ? { ...r, ...overrides[r.id] } : r);
-          }
-        }
-        for (const r of inMemoryReviews) {
-          if (!mergedMap.has(r.id) && (!itemId || r.item_id === itemId)) {
-            mergedMap.set(r.id, overrides[r.id] ? { ...r, ...overrides[r.id] } : r);
-          }
-        }
-
-        const mergedList = Array.from(mergedMap.values()).sort(
-          (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        );
-
-        if (!itemId) {
-          persistReviews(mergedList);
-          inMemoryReviews = mergedList;
-        }
-
+        const formatted = data as DishReview[];
         if (typeof window === 'undefined') {
-          serverDataCache.set(cacheKey, { data: mergedList, timestamp: Date.now() });
+          serverDataCache.set(cacheKey, { data: formatted, timestamp: Date.now() });
         }
-        return mergedList;
+        return formatted;
       }
-    } catch {
-      // Fallback below
-    }
+    } catch {}
   }
 
-  // Fallback if Supabase offline or not configured
-  const mergedMap = new Map<string, DishReview>();
-  for (const r of cached) {
-    if (r.restaurant_id === restaurantId && (!itemId || r.item_id === itemId)) {
-      mergedMap.set(r.id, overrides[r.id] ? { ...r, ...overrides[r.id] } : r);
-    }
-  }
-  for (const r of inMemoryReviews) {
-    if (!mergedMap.has(r.id) && r.restaurant_id === restaurantId && (!itemId || r.item_id === itemId)) {
-      mergedMap.set(r.id, overrides[r.id] ? { ...r, ...overrides[r.id] } : r);
-    }
-  }
-
-  const list = Array.from(mergedMap.values()).sort(
-    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-  );
-
-  if (!itemId) {
-    persistReviews(list);
-    inMemoryReviews = list;
-  }
-
-  return list;
+  return [];
 }
 
 export async function submitDishReview(params: {
@@ -4199,16 +3889,33 @@ export async function submitDishReview(params: {
   // Broadcast feedback immediately across tabs so owner and staff receive it right away
   broadcastSync({ type: 'REVIEW_SUBMITTED', review: newReview });
 
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
+  // 4. Persist to Neon DB via API on client or directly on server
+  if (typeof window !== 'undefined') {
     try {
-      const supabase = createClient();
-      const { error } = await supabase.from('reviews').insert(newReview);
-      if (error) {
-        console.warn('Supabase review insert warning (cached locally):', error);
+      await fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newReview),
+      });
+    } catch {}
+  } else if (hasNeon()) {
+    try {
+      const sql = getNeon();
+      if (sql) {
+        await sql`
+          INSERT INTO public.reviews (
+            id, restaurant_id, item_id, rating, tags, comment,
+            photo_url, session_token, table_number, status,
+            report_count, flagged_reason, created_at, updated_at
+          ) VALUES (
+            ${newReview.id}, ${newReview.restaurant_id}, ${newReview.item_id}, ${newReview.rating},
+            ${JSON.stringify(newReview.tags)}, ${newReview.comment || null}, ${newReview.photo_url || null},
+            ${newReview.session_token}, ${newReview.table_number || null}, ${newReview.status},
+            0, ${newReview.flagged_reason || null}, NOW(), NOW()
+          )
+        `;
       }
-    } catch (err) {
-      console.warn('Supabase review insert network error (cached locally):', err);
-    }
+    } catch {}
   }
 
   return { success: true, review: newReview };
@@ -4219,26 +3926,41 @@ async function findDishReview(reviewId: string): Promise<DishReview | null> {
   let review = inMemoryReviews.find((r) => r.id === reviewId);
   if (review) return review;
 
-  // 2. localStorage cached reviews (from diners or past sessions)
-  const stored = getStoredReviews();
-  const fromStored = stored.find((r) => r.id === reviewId);
-  if (fromStored) {
-    const overrides = getStoredReviewOverrides();
-    const finalReview = overrides[reviewId] ? { ...fromStored, ...overrides[reviewId] } : fromStored;
-    inMemoryReviews.push(finalReview);
-    return finalReview;
+  // 2. localStorage cached reviews
+  if (typeof window !== 'undefined') {
+    const stored = getStoredReviews();
+    const fromStored = stored.find((r) => r.id === reviewId);
+    if (fromStored) return fromStored;
   }
 
-  // 3. Supabase
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
+  // 3. Neon DB
+  if (hasNeon()) {
     try {
-      const supabase = createClient();
-      const { data } = await supabase.from('reviews').select('*').eq('id', reviewId).single();
-      if (data) {
-        const overrides = getStoredReviewOverrides();
-        const finalReview = overrides[reviewId] ? { ...data, ...overrides[reviewId] } : (data as DishReview);
-        inMemoryReviews.push(finalReview);
-        return finalReview;
+      const sql = getNeon();
+      if (sql) {
+        const rows = await sql`SELECT * FROM public.reviews WHERE id = ${reviewId} LIMIT 1`;
+        if (rows && rows.length > 0) {
+          const r = rows[0];
+          return {
+            id: r.id,
+            restaurant_id: r.restaurant_id,
+            item_id: r.item_id,
+            rating: Number(r.rating),
+            tags: Array.isArray(r.tags) ? r.tags : typeof r.tags === 'string' ? JSON.parse(r.tags) : [],
+            comment: r.comment || undefined,
+            photo_url: r.photo_url || undefined,
+            session_token: r.session_token,
+            table_number: r.table_number || undefined,
+            status: r.status,
+            report_count: Number(r.report_count || 0),
+            flagged_reason: r.flagged_reason || undefined,
+            owner_reply: r.owner_reply || undefined,
+            owner_reply_at: r.owner_reply_at ? new Date(r.owner_reply_at).toISOString() : undefined,
+            owner_reply_by: r.owner_reply_by || undefined,
+            created_at: r.created_at ? new Date(r.created_at).toISOString() : new Date().toISOString(),
+            updated_at: r.updated_at ? new Date(r.updated_at).toISOString() : new Date().toISOString(),
+          };
+        }
       }
     } catch {}
   }
@@ -4284,20 +4006,25 @@ export async function reportDishReview(reviewId: string, reason: string): Promis
 
   broadcastSync({ type: 'REVIEW_UPDATED', review });
 
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
+  if (typeof window !== 'undefined') {
     try {
-      const supabase = createClient();
-      await supabase
-        .from('reviews')
-        .update({
-          report_count: review.report_count,
-          status: 'reported',
-          flagged_reason: reason,
-        })
-        .eq('id', reviewId);
-    } catch {
-      // Handled
-    }
+      await fetch('/api/reviews', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'report', id: reviewId, reason }),
+      });
+    } catch {}
+  } else if (hasNeon()) {
+    try {
+      const sql = getNeon();
+      if (sql) {
+        await sql`
+          UPDATE public.reviews
+          SET status = 'reported', report_count = report_count + 1, flagged_reason = ${reason}, updated_at = NOW()
+          WHERE id = ${reviewId}
+        `;
+      }
+    } catch {}
   }
 
   return true;
@@ -4323,7 +4050,6 @@ export async function replyToDishReview(
     updated_at: review.updated_at,
   });
 
-  // Ensure stored reviews cache has the updated owner reply
   const stored = getStoredReviews();
   const existingIdx = stored.findIndex((r) => r.id === reviewId);
   if (existingIdx >= 0) {
@@ -4333,7 +4059,6 @@ export async function replyToDishReview(
     persistReviews([review, ...stored]);
   }
 
-  // Ensure inMemoryReviews has the updated review
   const memIdx = inMemoryReviews.findIndex((r) => r.id === reviewId);
   if (memIdx >= 0) {
     inMemoryReviews[memIdx] = review;
@@ -4354,20 +4079,30 @@ export async function replyToDishReview(
 
   broadcastSync({ type: 'REVIEW_UPDATED', review });
 
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
+  if (typeof window !== 'undefined') {
     try {
-      const supabase = createClient();
-      await supabase
-        .from('reviews')
-        .update({
-          owner_reply: review.owner_reply,
-          owner_reply_at: review.owner_reply_at,
-          owner_reply_by: review.owner_reply_by,
-        })
-        .eq('id', reviewId);
-    } catch {
-      // Handled
-    }
+      await fetch('/api/reviews', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'reply',
+          id: reviewId,
+          replyText: review.owner_reply,
+          staffName: review.owner_reply_by,
+        }),
+      });
+    } catch {}
+  } else if (hasNeon()) {
+    try {
+      const sql = getNeon();
+      if (sql) {
+        await sql`
+          UPDATE public.reviews
+          SET owner_reply = ${review.owner_reply}, owner_reply_at = NOW(), owner_reply_by = ${review.owner_reply_by}, updated_at = NOW()
+          WHERE id = ${reviewId}
+        `;
+      }
+    } catch {}
   }
 
   return true;
@@ -4415,20 +4150,19 @@ export async function moderateDishReview(
     updated_at: review.updated_at,
   });
 
-  const stored = getStoredReviews();
-  const existingIdx = stored.findIndex((r) => r.id === reviewId);
-  if (existingIdx >= 0) {
-    stored[existingIdx] = { ...stored[existingIdx], ...review };
-    persistReviews(stored);
+  if (action === 'remove') {
+    const stored = getStoredReviews();
+    persistReviews(stored.filter((r) => r.id !== reviewId));
+    inMemoryReviews = inMemoryReviews.filter((r) => r.id !== reviewId);
   } else {
-    persistReviews([review, ...stored]);
-  }
-
-  const memIdx = inMemoryReviews.findIndex((r) => r.id === reviewId);
-  if (memIdx >= 0) {
-    inMemoryReviews[memIdx] = review;
-  } else {
-    inMemoryReviews.push(review);
+    const stored = getStoredReviews();
+    const existingIdx = stored.findIndex((r) => r.id === reviewId);
+    if (existingIdx >= 0) {
+      stored[existingIdx] = { ...stored[existingIdx], ...review };
+      persistReviews(stored);
+    } else {
+      persistReviews([review, ...stored]);
+    }
   }
 
   inMemoryModerationLogs.unshift({
@@ -4444,18 +4178,39 @@ export async function moderateDishReview(
 
   broadcastSync({ type: 'REVIEW_UPDATED', review });
 
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
-    try {
-      const supabase = createClient();
-      await supabase
-        .from('reviews')
-        .update({
-          status: review.status,
-          flagged_reason: review.flagged_reason,
-        })
-        .eq('id', reviewId);
-    } catch {
-      // Handled
+  if (action === 'remove') {
+    if (typeof window !== 'undefined') {
+      try {
+        await fetch(`/api/reviews?id=${encodeURIComponent(reviewId)}`, { method: 'DELETE' });
+      } catch {}
+    } else if (hasNeon()) {
+      try {
+        const sql = getNeon();
+        if (sql) {
+          await sql`DELETE FROM public.reviews WHERE id = ${reviewId}`;
+        }
+      } catch {}
+    }
+  } else if (action === 'approve') {
+    if (typeof window !== 'undefined') {
+      try {
+        await fetch('/api/reviews', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'moderate', id: reviewId, status: 'published' }),
+        });
+      } catch {}
+    } else if (hasNeon()) {
+      try {
+        const sql = getNeon();
+        if (sql) {
+          await sql`
+            UPDATE public.reviews
+            SET status = 'published', flagged_reason = NULL, updated_at = NOW()
+            WHERE id = ${reviewId}
+          `;
+        }
+      } catch {}
     }
   }
 
@@ -4566,7 +4321,6 @@ export async function saveMenuItem(itemData: Partial<MenuItem>): Promise<MenuIte
       price: Number(itemData.price || 0),
       image_url: itemData.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80',
       tags: itemData.tags || [],
-      allergens: itemData.allergens || [],
       spice_level: itemData.spice_level ?? 0,
       calories: itemData.calories,
       custom_badge: itemData.custom_badge,
@@ -4619,7 +4373,6 @@ export async function saveMenuItem(itemData: Partial<MenuItem>): Promise<MenuIte
         if (itemData.price !== undefined) updatePayload.price = Number(itemData.price);
         if (itemData.category_id !== undefined) updatePayload.category_id = itemData.category_id;
         if (itemData.tags !== undefined) updatePayload.tags = itemData.tags;
-        if (itemData.allergens !== undefined) updatePayload.allergens = itemData.allergens;
         if (itemData.spice_level !== undefined) updatePayload.spice_level = itemData.spice_level;
         if (itemData.is_available !== undefined) updatePayload.is_available = itemData.is_available;
         if (itemData.is_chefs_pick !== undefined) updatePayload.is_chefs_pick = itemData.is_chefs_pick;
@@ -4651,7 +4404,6 @@ export async function saveMenuItem(itemData: Partial<MenuItem>): Promise<MenuIte
             price: savedItem.price,
             image_url: savedItem.image_url,
             tags: savedItem.tags || [],
-            allergens: savedItem.allergens || [],
             spice_level: savedItem.spice_level ?? 0,
             is_available: savedItem.is_available ?? true,
             is_chefs_pick: savedItem.is_chefs_pick ?? false,
@@ -4676,7 +4428,6 @@ export async function saveMenuItem(itemData: Partial<MenuItem>): Promise<MenuIte
           price: savedItem.price,
           image_url: savedItem.image_url,
           tags: savedItem.tags || [],
-          allergens: savedItem.allergens || [],
           spice_level: savedItem.spice_level ?? 0,
           is_available: savedItem.is_available ?? true,
           is_chefs_pick: savedItem.is_chefs_pick ?? false,

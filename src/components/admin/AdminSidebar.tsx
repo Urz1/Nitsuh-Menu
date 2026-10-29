@@ -271,7 +271,7 @@ export function AdminSidebar({
                 {session?.name || (userRole === 'owner' ? 'Restaurant Owner' : 'Staff Member')}
               </div>
               <div className="text-[10px] text-neutral-400 truncate font-mono">
-                {session?.identifier || (userRole === 'owner' ? 'owner@nitsuhcafeteria.com' : 'staff')}
+                {session?.identifier || (userRole === 'owner' ? 'Owner Console' : 'Staff Console')}
               </div>
             </div>
           </button>

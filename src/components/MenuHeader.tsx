@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Restaurant } from '@/types/database';
-import { Search, Heart, Settings, Wifi, Info, Globe, MapPin, Bell } from 'lucide-react';
+import { Search, Heart, Settings, Wifi, Globe, MapPin, Bell } from 'lucide-react';
 import { Language, TRANSLATIONS } from '@/lib/translations';
 import { triggerHaptic } from '@/lib/utils';
 
@@ -15,7 +15,6 @@ interface MenuHeaderProps {
   onToggleSearch: () => void;
   onOpenFavorites: () => void;
   onOpenSettingsModal: () => void;
-  onOpenLegendModal: () => void;
   onShowWifiToast: () => void;
   onShowNoticeToast?: (msg: string) => void;
 }
@@ -29,7 +28,6 @@ export function MenuHeader({
   onToggleSearch,
   onOpenFavorites,
   onOpenSettingsModal,
-  onOpenLegendModal,
   onShowWifiToast,
   onShowNoticeToast,
 }: MenuHeaderProps) {
@@ -239,17 +237,6 @@ export function MenuHeader({
               <span>{t.wifi}</span>
             </button>
           )}
-          <button
-            type="button"
-            onClick={() => {
-              triggerHaptic(8);
-              onOpenLegendModal();
-            }}
-            className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[var(--background)] border border-[var(--border)] font-medium text-[11px] hover:bg-[var(--border)] transition-colors active:scale-95"
-          >
-            <Info className="w-3 h-3" />
-            <span>{t.allergens}</span>
-          </button>
         </div>
     </header>
   );

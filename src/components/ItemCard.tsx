@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { MenuItem, DishReviewStats } from '@/types/database';
 import { ItemPricingResult } from '@/lib/pricing-engine';
 import { formatMoney, triggerHaptic, getOptimizedCloudinaryUrl } from '@/lib/utils';
-import { Heart, Plus, Minus, Tag, Clock, Star, ChefHat, Salad, Sprout, Leaf, WheatOff, ShieldCheck, Flame, UtensilsCrossed } from 'lucide-react';
+import { Heart, Plus, Minus, Tag, Clock, Star, ChefHat, Leaf, Flame, UtensilsCrossed, Sparkles } from 'lucide-react';
 import { Language, TRANSLATIONS } from '@/lib/translations';
 import { DishPlaceholder } from './DishPlaceholder';
 
@@ -218,40 +218,32 @@ export function ItemCard({
             </p>
           )}
 
-          {/* Social Proof Rating */}
-          <div className="flex items-center gap-1 mt-1 text-[11px] font-semibold text-stone-700 dark:text-stone-300">
-            <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-            <span>{reviewStats?.average_rating ? reviewStats.average_rating.toFixed(1) : '4.8'}</span>
-            <span className="text-[10px] text-stone-400 dark:text-stone-500 font-normal">
-              ({reviewStats?.review_count ? reviewStats.review_count : '120+'})
-            </span>
-          </div>
+          {/* Real Rating or Subtle New Dish Badge */}
+          {reviewStats && reviewStats.review_count > 0 ? (
+            <div className="flex items-center gap-1 mt-1 text-[11px] font-semibold text-stone-700 dark:text-stone-300">
+              <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+              <span>{reviewStats.average_rating.toFixed(1)}</span>
+              <span className="text-[10px] text-stone-400 dark:text-stone-500 font-normal">
+                ({reviewStats.review_count})
+              </span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-1.5 mt-1 text-[11px] text-stone-400 dark:text-stone-500">
+              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800/70 text-[10px] font-medium text-stone-600 dark:text-stone-300 border border-stone-200/50 dark:border-stone-700/40">
+                <Sparkles className="w-2.5 h-2.5 text-amber-500" />
+                <span>{t.newDish}</span>
+              </span>
+              <span className="text-[10px] text-stone-400 dark:text-stone-500 truncate hidden xs:inline">
+                • {t.beFirstToReview}
+              </span>
+            </div>
+          )}
 
           {/* Dietary tags */}
           <div className="flex items-center gap-1 mt-1.5 flex-wrap">
             {item.tags?.includes('fasting') && (
               <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--background)] text-emerald-600 font-semibold border border-[var(--border)] inline-flex items-center gap-1">
-                <Salad className="w-2.5 h-2.5 text-emerald-500" /> Tsom
-              </span>
-            )}
-            {item.tags?.includes('vegetarian') && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--background)] text-emerald-600 font-semibold border border-[var(--border)] inline-flex items-center gap-1">
-                <Sprout className="w-2.5 h-2.5 text-emerald-500" /> Veg
-              </span>
-            )}
-            {item.tags?.includes('vegan') && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--background)] text-emerald-700 font-semibold border border-[var(--border)] inline-flex items-center gap-1">
-                <Leaf className="w-2.5 h-2.5 text-emerald-600" /> Vegan
-              </span>
-            )}
-            {item.tags?.includes('gluten-free') && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--background)] text-amber-700 font-semibold border border-[var(--border)] inline-flex items-center gap-1">
-                <WheatOff className="w-2.5 h-2.5 text-amber-500" /> GF
-              </span>
-            )}
-            {item.tags?.includes('halal') && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--background)] text-neutral-700 dark:text-neutral-300 font-semibold border border-[var(--border)] inline-flex items-center gap-1">
-                <ShieldCheck className="w-2.5 h-2.5 text-emerald-500" /> Halal
+                <Leaf className="w-2.5 h-2.5 text-emerald-500" /> {t.filterFasting || 'Fasting'}
               </span>
             )}
             {item.spice_level > 0 && (

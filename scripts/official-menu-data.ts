@@ -12,7 +12,6 @@ export interface RawDish {
   price: number;
   category_id: string;
   tags?: string[];
-  allergens?: string[];
   spice_level?: number;
   is_chefs_pick?: boolean;
   image_url?: string;
@@ -414,50 +413,6 @@ export const DISHES_DATA: RawDish[] = [
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041111/nitsuh-menu/dishes/bfsoapzpmdunpzyeykgz.jpg"
   },
   {
-    "name": "Fried Egg",
-    "price": 60,
-    "category_id": "cat-burger",
-    "tags": [
-      "extra"
-    ],
-    "spice_level": 0,
-    "is_chefs_pick": false,
-    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041085/nitsuh-menu/dishes/fiptenkr217b1diexyzi.jpg"
-  },
-  {
-    "name": "Ketchup",
-    "price": 60,
-    "category_id": "cat-burger",
-    "tags": [
-      "extra"
-    ],
-    "spice_level": 0,
-    "is_chefs_pick": false,
-    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041080/nitsuh-menu/dishes/vkwdwx1hq5uvt08trpng.jpg"
-  },
-  {
-    "name": "Mayonnaise",
-    "price": 80,
-    "category_id": "cat-burger",
-    "tags": [
-      "extra"
-    ],
-    "spice_level": 0,
-    "is_chefs_pick": false,
-    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041080/nitsuh-menu/dishes/wxml8xs4archekjwdbkd.jpg"
-  },
-  {
-    "name": "Slice Cheese",
-    "price": 60,
-    "category_id": "cat-burger",
-    "tags": [
-      "extra"
-    ],
-    "spice_level": 0,
-    "is_chefs_pick": false,
-    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041111/nitsuh-menu/dishes/nsqyhswp25l0f0khqvtv.jpg"
-  },
-  {
     "name": "House Special Pizza",
     "price": 950,
     "category_id": "cat-pizza",
@@ -540,61 +495,6 @@ export const DISHES_DATA: RawDish[] = [
     "spice_level": 0,
     "is_chefs_pick": false,
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/hdkr7hzv7v8duwqzeo8o.jpg"
-  },
-  {
-    "name": "Boil Egg",
-    "price": 60,
-    "category_id": "cat-pizza",
-    "tags": [
-      "extra"
-    ],
-    "spice_level": 0,
-    "is_chefs_pick": false,
-    "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041080/nitsuh-menu/dishes/zomp5ils0mpsmzlwjbnb.jpg"
-  },
-  {
-    "name": "Chili",
-    "price": 60,
-    "category_id": "cat-pizza",
-    "tags": [
-      "extra"
-    ],
-    "spice_level": 2,
-    "is_chefs_pick": false,
-    "image_url": "/images/dishes/roasted-chicken.jpg"
-  },
-  {
-    "name": "Mozzarella Cheese",
-    "price": 180,
-    "category_id": "cat-pizza",
-    "tags": [
-      "extra"
-    ],
-    "spice_level": 0,
-    "is_chefs_pick": false,
-    "image_url": "/images/dishes/roasted-chicken.jpg"
-  },
-  {
-    "name": "Tuna",
-    "price": 180,
-    "category_id": "cat-pizza",
-    "tags": [
-      "extra"
-    ],
-    "spice_level": 0,
-    "is_chefs_pick": false,
-    "image_url": "/images/dishes/roasted-chicken.jpg"
-  },
-  {
-    "name": "Chicken",
-    "price": 300,
-    "category_id": "cat-pizza",
-    "tags": [
-      "extra"
-    ],
-    "spice_level": 0,
-    "is_chefs_pick": false,
-    "image_url": "/images/dishes/roasted-chicken.jpg"
   },
   {
     "name": "Special Club Sandwich",

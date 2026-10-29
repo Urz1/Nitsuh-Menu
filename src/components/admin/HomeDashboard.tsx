@@ -65,7 +65,7 @@ export function HomeDashboard({
   const avgRating =
     approvedReviews.length > 0
       ? (approvedReviews.reduce((sum, r) => sum + r.rating, 0) / approvedReviews.length).toFixed(1)
-      : '4.8';
+      : null;
 
   // Checklist calculations
   const checklist = restaurant.onboarding_checklist || [];
@@ -314,15 +314,28 @@ export function HomeDashboard({
               <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
                 Guest Reviews
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-400 flex items-center gap-1">
-                <TrendingUp className="w-3 h-3" /> +0.2 this week
-              </span>
+              {approvedReviews.length > 0 && (
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-400 flex items-center gap-1">
+                  <TrendingUp className="w-3 h-3" /> Active
+                </span>
+              )}
             </div>
             <div className="my-3 flex items-baseline gap-2">
-              <p className="text-2xl lg:text-3xl font-extrabold text-white font-mono tracking-tight flex items-center gap-1">
-                {avgRating} <Star className="w-5 h-5 text-amber-400 fill-amber-400 inline" />
-              </p>
-              <span className="text-xs text-neutral-400">({approvedReviews.length} verified ratings)</span>
+              {avgRating ? (
+                <>
+                  <p className="text-2xl lg:text-3xl font-extrabold text-white font-mono tracking-tight flex items-center gap-1">
+                    {avgRating} <Star className="w-5 h-5 text-amber-400 fill-amber-400 inline" />
+                  </p>
+                  <span className="text-xs text-neutral-400">({approvedReviews.length} verified ratings)</span>
+                </>
+              ) : (
+                <>
+                  <p className="text-xl font-bold text-neutral-300">
+                    No reviews yet
+                  </p>
+                  <span className="text-xs text-neutral-500">(0 ratings)</span>
+                </>
+              )}
             </div>
             <button
               onClick={() => onNavigate('reviews')}
@@ -463,48 +476,64 @@ export function HomeDashboard({
               </button>
             </div>
 
-            <div className="flex flex-col gap-3">
-              {reviews.filter((r) => r.status !== 'removed').slice(0, 4).map((rev) => {
-                const item = menuItems.find((i) => i.id === rev.item_id);
-                const dishName = item?.name || (rev.item_id ? rev.item_id.replace(/^item-/, '').replace(/-\d+$/, '').replace(/-/g, ' ') : 'Dish Feedback');
+            {reviews.filter((r) => r.status !== 'removed').length === 0 ? (
+              <div className="py-8 px-4 text-center rounded-xl bg-white/[0.02] border border-white/5 text-neutral-400">
+                <Star className="w-7 h-7 mx-auto mb-2 text-neutral-600" />
+                <p className="text-xs font-bold text-neutral-300">No guest reviews yet</p>
+                <p className="text-[11px] text-neutral-500 mt-0.5">
+                  Honest diner ratings will appear here as guests scan and review dishes.
+                </p>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-3">
+                {reviews.filter((r) => r.status !== 'removed').slice(0, 4).map((rev) => {
+                  const item = menuItems.find((i) => i.id === rev.item_id);
+                  const dishName = item?.name || (rev.item_id ? rev.item_id.replace(/^item-/, '').replace(/-\d+$/, '').replace(/-/g, ' ') : 'Dish Feedback');
 
-                return (
-                  <div key={rev.id} className="p-3.5 rounded-xl bg-white/[0.03] border border-white/5">
-                    <div className="flex items-center justify-between gap-2 mb-1.5">
-                      <span className="text-xs font-bold text-white truncate">{dishName}</span>
-                      <div className="flex items-center gap-0.5">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star
-                            key={i}
-                            className={`w-3 h-3 ${
-                              i < rev.rating ? 'text-amber-400 fill-amber-400' : 'text-neutral-700'
-                            }`}
-                          />
-                        ))}
+                  return (
+                    <div key={rev.id} className="p-3.5 rounded-xl bg-white/[0.03] border border-white/5">
+                      <div className="flex items-center justify-between gap-2 mb-1.5">
+                        <span className="text-xs font-bold text-white truncate">{dishName}</span>
+                        <div className="flex items-center gap-0.5">
+                          {Array.from({ length: 5 }).map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`w-3 h-3 ${
+                                i < rev.rating ? 'text-amber-400 fill-amber-400' : 'text-neutral-700'
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      {rev.comment ? (
+                        <p className="text-xs text-neutral-300 italic line-clamp-2">
+                          &ldquo;{rev.comment}&rdquo;
+                        </p>
+                      ) : (
+                        <p className="text-xs text-neutral-500 italic">
+                          (Rating provided without written comment)
+                        </p>
+                      )}
+                      <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/5 text-[10px] text-neutral-400">
+                        <span>{rev.created_at ? new Date(rev.created_at).toLocaleDateString() : 'Today'}</span>
+                        {rev.owner_reply ? (
+                          <span className="text-emerald-400 font-medium flex items-center gap-1">
+                            <CheckCircle2 className="w-3 h-3" /> Replied
+                          </span>
+                        ) : (
+                          <button
+                            onClick={() => onNavigate('reviews')}
+                            className="text-amber-400 hover:underline font-bold"
+                          >
+                            Reply to diner
+                          </button>
+                        )}
                       </div>
                     </div>
-                    <p className="text-xs text-neutral-300 italic line-clamp-2">
-                      "{rev.comment || 'Great presentation and delicious flavor!'}"
-                    </p>
-                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/5 text-[10px] text-neutral-400">
-                      <span>{rev.created_at ? new Date(rev.created_at).toLocaleDateString() : 'Today'}</span>
-                      {rev.owner_reply ? (
-                        <span className="text-emerald-400 font-medium flex items-center gap-1">
-                          <CheckCircle2 className="w-3 h-3" /> Replied
-                        </span>
-                      ) : (
-                        <button
-                          onClick={() => onNavigate('reviews')}
-                          className="text-amber-400 hover:underline font-bold"
-                        >
-                          Reply to diner
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
 

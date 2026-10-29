@@ -165,7 +165,7 @@ export function classifyMenuMatrix(
  */
 export function exportMenuToCsv(items: MenuItem[], categories: Category[]): string {
   const catMap = new Map(categories.map((c) => [c.id, c.name]));
-  const headers = ['ID', 'Name', 'Category', 'Price', 'Available', 'ChefsPick', 'Tags', 'Allergens', 'Description'];
+  const headers = ['ID', 'Name', 'Category', 'Price', 'Available', 'ChefsPick', 'Tags', 'Description'];
   
   const rows = items.map((item) => [
     item.id,
@@ -175,7 +175,6 @@ export function exportMenuToCsv(items: MenuItem[], categories: Category[]): stri
     item.is_available ? 'Yes' : 'No',
     item.is_chefs_pick ? 'Yes' : 'No',
     `"${(item.tags || []).join(', ')}"`,
-    `"${(item.allergens || []).join(', ')}"`,
     `"${(item.description || '').replace(/"/g, '""')}"`,
   ]);
 
@@ -232,7 +231,6 @@ export function parseMenuFromCsv(
       is_available: true,
       is_chefs_pick: false,
       tags: [],
-      allergens: [],
       sort_order: i,
     });
   }

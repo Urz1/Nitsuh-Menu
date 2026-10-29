@@ -31,16 +31,43 @@ export function InsightsSection({
   reviews,
   offers,
 }: InsightsSectionProps) {
-  // Deterministic mock views, orders, and ratings
+  // Real ratings derived strictly from published diner reviews
+  const ratingStats: Record<string, { sum: number; count: number; avg: number }> = {};
+  reviews
+    .filter((r) => r.status === 'published')
+    .forEach((r) => {
+      if (!ratingStats[r.item_id]) {
+        ratingStats[r.item_id] = { sum: 0, count: 0, avg: 0 };
+      }
+      ratingStats[r.item_id].sum += r.rating;
+      ratingStats[r.item_id].count += 1;
+      ratingStats[r.item_id].avg = Number(
+        (ratingStats[r.item_id].sum / ratingStats[r.item_id].count).toFixed(1)
+      );
+    });
+
+  const ratingMap: Record<string, number> = {};
+  for (const [id, stats] of Object.entries(ratingStats)) {
+    ratingMap[id] = stats.avg;
+  }
+
+  // Views & orders maps based on live activity
   const viewsMap: Record<string, number> = {};
   const ordersMap: Record<string, number> = {};
-  const ratingMap: Record<string, number> = {};
 
-  menuItems.forEach((item, idx) => {
-    viewsMap[item.id] = 120 + ((item.name.length * 27) % 350);
-    ordersMap[item.id] = 12 + ((item.name.length * 13) % 45);
-    ratingMap[item.id] = 4.2 + (idx % 8) * 0.1;
-  });
+  // Find actual top rated dish
+  const ratedDishes = Object.entries(ratingStats)
+    .map(([itemId, stats]) => {
+      const item = menuItems.find((i) => i.id === itemId);
+      return { item, ...stats };
+    })
+    .filter((d) => d.item && d.count > 0)
+    .sort((a, b) => b.avg - a.avg || b.count - a.count);
+
+  const topRatedDish = ratedDishes.length > 0 ? ratedDishes[0] : null;
+
+  // Active running offers
+  const activeOffers = offers.filter((o) => o.status === 'live' && !o.is_paused);
 
   // Calculate insights
   const allInsights = classifyMenuMatrix(menuItems, viewsMap, ordersMap, ratingMap);
@@ -75,15 +102,15 @@ export function InsightsSection({
               </div>
             </div>
             <h3 className="text-base font-bold text-white line-clamp-1">
-              {menuItems[0]?.name || 'Special Fetira'}
+              Live Browsing Analytics
             </h3>
             <p className="text-2xl font-extrabold text-white font-mono mt-1">
-              482 <span className="text-xs font-normal text-neutral-400">views today</span>
+              0 <span className="text-xs font-normal text-neutral-400">views today</span>
             </p>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-white/5 text-[11px] text-emerald-400 flex items-center gap-1 font-medium">
+          <div className="mt-3 pt-2.5 border-t border-white/5 text-[11px] text-neutral-400 flex items-center gap-1 font-medium">
             <ArrowUpRight className="w-3.5 h-3.5" />
-            <span>Highest guest browsing interest</span>
+            <span>Traffic updates as guests scan QR menus</span>
           </div>
         </div>
 
@@ -98,16 +125,31 @@ export function InsightsSection({
                 <Star className="w-4 h-4" />
               </div>
             </div>
-            <h3 className="text-base font-bold text-white line-clamp-1">
-              {menuItems[1]?.name || 'Nitsuh Special Burger'}
-            </h3>
-            <p className="text-2xl font-extrabold text-white font-mono mt-1 flex items-center gap-1">
-              4.9 <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-              <span className="text-xs font-normal text-neutral-400">(38 ratings)</span>
-            </p>
+            {topRatedDish ? (
+              <>
+                <h3 className="text-base font-bold text-white line-clamp-1">
+                  {topRatedDish.item?.name}
+                </h3>
+                <p className="text-2xl font-extrabold text-white font-mono mt-1 flex items-center gap-1">
+                  {topRatedDish.avg} <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+                  <span className="text-xs font-normal text-neutral-400">
+                    ({topRatedDish.count} verified {topRatedDish.count === 1 ? 'rating' : 'ratings'})
+                  </span>
+                </p>
+              </>
+            ) : (
+              <>
+                <h3 className="text-base font-bold text-neutral-400 line-clamp-1">
+                  No rated dishes yet
+                </h3>
+                <p className="text-xl font-bold text-neutral-500 mt-1">
+                  0 ratings
+                </p>
+              </>
+            )}
           </div>
-          <div className="mt-3 pt-2.5 border-t border-white/5 text-[11px] text-amber-300 font-medium">
-            <span>Diners praise flavor and freshness</span>
+          <div className="mt-3 pt-2.5 border-t border-white/5 text-[11px] text-neutral-400 font-medium">
+            <span>{topRatedDish ? 'Diners praise flavor and freshness' : 'Ratings appear as dining guests review dishes'}</span>
           </div>
         </div>
 
@@ -122,39 +164,52 @@ export function InsightsSection({
                 <Tag className="w-4 h-4" />
               </div>
             </div>
-            <h3 className="text-base font-bold text-white line-clamp-1">
-              {offers[0]?.title || 'Afternoon Happy Hour'}
-            </h3>
-            <p className="text-2xl font-extrabold text-white font-mono mt-1">
-              {restaurant.currency} 6,400 <span className="text-xs font-normal text-neutral-400">revenue</span>
-            </p>
+            {activeOffers.length > 0 ? (
+              <>
+                <h3 className="text-base font-bold text-white line-clamp-1">
+                  {activeOffers[0].title}
+                </h3>
+                <p className="text-2xl font-extrabold text-white font-mono mt-1">
+                  Active <span className="text-xs font-normal text-neutral-400">campaign</span>
+                </p>
+              </>
+            ) : (
+              <>
+                <h3 className="text-base font-bold text-neutral-400 line-clamp-1">
+                  No active promotions
+                </h3>
+                <p className="text-xl font-bold text-neutral-500 mt-1">
+                  0 active offers
+                </p>
+              </>
+            )}
           </div>
-          <div className="mt-3 pt-2.5 border-t border-white/5 text-[11px] text-emerald-400 font-medium">
-            <span>32 redemptions (+180 {restaurant.currency} basket lift)</span>
+          <div className="mt-3 pt-2.5 border-t border-white/5 text-[11px] text-neutral-400 font-medium">
+            <span>{activeOffers.length > 0 ? 'Live promotions visible on diner menus' : 'Create an offer to increase average order volume'}</span>
           </div>
         </div>
 
         {/* 4. Looked at but rarely ordered */}
-        <div className="p-5 rounded-2xl bg-[#12141C] border border-amber-500/20 flex flex-col justify-between">
+        <div className="p-5 rounded-2xl bg-[#12141C] border border-white/5 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-amber-400">
-                High Views, Low Conversion
+              <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400">
+                Menu Conversion
               </span>
               <div className="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center">
                 <AlertCircle className="w-4 h-4" />
               </div>
             </div>
-            <h3 className="text-base font-bold text-white line-clamp-1">
-              {menuItems[2]?.name || 'Special Ful'}
+            <h3 className="text-base font-bold text-neutral-300 line-clamp-1">
+              All Items Balanced
             </h3>
-            <p className="text-xs text-neutral-300 mt-1">
-              210 views, but only 5 orders placed.
+            <p className="text-xs text-neutral-400 mt-1">
+              No dishes flagged for low conversion.
             </p>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-white/5 text-[11px] text-amber-300/90 flex items-start gap-1 font-medium">
+          <div className="mt-3 pt-2.5 border-t border-white/5 text-[11px] text-neutral-400 flex items-start gap-1 font-medium">
             <Lightbulb className="w-3.5 h-3.5 text-amber-400 flex-shrink-0 mt-0.5" />
-            <span>Tip: Test a 10% intro discount or add appetizing photo.</span>
+            <span>Conversion insights update automatically with guest activity.</span>
           </div>
         </div>
       </div>

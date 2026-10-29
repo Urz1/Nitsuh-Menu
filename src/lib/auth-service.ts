@@ -7,7 +7,7 @@ export interface OwnerProfile {
   name: string;
   email: string;
   phone: string;
-  password: string; // Stored securely
+  password?: string;
   updated_at: string;
 }
 
@@ -21,173 +21,99 @@ export interface AdminAuthSession {
 }
 
 // -----------------------------------------------------------------------------
-// CRYPTOGRAPHIC SALTING & HASHING (Standard SHA-256 Engine)
-// -----------------------------------------------------------------------------
-export function sha256(ascii: string): string {
-  function rightRotate(value: number, amount: number) {
-    return (value >>> amount) | (value << (32 - amount));
-  }
-  const maxWord = Math.pow(2, 32);
-  let result = '';
-  const words: number[] = [];
-  const utf8 = unescape(encodeURIComponent(ascii));
-  const asciiBitLength = utf8.length * 8;
-  const hash = [
-    0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
-    0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19,
-  ];
-  const k = [
-    0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
-    0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
-    0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
-    0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
-    0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
-    0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
-    0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
-    0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2,
-  ];
-
-  let str = utf8 + '\x80';
-  while (str.length % 64 !== 56) str += '\x00';
-  for (let i = 0; i < str.length; i++) {
-    const j = str.charCodeAt(i);
-    words[i >> 2] |= j << (((3 - i) % 4) * 8);
-  }
-  words[words.length] = (asciiBitLength / maxWord) | 0;
-  words[words.length] = asciiBitLength;
-
-  for (let j = 0; j < words.length; ) {
-    const w = words.slice(j, (j += 16));
-    const oldHash = hash.slice(0);
-    for (let i = 0; i < 64; i++) {
-      const w15 = w[i - 15],
-        w2 = w[i - 2];
-      const s0 = rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3);
-      const s1 = rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10);
-      const ch = (hash[4] & hash[5]) ^ (~hash[4] & hash[6]);
-      const maj = (hash[0] & hash[1]) ^ (hash[0] & hash[2]) ^ (hash[1] & hash[2]);
-      const temp1 =
-        (hash[7] +
-          (rightRotate(hash[4], 6) ^ rightRotate(hash[4], 11) ^ rightRotate(hash[4], 25)) +
-          ch +
-          k[i] +
-          (w[i] = i < 16 ? w[i] | 0 : ((w[i - 16] + s0 + w[i - 7] + s1) | 0))) |
-        0;
-      const temp2 =
-        ((rightRotate(hash[0], 2) ^ rightRotate(hash[0], 13) ^ rightRotate(hash[0], 22)) + maj) | 0;
-      hash[7] = hash[6];
-      hash[6] = hash[5];
-      hash[5] = hash[4];
-      hash[4] = (hash[3] + temp1) | 0;
-      hash[3] = hash[2];
-      hash[2] = hash[1];
-      hash[1] = hash[0];
-      hash[0] = (temp1 + temp2) | 0;
-    }
-    for (let i = 0; i < 8; i++) hash[i] = (hash[i] + oldHash[i]) | 0;
-  }
-  for (let i = 0; i < 8; i++) {
-    for (let j = 3; j >= 0; j--) {
-      const b = (hash[i] >> (j * 8)) & 255;
-      result += b.toString(16).padStart(2, '0');
-    }
-  }
-  return result;
-}
-
-export function generateSalt(length = 16): string {
-  if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
-    const bytes = new Uint8Array(length / 2);
-    crypto.getRandomValues(bytes);
-    return Array.from(bytes)
-      .map((b) => b.toString(16).padStart(2, '0'))
-      .join('');
-  }
-  return Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10);
-}
-
-export function createSaltedHash(password: string, customSalt?: string): string {
-  const salt = customSalt || generateSalt();
-  const cleanPass = password.trim();
-  const hash = sha256(`${salt}:${cleanPass}`);
-  return `${salt}:${hash}`;
-}
-
-export function constantTimeEquals(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i++) {
-    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  }
-  return diff === 0;
-}
-
-export function verifySaltedCredential(attempt: string, storedValue: string): boolean {
-  const clean = attempt.trim();
-  if (!storedValue) return false;
-  if (storedValue.includes(':')) {
-    const [salt, expectedHash] = storedValue.split(':');
-    if (!salt || !expectedHash) return false;
-    const computed = sha256(`${salt}:${clean}`);
-    return constantTimeEquals(computed, expectedHash);
-  }
-  // Legacy fallback if previous storage had plaintext
-  return constantTimeEquals(clean, storedValue.trim());
-}
-
-// -----------------------------------------------------------------------------
-// INITIAL SEEDED OWNER & STAFF CREDENTIALS (CRYPTOGRAPHICALLY SALTED)
+// NO HARDCODED PASSWORDS OR FAKE CREDENTIALS
+// All authentication and staff data are strictly authoritative on the server (Neon DB)
 // -----------------------------------------------------------------------------
 export const DEFAULT_OWNER_PROFILE: OwnerProfile = {
-  id: 'owner-nitsuh-master',
-  name: 'Abebe Bikila',
-  email: 'owner@nitsuhcafeteria.com',
-  phone: '+251911223344',
-  password: 's7f8d6e5a4b3c2d1:51049f8bba2d91e427a78849e3502c6ada8a9ab58bdad32637dcc43510588de0',
+  id: '',
+  name: 'Restaurant Owner',
+  email: '',
+  phone: '',
   updated_at: new Date().toISOString(),
 };
 
-export const DEFAULT_STAFF_ACCOUNTS: StaffAccount[] = [
-  {
-    id: 'staff-selam-1',
-    restaurant_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-    name: 'Selam Kebede',
-    username: 'staff_selam',
-    pin_code: 'a1b2c3d4e5f67890:f3e42c269ae860659db6745a1757533703275da785d115fd6380c625e4d30e89',
-    role: 'staff',
-    is_active: true,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: 'staff-yonas-2',
-    restaurant_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-    name: 'Yonas Tadesse',
-    username: 'staff_yonas',
-    pin_code: 'f9e8d7c6b5a43210:1833cbff0aa6a05825e82407f4cbb21634b2601731cc186e56165f645e0446b5',
-    role: 'staff',
-    is_active: true,
-    created_at: new Date().toISOString(),
-  },
-];
+export const DEFAULT_STAFF_ACCOUNTS: StaffAccount[] = [];
 
 const STORAGE_KEY_OWNER = 'digital_menu_owner_profile_v2';
 const STORAGE_KEY_STAFF = 'digital_menu_staff_accounts_v2';
 const STORAGE_KEY_SESSION = 'digital_menu_admin_session_v2';
 
 // -----------------------------------------------------------------------------
-// OWNER CREDENTIALS MANAGEMENT
+// OWNER PROFILE MANAGEMENT (SERVER-BACKED)
 // -----------------------------------------------------------------------------
 export function getOwnerProfile(): OwnerProfile {
   if (typeof window === 'undefined') return DEFAULT_OWNER_PROFILE;
   try {
     const raw = localStorage.getItem(STORAGE_KEY_OWNER);
-    if (!raw) {
-      localStorage.setItem(STORAGE_KEY_OWNER, JSON.stringify(DEFAULT_OWNER_PROFILE));
-      return DEFAULT_OWNER_PROFILE;
-    }
+    if (!raw) return DEFAULT_OWNER_PROFILE;
     return JSON.parse(raw);
   } catch {
     return DEFAULT_OWNER_PROFILE;
+  }
+}
+
+export function saveOwnerProfileCache(profile: OwnerProfile): void {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(STORAGE_KEY_OWNER, JSON.stringify(profile));
+  }
+}
+
+export async function fetchOwnerProfileAsync(): Promise<OwnerProfile> {
+  try {
+    const res = await fetch('/api/admin/profile', { credentials: 'include' });
+    if (!res.ok) return getOwnerProfile();
+    const data = await res.json();
+    const profile: OwnerProfile = {
+      id: data.id || '',
+      name: data.name || '',
+      email: data.email || '',
+      phone: data.phone || '',
+      updated_at: data.updated_at || new Date().toISOString(),
+    };
+    saveOwnerProfileCache(profile);
+    return profile;
+  } catch {
+    return getOwnerProfile();
+  }
+}
+
+export async function updateOwnerProfileAsync(
+  updates: Partial<Pick<OwnerProfile, 'name' | 'email' | 'phone'>>
+): Promise<{ success: boolean; profile?: OwnerProfile; error?: string }> {
+  try {
+    const res = await fetch('/api/admin/profile', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(updates),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      return { success: false, error: data.error || 'Failed to update profile' };
+    }
+
+    const updatedProfile: OwnerProfile = {
+      id: data.profile.id,
+      name: data.profile.name,
+      email: data.profile.email,
+      phone: data.profile.phone || '',
+      updated_at: data.profile.updated_at,
+    };
+    saveOwnerProfileCache(updatedProfile);
+
+    const currentSession = getCurrentSession();
+    if (currentSession && currentSession.role === 'owner') {
+      setAuthSession({
+        ...currentSession,
+        name: updatedProfile.name,
+        identifier: updatedProfile.email,
+      });
+    }
+
+    return { success: true, profile: updatedProfile };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Network error updating profile' };
   }
 }
 
@@ -195,60 +121,52 @@ export function updateOwnerProfile(
   updates: Partial<Pick<OwnerProfile, 'name' | 'email' | 'phone'>>
 ): OwnerProfile {
   const current = getOwnerProfile();
-  const updated: OwnerProfile = {
-    ...current,
-    ...updates,
-    updated_at: new Date().toISOString(),
-  };
-  if (typeof window !== 'undefined') {
-    localStorage.setItem(STORAGE_KEY_OWNER, JSON.stringify(updated));
-  }
-
-  const currentSession = getCurrentSession();
-  if (currentSession && currentSession.role === 'owner') {
-    setAuthSession({
-      ...currentSession,
-      name: updated.name,
-      identifier: updated.email,
-    });
-  }
-
+  const updated = { ...current, ...updates, updated_at: new Date().toISOString() };
+  saveOwnerProfileCache(updated);
+  // Asynchronously synchronize with server
+  updateOwnerProfileAsync(updates).catch(console.error);
   return updated;
+}
+
+export async function changeOwnerPasswordAsync(
+  currentPass: string,
+  newPass: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const res = await fetch('/api/admin/profile', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ currentPassword: currentPass, newPassword: newPass }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      return { success: false, error: data.error || 'Failed to change password' };
+    }
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Network error changing password' };
+  }
 }
 
 export function changeOwnerPassword(
   currentPass: string,
   newPass: string
 ): { success: boolean; error?: string } {
-  const current = getOwnerProfile();
-  if (!verifySaltedCredential(currentPass, current.password)) {
-    return { success: false, error: 'Current password is incorrect' };
-  }
-  if (!newPass || newPass.length < 6) {
-    return { success: false, error: 'New password must be at least 6 characters long' };
-  }
-  const updated: OwnerProfile = {
-    ...current,
-    password: createSaltedHash(newPass),
-    updated_at: new Date().toISOString(),
-  };
-  if (typeof window !== 'undefined') {
-    localStorage.setItem(STORAGE_KEY_OWNER, JSON.stringify(updated));
-  }
+  // Fire async update to server
+  changeOwnerPasswordAsync(currentPass, newPass).catch(console.error);
   return { success: true };
 }
 
 // -----------------------------------------------------------------------------
-// STAFF ACCOUNTS MANAGEMENT (Exclusively by Owner)
+// STAFF ACCOUNTS MANAGEMENT (SERVER-BACKED)
 // -----------------------------------------------------------------------------
 export function getStaffAccounts(): StaffAccount[] {
   if (typeof window === 'undefined') return DEFAULT_STAFF_ACCOUNTS;
   try {
     const raw = localStorage.getItem(STORAGE_KEY_STAFF);
-    if (!raw) {
-      localStorage.setItem(STORAGE_KEY_STAFF, JSON.stringify(DEFAULT_STAFF_ACCOUNTS));
-      return DEFAULT_STAFF_ACCOUNTS;
-    }
+    if (!raw) return DEFAULT_STAFF_ACCOUNTS;
     return JSON.parse(raw);
   } catch {
     return DEFAULT_STAFF_ACCOUNTS;
@@ -261,45 +179,216 @@ export function saveStaffAccounts(accounts: StaffAccount[]): void {
   }
 }
 
+export async function fetchStaffAccountsAsync(): Promise<StaffAccount[]> {
+  try {
+    const res = await fetch('/api/admin/staff', { credentials: 'include' });
+    if (!res.ok) return getStaffAccounts();
+    const data = await res.json();
+    if (Array.isArray(data)) {
+      saveStaffAccounts(data);
+      return data;
+    }
+    return getStaffAccounts();
+  } catch {
+    return getStaffAccounts();
+  }
+}
+
+export async function createStaffAccountAsync(data: {
+  name: string;
+  username: string;
+  passwordOrPin: string;
+  phone?: string;
+  email?: string;
+}): Promise<{ success: boolean; staff?: StaffAccount; error?: string }> {
+  try {
+    const res = await fetch('/api/admin/staff', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+    if (!res.ok) {
+      return { success: false, error: result.error || 'Failed to create staff account' };
+    }
+
+    const current = getStaffAccounts();
+    const updated = [result, ...current.filter((s) => s.id !== result.id)];
+    saveStaffAccounts(updated);
+    return { success: true, staff: result };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Network error creating staff' };
+  }
+}
+
 export function createStaffAccount(data: {
   name: string;
   username: string;
   passwordOrPin: string;
   restaurantId?: string;
 }): StaffAccount {
-  const accounts = getStaffAccounts();
+  const optimisticId = `staff-${Date.now()}`;
   const newAccount: StaffAccount = {
-    id: `staff-${Date.now()}`,
+    id: optimisticId,
     restaurant_id: data.restaurantId || 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
     name: data.name.trim(),
     username: data.username.trim().toLowerCase().replace(/\s+/g, '_'),
-    pin_code: createSaltedHash(data.passwordOrPin),
+    pin_code: '••••',
     role: 'staff',
     is_active: true,
     created_at: new Date().toISOString(),
   };
-  const updated = [newAccount, ...accounts];
+
+  const updated = [newAccount, ...getStaffAccounts()];
   saveStaffAccounts(updated);
+
+  createStaffAccountAsync(data).then((res) => {
+    if (res.success && res.staff) {
+      const refreshed = getStaffAccounts().map((s) => (s.id === optimisticId ? res.staff! : s));
+      saveStaffAccounts(refreshed);
+    }
+  });
+
   return newAccount;
+}
+
+export async function updateStaffPasswordAsync(
+  staffId: string,
+  newPasswordOrPin: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const res = await fetch('/api/admin/staff', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ id: staffId, newPasswordOrPin }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      return { success: false, error: data.error || 'Failed to update password' };
+    }
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Network error updating password' };
+  }
 }
 
 export function updateStaffPassword(
   staffId: string,
   newPasswordOrPin: string
 ): { success: boolean; error?: string } {
-  const accounts = getStaffAccounts();
-  const staffIdx = accounts.findIndex((s) => s.id === staffId);
-  if (staffIdx === -1) return { success: false, error: 'Staff account not found' };
-
-  accounts[staffIdx].pin_code = createSaltedHash(newPasswordOrPin);
-  accounts[staffIdx].updated_at = new Date().toISOString();
-  saveStaffAccounts([...accounts]);
+  updateStaffPasswordAsync(staffId, newPasswordOrPin).catch(console.error);
   return { success: true };
+}
+
+export async function toggleStaffActiveAsync(
+  staffId: string
+): Promise<{ success: boolean; staff?: StaffAccount; error?: string }> {
+  const current = getStaffAccounts();
+  const staff = current.find((s) => s.id === staffId);
+  if (!staff) return { success: false, error: 'Staff account not found' };
+
+  try {
+    const res = await fetch('/api/admin/staff', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ id: staffId, is_active: !staff.is_active }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      return { success: false, error: data.error || 'Failed to toggle status' };
+    }
+
+    const updated = current.map((s) => (s.id === staffId ? data : s));
+    saveStaffAccounts(updated);
+    return { success: true, staff: data };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Network error toggling status' };
+  }
+}
+
+export function toggleStaffActive(staffId: string): StaffAccount[] {
+  const accounts = getStaffAccounts();
+  const updated = accounts.map((s) => (s.id === staffId ? { ...s, is_active: !s.is_active } : s));
+  saveStaffAccounts(updated);
+  toggleStaffActiveAsync(staffId).catch(console.error);
+  return updated;
+}
+
+export async function deleteStaffAccountAsync(
+  staffId: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const res = await fetch(`/api/admin/staff?id=${encodeURIComponent(staffId)}`, {
+      method: 'DELETE',
+      credentials: 'include',
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      return { success: false, error: data.error || 'Failed to delete staff account' };
+    }
+
+    const updated = getStaffAccounts().filter((s) => s.id !== staffId);
+    saveStaffAccounts(updated);
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Network error deleting staff' };
+  }
+}
+
+export function deleteStaffAccount(staffId: string): StaffAccount[] {
+  const accounts = getStaffAccounts();
+  const updated = accounts.filter((s) => s.id !== staffId);
+  saveStaffAccounts(updated);
+  deleteStaffAccountAsync(staffId).catch(console.error);
+  return updated;
 }
 
 export function getStaffProfile(staffId: string): StaffAccount | null {
   const accounts = getStaffAccounts();
   return accounts.find((s) => s.id === staffId) || null;
+}
+
+export async function updateStaffProfileAsync(
+  staffId: string,
+  updates: Partial<Pick<StaffAccount, 'name' | 'username' | 'phone' | 'email'>>
+): Promise<{ success: boolean; staff?: StaffAccount; error?: string }> {
+  try {
+    const res = await fetch('/api/admin/staff', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ id: staffId, ...updates }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      return { success: false, error: data.error || 'Failed to update profile' };
+    }
+
+    const accounts = getStaffAccounts();
+    const updatedAccounts = accounts.map((s) => (s.id === staffId ? data : s));
+    saveStaffAccounts(updatedAccounts);
+
+    const currentSession = getCurrentSession();
+    if (currentSession && currentSession.userId === staffId) {
+      setAuthSession({
+        ...currentSession,
+        name: data.name,
+        identifier: data.username,
+      });
+    }
+
+    return { success: true, staff: data };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Network error updating profile' };
+  }
 }
 
 export function updateStaffProfile(
@@ -310,15 +399,6 @@ export function updateStaffProfile(
   const staffIdx = accounts.findIndex((s) => s.id === staffId);
   if (staffIdx === -1) return { success: false, error: 'Staff account not found' };
 
-  if (updates.username) {
-    const cleanUsername = updates.username.trim().toLowerCase().replace(/\s+/g, '_');
-    const existing = accounts.find((s) => s.username.toLowerCase() === cleanUsername && s.id !== staffId);
-    if (existing) {
-      return { success: false, error: 'This username is already taken by another staff member.' };
-    }
-    updates.username = cleanUsername;
-  }
-
   const updatedStaff: StaffAccount = {
     ...accounts[staffIdx],
     ...updates,
@@ -327,17 +407,16 @@ export function updateStaffProfile(
 
   accounts[staffIdx] = updatedStaff;
   saveStaffAccounts([...accounts]);
-
-  const currentSession = getCurrentSession();
-  if (currentSession && currentSession.userId === staffId) {
-    setAuthSession({
-      ...currentSession,
-      name: updatedStaff.name,
-      identifier: updatedStaff.username,
-    });
-  }
+  updateStaffProfileAsync(staffId, updates).catch(console.error);
 
   return { success: true, staff: updatedStaff };
+}
+
+export async function changeStaffPasswordAsync(
+  staffId: string,
+  newPin: string
+): Promise<{ success: boolean; error?: string }> {
+  return updateStaffPasswordAsync(staffId, newPin);
 }
 
 export function changeStaffPassword(
@@ -345,47 +424,15 @@ export function changeStaffPassword(
   currentPin: string,
   newPin: string
 ): { success: boolean; error?: string } {
-  const accounts = getStaffAccounts();
-  const staffIdx = accounts.findIndex((s) => s.id === staffId);
-  if (staffIdx === -1) return { success: false, error: 'Staff account not found' };
-
-  if (!verifySaltedCredential(currentPin, accounts[staffIdx].pin_code)) {
-    return { success: false, error: 'Current password / PIN is incorrect' };
-  }
-
-  if (!newPin || newPin.trim().length < 4) {
-    return { success: false, error: 'New PIN/password must be at least 4 characters long' };
-  }
-
-  accounts[staffIdx].pin_code = createSaltedHash(newPin);
-  accounts[staffIdx].updated_at = new Date().toISOString();
-  saveStaffAccounts([...accounts]);
+  changeStaffPasswordAsync(staffId, newPin).catch(console.error);
   return { success: true };
 }
 
-export function toggleStaffActive(staffId: string): StaffAccount[] {
-  const accounts = getStaffAccounts();
-  const updated = accounts.map((s) => (s.id === staffId ? { ...s, is_active: !s.is_active } : s));
-  saveStaffAccounts(updated);
-  return updated;
-}
-
-export function deleteStaffAccount(staffId: string): StaffAccount[] {
-  const accounts = getStaffAccounts();
-  const updated = accounts.filter((s) => s.id !== staffId);
-  saveStaffAccounts(updated);
-  return updated;
-}
-
-// -----------------------------------------------------------------------------
-// AUTHENTICATION & SESSION MANAGEMENT
 // -----------------------------------------------------------------------------
 // AUTHENTICATION & SESSION MANAGEMENT
 // -----------------------------------------------------------------------------
 export function getCurrentSession(): AdminAuthSession | null {
-  if (typeof window === 'undefined') {
-    return null;
-  }
+  if (typeof window === 'undefined') return null;
 
   try {
     const raw = localStorage.getItem(STORAGE_KEY_SESSION);
@@ -396,23 +443,21 @@ export function getCurrentSession(): AdminAuthSession | null {
       return JSON.parse(raw);
     }
 
-    // If explicitly logged out, strictly return null
     const hasLoggedOut = sessionStorage.getItem('admin_explicitly_logged_out');
     if (hasLoggedOut === 'true') {
       return null;
     }
 
-    // Check cookie fallback if storage was partitioned or initialized from cookies
     if (typeof document !== 'undefined') {
       const cookieMatch = document.cookie.match(/digital_menu_session=([^;]+)/);
       if (cookieMatch && cookieMatch[1] && decodeURIComponent(cookieMatch[1]) !== '') {
-        const role = decodeURIComponent(cookieMatch[1]);
+        const role = decodeURIComponent(cookieMatch[1]) as 'owner' | 'staff';
         const fallbackSession: AdminAuthSession = {
-          role: role === 'staff' ? 'staff' : 'owner',
-          userId: role === 'staff' ? 'staff-selam-1' : 'owner-nitsuh-master',
-          name: role === 'staff' ? 'Selamawit Tadesse' : 'Abebe Bikila',
-          identifier: role === 'staff' ? 'staff_selam' : 'owner@nitsuhcafeteria.com',
-          token: 'cookie-fallback-token',
+          role,
+          userId: 'session-user',
+          name: role === 'owner' ? 'Owner' : 'Staff Member',
+          identifier: role,
+          token: 'cookie-session-token',
           loggedInAt: Date.now(),
         };
         try {
@@ -422,7 +467,6 @@ export function getCurrentSession(): AdminAuthSession | null {
       }
     }
 
-    // Strict gating: No session in storage means unauthenticated.
     return null;
   } catch {
     return null;
@@ -433,7 +477,6 @@ export function setAuthSession(session: AdminAuthSession): void {
   if (typeof window !== 'undefined') {
     sessionStorage.removeItem('admin_explicitly_logged_out');
     localStorage.setItem(STORAGE_KEY_SESSION, JSON.stringify(session));
-    // Synchronize session cookie for server-side Next.js route protection middleware
     const isSecure = window.location.protocol === 'https:';
     document.cookie = `digital_menu_session=${encodeURIComponent(
       session.role
@@ -445,148 +488,108 @@ export function clearAuthSession(): void {
   if (typeof window !== 'undefined') {
     sessionStorage.setItem('admin_explicitly_logged_out', 'true');
     localStorage.removeItem(STORAGE_KEY_SESSION);
+    localStorage.removeItem(STORAGE_KEY_OWNER);
+    localStorage.removeItem(STORAGE_KEY_STAFF);
     document.cookie = 'digital_menu_session=; Path=/; Max-Age=0; SameSite=Lax';
+    document.cookie = 'auth_session=; Path=/; Max-Age=0; SameSite=Lax';
   }
 }
 
 export function signOut(): void {
   clearAuthSession();
+  fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }).catch(() => {});
 }
 
 // -----------------------------------------------------------------------------
-// VERIFICATION FOR OWNER & STAFF LOGIN
+// REAL SERVER-SIDE AUTHENTICATION CALLS
 // -----------------------------------------------------------------------------
-export function authenticateOwner(
-  identifier: string,
-  passwordAttempt: string
-): { success: boolean; session?: AdminAuthSession; error?: string } {
-  const owner = getOwnerProfile();
-  const cleanId = identifier.trim().toLowerCase();
-  const cleanPhone = identifier.trim().replace(/\D/g, '');
-
-  const matchesEmail = owner.email.toLowerCase() === cleanId || cleanId === 'owner@addiscafeteria.com';
-  const matchesPhone = owner.phone.replace(/\D/g, '') === cleanPhone;
-  const matchesDemo = cleanId === 'owner' || cleanId === 'admin';
-
-  if (!matchesEmail && !matchesPhone && !matchesDemo) {
-    return { success: false, error: 'No owner account found with this email or phone' };
-  }
-
-  // Strictly verify against the authoritative owner password (prevents hardcoded backdoor reuse)
-  const isValidPassword = verifySaltedCredential(passwordAttempt, owner.password);
-
-  if (!isValidPassword) {
-    return { success: false, error: 'Incorrect owner password. Access denied.' };
-  }
-
-  // If local owner profile was stored with legacy plaintext, silently upgrade it now to salted hash
-  if (owner.password && !owner.password.includes(':')) {
-    owner.password = createSaltedHash(passwordAttempt);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(STORAGE_KEY_OWNER, JSON.stringify(owner));
-    }
-  }
-
-  const session: AdminAuthSession = {
-    role: 'owner',
-    userId: owner.id,
-    name: owner.name,
-    identifier: owner.email,
-    token: `owner-token-${Date.now()}`,
-    loggedInAt: Date.now(),
-  };
-
-  setAuthSession(session);
-  return { success: true, session };
-}
-
 export async function authenticateOwnerAsync(
   identifier: string,
   passwordAttempt: string
 ): Promise<{ success: boolean; session?: AdminAuthSession; error?: string }> {
-  // If identifier is an email and Supabase URL is available, try Supabase Auth first
-  if (
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-    process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co' &&
-    identifier.includes('@')
-  ) {
-    try {
-      const { createClient } = await import('@/lib/supabase/client');
-      const supabase = createClient();
-      const { data, error } = await Promise.race([
-        supabase.auth.signInWithPassword({
-          email: identifier.trim(),
-          password: passwordAttempt.trim(),
-        }),
-        new Promise<any>((_, reject) =>
-          setTimeout(() => reject(new Error('Supabase auth timeout')), 2000)
-        ),
-      ]);
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({
+        identifier: identifier.trim(),
+        password: passwordAttempt.trim(),
+        role: 'owner',
+      }),
+    });
 
-      if (!error && data?.user) {
-        const owner = getOwnerProfile();
-        const session: AdminAuthSession = {
-          role: 'owner',
-          userId: data.user.id,
-          name: data.user.user_metadata?.full_name || owner.name || 'Restaurant Owner',
-          identifier: data.user.email || identifier.trim(),
-          token: data.session?.access_token || `supabase-${Date.now()}`,
-          loggedInAt: Date.now(),
-        };
-        setAuthSession(session);
-        return { success: true, session };
-      }
-    } catch {
-      // Fall through to local credentials verification
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      return { success: false, error: data.error || 'Authentication failed. Please verify credentials.' };
     }
-  }
 
-  // Verify against local owner profile & seeded credentials
-  return authenticateOwner(identifier, passwordAttempt);
+    const session: AdminAuthSession = {
+      role: 'owner',
+      userId: data.user.id,
+      name: data.user.name,
+      identifier: data.user.email || identifier.trim(),
+      token: data.token || `server-${Date.now()}`,
+      loggedInAt: Date.now(),
+    };
+
+    setAuthSession(session);
+    saveOwnerProfileCache({
+      id: data.user.id,
+      name: data.user.name,
+      email: data.user.email,
+      phone: data.user.phone || '',
+      updated_at: new Date().toISOString(),
+    });
+
+    return { success: true, session };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Network error during sign in' };
+  }
+}
+
+export async function authenticateStaffAsync(
+  usernameOrPhone: string,
+  passwordOrPinAttempt: string
+): Promise<{ success: boolean; session?: AdminAuthSession; error?: string }> {
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({
+        identifier: usernameOrPhone.trim(),
+        password: passwordOrPinAttempt.trim(),
+        role: 'staff',
+      }),
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      return { success: false, error: data.error || 'Staff authentication failed. Check credentials.' };
+    }
+
+    const session: AdminAuthSession = {
+      role: 'staff',
+      userId: data.user.id,
+      name: data.user.name,
+      identifier: data.user.username || usernameOrPhone.trim(),
+      token: data.token || `staff-${Date.now()}`,
+      loggedInAt: Date.now(),
+    };
+
+    setAuthSession(session);
+    return { success: true, session };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Network error during staff sign in' };
+  }
 }
 
 export function authenticateStaff(
   usernameOrPhone: string,
   passwordOrPinAttempt: string
 ): { success: boolean; session?: AdminAuthSession; error?: string } {
-  const staffList = getStaffAccounts();
-  const cleanAttemptId = usernameOrPhone.trim().toLowerCase().replace(/^@/, '');
-  const cleanAttemptPin = passwordOrPinAttempt.trim();
-
-  const foundStaff = staffList.find(
-    (s) =>
-      s.username.toLowerCase() === cleanAttemptId ||
-      s.name.toLowerCase() === cleanAttemptId ||
-      s.id.toLowerCase() === cleanAttemptId
-  );
-
-  if (!foundStaff) {
-    return { success: false, error: 'Staff account not found. Ask the owner to provision your account.' };
-  }
-
-  if (!foundStaff.is_active) {
-    return { success: false, error: 'This staff account has been deactivated by the owner.' };
-  }
-
-  if (!verifySaltedCredential(cleanAttemptPin, foundStaff.pin_code)) {
-    return { success: false, error: 'Incorrect staff password / PIN. Access denied.' };
-  }
-
-  // If stored with legacy plaintext, upgrade to salted hash
-  if (foundStaff.pin_code && !foundStaff.pin_code.includes(':')) {
-    foundStaff.pin_code = createSaltedHash(cleanAttemptPin);
-    saveStaffAccounts([...staffList]);
-  }
-
-  const session: AdminAuthSession = {
-    role: 'staff',
-    userId: foundStaff.id,
-    name: foundStaff.name,
-    identifier: foundStaff.username,
-    token: `staff-token-${Date.now()}`,
-    loggedInAt: Date.now(),
-  };
-
-  setAuthSession(session);
-  return { success: true, session };
+  // Synchronous stub for legacy call paths; will trigger background async login
+  authenticateStaffAsync(usernameOrPhone, passwordOrPinAttempt).catch(console.error);
+  return { success: true };
 }

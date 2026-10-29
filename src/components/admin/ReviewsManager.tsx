@@ -19,6 +19,7 @@ import {
   moderateDishReview,
   getReviewModerationLogs,
   toggleItemReviews,
+  clearReviewCache,
 } from '@/lib/data-provider';
 import {
   generateWeeklyReviewSummary,
@@ -45,6 +46,7 @@ import {
   Plus,
   Info,
   Check,
+  RotateCcw,
 } from 'lucide-react';
 
 interface ReviewsManagerProps {
@@ -98,10 +100,9 @@ export function ReviewsManager({
       getReviewSettings(restaurant.id),
       getReviewModerationLogs(restaurant.id),
     ]);
-    if (revs && revs.length > 0) {
-      setReviews(revs);
-      onReviewsChange?.(revs);
-    }
+    const safeRevs = Array.isArray(revs) ? revs : [];
+    setReviews(safeRevs);
+    onReviewsChange?.(safeRevs);
     setSettings(sets);
     setModerationLogs(logs);
   };
@@ -137,7 +138,7 @@ export function ReviewsManager({
     // 4-second live polling to ensure remote updates from other devices appear without refresh
     const pollInterval = setInterval(() => {
       getDishReviews(restaurant.id).then((freshRevs) => {
-        if (freshRevs && freshRevs.length > 0) {
+        if (Array.isArray(freshRevs)) {
           setReviews(freshRevs);
           onReviewsChange?.(freshRevs);
         }
@@ -317,6 +318,15 @@ export function ReviewsManager({
     showToast(`Alert frequency updated to ${freq}.`);
   };
 
+  // Clear local cache
+  const handleClearCache = () => {
+    clearReviewCache();
+    setReviews([]);
+    onReviewsChange?.([]);
+    showToast('Local review cache cleared.');
+    loadData();
+  };
+
   return (
     <div className="flex flex-col gap-6 text-white animate-in fade-in duration-300">
       {/* 1. TOP HEADER & CONTROLS */}
@@ -356,6 +366,15 @@ export function ReviewsManager({
           >
             <Settings className="w-3.5 h-3.5 text-neutral-400" />
             <span>Tags & Settings</span>
+          </button>
+
+          <button
+            onClick={handleClearCache}
+            title="Clear legacy local cache"
+            className="h-9 px-3.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-neutral-300 flex items-center gap-1.5 transition-colors"
+          >
+            <RotateCcw className="w-3.5 h-3.5 text-neutral-400" />
+            <span>Reset Cache</span>
           </button>
 
           {userRole === 'owner' && (
@@ -484,9 +503,13 @@ export function ReviewsManager({
       {filteredReviews.length === 0 ? (
         <div className="py-16 text-center rounded-3xl bg-white/[0.02] border border-white/10 text-neutral-400">
           <MessageSquare className="w-10 h-10 mx-auto mb-2 text-neutral-600" />
-          <p className="text-sm font-bold text-white">No reviews in this view</p>
-          <p className="text-xs text-neutral-500 mt-1">
-            {filterTab === 'attention'
+          <p className="text-sm font-bold text-white">
+            {reviews.length === 0 ? 'No guest reviews yet' : 'No reviews in this view'}
+          </p>
+          <p className="text-xs text-neutral-500 mt-1 max-w-sm mx-auto">
+            {reviews.length === 0
+              ? 'When diners rate dishes or leave feedback from the QR menu, their reviews will appear here live.'
+              : filterTab === 'attention'
               ? 'Great news! All flagged and reported reviews have been resolved.'
               : 'Select another filter above to view diner feedback.'}
           </p>

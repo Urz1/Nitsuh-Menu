@@ -6,7 +6,7 @@ import { MenuItem, ItemOption, DishReview, DishReviewStats } from '@/types/datab
 import { ItemPricingResult } from '@/lib/pricing-engine';
 import { getIntelligentPairings, PairingRecommendation } from '@/lib/recommendation-engine';
 import { formatMoney, triggerHaptic, getOptimizedCloudinaryUrl } from '@/lib/utils';
-import { X, Minus, Plus, Tag, Clock, UtensilsCrossed, Flame, Star, MessageSquare, Flag, Check } from 'lucide-react';
+import { X, Minus, Plus, Tag, Clock, UtensilsCrossed, Flame, Star, MessageSquare, Flag, Check, Sparkles } from 'lucide-react';
 
 import { Language, TRANSLATIONS } from '@/lib/translations';
 import { DishPlaceholder } from './DishPlaceholder';
@@ -27,6 +27,21 @@ interface ItemDetailModalProps {
   onReportReview?: (reviewId: string, reason: string) => void;
   locale?: Language | string;
 }
+
+export const PIZZA_CUSTOMIZATION_OPTIONS: ItemOption[] = [
+  { id: 'opt-boilegg', item_id: '', name: 'Boil Egg', name_am: 'የተቀቀለ እንቁላል', price: 60, is_required: false },
+  { id: 'opt-chili', item_id: '', name: 'Chili', name_am: 'ቃሪያ', price: 60, is_required: false },
+  { id: 'opt-mozzarella', item_id: '', name: 'Mozzarella Cheese', name_am: 'ሞዛሬላ ቺዝ', price: 180, is_required: false },
+  { id: 'opt-tuna', item_id: '', name: 'Extra Tuna', name_am: 'ተጨማሪ ቱና', price: 180, is_required: false },
+  { id: 'opt-chicken', item_id: '', name: 'Extra Chicken', name_am: 'ተጨማሪ ዶሮ', price: 300, is_required: false },
+];
+
+export const BURGER_CUSTOMIZATION_OPTIONS: ItemOption[] = [
+  { id: 'opt-friedegg', item_id: '', name: 'Fried Egg', name_am: 'የተጠበሰ እንቁላል', price: 60, is_required: false },
+  { id: 'opt-ketchup', item_id: '', name: 'Ketchup', name_am: 'ኬትቸፕ', price: 60, is_required: false },
+  { id: 'opt-mayo', item_id: '', name: 'Mayonnaise', name_am: 'ማዮኔዝ', price: 80, is_required: false },
+  { id: 'opt-slicecheese', item_id: '', name: 'Slice Cheese', name_am: 'ስላይስ ቺዝ', price: 60, is_required: false },
+];
 
 export function ItemDetailModal({
   item,
@@ -53,6 +68,21 @@ export function ItemDetailModal({
 
   const currentLocale = (locale as Language) || 'en';
   const t = TRANSLATIONS[currentLocale] || TRANSLATIONS.en;
+
+  // Resolve authentic add-ons / extras from Nitsuh menu
+  const availableOptions: ItemOption[] = React.useMemo(() => {
+    if (!item) return [];
+    if (item.options && item.options.length > 0) return item.options;
+    const cat = (item.category_id || '').toLowerCase();
+    const name = (item.name || '').toLowerCase();
+    if (cat.includes('pizza') || name.includes('pizza')) {
+      return PIZZA_CUSTOMIZATION_OPTIONS;
+    }
+    if (cat.includes('burger') || name.includes('burger')) {
+      return BURGER_CUSTOMIZATION_OPTIONS;
+    }
+    return [];
+  }, [item]);
 
   // Research-backed intelligent pairings computation
   const intelligentPairings: PairingRecommendation[] = React.useMemo(() => {
@@ -227,8 +257,8 @@ export function ItemDetailModal({
               )}
             </div>
 
-            {/* 3-Review Threshold: Show rating & count ONLY when review count >= 3 */}
-            {reviewStats?.is_threshold_met && (
+            {/* Real Rating or Subtle New Dish Badge */}
+            {reviewStats && reviewStats.review_count > 0 ? (
               <div className="flex items-center gap-1.5 mt-1 text-xs">
                 <div className="flex items-center text-amber-500">
                   <Star className="w-3.5 h-3.5 fill-current" />
@@ -236,7 +266,17 @@ export function ItemDetailModal({
                 </div>
                 <span className="text-[var(--muted)]">•</span>
                 <span className="text-xs text-[var(--muted)]">
-                  {reviewStats.review_count} verified reviews
+                  {reviewStats.review_count} {reviewStats.review_count === 1 ? 'verified review' : 'verified reviews'}
+                </span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1.5 mt-1 text-xs">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[var(--surface)] text-[11px] font-medium text-[var(--foreground)] border border-[var(--border)]">
+                  <Sparkles className="w-3 h-3 text-amber-500" />
+                  {t.newDish}
+                </span>
+                <span className="text-xs text-[var(--muted)]">
+                  • {t.beFirstToReview}
                 </span>
               </div>
             )}
@@ -320,7 +360,7 @@ export function ItemDetailModal({
             </div>
           )}
 
-          {/* Meta Box (Spice, Dietary, Allergens) */}
+          {/* Meta Box (Spice & Fasting Tag) */}
           <div className="p-3.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs flex flex-col gap-2">
             <div className="flex justify-between items-center">
               <span className="font-semibold text-[var(--muted)]">{t.spiceLevel}:</span>
@@ -342,37 +382,24 @@ export function ItemDetailModal({
               </div>
             </div>
 
-            <div className="flex justify-between items-center">
-              <span className="font-semibold text-[var(--muted)]">{t.dietary}:</span>
-              <span className="font-bold text-[var(--foreground)] uppercase">
-                {item.tags?.filter((t) => t !== 'chefsPick').join(', ') || 'Standard'}
-              </span>
-            </div>
-
-            {item.allergens && item.allergens.length > 0 && (
-              <div>
-                <span className="font-semibold text-[var(--muted)] block mb-1">{t.containsAllergens}:</span>
-                <div className="flex flex-wrap gap-1.5">
-                  {item.allergens.map((allg) => (
-                    <span
-                      key={allg}
-                      className="px-2 py-0.5 rounded-full bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] font-medium text-[11px]"
-                    >
-                      {allg}
-                    </span>
-                  ))}
-                </div>
+            {item.tags?.includes('fasting') && (
+              <div className="flex justify-between items-center">
+                <span className="font-semibold text-[var(--muted)]">{t.dietary}:</span>
+                <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                  {t.filterFasting || 'Fasting (የጾም)'}
+                </span>
               </div>
             )}
           </div>
 
           {/* Add-ons & Customizations */}
-          {item.options && item.options.length > 0 && (
+          {availableOptions.length > 0 && (
             <div className="flex flex-col gap-2">
               <h3 className="text-sm font-bold text-[var(--foreground)]">{t.customizations}</h3>
               <div className="flex flex-col gap-2">
-                {item.options.map((opt) => {
+                {availableOptions.map((opt) => {
                   const isChecked = selectedOptions.some((o) => o.id === opt.id);
+                  const optDisplayName = currentLocale === 'am' && opt.name_am ? opt.name_am : opt.name;
                   return (
                     <label
                       key={opt.id}
@@ -388,7 +415,7 @@ export function ItemDetailModal({
                           onChange={() => toggleOption(opt)}
                           className="w-4 h-4 rounded text-[var(--primary)] focus:ring-[var(--primary)]"
                         />
-                        <span className="text-xs font-semibold text-[var(--foreground)]">{opt.name}</span>
+                        <span className="text-xs font-semibold text-[var(--foreground)]">{optDisplayName}</span>
                       </div>
                       <span className="text-xs font-bold" style={{ color: 'var(--primary)' }}>
                         {opt.price > 0 ? `+${formatMoney(opt.price, currencySymbol)}` : 'Included'}

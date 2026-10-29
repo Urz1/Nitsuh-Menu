@@ -48,13 +48,13 @@ export interface AppTranslations {
   spiceLevel: string;
   spiceNone: string;
   dietary: string;
-  allergens: string;
-  containsAllergens: string;
   guestReviews: string;
   guestReviewsSubtitle: string;
   reviewsCount: string;
   rateThisDish: string;
   noReviewsYet: string;
+  newDish: string;
+  beFirstToReview: string;
   reportReview: string;
   specialInstructions: string;
   specialInstructionsPlaceholder: string;
@@ -113,7 +113,6 @@ export interface AppTranslations {
   tableQr: string;
   menuQr: string;
   shareMenu: string;
-  allergenGuide: string;
   staffOwnerPortal: string;
   installAppTitle: string;
   installAppDesc: string;
@@ -135,24 +134,6 @@ export interface AppTranslations {
   themeWarmRustic: string;
   tableNumberLabel: string;
   guestWifiLabel: string;
-
-  // Dietary Legend Modal
-  legendTitle: string;
-  legendDesc: string;
-  vegetarianTitle: string;
-  vegetarianDesc: string;
-  veganTitle: string;
-  veganDesc: string;
-  glutenFreeTitle: string;
-  glutenFreeDesc: string;
-  halalTitle: string;
-  halalDesc: string;
-  nutFreeTitle: string;
-  nutFreeDesc: string;
-  spiceIndicatorsTitle: string;
-  spiceIndicatorsDesc: string;
-  chefSelectionTitle: string;
-  chefSelectionDesc: string;
 
   // Star Rating Labels
   starRatingLabels: [string, string, string, string, string, string];
@@ -241,13 +222,13 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     spiceLevel: 'Spice Level',
     spiceNone: 'Mild / None',
     dietary: 'Dietary',
-    allergens: 'Allergens',
-    containsAllergens: 'Contains Allergens',
     guestReviews: 'Guest Reviews',
     guestReviewsSubtitle: 'Honest feedback from recent diners',
     reviewsCount: 'verified ratings',
     rateThisDish: 'Rate this dish',
     noReviewsYet: 'No reviews yet for this dish. Be the first to share your thoughts!',
+    newDish: 'New Dish',
+    beFirstToReview: 'Be the first to review',
     reportReview: 'Report',
     specialInstructions: 'Special Instructions',
     specialInstructionsPlaceholder: 'e.g. Extra napkins, dressing on side...',
@@ -302,7 +283,6 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     tableQr: 'Table QR',
     menuQr: 'Menu QR',
     shareMenu: 'Share Menu',
-    allergenGuide: 'Allergen Guide',
     staffOwnerPortal: 'Staff & Owner Portal',
     installAppTitle: 'Install Nitsuh Cafe & Restaurant App',
     installAppDesc: 'Instant access & offline dining',
@@ -323,23 +303,6 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     themeWarmRustic: 'Warm Rustic',
     tableNumberLabel: 'Table Number',
     guestWifiLabel: 'Guest WiFi',
-
-    legendTitle: 'Dietary & Allergen Guide',
-    legendDesc: 'Our kitchen takes cross-contamination and guest wellness seriously.',
-    vegetarianTitle: 'Vegetarian (V)',
-    vegetarianDesc: 'Contains no meat, fish, or poultry. May include dairy or eggs.',
-    veganTitle: 'Vegan (VG)',
-    veganDesc: '100% plant-based with zero animal products or byproducts.',
-    glutenFreeTitle: 'Gluten-Free (GF)',
-    glutenFreeDesc: 'Prepared without wheat or with certified gluten-free grains.',
-    halalTitle: 'Halal Certified',
-    halalDesc: 'Meats sourced exclusively from certified halal suppliers.',
-    nutFreeTitle: 'Nut-Free',
-    nutFreeDesc: 'Formulated without peanuts or tree nuts in preparation.',
-    spiceIndicatorsTitle: 'Spice Indicators',
-    spiceIndicatorsDesc: 'Level 1: Mild • Level 2: Medium • Level 3: Fiery Hot',
-    chefSelectionTitle: "Chef's Selection",
-    chefSelectionDesc: 'Signature culinary highlights recommended by our executive chef.',
 
     starRatingLabels: ['', 'Needs Improvement', 'Fair', 'Good', 'Very Good', 'Exceptional!'],
     defaultReviewTags: [
@@ -427,13 +390,13 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     spiceLevel: 'የማቃጠል መጠን',
     spiceNone: 'የማያቃጥል / አልጫ',
     dietary: 'የአመጋገብ አይነት',
-    allergens: 'አለርጂዎች',
-    containsAllergens: 'የያዛቸው አለርጂዎች',
     guestReviews: 'የደንበኞች አስተያየት',
     guestReviewsSubtitle: 'ከቅርብ ጊዜ እንግዶች የተሰጠ አስተያየት',
     reviewsCount: 'የተረጋገጡ ደረጃዎች',
     rateThisDish: 'ለዚህ ምግብ ደረጃ ይስጡ',
     noReviewsYet: 'እስካሁን ምንም አስተያየት አልተሰጠም። ቀዳሚ ሆነው ይገምግሙ!',
+    newDish: 'አዲስ ምግብ',
+    beFirstToReview: 'ቀዳሚ ሆነው ይገምግሙ',
     reportReview: 'ሪፖርት አድርግ',
     specialInstructions: 'ልዩ ትዕዛዝ',
     specialInstructionsPlaceholder: 'ምሳሌ፦ ተጨማሪ ሶስ፣ ጨው ይቀነስ...',
@@ -488,7 +451,6 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     tableQr: 'የጠረጴዛ QR',
     menuQr: 'የሜኑ QR',
     shareMenu: 'ምናሌውን ያጋሩ',
-    allergenGuide: 'የአለርጂ መመሪያ',
     staffOwnerPortal: 'የሰራተኞች እና የባለቤት መግቢያ',
     installAppTitle: 'የአዲስ ካፌቴሪያ አፕ ጫን',
     installAppDesc: 'ቀጥታና ከመስመር ውጭ ለማዘዝ',
@@ -509,23 +471,6 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     themeWarmRustic: 'ሞቅ ያለ ባህላዊ',
     tableNumberLabel: 'የጠረጴዛ ቁጥር',
     guestWifiLabel: 'የእንግዳ ዋይፋይ',
-
-    legendTitle: 'የአመጋገብ እና የአለርጂ መመሪያ',
-    legendDesc: 'ማዕድ ቤታችን ለምግብ ጥራት እና ለእንግዶች ጤና ከፍተኛ ጥንቃቄ ያደርጋል።',
-    vegetarianTitle: 'አትክልት ብቻ (V)',
-    vegetarianDesc: 'ስጋ፣ ዓሳ ወይም ዶሮ የሌለው። የወተት ተዋጽኦ ወይም እንቁላል ሊኖረው ይችላል።',
-    veganTitle: 'ቪጋን (VG)',
-    veganDesc: '100% ከዕፅዋት ብቻ የተዘጋጀ፤ ምንም ዓይነት የእንስሳት ተዋጽኦ የሌለው።',
-    glutenFreeTitle: 'ከግሉተን ነፃ (GF)',
-    glutenFreeDesc: 'ያለ ስንዴ ወይም በግሉተን-ነፃ እህሎች የተዘጋጀ።',
-    halalTitle: 'የተረጋገጠ ሀላል',
-    halalDesc: 'ከህጋዊ ሀላል አቅራቢዎች የተገኘ ስጋ።',
-    nutFreeTitle: 'ከለውዝ ነፃ',
-    nutFreeDesc: 'ምንም አይነት ለውዝ ሳይገባበት የተዘጋጀ።',
-    spiceIndicatorsTitle: 'የማቃጠል ደረጃዎች',
-    spiceIndicatorsDesc: 'ደረጃ 1: ቀላል • ደረጃ 2: መካከለኛ • ደረጃ 3: በጣም የሚያቃጥል',
-    chefSelectionTitle: 'የዋና ሼፍ ምርጥ',
-    chefSelectionDesc: 'በዋናው ሼፍ የሚመከሩ ልዩ ተወዳጅ ምግቦች።',
 
     starRatingLabels: ['', 'ማሻሻል ይፈልጋል', 'መካከለኛ', 'ጥሩ', 'በጣም ጥሩ', 'ድንቅ ጣዕም!'],
     defaultReviewTags: [
@@ -613,13 +558,13 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     spiceLevel: 'Heerka Basbaaska',
     spiceNone: 'Bilaa Basbaas / Khafiif',
     dietary: 'Nooca Cuntada',
-    allergens: 'Waxyaabaha Xasaasiyadda',
-    containsAllergens: 'Waxaa ku jira Xasaasiyad',
     guestReviews: 'Fikradaha Macaamiisha',
     guestReviewsSubtitle: 'Aragtiyada dhabta ah ee macaamiisha dhawaan',
     reviewsCount: 'qiimeyn xaqiiq ah',
     rateThisDish: 'Qiimee cuntadan',
     noReviewsYet: 'Weli fikrad lagama dhiiban cuntadan. Noqo qofka ugu horeeya!',
+    newDish: 'Cunto Cusub',
+    beFirstToReview: 'Noqo qofka ugu horeeya',
     reportReview: 'Gudbi Cabasho',
     specialInstructions: 'Farriimo Gaar ah',
     specialInstructionsPlaceholder: 'Tusaale: Koob dheeraad ah, suugo gooni ah...',
@@ -674,7 +619,6 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     tableQr: 'QR-ka Miiska',
     menuQr: 'QR-ka Liiska',
     shareMenu: 'La wadaag Liiska',
-    allergenGuide: 'Hagaha Xasaasiyadda',
     staffOwnerPortal: 'Bogga Shaqaalaha & Mulkiilaha',
     installAppTitle: 'Ku rakibo App-ka Nitsuh Cafe & Restaurant',
     installAppDesc: 'Galitaanka degdega ah iyo cunto xilliga khadka la’aan',
@@ -695,23 +639,6 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     themeWarmRustic: 'Diiran Dabiici',
     tableNumberLabel: 'Lambarka Miiska',
     guestWifiLabel: 'WiFi-ga Martida',
-
-    legendTitle: 'Hagaha Cuntada & Xasaasiyadda',
-    legendDesc: 'Jikadayadu waxay si weyn u ilaalisaa nadaafadda iyo caafimaadka macaamiisha.',
-    vegetarianTitle: 'Khudradeed (V)',
-    vegetarianDesc: 'Ma laha hilib, kalluun ama digaag. Waxaa ku jiri kara caano ama ukun.',
-    veganTitle: 'Dhir Keliya (VG)',
-    veganDesc: '100% dhir oo aan wax xoolo ama wax soo saarkooda lahayn.',
-    glutenFreeTitle: 'Gluten La’aan (GF)',
-    glutenFreeDesc: 'Lama isticmaalin sarreen ama hadhuudh leh gluten.',
-    halalTitle: 'Xalaal Shahaado Leh',
-    halalDesc: 'Hilib laga keenay shirkado xalaal ah oo la aaminsan yahay.',
-    nutFreeTitle: 'Lows La’aan',
-    nutFreeDesc: 'Wax loos ama laws geed ah kuma jiraan diyaarinta.',
-    spiceIndicatorsTitle: 'Heerarka Basbaaska',
-    spiceIndicatorsDesc: 'Heerka 1: Khafiif • Heerka 2: Dhexdhexaad • Heerka 3: Aad u kulul',
-    chefSelectionTitle: 'Xulashada Madaxa Cunto-kariyaha',
-    chefSelectionDesc: 'Cuntooyin khaas ah oo uu taliyaha jikadu kugula talinayo.',
 
     starRatingLabels: ['', 'Hagaajin u baahan', 'Dhexdhexaad', 'Wanaagsan', 'Aad u wanaagsan', 'Heersare!'],
     defaultReviewTags: [
@@ -799,13 +726,13 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     spiceLevel: 'Nivel de picante',
     spiceNone: 'Suave / Ninguno',
     dietary: 'Dietético',
-    allergens: 'Alérgenos',
-    containsAllergens: 'Contiene alérgenos',
     guestReviews: 'Opiniones de clientes',
     guestReviewsSubtitle: 'Comentarios honestos de comensales recientes',
     reviewsCount: 'calificaciones verificadas',
     rateThisDish: 'Califica este plato',
     noReviewsYet: 'Aún no hay opiniones sobre este plato. ¡Sé el primero!',
+    newDish: 'Plato nuevo',
+    beFirstToReview: 'Sé el primero en opinar',
     reportReview: 'Reportar',
     specialInstructions: 'Instrucciones especiales',
     specialInstructionsPlaceholder: 'p. ej. Servilletas extras, salsa aparte...',
@@ -860,7 +787,6 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     tableQr: 'QR de la mesa',
     menuQr: 'QR del menú',
     shareMenu: 'Compartir menú',
-    allergenGuide: 'Guía de alérgenos',
     staffOwnerPortal: 'Portal del personal y propietario',
     installAppTitle: 'Instalar App de Nitsuh Cafe & Restaurant',
     installAppDesc: 'Acceso instantáneo y pedidos sin conexión',
@@ -881,23 +807,6 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     themeWarmRustic: 'Rústico cálido',
     tableNumberLabel: 'Número de mesa',
     guestWifiLabel: 'Wi-Fi de clientes',
-
-    legendTitle: 'Guía dietética y de alérgenos',
-    legendDesc: 'Nuestra cocina se toma muy en serio la contaminación cruzada y la salud del comensal.',
-    vegetarianTitle: 'Vegetariano (V)',
-    vegetarianDesc: 'No contiene carne, pescado ni aves. Puede incluir lácteos o huevos.',
-    veganTitle: 'Vegano (VG)',
-    veganDesc: '100% de origen vegetal sin productos ni derivados animales.',
-    glutenFreeTitle: 'Sin gluten (GF)',
-    glutenFreeDesc: 'Elaborado sin trigo o con cereales certificados sin gluten.',
-    halalTitle: 'Certificado Halal',
-    halalDesc: 'Carnes obtenidas exclusivamente de proveedores halal certificados.',
-    nutFreeTitle: 'Sin frutos secos',
-    nutFreeDesc: 'Formulado sin cacahuetes ni frutos secos en su preparación.',
-    spiceIndicatorsTitle: 'Indicadores de picante',
-    spiceIndicatorsDesc: 'Nivel 1: Suave • Nivel 2: Medio • Nivel 3: Muy picante',
-    chefSelectionTitle: 'Selección del chef',
-    chefSelectionDesc: 'Platos culinarios destacados recomendados por nuestro chef ejecutivo.',
 
     starRatingLabels: ['', 'Necesita mejorar', 'Aceptable', 'Bueno', 'Muy bueno', '¡Excepcional!'],
     defaultReviewTags: [

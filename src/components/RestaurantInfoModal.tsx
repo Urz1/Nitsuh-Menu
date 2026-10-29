@@ -17,12 +17,6 @@ import {
   Lock,
   Sun,
   Moon,
-  Leaf,
-  Sprout,
-  Salad,
-  WheatOff,
-  Flame,
-  ChefHat,
   Info,
 } from 'lucide-react';
 import { triggerHaptic } from '@/lib/utils';
@@ -83,15 +77,6 @@ export function RestaurantInfoModal({
       localStorage.setItem('nitsuh-theme', 'light');
     }
   };
-
-  const DIETARY_GUIDE = [
-    { icon: Leaf, label: isAm ? 'የጾም (Fasting)' : 'Fasting (የጾም)', desc: isAm ? 'ከስጋ እና ወተት ነፃ የሆኑ የጾም ምግቦች' : 'Ethiopian fasting dishes (meat & dairy free)' },
-    { icon: Sprout, label: isAm ? 'ቬጀቴሪያን' : 'Vegetarian', desc: isAm ? 'ከስጋ ነፃ የሆኑ ምግቦች' : 'Dishes prepared without meat or poultry' },
-    { icon: Salad, label: isAm ? 'ቪጋን' : 'Vegan', desc: isAm ? '100% ከዕፅዋት ብቻ የተዘጋጁ' : '100% plant-based, no animal ingredients' },
-    { icon: WheatOff, label: isAm ? 'ከግሉተን ነፃ' : 'Gluten-Free', desc: isAm ? 'ግሉተን የሌላቸው አማራጮች' : 'Prepared without gluten-containing ingredients' },
-    { icon: ShieldCheck, label: isAm ? 'ሀላል' : 'Halal', desc: isAm ? 'በሀላል መስፈርት የተዘጋጁ' : 'Prepared according to Halal standards' },
-    { icon: Flame, label: isAm ? 'ቅመም/የሚቃጥል' : 'Spicy', desc: isAm ? 'በበርበሬ ወይም አዋዜ የተቀመሙ' : 'Seasoned with chili, awaze, or spices' },
-  ];
 
   return (
     <div
@@ -234,28 +219,7 @@ export function RestaurantInfoModal({
             </div>
           )}
 
-          {/* 4. Dietary & Allergen Guide */}
-          <div className="bg-[var(--surface)] rounded-2xl p-4 border border-[var(--border)]">
-            <h3 className="font-bold text-sm text-[var(--foreground)] mb-2 flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-[var(--primary)]" />
-              <span>{isAm ? 'የምግብ እና የጾም ምልክቶች' : 'Dietary & Allergen Guide'}</span>
-            </h3>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              {DIETARY_GUIDE.map((d, i) => {
-                const Icon = d.icon;
-                return (
-                  <div key={i} className="flex items-center gap-2 p-1.5 rounded-lg bg-[var(--card)] border border-[var(--border)]/50">
-                    <Icon className="w-3.5 h-3.5 text-[var(--primary)] flex-shrink-0" />
-                    <div className="min-w-0">
-                      <p className="font-semibold text-[var(--foreground)] truncate">{d.label}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* 5. Quick Tools: Dark Mode, QR Share & Install App */}
+          {/* 4. Quick Tools: Dark Mode, QR Share & Install App */}
           <div className="grid grid-cols-2 gap-2 pt-1">
             <button
               onClick={toggleTheme}
@@ -288,7 +252,7 @@ export function RestaurantInfoModal({
             )}
           </div>
 
-          {/* 6. Admin Link */}
+          {/* 5. Admin Link */}
           <div className="text-center pt-2">
             <Link
               href="/admin"

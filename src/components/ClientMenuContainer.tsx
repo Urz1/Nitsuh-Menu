@@ -23,7 +23,6 @@ import { OrderSummarySheet } from './OrderSummarySheet';
 import { ServerCardModal } from './ServerCardModal';
 import { ServiceAssistanceModal } from './ServiceAssistanceModal';
 import { SettingsModal } from './SettingsModal';
-import { AllergenLegendModal } from './AllergenLegendModal';
 import { QrModal } from './QrModal';
 import { PWAInstallPrompt } from './PWAInstallPrompt';
 import { applyThemeTokensToDOM } from './ThemeManager';
@@ -220,7 +219,6 @@ export function ClientMenuContainer({
   const [isServerCardOpen, setIsServerCardOpen] = useState(false);
   const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-  const [isLegendModalOpen, setIsLegendModalOpen] = useState(false);
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -659,7 +657,8 @@ export function ClientMenuContainer({
   // Filtered & Sorted items computation
   // Filtered & Sorted items computation (Continuous scroll across all categories)
   const filteredItems = useMemo(() => {
-    let result = [...items];
+    // Exclude add-on toppings/extras from main dish grid (they are selectable inside ItemDetailModal)
+    let result = items.filter((i) => !i.tags?.includes('extra'));
 
     // Search query filter
     if (searchQuery.trim().length > 0) {
@@ -670,8 +669,7 @@ export function ClientMenuContainer({
           (i.name_es && i.name_es.toLowerCase().includes(q)) ||
           (i.name_am && i.name_am.toLowerCase().includes(q)) ||
           (i.description || '').toLowerCase().includes(q) ||
-          (i.tags && i.tags.join(' ').toLowerCase().includes(q)) ||
-          (i.allergens && i.allergens.join(' ').toLowerCase().includes(q))
+          (i.tags && i.tags.join(' ').toLowerCase().includes(q))
       );
     }
 
@@ -739,7 +737,7 @@ export function ClientMenuContainer({
   const itemCountsByCategory = useMemo(() => {
     const counts: Record<string, number> = {};
     for (const cat of categories) {
-      counts[cat.id] = items.filter((i) => i.category_id === cat.id).length;
+      counts[cat.id] = items.filter((i) => i.category_id === cat.id && !i.tags?.includes('extra')).length;
     }
     return counts;
   }, [categories, items]);
@@ -861,7 +859,7 @@ export function ClientMenuContainer({
             }
           }}
           itemCounts={itemCountsByCategory}
-          totalItemsCount={items.length}
+          totalItemsCount={items.filter((i) => !i.tags?.includes('extra')).length}
           activeFilter={activeFilter}
           onToggleFasting={() => {
             const nextFilter = activeFilter === 'fasting' ? 'all' : 'fasting';
@@ -1089,7 +1087,7 @@ export function ClientMenuContainer({
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--surface)] text-[var(--foreground)] border border-[var(--border)] font-bold text-xs hover:border-[var(--primary)] hover:text-[var(--primary)] active:scale-95 transition-all shadow-xs"
                 >
                   <Utensils className="w-3.5 h-3.5 text-[var(--primary)]" />
-                  <span>{locale === 'am' ? 'ሁሉንም ምግቦች አሳይ' : 'Show All Categories'} ({items.length})</span>
+                  <span>{locale === 'am' ? 'ሁሉንም ምግቦች አሳይ' : 'Show All Categories'} ({items.filter((i) => !i.tags?.includes('extra')).length})</span>
                 </button>
               </div>
             )}
@@ -1163,10 +1161,6 @@ export function ClientMenuContainer({
           >
             <Share2 className="w-3.5 h-3.5" />
             <span>{TRANSLATIONS[locale]?.shareMenu || 'Share Menu'}</span>
-          </button>
-          <button onClick={() => setIsLegendModalOpen(true)} className="inline-flex items-center gap-1">
-            <Info className="w-3.5 h-3.5" />
-            <span>{TRANSLATIONS[locale]?.allergenGuide || 'Allergen Guide'}</span>
           </button>
         </div>
         <div className="pt-3 border-t border-[var(--border)]/50 mt-1 flex flex-col sm:flex-row items-center justify-center gap-2 text-[11px] text-[var(--muted)]/60">
@@ -1278,12 +1272,6 @@ export function ClientMenuContainer({
         locale={locale}
         onLocaleChange={(loc: string) => setLocale(loc as Language)}
         wifiInfo={restaurant.wifi_config}
-      />
-
-      <AllergenLegendModal
-        isOpen={isLegendModalOpen}
-        onClose={() => setIsLegendModalOpen(false)}
-        locale={locale}
       />
 
       <QrModal
@@ -1484,7 +1472,7 @@ export function ClientMenuContainer({
         locale={locale}
       />
 
-      {/* 10. CONSOLIDATED RESTAURANT INFO SHEET (WIFI, HOURS, ALLERGENS, MAP, THEME) */}
+      {/* 10. CONSOLIDATED RESTAURANT INFO SHEET (WIFI, HOURS, MAP, THEME) */}
       <RestaurantInfoModal
         isOpen={isInfoModalOpen}
         onClose={() => setIsInfoModalOpen(false)}

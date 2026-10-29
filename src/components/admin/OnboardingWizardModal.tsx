@@ -432,7 +432,7 @@ export function OnboardingWizardModal({
               <div>
                 <h3 className="text-lg font-bold text-white">Add your first signature dish</h3>
                 <p className="text-xs text-neutral-400 mt-1">
-                  Essentials first: you can enrich with allergens, size options, and tags anytime later.
+                  Essentials first: you can enrich with fasting tag, size options, and customizations anytime later.
                 </p>
               </div>
 

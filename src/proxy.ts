@@ -11,8 +11,9 @@ export function proxy(request: NextRequest) {
   // Protect all /admin routes except the public login portal (/admin/login)
   if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
     const sessionCookie = request.cookies.get('digital_menu_session')?.value;
+    const authCookie = request.cookies.get('auth_session')?.value;
 
-    if (!sessionCookie || (sessionCookie !== 'owner' && sessionCookie !== 'staff')) {
+    if (!authCookie && (!sessionCookie || (sessionCookie !== 'owner' && sessionCookie !== 'staff'))) {
       const loginUrl = new URL('/admin/login', request.url);
       return NextResponse.redirect(loginUrl);
     }

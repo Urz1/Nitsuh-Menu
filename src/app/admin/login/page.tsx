@@ -1,14 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   authenticateOwnerAsync,
-  authenticateStaff,
+  authenticateStaffAsync,
   getOwnerProfile,
-  getStaffAccounts,
-  DEFAULT_OWNER_PROFILE,
 } from '@/lib/auth-service';
 import { triggerHaptic } from '@/lib/utils';
 import {
@@ -26,6 +24,8 @@ import {
   HelpCircle,
   Sun,
   Moon,
+  Sparkles,
+  Phone,
 } from 'lucide-react';
 
 export default function AdminLoginPage() {
@@ -51,6 +51,18 @@ export default function AdminLoginPage() {
     } catch {}
   };
 
+  // Setup state (Detects whether master owner already exists in Neon DB)
+  const [hasOwner, setHasOwner] = useState<boolean | null>(null);
+  const [isCheckingSetup, setIsCheckingSetup] = useState(true);
+
+  // Setup Form State
+  const [setupName, setSetupName] = useState('');
+  const [setupEmail, setSetupEmail] = useState('');
+  const [setupPhone, setSetupPhone] = useState('');
+  const [setupPassword, setSetupPassword] = useState('');
+  const [showSetupPassword, setShowSetupPassword] = useState(false);
+
+  // Role Tab: Owner vs Staff
   const [tab, setTab] = useState<'owner' | 'staff'>('owner');
 
   // Owner form state
@@ -69,6 +81,60 @@ export default function AdminLoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+
+  // Check setup on mount
+  useEffect(() => {
+    fetch('/api/auth/setup')
+      .then((res) => res.json())
+      .then((data) => {
+        if (typeof data.hasOwner === 'boolean') {
+          setHasOwner(data.hasOwner);
+        }
+      })
+      .catch(() => {})
+      .finally(() => setIsCheckingSetup(false));
+  }, []);
+
+  // ---------------------------------------------------------------------------
+  // FIRST-TIME OWNER SETUP
+  // ---------------------------------------------------------------------------
+  const handleSetupOwner = async (e: React.FormEvent) => {
+    e.preventDefault();
+    triggerHaptic(10);
+    setIsLoading(true);
+    setErrorMsg(null);
+    setSuccessMsg(null);
+
+    try {
+      const res = await fetch('/api/auth/setup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: setupName,
+          email: setupEmail,
+          phone: setupPhone,
+          password: setupPassword,
+        }),
+      });
+
+      const data = await res.json();
+      setIsLoading(false);
+
+      if (!res.ok) {
+        triggerHaptic(20);
+        setErrorMsg(data.error || 'Failed to initialize owner account');
+        return;
+      }
+
+      setSuccessMsg('Owner account initialized and saved to database! Loading dashboard...');
+      setTimeout(() => {
+        window.location.href = '/admin';
+      }, 350);
+    } catch {
+      setIsLoading(false);
+      setErrorMsg('Network error creating owner account. Please try again.');
+    }
+  };
 
   // ---------------------------------------------------------------------------
   // OWNER AUTHENTICATION
@@ -103,16 +169,16 @@ export default function AdminLoginPage() {
   // ---------------------------------------------------------------------------
   // STAFF AUTHENTICATION
   // ---------------------------------------------------------------------------
-  const handleStaffLogin = (e?: React.FormEvent | React.MouseEvent) => {
+  const handleStaffLogin = async (e?: React.FormEvent | React.MouseEvent) => {
     if (e && 'preventDefault' in e) e.preventDefault();
     triggerHaptic(10);
     setIsLoading(true);
     setErrorMsg(null);
     setSuccessMsg(null);
 
-    const result = authenticateStaff(staffUsername, staffPassword);
+    try {
+      const result = await authenticateStaffAsync(staffUsername, staffPassword);
 
-    setTimeout(() => {
       setIsLoading(false);
       if (!result.success) {
         triggerHaptic(20);
@@ -124,7 +190,10 @@ export default function AdminLoginPage() {
       setTimeout(() => {
         window.location.href = '/admin';
       }, 250);
-    }, 250);
+    } catch {
+      setIsLoading(false);
+      setErrorMsg('Staff authentication error. Please try again.');
+    }
   };
 
   // ---------------------------------------------------------------------------
@@ -212,52 +281,8 @@ export default function AdminLoginPage() {
             Restaurant Portal
           </h1>
           <p className={`text-xs mt-1 ${isLight ? 'text-neutral-500' : 'text-neutral-400'}`}>
-            Secure authentication for Restaurant Owner and Service Staff
+            Authoritative server-side authentication backed by Neon PostgreSQL
           </p>
-        </div>
-
-        {/* Role Tabs: Owner vs Staff */}
-        <div
-          className={`flex p-1 rounded-2xl mb-6 border transition-colors ${
-            isLight ? 'bg-neutral-100 border-neutral-200' : 'bg-white/[0.04] border-white/10'
-          }`}
-        >
-          <button
-            type="button"
-            onClick={() => {
-              triggerHaptic(8);
-              setTab('owner');
-              setErrorMsg(null);
-              setSuccessMsg(null);
-            }}
-            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-              tab === 'owner'
-                ? 'bg-amber-500 text-black shadow-md'
-                : isLight
-                ? 'text-neutral-600 hover:text-neutral-900'
-                : 'text-neutral-400 hover:text-white'
-            }`}
-          >
-            Restaurant Owner
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              triggerHaptic(8);
-              setTab('staff');
-              setErrorMsg(null);
-              setSuccessMsg(null);
-            }}
-            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-              tab === 'staff'
-                ? 'bg-amber-500 text-black shadow-md'
-                : isLight
-                ? 'text-neutral-600 hover:text-neutral-900'
-                : 'text-neutral-400 hover:text-white'
-            }`}
-          >
-            Staff Portal
-          </button>
         </div>
 
         {/* Error Alert */}
@@ -277,284 +302,451 @@ export default function AdminLoginPage() {
         )}
 
         {/* =========================================================================
-            1. OWNER LOGIN FORM (Email/Phone + Password)
+            0. INITIAL OWNER SETUP (Displayed ONLY when staff_users table has no owner)
            ========================================================================= */}
-        {tab === 'owner' && !isForgotOpen && (
-          <form onSubmit={handleOwnerLogin} className="flex flex-col gap-4">
-            <div>
-              <label
-                className={`text-xs font-semibold block mb-1.5 ${
-                  isLight ? 'text-neutral-700' : 'text-neutral-300'
-                }`}
-              >
-                Owner Email or Phone Number
-              </label>
-              <div className="relative">
-                <Mail className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
-                <input
-                  type="text"
-                  required
-                  data-testid="owner-identifier-input"
-                  value={ownerIdentifier}
-                  onChange={(e) => setOwnerIdentifier(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleOwnerLogin(e);
-                  }}
-                  placeholder="owner@nitsuhcafeteria.com or +251..."
-                  className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
-                    isLight
-                      ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
-                      : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
-                  }`}
-                />
+        {isCheckingSetup ? (
+          <div className="py-12 flex flex-col items-center justify-center gap-2.5 text-neutral-400">
+            <div className="w-6 h-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
+            <span className="text-xs font-medium">Connecting to secure database...</span>
+          </div>
+        ) : hasOwner === false ? (
+          <div className="flex flex-col gap-4 animate-in fade-in">
+            <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs">
+              <div className="flex items-center gap-2 font-bold text-amber-600 dark:text-amber-400 mb-1">
+                <Sparkles className="w-4 h-4 flex-shrink-0" />
+                <span>First-Time Setup Required</span>
               </div>
+              <p className={isLight ? 'text-neutral-600' : 'text-neutral-300'}>
+                No owner account exists in your database yet. Create your authoritative owner credentials below to initialize the system securely.
+              </p>
             </div>
 
-            <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label
-                  className={`text-xs font-semibold ${
-                    isLight ? 'text-neutral-700' : 'text-neutral-300'
-                  }`}
-                >
-                  Owner Password
+            <form onSubmit={handleSetupOwner} className="flex flex-col gap-3.5">
+              <div>
+                <label className={`text-xs font-semibold block mb-1 ${isLight ? 'text-neutral-700' : 'text-neutral-300'}`}>
+                  Full Name
                 </label>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsForgotOpen(true);
-                    setRecoveryEmail(ownerIdentifier.includes('@') ? ownerIdentifier : '');
-                  }}
-                  className={`text-[11px] hover:underline cursor-pointer ${
-                    isLight ? 'text-amber-600 font-semibold' : 'text-amber-400/90'
-                  }`}
-                >
-                  Forgot password?
-                </button>
-              </div>
-              <div className="relative">
-                <Lock className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
-                <input
-                  type={showOwnerPassword ? 'text' : 'password'}
-                  required
-                  data-testid="owner-password-input"
-                  value={ownerPassword}
-                  onChange={(e) => setOwnerPassword(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleOwnerLogin(e);
-                  }}
-                  placeholder="••••••••••••"
-                  className={`w-full h-11 pl-10 pr-10 rounded-xl text-xs outline-none transition-colors border ${
-                    isLight
-                      ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
-                      : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
-                  }`}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowOwnerPassword(!showOwnerPassword)}
-                  className={`absolute right-3.5 top-3.5 transition-colors ${
-                    isLight
-                      ? 'text-neutral-400 hover:text-neutral-700'
-                      : 'text-neutral-400 hover:text-white'
-                  }`}
-                  aria-label={showOwnerPassword ? 'Hide password' : 'Show password'}
-                >
-                  {showOwnerPassword ? (
-                    <EyeOff className="w-4 h-4" />
-                  ) : (
-                    <Eye className="w-4 h-4" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={handleOwnerLogin}
-              disabled={isLoading}
-              className="w-full h-11 rounded-xl bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 font-bold text-xs text-white shadow-lg shadow-orange-950/20 transition-all flex items-center justify-center gap-1.5 mt-2 disabled:opacity-50 cursor-pointer active:scale-[0.99]"
-            >
-              <span>{isLoading ? 'Authenticating...' : 'Sign In as Owner'}</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </form>
-        )}
-
-        {/* =========================================================================
-            1.1 OWNER FORGOT PASSWORD VIEW
-           ========================================================================= */}
-        {tab === 'owner' && isForgotOpen && (
-          <form onSubmit={handleForgotPassword} className="flex flex-col gap-4 animate-in fade-in">
-            <h3 className={`text-sm font-bold ${isLight ? 'text-neutral-900' : 'text-white'}`}>
-              Reset Owner Password
-            </h3>
-            <p className={`text-xs ${isLight ? 'text-neutral-500' : 'text-neutral-400'}`}>
-              Enter your registered owner email address to receive password recovery instructions.
-            </p>
-
-            {recoverySent ? (
-              <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center">
-                <CheckCircle2 className="w-6 h-6 text-emerald-500 mx-auto mb-2" />
-                <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400 mb-1">
-                  Recovery Dispatched
+                <div className="relative">
+                  <User className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
+                  <input
+                    type="text"
+                    required
+                    value={setupName}
+                    onChange={(e) => setSetupName(e.target.value)}
+                    placeholder="e.g. Abebe Bikila"
+                    className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
+                      isLight
+                        ? 'bg-neutral-50 border-neutral-300 text-neutral-900 focus:bg-white focus:border-amber-500'
+                        : 'bg-white/[0.05] border-white/10 text-white focus:border-amber-500'
+                    }`}
+                  />
                 </div>
-                <p className={`text-xs ${isLight ? 'text-neutral-700' : 'text-neutral-300'}`}>
-                  Password instructions and reset link dispatched to <strong>{recoveryEmail}</strong>.
-                </p>
-                <p className={`text-[11px] mt-2 ${isLight ? 'text-neutral-500' : 'text-neutral-400'}`}>
-                  Please check your inbox (and spam folder) to complete your password update.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsForgotOpen(false);
-                    setRecoverySent(false);
-                  }}
-                  className="mt-4 text-xs text-amber-600 dark:text-amber-400 underline font-semibold block mx-auto cursor-pointer"
-                >
-                  Return to Sign In
-                </button>
               </div>
-            ) : (
-              <>
+
+              <div>
+                <label className={`text-xs font-semibold block mb-1 ${isLight ? 'text-neutral-700' : 'text-neutral-300'}`}>
+                  Owner Email Address
+                </label>
                 <div className="relative">
                   <Mail className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
                   <input
                     type="email"
                     required
-                    value={recoveryEmail}
-                    onChange={(e) => setRecoveryEmail(e.target.value)}
-                    placeholder="owner@nitsuhcafeteria.com"
+                    value={setupEmail}
+                    onChange={(e) => setSetupEmail(e.target.value)}
+                    placeholder="owner@yourrestaurant.com"
                     className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
                       isLight
-                        ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
-                        : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
+                        ? 'bg-neutral-50 border-neutral-300 text-neutral-900 focus:bg-white focus:border-amber-500'
+                        : 'bg-white/[0.05] border-white/10 text-white focus:border-amber-500'
                     }`}
                   />
                 </div>
+              </div>
 
-                <div className="flex gap-2">
+              <div>
+                <label className={`text-xs font-semibold block mb-1 ${isLight ? 'text-neutral-700' : 'text-neutral-300'}`}>
+                  Phone Number (Optional)
+                </label>
+                <div className="relative">
+                  <Phone className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
+                  <input
+                    type="tel"
+                    value={setupPhone}
+                    onChange={(e) => setSetupPhone(e.target.value)}
+                    placeholder="+251..."
+                    className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
+                      isLight
+                        ? 'bg-neutral-50 border-neutral-300 text-neutral-900 focus:bg-white focus:border-amber-500'
+                        : 'bg-white/[0.05] border-white/10 text-white focus:border-amber-500'
+                    }`}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className={`text-xs font-semibold block mb-1 ${isLight ? 'text-neutral-700' : 'text-neutral-300'}`}>
+                  Create Master Password
+                </label>
+                <div className="relative">
+                  <Lock className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
+                  <input
+                    type={showSetupPassword ? 'text' : 'password'}
+                    required
+                    minLength={6}
+                    value={setupPassword}
+                    onChange={(e) => setSetupPassword(e.target.value)}
+                    placeholder="Min 6 characters"
+                    className={`w-full h-11 pl-10 pr-10 rounded-xl text-xs outline-none transition-colors border ${
+                      isLight
+                        ? 'bg-neutral-50 border-neutral-300 text-neutral-900 focus:bg-white focus:border-amber-500'
+                        : 'bg-white/[0.05] border-white/10 text-white focus:border-amber-500'
+                    }`}
+                  />
                   <button
                     type="button"
-                    onClick={() => setIsForgotOpen(false)}
-                    className={`flex-1 h-10 rounded-xl border text-xs font-semibold cursor-pointer transition-colors ${
-                      isLight
-                        ? 'bg-neutral-100 hover:bg-neutral-200 border-neutral-200 text-neutral-700'
-                        : 'bg-white/5 border-white/10 text-white hover:bg-white/10'
-                    }`}
+                    onClick={() => setShowSetupPassword(!showSetupPassword)}
+                    className="absolute right-3.5 top-3.5 text-neutral-400 hover:text-neutral-600"
                   >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="flex-1 h-10 rounded-xl bg-amber-500 text-black text-xs font-bold hover:bg-amber-400 cursor-pointer shadow-sm"
-                  >
-                    Send Recovery
+                    {showSetupPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
-              </>
-            )}
-          </form>
-        )}
+              </div>
 
-        {/* =========================================================================
-            2. STAFF LOGIN FORM (Username/Phone + Password/PIN)
-           ========================================================================= */}
-        {tab === 'staff' && (
-          <form onSubmit={handleStaffLogin} className="flex flex-col gap-4">
-            <div>
-              <label
-                className={`text-xs font-semibold block mb-1.5 ${
-                  isLight ? 'text-neutral-700' : 'text-neutral-300'
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full h-11 rounded-xl bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 font-bold text-xs text-white shadow-lg shadow-orange-950/20 transition-all flex items-center justify-center gap-1.5 mt-2 disabled:opacity-50 cursor-pointer"
+              >
+                <span>{isLoading ? 'Creating Owner...' : 'Initialize Owner & Access Portal'}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </form>
+          </div>
+        ) : (
+          <>
+            {/* Role Tabs: Owner vs Staff */}
+            <div
+              className={`flex p-1 rounded-2xl mb-6 border transition-colors ${
+                isLight ? 'bg-neutral-100 border-neutral-200' : 'bg-white/[0.04] border-white/10'
+              }`}
+            >
+              <button
+                type="button"
+                onClick={() => {
+                  triggerHaptic(8);
+                  setTab('owner');
+                  setErrorMsg(null);
+                  setSuccessMsg(null);
+                }}
+                className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  tab === 'owner'
+                    ? 'bg-amber-500 text-black shadow-md'
+                    : isLight
+                    ? 'text-neutral-600 hover:text-neutral-900'
+                    : 'text-neutral-400 hover:text-white'
                 }`}
               >
-                Staff Username or Phone Number
-              </label>
-              <div className="relative">
-                <User className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
-                <input
-                  type="text"
-                  required
-                  data-testid="staff-username-input"
-                  value={staffUsername}
-                  onChange={(e) => setStaffUsername(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleStaffLogin(e);
-                  }}
-                  placeholder="e.g. staff_selam or +251..."
-                  className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
-                    isLight
-                      ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
-                      : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
-                  }`}
-                />
-              </div>
+                Restaurant Owner
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  triggerHaptic(8);
+                  setTab('staff');
+                  setErrorMsg(null);
+                  setSuccessMsg(null);
+                }}
+                className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  tab === 'staff'
+                    ? 'bg-amber-500 text-black shadow-md'
+                    : isLight
+                    ? 'text-neutral-600 hover:text-neutral-900'
+                    : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                Staff Portal
+              </button>
             </div>
 
-            <div>
-              <label
-                className={`text-xs font-semibold block mb-1.5 ${
-                  isLight ? 'text-neutral-700' : 'text-neutral-300'
-                }`}
-              >
-                Staff Password / PIN
-              </label>
-              <div className="relative">
-                <KeyRound className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
-                <input
-                  type={showStaffPassword ? 'text' : 'password'}
-                  required
-                  data-testid="staff-password-input"
-                  value={staffPassword}
-                  onChange={(e) => setStaffPassword(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleStaffLogin(e);
-                  }}
-                  placeholder="Enter staff password or PIN"
-                  className={`w-full h-11 pl-10 pr-10 rounded-xl text-xs outline-none transition-colors border ${
-                    isLight
-                      ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
-                      : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
-                  }`}
-                />
+            {/* =========================================================================
+                1. OWNER LOGIN FORM (Email/Phone + Password)
+               ========================================================================= */}
+            {tab === 'owner' && !isForgotOpen && (
+              <form onSubmit={handleOwnerLogin} className="flex flex-col gap-4">
+                <div>
+                  <label
+                    className={`text-xs font-semibold block mb-1.5 ${
+                      isLight ? 'text-neutral-700' : 'text-neutral-300'
+                    }`}
+                  >
+                    Owner Email or Phone Number
+                  </label>
+                  <div className="relative">
+                    <Mail className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
+                    <input
+                      type="text"
+                      required
+                      data-testid="owner-identifier-input"
+                      value={ownerIdentifier}
+                      onChange={(e) => setOwnerIdentifier(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') handleOwnerLogin(e);
+                      }}
+                      placeholder="e.g. owner@restaurant.com"
+                      className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
+                        isLight
+                          ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
+                          : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
+                      }`}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label
+                      className={`text-xs font-semibold ${
+                        isLight ? 'text-neutral-700' : 'text-neutral-300'
+                      }`}
+                    >
+                      Owner Password
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsForgotOpen(true);
+                        setRecoveryEmail(ownerIdentifier.includes('@') ? ownerIdentifier : '');
+                      }}
+                      className={`text-[11px] hover:underline cursor-pointer ${
+                        isLight ? 'text-amber-600 font-semibold' : 'text-amber-400/90'
+                      }`}
+                    >
+                      Forgot password?
+                    </button>
+                  </div>
+                  <div className="relative">
+                    <Lock className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
+                    <input
+                      type={showOwnerPassword ? 'text' : 'password'}
+                      required
+                      data-testid="owner-password-input"
+                      value={ownerPassword}
+                      onChange={(e) => setOwnerPassword(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') handleOwnerLogin(e);
+                      }}
+                      placeholder="••••••••••••"
+                      className={`w-full h-11 pl-10 pr-10 rounded-xl text-xs outline-none transition-colors border ${
+                        isLight
+                          ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
+                          : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
+                      }`}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowOwnerPassword(!showOwnerPassword)}
+                      className={`absolute right-3.5 top-3.5 transition-colors ${
+                        isLight
+                          ? 'text-neutral-400 hover:text-neutral-700'
+                          : 'text-neutral-400 hover:text-white'
+                      }`}
+                      aria-label={showOwnerPassword ? 'Hide password' : 'Show password'}
+                    >
+                      {showOwnerPassword ? (
+                        <EyeOff className="w-4 h-4" />
+                      ) : (
+                        <Eye className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
                 <button
                   type="button"
-                  onClick={() => setShowStaffPassword(!showStaffPassword)}
-                  className={`absolute right-3.5 top-3.5 transition-colors ${
-                    isLight
-                      ? 'text-neutral-400 hover:text-neutral-700'
-                      : 'text-neutral-400 hover:text-white'
-                  }`}
-                  aria-label={showStaffPassword ? 'Hide password' : 'Show password'}
+                  onClick={handleOwnerLogin}
+                  disabled={isLoading}
+                  className="w-full h-11 rounded-xl bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 font-bold text-xs text-white shadow-lg shadow-orange-950/20 transition-all flex items-center justify-center gap-1.5 mt-2 disabled:opacity-50 cursor-pointer active:scale-[0.99]"
                 >
-                  {showStaffPassword ? (
-                    <EyeOff className="w-4 h-4" />
-                  ) : (
-                    <Eye className="w-4 h-4" />
-                  )}
+                  <span>{isLoading ? 'Verifying on Database...' : 'Sign In as Owner'}</span>
+                  <ArrowRight className="w-4 h-4" />
                 </button>
-              </div>
-              <p
-                className={`text-[11px] mt-1.5 flex items-center gap-1 ${
-                  isLight ? 'text-neutral-500' : 'text-neutral-400'
-                }`}
-              >
-                <HelpCircle className="w-3 h-3 text-amber-500 flex-shrink-0" />
-                <span>Forgot your staff password? Contact your restaurant owner to reset it.</span>
-              </p>
-            </div>
+              </form>
+            )}
 
-            <button
-              type="button"
-              onClick={handleStaffLogin}
-              disabled={isLoading}
-              className="w-full h-11 rounded-xl bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 font-bold text-xs text-white shadow-lg shadow-orange-950/20 transition-all flex items-center justify-center gap-1.5 mt-2 disabled:opacity-50 cursor-pointer active:scale-[0.99]"
-            >
-              <span>{isLoading ? 'Verifying Credentials...' : 'Open Staff Console'}</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </form>
+            {/* =========================================================================
+                1.1 OWNER FORGOT PASSWORD VIEW
+               ========================================================================= */}
+            {tab === 'owner' && isForgotOpen && (
+              <form onSubmit={handleForgotPassword} className="flex flex-col gap-4 animate-in fade-in">
+                <h3 className={`text-sm font-bold ${isLight ? 'text-neutral-900' : 'text-white'}`}>
+                  Reset Owner Password
+                </h3>
+                <p className={`text-xs ${isLight ? 'text-neutral-500' : 'text-neutral-400'}`}>
+                  Enter your registered owner email address to receive password recovery instructions.
+                </p>
+
+                {recoverySent ? (
+                  <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center">
+                    <CheckCircle2 className="w-6 h-6 text-emerald-500 mx-auto mb-2" />
+                    <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400 mb-1">
+                      Recovery Dispatched
+                    </div>
+                    <p className={`text-xs ${isLight ? 'text-neutral-700' : 'text-neutral-300'}`}>
+                      Password instructions dispatched to <strong>{recoveryEmail}</strong>.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsForgotOpen(false);
+                        setRecoverySent(false);
+                      }}
+                      className="mt-4 text-xs text-amber-600 dark:text-amber-400 underline font-semibold block mx-auto cursor-pointer"
+                    >
+                      Return to Sign In
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <div className="relative">
+                      <Mail className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
+                      <input
+                        type="email"
+                        required
+                        value={recoveryEmail}
+                        onChange={(e) => setRecoveryEmail(e.target.value)}
+                        placeholder="owner@yourrestaurant.com"
+                        className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
+                          isLight
+                            ? 'bg-neutral-50 border-neutral-300 text-neutral-900 focus:bg-white focus:border-amber-500'
+                            : 'bg-white/[0.05] border-white/10 text-white focus:border-amber-500'
+                        }`}
+                      />
+                    </div>
+
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setIsForgotOpen(false)}
+                        className={`flex-1 h-10 rounded-xl border text-xs font-semibold cursor-pointer transition-colors ${
+                          isLight
+                            ? 'bg-neutral-100 hover:bg-neutral-200 border-neutral-200 text-neutral-700'
+                            : 'bg-white/5 border-white/10 text-white hover:bg-white/10'
+                        }`}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="flex-1 h-10 rounded-xl bg-amber-500 text-black text-xs font-bold hover:bg-amber-400 cursor-pointer shadow-sm"
+                      >
+                        Send Recovery
+                      </button>
+                    </div>
+                  </>
+                )}
+              </form>
+            )}
+
+            {/* =========================================================================
+                2. STAFF LOGIN FORM (Username/Phone + Password/PIN)
+               ========================================================================= */}
+            {tab === 'staff' && (
+              <form onSubmit={handleStaffLogin} className="flex flex-col gap-4">
+                <div>
+                  <label
+                    className={`text-xs font-semibold block mb-1.5 ${
+                      isLight ? 'text-neutral-700' : 'text-neutral-300'
+                    }`}
+                  >
+                    Staff Username or Phone Number
+                  </label>
+                  <div className="relative">
+                    <User className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
+                    <input
+                      type="text"
+                      required
+                      data-testid="staff-username-input"
+                      value={staffUsername}
+                      onChange={(e) => setStaffUsername(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') handleStaffLogin(e);
+                      }}
+                      placeholder="e.g. username or +251..."
+                      className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
+                        isLight
+                          ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
+                          : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
+                      }`}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    className={`text-xs font-semibold block mb-1.5 ${
+                      isLight ? 'text-neutral-700' : 'text-neutral-300'
+                    }`}
+                  >
+                    Staff Password / PIN
+                  </label>
+                  <div className="relative">
+                    <KeyRound className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
+                    <input
+                      type={showStaffPassword ? 'text' : 'password'}
+                      required
+                      data-testid="staff-password-input"
+                      value={staffPassword}
+                      onChange={(e) => setStaffPassword(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') handleStaffLogin(e);
+                      }}
+                      placeholder="Enter staff password or PIN"
+                      className={`w-full h-11 pl-10 pr-10 rounded-xl text-xs outline-none transition-colors border ${
+                        isLight
+                          ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
+                          : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
+                      }`}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowStaffPassword(!showStaffPassword)}
+                      className={`absolute right-3.5 top-3.5 transition-colors ${
+                        isLight
+                          ? 'text-neutral-400 hover:text-neutral-700'
+                          : 'text-neutral-400 hover:text-white'
+                      }`}
+                      aria-label={showStaffPassword ? 'Hide password' : 'Show password'}
+                    >
+                      {showStaffPassword ? (
+                        <EyeOff className="w-4 h-4" />
+                      ) : (
+                        <Eye className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+                  <p
+                    className={`text-[11px] mt-1.5 flex items-center gap-1 ${
+                      isLight ? 'text-neutral-500' : 'text-neutral-400'
+                    }`}
+                  >
+                    <HelpCircle className="w-3 h-3 text-amber-500 flex-shrink-0" />
+                    <span>Forgot your staff password? Contact your restaurant owner to reset it.</span>
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleStaffLogin}
+                  disabled={isLoading}
+                  className="w-full h-11 rounded-xl bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 font-bold text-xs text-white shadow-lg shadow-orange-950/20 transition-all flex items-center justify-center gap-1.5 mt-2 disabled:opacity-50 cursor-pointer active:scale-[0.99]"
+                >
+                  <span>{isLoading ? 'Verifying on Database...' : 'Open Staff Console'}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </form>
+            )}
+          </>
         )}
       </div>
     </div>

@@ -6,11 +6,6 @@ import {
   SlidersHorizontal,
   Tag,
   Leaf,
-  Sprout,
-  Salad,
-  WheatOff,
-  ShieldCheck,
-  Flame,
   ChefHat,
   ArrowDownNarrowWide,
   ArrowUpNarrowWide,
@@ -59,11 +54,6 @@ export function FilterSheet({
   const DIETARY_OPTIONS: { id: DietaryFilter; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { id: 'fasting', label: isAm ? 'የጾም (Fasting)' : t.filterFasting, icon: Leaf },
     { id: 'chefsPick', label: isAm ? 'የሼፍ ምርጥ' : t.filterChefsPick, icon: ChefHat },
-    { id: 'vegetarian', label: isAm ? 'ቬጀቴሪያን' : t.filterVegetarian, icon: Sprout },
-    { id: 'vegan', label: isAm ? 'ቪጋን' : t.filterVegan, icon: Salad },
-    { id: 'gluten-free', label: isAm ? 'ከግሉተን ነፃ' : t.filterGlutenFree, icon: WheatOff },
-    { id: 'halal', label: isAm ? 'ሀላል' : t.filterHalal, icon: ShieldCheck },
-    { id: 'spicy', label: isAm ? 'ቅመም/የሚቃጥል' : t.filterSpicy, icon: Flame },
   ];
 
   const SORT_OPTIONS: { id: SortOrder; label: string; icon: React.ComponentType<{ className?: string }> }[] = [

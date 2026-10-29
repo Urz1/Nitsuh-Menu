@@ -5,11 +5,12 @@ import { Restaurant, StaffAccount, UserRole } from '@/types/database';
 import {
   AdminAuthSession,
   getOwnerProfile,
-  updateOwnerProfile,
-  changeOwnerPassword,
+  fetchOwnerProfileAsync,
+  updateOwnerProfileAsync,
+  changeOwnerPasswordAsync,
   getStaffProfile,
-  updateStaffProfile,
-  changeStaffPassword,
+  updateStaffProfileAsync,
+  changeStaffPasswordAsync,
   OwnerProfile,
 } from '@/lib/auth-service';
 import { triggerHaptic } from '@/lib/utils';
@@ -83,11 +84,12 @@ export function ProfileSection({
   // Sync profile details on mount or session change
   useEffect(() => {
     if (isOwner) {
-      const p = getOwnerProfile();
-      setOwnerProfile(p);
-      setOwnerName(p.name);
-      setOwnerEmail(p.email);
-      setOwnerPhone(p.phone);
+      fetchOwnerProfileAsync().then((p) => {
+        setOwnerProfile(p);
+        setOwnerName(p.name);
+        setOwnerEmail(p.email);
+        setOwnerPhone(p.phone);
+      });
     } else if (staffId) {
       const s = getStaffProfile(staffId);
       if (s) {
@@ -115,16 +117,20 @@ export function ProfileSection({
     triggerHaptic(10);
 
     try {
-      const updated = updateOwnerProfile({
+      const result = await updateOwnerProfileAsync({
         name: ownerName.trim(),
         email: ownerEmail.trim(),
         phone: ownerPhone.trim(),
       });
-      setOwnerProfile(updated);
-      if (onUpdateSessionName) {
-        onUpdateSessionName(updated.name, updated.email);
+      if (result.success && result.profile) {
+        setOwnerProfile(result.profile);
+        if (onUpdateSessionName) {
+          onUpdateSessionName(result.profile.name, result.profile.email);
+        }
+        onShowToast('Owner profile details updated and saved to database!', 'success');
+      } else {
+        onShowToast(result.error || 'Failed to update owner profile.', 'error');
       }
-      onShowToast('Owner profile details updated successfully!', 'success');
     } catch {
       onShowToast('Failed to update owner profile.', 'error');
     } finally {
@@ -147,22 +153,26 @@ export function ProfileSection({
     setIsSavingStaffInfo(true);
     triggerHaptic(10);
 
-    const res = updateStaffProfile(staffId, {
-      name: staffName.trim(),
-      username: staffUsername.trim(),
-      phone: staffPhone.trim() || undefined,
-    });
+    try {
+      const res = await updateStaffProfileAsync(staffId, {
+        name: staffName.trim(),
+        username: staffUsername.trim(),
+        phone: staffPhone.trim() || undefined,
+      });
 
-    setIsSavingStaffInfo(false);
-
-    if (res.success && res.staff) {
-      setStaffAccount(res.staff);
-      if (onUpdateSessionName) {
-        onUpdateSessionName(res.staff.name, res.staff.username);
+      if (res.success && res.staff) {
+        setStaffAccount(res.staff);
+        if (onUpdateSessionName) {
+          onUpdateSessionName(res.staff.name, res.staff.username);
+        }
+        onShowToast('Staff profile updated successfully in database!', 'success');
+      } else {
+        onShowToast(res.error || 'Failed to update staff profile', 'error');
       }
-      onShowToast('Staff profile updated successfully!', 'success');
-    } else {
-      onShowToast(res.error || 'Failed to update staff profile', 'error');
+    } catch {
+      onShowToast('Failed to update staff profile.', 'error');
+    } finally {
+      setIsSavingStaffInfo(false);
     }
   };
 
@@ -186,28 +196,33 @@ export function ProfileSection({
     setIsChangingPassword(true);
     triggerHaptic(12);
 
-    if (isOwner) {
-      const res = changeOwnerPassword(currentPassword, newPassword);
-      setIsChangingPassword(false);
-      if (res.success) {
-        setCurrentPassword('');
-        setNewPassword('');
-        setConfirmPassword('');
-        onShowToast('Owner password changed successfully!', 'success');
+    try {
+      if (isOwner) {
+        const res = await changeOwnerPasswordAsync(currentPassword, newPassword);
+        setIsChangingPassword(false);
+        if (res.success) {
+          setCurrentPassword('');
+          setNewPassword('');
+          setConfirmPassword('');
+          onShowToast('Owner password changed and saved securely in database!', 'success');
+        } else {
+          onShowToast(res.error || 'Failed to change owner password', 'error');
+        }
       } else {
-        onShowToast(res.error || 'Failed to change owner password', 'error');
+        const res = await changeStaffPasswordAsync(staffId, newPassword);
+        setIsChangingPassword(false);
+        if (res.success) {
+          setCurrentPassword('');
+          setNewPassword('');
+          setConfirmPassword('');
+          onShowToast('Staff password / PIN changed successfully in database!', 'success');
+        } else {
+          onShowToast(res.error || 'Failed to change staff password / PIN', 'error');
+        }
       }
-    } else {
-      const res = changeStaffPassword(staffId, currentPassword, newPassword);
+    } catch {
       setIsChangingPassword(false);
-      if (res.success) {
-        setCurrentPassword('');
-        setNewPassword('');
-        setConfirmPassword('');
-        onShowToast('Staff password / PIN changed successfully!', 'success');
-      } else {
-        onShowToast(res.error || 'Failed to change staff password / PIN', 'error');
-      }
+      onShowToast('An error occurred while changing password.', 'error');
     }
   };
 
@@ -316,7 +331,7 @@ export function ProfileSection({
                       type="email"
                       value={ownerEmail}
                       onChange={(e) => setOwnerEmail(e.target.value)}
-                      placeholder="e.g. owner@nitsuhcafeteria.com"
+                      placeholder="e.g. owner@yourrestaurant.com"
                       required
                       className="w-full h-10 pl-9 pr-3 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-neutral-400 outline-none focus:border-amber-400 transition-colors"
                     />

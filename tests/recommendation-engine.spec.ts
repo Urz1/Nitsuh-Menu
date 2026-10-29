@@ -4,21 +4,21 @@ import { MenuItem } from '../src/types/database';
 
 test.describe('Intelligent Recommendation Engine - Research & Cultural Rules', () => {
   const items: MenuItem[] = [
-    { id: 'item-fasting-burger', restaurant_id: 'res-1', category_id: 'cat-burger', name: 'Fasting Burger', price: 400, description: 'Vegan patty with fries', image_url: '', tags: ['fasting', 'vegan'], allergens: [], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 1 },
-    { id: 'item-chicken-wings', restaurant_id: 'res-1', category_id: 'cat-chicken', name: 'Chicken Wings', price: 1000, description: 'Crispy seasoned chicken wings', image_url: '', tags: ['chicken', 'popular'], allergens: ['Meat'], spice_level: 1, is_available: true, is_chefs_pick: true, sort_order: 2 },
-    { id: 'item-special-wrap', restaurant_id: 'res-1', category_id: 'cat-wrap', name: 'Special Wrap', price: 850, description: 'Beef, chicken, cheese and house mayo in warm tortilla', image_url: '', tags: ['wrap'], allergens: ['Meat', 'Dairy'], spice_level: 1, is_available: true, is_chefs_pick: true, sort_order: 3 },
-    { id: 'item-nitsuh-special-burger', restaurant_id: 'res-1', category_id: 'cat-burger', name: 'Nitsuh Special Burger', price: 800, description: 'Juicy double beef burger', image_url: '', tags: ['meat', 'popular'], allergens: ['Meat', 'Gluten', 'Egg'], spice_level: 0, is_available: true, is_chefs_pick: true, sort_order: 4 },
-    { id: 'item-coffee-buna', restaurant_id: 'res-1', category_id: 'cat-hot-drinks', name: 'Coffee', price: 70, description: 'Single origin highland coffee', image_url: '', tags: ['beverage'], allergens: [], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 5 },
-    { id: 'item-ambo-water', restaurant_id: 'res-1', category_id: 'cat-soft-drinks', name: 'Ambo Water', price: 90, description: 'Sparkling mineral water', image_url: '', tags: ['beverage', 'fasting'], allergens: [], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 6 },
-    { id: 'item-macchiato', restaurant_id: 'res-1', category_id: 'cat-hot-drinks', name: 'Macchiato', price: 110, description: 'Highland espresso with milk foam', image_url: '', tags: ['beverage'], allergens: ['Dairy'], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 7 },
-    { id: 'item-soft-drink', restaurant_id: 'res-1', category_id: 'cat-soft-drinks', name: 'Soft Drink', price: 90, description: 'Chilled soft drink', image_url: '', tags: ['beverage'], allergens: [], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 8 },
-    { id: 'item-french-fries', restaurant_id: 'res-1', category_id: 'cat-snack-menu', name: 'French Fries', price: 120, description: 'Crispy golden fries', image_url: '', tags: ['snack', 'vegetarian', 'fasting'], allergens: [], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 9 },
-    { id: 'item-croissant', restaurant_id: 'res-1', category_id: 'cat-desserts', name: 'Croissant', price: 250, description: 'Flaky butter croissant', image_url: '', tags: ['bakery'], allergens: ['Dairy', 'Gluten'], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 10 },
-    { id: 'item-spris', restaurant_id: 'res-1', category_id: 'cat-juices', name: 'Special Juice', price: 450, description: 'Layered fresh juice (Spris)', image_url: '', tags: ['juice', 'fasting'], allergens: [], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 11 },
-    { id: 'item-classic-mojito', restaurant_id: 'res-1', category_id: 'cat-mojito', name: 'Classic Mojito', price: 450, description: 'Lemon, mint, and crushed ice', image_url: '', tags: ['mojito'], allergens: [], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 12 },
+    { id: 'item-fasting-burger', restaurant_id: 'res-1', category_id: 'cat-burger', name: 'Fasting Burger', price: 400, description: 'Fasting patty with fries', image_url: '', tags: ['fasting'], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 1 },
+    { id: 'item-chicken-wings', restaurant_id: 'res-1', category_id: 'cat-chicken', name: 'Chicken Wings', price: 1000, description: 'Crispy seasoned chicken wings', image_url: '', tags: ['chicken', 'popular'], spice_level: 1, is_available: true, is_chefs_pick: true, sort_order: 2 },
+    { id: 'item-special-wrap', restaurant_id: 'res-1', category_id: 'cat-wrap', name: 'Special Wrap', price: 850, description: 'Beef, chicken, cheese and house mayo in warm tortilla', image_url: '', tags: ['wrap'], spice_level: 1, is_available: true, is_chefs_pick: true, sort_order: 3 },
+    { id: 'item-nitsuh-special-burger', restaurant_id: 'res-1', category_id: 'cat-burger', name: 'Nitsuh Special Burger', price: 800, description: 'Juicy double beef burger', image_url: '', tags: ['meat', 'popular'], spice_level: 0, is_available: true, is_chefs_pick: true, sort_order: 4 },
+    { id: 'item-coffee-buna', restaurant_id: 'res-1', category_id: 'cat-hot-drinks', name: 'Coffee', price: 70, description: 'Single origin highland coffee', image_url: '', tags: ['beverage'], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 5 },
+    { id: 'item-ambo-water', restaurant_id: 'res-1', category_id: 'cat-soft-drinks', name: 'Ambo Water', price: 90, description: 'Sparkling mineral water', image_url: '', tags: ['beverage', 'fasting'], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 6 },
+    { id: 'item-macchiato', restaurant_id: 'res-1', category_id: 'cat-hot-drinks', name: 'Macchiato', price: 110, description: 'Highland espresso with milk foam', image_url: '', tags: ['beverage'], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 7 },
+    { id: 'item-soft-drink', restaurant_id: 'res-1', category_id: 'cat-soft-drinks', name: 'Soft Drink', price: 90, description: 'Chilled soft drink', image_url: '', tags: ['beverage'], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 8 },
+    { id: 'item-french-fries', restaurant_id: 'res-1', category_id: 'cat-snack-menu', name: 'French Fries', price: 120, description: 'Crispy golden fries', image_url: '', tags: ['snack', 'fasting'], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 9 },
+    { id: 'item-croissant', restaurant_id: 'res-1', category_id: 'cat-desserts', name: 'Croissant', price: 250, description: 'Flaky butter croissant', image_url: '', tags: ['bakery'], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 10 },
+    { id: 'item-spris', restaurant_id: 'res-1', category_id: 'cat-juices', name: 'Special Juice', price: 450, description: 'Layered fresh juice (Spris)', image_url: '', tags: ['juice', 'fasting'], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 11 },
+    { id: 'item-classic-mojito', restaurant_id: 'res-1', category_id: 'cat-mojito', name: 'Classic Mojito', price: 450, description: 'Lemon, mint, and crushed ice', image_url: '', tags: ['mojito'], spice_level: 0, is_available: true, is_chefs_pick: false, sort_order: 12 },
   ];
 
-  test('1. Fasting Isolation Rule: Fasting dish NEVER recommends meat or dairy', () => {
+  test('1. Fasting Isolation Rule: Fasting dish only recommends fasting-friendly options', () => {
     const fastingBurger = items.find((i) => i.id === 'item-fasting-burger')!;
     expect(fastingBurger).toBeDefined();
 
@@ -26,15 +26,9 @@ test.describe('Intelligent Recommendation Engine - Research & Cultural Rules', (
     expect(pairings.length).toBeGreaterThan(0);
 
     for (const p of pairings) {
-      // Must not have dairy or egg
-      expect(p.item.allergens).not.toContain('Dairy');
-      expect(p.item.allergens).not.toContain('Egg');
-      expect(p.item.allergens).not.toContain('Meat');
-      expect(p.item.allergens).not.toContain('Seafood');
-      // Must be tagged fasting or vegan
+      // Must be tagged fasting or safe category/drinks
       const isFastingSafe =
-        p.item.tags.includes('fasting') ||
-        p.item.tags.includes('vegan') ||
+        p.item.tags?.includes('fasting') ||
         p.item.category_id === 'cat-juices' ||
         p.item.category_id === 'cat-soft-drinks' ||
         p.item.id === 'item-coffee-buna' ||
