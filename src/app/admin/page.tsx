@@ -151,7 +151,7 @@ export default function AdminDashboardPage() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>(() => {
     if (typeof window !== 'undefined') {
       try {
-        const cached = localStorage.getItem('digital_menu_items_cache');
+        const cached = localStorage.getItem('digital_menu_items_cache_v4');
         if (cached) {
           const parsed = JSON.parse(cached);
           if (Array.isArray(parsed) && parsed.length >= MOCK_ITEMS_NITSUH.length) return parsed;
@@ -264,7 +264,7 @@ export default function AdminDashboardPage() {
       setMenuItems(items);
       if (typeof window !== 'undefined') {
         try {
-          localStorage.setItem('digital_menu_items_cache', JSON.stringify(items));
+          localStorage.setItem('digital_menu_items_cache_v4', JSON.stringify(items));
         } catch {}
       }
     });
@@ -401,7 +401,7 @@ export default function AdminDashboardPage() {
         : [saved, ...prev];
       if (typeof window !== 'undefined') {
         try {
-          localStorage.setItem('digital_menu_items_cache', JSON.stringify(updated));
+          localStorage.setItem('digital_menu_items_cache_v4', JSON.stringify(updated));
         } catch {}
       }
       return updated;

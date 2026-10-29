@@ -290,7 +290,8 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 1
+    "sort_order": 1,
+    "description_am": "ትኩስ ፉል በዘይት፣ በርበሬ፣ ቲማቲም እና ትኩስ ዳቦ።"
   },
   {
     "id": "item-foul-special-2",
@@ -307,7 +308,8 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 2
+    "sort_order": 2,
+    "description_am": "ልዩ ስፔሻል ፉል በእንቁላል፣ እርጎ፣ ቅቤ እና ትኩስ ዳቦ።"
   },
   {
     "id": "item-fetira-with-honey-11",
@@ -324,7 +326,8 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 3
+    "sort_order": 3,
+    "description_am": "ትኩስ የተጋገረ ፈጢራ በተፈጥሮ ማር እና ቅቤ።"
   },
   {
     "id": "item-scrambled-egg-with-meat-4",
@@ -339,7 +342,8 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 4
+    "sort_order": 4,
+    "description_am": "ትኩስ የእንቁላል ፍርፍር በስጋ ቁርጥራጭ።"
   },
   {
     "id": "item-egg-sandwich-5",
@@ -354,7 +358,8 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 5
+    "sort_order": 5,
+    "description_am": "የእንቁላል ሳንድዊች በትኩስ ሰላጣ እና ቲማቲም።"
   },
   {
     "id": "item-omelet-6",
@@ -369,7 +374,8 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 6
+    "sort_order": 6,
+    "description_am": "ትኩስ የአምሌት እንቁላል ጥብስ።"
   },
   {
     "id": "item-omelet-with-cheese-7",
@@ -384,7 +390,8 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 7
+    "sort_order": 7,
+    "description_am": "ጣፋጭ አምሌት በቀለጠ ቺዝ።"
   },
   {
     "id": "item-special-omelet-8",
@@ -401,7 +408,8 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 8
+    "sort_order": 8,
+    "description_am": "ልዩ ስፔሻል አምሌት በቺዝ፣ ቲማቲም እና አትክልት።"
   },
   {
     "id": "item-chechebsa-with-honey-9",
@@ -416,7 +424,8 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 9
+    "sort_order": 9,
+    "description_am": "የተቆራረጠ ትኩስ ቂጣ በቅቤ፣ በርበሬ እና የተፈጥሮ ማር።"
   },
   {
     "id": "item-chechebsa-with-egg-10",
@@ -431,7 +440,8 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 10
+    "sort_order": 10,
+    "description_am": "ትኩስ ጨጨብሳ በቅቤ እና እንቁላል።"
   },
   {
     "id": "item-scrambled-egg-3",
@@ -446,7 +456,8 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 11
+    "sort_order": 11,
+    "description_am": "ትኩስ የእንቁላል ፍርፍር በሽንኩርት እና ቲማቲም።"
   },
   {
     "id": "item-fetira-with-egg-12",
@@ -461,14 +472,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 12
+    "sort_order": 12,
+    "description_am": "ትኩስ ፈጢራ በእንቁላል እና ቅቤ።"
   },
   {
     "id": "item-avocado-toast-13",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-breakfast",
     "name": "Avocado Toast",
-    "name_am": "አቮካዶ በቶስት ዳቦ",
+    "name_am": "የአቮካዶ ቶስት",
     "price": 450,
     "description": "Avocado Toast prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041059/nitsuh-menu/dishes/yhi6mxkeajwywjz58poa.jpg",
@@ -476,14 +488,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 13
+    "sort_order": 13,
+    "description_am": "የተጠበሰ ቶስት ዳቦ በትኩስ አቮካዶ።"
   },
   {
     "id": "item-beef-cheese-sandwich-14",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-breakfast",
     "name": "Beef & Cheese Sandwich",
-    "name_am": "ቢፍ በቺዝ ሳንድች",
+    "name_am": "የበሬ ስጋ እና ቺዝ ሳንድዊች",
     "price": 600,
     "description": "Beef & Cheese Sandwich prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041059/nitsuh-menu/dishes/rbnshwmcjljfnrbgrytk.jpg",
@@ -491,7 +504,8 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 14
+    "sort_order": 14,
+    "description_am": "ጭማቂ የበሬ ስጋ እና የቀለጠ ቺዝ ሳንድዊች።"
   },
   {
     "id": "item-french-toast-15",
@@ -506,7 +520,8 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 15
+    "sort_order": 15,
+    "description_am": "ጣፋጭ የፈረንሳይ ፍሬንች ቶስት በማር።"
   },
   {
     "id": "item-pan-cake-16",
@@ -521,14 +536,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 16
+    "sort_order": 16,
+    "description_am": "ለስላሳ ትኩስ ፓንኬክ በማር ወይም ቸኮሌት።"
   },
   {
     "id": "item-nitsuh-special-burger-17",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-burger",
     "name": "Nitsuh Special Burger",
-    "name_am": "",
+    "name_am": "ንፁህ ስፔሻል በርገር",
     "price": 800,
     "description": "Double Beef, Double Cheese, Egg, House Mayo, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041103/nitsuh-menu/dishes/sauxrh8xiqtzh1lxaihl.jpg",
@@ -538,14 +554,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": true,
-    "sort_order": 17
+    "sort_order": 17,
+    "description_am": "በንፁህ ካፌ የተዘጋጀ ልዩ ስፔሻል የበሬ ስጋ በርገር ከተጠበሰ ቺዝ እና ድንች ጥብስ ጋር።"
   },
   {
     "id": "item-texas-style-bbq-burger-18",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-burger",
     "name": "Texas Style BBQ Burger",
-    "name_am": "",
+    "name_am": "ቴክሳስ ስታይል BBQ በርገር",
     "price": 750,
     "description": "Double Beef, Cheese, triple BBQ Sauce, Mayo, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041120/nitsuh-menu/dishes/rrwytwfvolbrhofto9gf.jpg",
@@ -553,14 +570,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 18
+    "sort_order": 18,
+    "description_am": "በጭስ የተጠበሰ ጭማቂ የበሬ ስጋ በርገር በቴክሳስ ባርቢኪው ሶስ እና ጥብስ ድንች።"
   },
   {
     "id": "item-spicy-burger-19",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-burger",
     "name": "Spicy Burger",
-    "name_am": "",
+    "name_am": "ስፓይሲ በርገር",
     "price": 750,
     "description": "Double beef, Cheese, Double Chili Sauce, Mayo, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041114/nitsuh-menu/dishes/uepwvp2slodcwbnbojqh.jpg",
@@ -568,14 +586,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 2,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 19
+    "sort_order": 19,
+    "description_am": "የሚያቃጥል ስፓይሲ በርገር በልዩ ቃሪያ ሶስ እና ጥርት ባለ ፍሬንች ፍራይስ።"
   },
   {
     "id": "item-junky-burger-20",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-burger",
     "name": "Junky Burger",
-    "name_am": "",
+    "name_am": "ጃንኪ በርገር",
     "price": 950,
     "description": "Tripple Beef, Double Cheese, Double egg, House Sauce Mayo, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041103/nitsuh-menu/dishes/sauxrh8xiqtzh1lxaihl.jpg",
@@ -583,14 +602,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 20
+    "sort_order": 20,
+    "description_am": "በብዙ ቺዝ እና ልዩ ሶስ የተሞላ ግዙፍ ጣፋጭ በርገር።"
   },
   {
     "id": "item-beef-burger-21",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-burger",
     "name": "Beef Burger",
-    "name_am": "",
+    "name_am": "የበሬ ስጋ በርገር",
     "price": 500,
     "description": "Beef, Mayo, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041059/nitsuh-menu/dishes/vextlzoihqbx8gwy9m4p.jpg",
@@ -598,14 +618,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 21
+    "sort_order": 21,
+    "description_am": "ክላሲክ ጭማቂ የበሬ ስጋ በርገር በትኩስ ቲማቲም፣ ሰላጣ እና ድንች ጥብስ።"
   },
   {
     "id": "item-cheese-burger-22",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-burger",
     "name": "Cheese Burger",
-    "name_am": "",
+    "name_am": "ቺዝ በርገር",
     "price": 550,
     "description": "Beef, Cheese, Mayo, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041063/nitsuh-menu/dishes/fjbcfvhbhqermblxexxy.jpg",
@@ -613,14 +634,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 22
+    "sort_order": 22,
+    "description_am": "የበሬ ስጋ በርገር ከቀለጠ ሞዛሬላ ቺዝ እና የቤት ውስጥ ሶስ ጋር።"
   },
   {
     "id": "item-double-beef-burger-23",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-burger",
     "name": "Double Beef Burger",
-    "name_am": "",
+    "name_am": "ድርብ የበሬ ስጋ በርገር",
     "price": 600,
     "description": "Double Beef, Mayo, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041077/nitsuh-menu/dishes/ifmzjjrsnnbvr3vqsec4.jpg",
@@ -628,14 +650,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 23
+    "sort_order": 23,
+    "description_am": "ድርብ የበሬ ስጋ ፓቲዎች በጣፋጭ ሶስ እና ጥብስ ድንች።"
   },
   {
     "id": "item-double-cheese-burger-24",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-burger",
     "name": "Double Cheese Burger",
-    "name_am": "",
+    "name_am": "ድርብ ቺዝ በርገር",
     "price": 670,
     "description": "Double Beef, Double Cheese, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041078/nitsuh-menu/dishes/davmjhahhhx92wcy5bfl.jpg",
@@ -643,14 +666,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 24
+    "sort_order": 24,
+    "description_am": "ሁለት የበሬ ስጋ ፓቲዎች በድርብ የቀለጠ ቺዝ እና ፍሬንች ፍራይስ።"
   },
   {
     "id": "item-chicken-burger-25",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-burger",
     "name": "Chicken Burger",
-    "name_am": "",
+    "name_am": "የዶሮ በርገር",
     "price": 600,
     "description": "Chicken, Mayo, Honey Mustard sauce, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041063/nitsuh-menu/dishes/bmtsndi3cvdrjwxudsli.jpg",
@@ -658,14 +682,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 25
+    "sort_order": 25,
+    "description_am": "ጥርት ብሎ የተጠበሰ የዶሮ ስጋ በርገር በሰላጣ እና ክሬሚ ማዮኔዝ።"
   },
   {
     "id": "item-special-chicken-burger-26",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-burger",
     "name": "Special Chicken Burger",
-    "name_am": "",
+    "name_am": "ስፔሻል የዶሮ በርገር",
     "price": 950,
     "description": "Double Chicken, Cheese, Mayo, Honey Mustard sauce, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041111/nitsuh-menu/dishes/j4mfcvnhexep3p1bfnfj.jpg",
@@ -675,14 +700,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 26
+    "sort_order": 26,
+    "description_am": "ልዩ የዶሮ በርገር በቺዝ፣ እንቁላል እና ጥርት ያለ ፍሬንች ፍራይስ።"
   },
   {
     "id": "item-fasting-burger-27",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-burger",
     "name": "Fasting Burger",
-    "name_am": "",
+    "name_am": "የጾም በርገር",
     "price": 400,
     "description": "Fasting Burger, ketchup, tomato, onion, lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041082/nitsuh-menu/dishes/ng8nmwgvmrt11guextps.jpg",
@@ -693,14 +719,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 27
+    "sort_order": 27,
+    "description_am": "100% ከእፅዋት እና ከአትክልት የተዘጋጀ ጤናማ የጾም በርገር።"
   },
   {
     "id": "item-slider-burger-28",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-burger",
     "name": "Slider Burger",
-    "name_am": "",
+    "name_am": "ስላይደር በርገር",
     "price": 750,
     "description": "3 mini buns, 3 mini Beef, Cheese, Mayo, Tomato, Onion, Lettuce & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041111/nitsuh-menu/dishes/bfsoapzpmdunpzyeykgz.jpg",
@@ -708,14 +735,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 28
+    "sort_order": 28,
+    "description_am": "ጣፋጭ አነስተኛ ሚኒ በርገሮች በልዩ ሶስ እና ጥብስ ድንች።"
   },
   {
     "id": "item-house-special-pizza-33",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-pizza",
     "name": "House Special Pizza",
-    "name_am": "",
+    "name_am": "ሀውስ ስፔሻል ፒዛ",
     "price": 950,
     "description": "Tomato Sauce, Beef, Chicken, Boiled egg, Slice beef, Olive & Mozzarella Cheese",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041087/nitsuh-menu/dishes/ky9kasyuyvofqpepovy9.jpg",
@@ -725,14 +753,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": true,
-    "sort_order": 33
+    "sort_order": 33,
+    "description_am": "የንፁህ ካፌ ልዩ ፒዛ በስጋ፣ ዶሮ፣ አትክልት እና በበዛ ሞዛሬላ ቺዝ።"
   },
   {
     "id": "item-tuna-pizza-34",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-pizza",
     "name": "Tuna Pizza",
-    "name_am": "",
+    "name_am": "የቱና ፒዛ",
     "price": 850,
     "description": "Tomato Sauce, Tuna & Mozzarella Cheese",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/hdkr7hzv7v8duwqzeo8o.jpg",
@@ -740,14 +769,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 34
+    "sort_order": 34,
+    "description_am": "ጣፋጭ የቱና አሳ ፒዛ በቀይ ሽንኩርት እና የቀለጠ ሞዛሬላ ቺዝ።"
   },
   {
     "id": "item-chicken-pizza-35",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-pizza",
     "name": "Chicken Pizza",
-    "name_am": "",
+    "name_am": "የዶሮ ፒዛ",
     "price": 850,
     "description": "Tomato Sauce, Chicken & Mozzarella Cheese",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041065/nitsuh-menu/dishes/ziz953msfrn9xlray0o5.jpg",
@@ -755,14 +785,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 35
+    "sort_order": 35,
+    "description_am": "የተጠበሰ የዶሮ ስጋ በልዩ ቲማቲም ሶስ እና ሞዛሬላ ቺዝ።"
   },
   {
     "id": "item-meet-pizza-36",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-pizza",
     "name": "Meet Pizza",
-    "name_am": "",
+    "name_am": "የስጋ ፒዛ",
     "price": 800,
     "description": "Tomato Sauce, Beef & Mozzarella Cheese",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041093/nitsuh-menu/dishes/ldwn5xpxyxhrpitrftub.jpg",
@@ -770,14 +801,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 36
+    "sort_order": 36,
+    "description_am": "ጣፋጭ የበሬ ስጋ ፒዛ በትኩስ ቅመሞች እና የቀለጠ ቺዝ።"
   },
   {
     "id": "item-pizza-margarita-37",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-pizza",
     "name": "Pizza Margarita",
-    "name_am": "",
+    "name_am": "ፒዛ ማርጋሪታ",
     "price": 750,
     "description": "Tomato Sauce & Mozzarella Cheese",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041108/nitsuh-menu/dishes/jiiz7x0ardonbkvmlaon.jpg",
@@ -785,14 +817,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 37
+    "sort_order": 37,
+    "description_am": "ክላሲክ የጣሊያን ፒዛ በትኩስ ቲማቲም፣ ኦሪጋኖ እና ሞዛሬላ ቺዝ።"
   },
   {
     "id": "item-fasting-vegetable-pizza-38",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-pizza",
     "name": "Fasting Vegetable Pizza",
-    "name_am": "",
+    "name_am": "የጾም የአትክልት ፒዛ",
     "price": 550,
     "description": "Tomato Sauce & Vegetables",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041083/nitsuh-menu/dishes/iy5usm4ioedesdhhzrpm.jpg",
@@ -803,14 +836,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 38
+    "sort_order": 38,
+    "description_am": "100% የጾም ፒዛ በትኩስ አትክልቶች፣ ቃሪያ እና ቲማቲም ሶስ።"
   },
   {
     "id": "item-fasting-special-pizza-39",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-pizza",
     "name": "Fasting Special Pizza",
-    "name_am": "",
+    "name_am": "የጾም ስፔሻል ፒዛ",
     "price": 750,
     "description": "Tomato Sauce, Vegetables, Tuna, & Olive",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041083/nitsuh-menu/dishes/iy5usm4ioedesdhhzrpm.jpg",
@@ -822,14 +856,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 39
+    "sort_order": 39,
+    "description_am": "ልዩ የጾም ፒዛ በበርካታ ትኩስ አትክልቶች እና ልዩ ቅመሞች።"
   },
   {
     "id": "item-fasting-tuna-pizza-40",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-pizza",
     "name": "Fasting Tuna Pizza",
-    "name_am": "",
+    "name_am": "የጾም ቱና ፒዛ",
     "price": 700,
     "description": "Tomato Sauce, Tuna",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/hdkr7hzv7v8duwqzeo8o.jpg",
@@ -840,14 +875,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 40
+    "sort_order": 40,
+    "description_am": "ጣፋጭ የቱና አሳ የጾም ፒዛ በሽንኩርት እና አትክልቶች።"
   },
   {
     "id": "item-special-club-sandwich-46",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-club-sandwich",
     "name": "Special Club Sandwich",
-    "name_am": "",
+    "name_am": "ስፔሻል ክለብ ሳንድዊች",
     "price": 750,
     "description": "Beef, Chicken, Boiled egg, Mayo, Tomato, Lettuce, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041113/nitsuh-menu/dishes/plxtnsfafhnlwyvss89e.jpg",
@@ -857,14 +893,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": true,
-    "sort_order": 46
+    "sort_order": 46,
+    "description_am": "ባለሶስት ድርብ ስፔሻል ሳንድዊች በዶሮ፣ እንቁላል፣ ቺዝ እና ጥብስ ድንች።"
   },
   {
     "id": "item-chicken-club-sandwich-47",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-club-sandwich",
     "name": "Chicken Club Sandwich",
-    "name_am": "",
+    "name_am": "የዶሮ ክለብ ሳንድዊች",
     "price": 700,
     "description": "Chicken, Boiled egg, Mayo, Tomato, Lettuce, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041063/nitsuh-menu/dishes/u4qme7u7usm0abwgull8.jpg",
@@ -872,14 +909,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 47
+    "sort_order": 47,
+    "description_am": "የተጠበሰ የዶሮ ስጋ ክለብ ሳንድዊች በሰላጣ፣ ማዮኔዝ እና ፍሬንች ፍራይስ።"
   },
   {
     "id": "item-tuna-club-sandwich-48",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-club-sandwich",
     "name": "Tuna Club Sandwich",
-    "name_am": "",
+    "name_am": "የቱና ክለብ ሳንድዊች",
     "price": 700,
     "description": "Tuna, Boiled egg, Mayo, Tomato, Lettuce, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/lwhpi9qgyrcg7ch64xxd.jpg",
@@ -887,14 +925,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 48
+    "sort_order": 48,
+    "description_am": "ጣፋጭ የቱና አሳ ክለብ ሳንድዊች በሽንኩርት እና ትኩስ ሰላጣ።"
   },
   {
     "id": "item-beef-club-sandwich-49",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-club-sandwich",
     "name": "Beef Club Sandwich",
-    "name_am": "",
+    "name_am": "የበሬ ስጋ ክለብ ሳንድዊች",
     "price": 650,
     "description": "Beef, Boiled egg, Mayo, Tomato, Lettuce, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/hh30wyrkylvss0xodoo3.jpg",
@@ -902,14 +941,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 49
+    "sort_order": 49,
+    "description_am": "ጭማቂ የበሬ ስጋ ክለብ ሳንድዊች በሞዛሬላ ቺዝ እና ጥብስ ድንች።"
   },
   {
     "id": "item-fasting-tuna-club-sand-50",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-club-sandwich",
     "name": "Fasting Tuna Club Sand.",
-    "name_am": "",
+    "name_am": "የጾም ቱና ክለብ ሳንድዊች",
     "price": 650,
     "description": "Tuna, Ketchup, Tomato, Lettuce, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/lwhpi9qgyrcg7ch64xxd.jpg",
@@ -920,14 +960,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 50
+    "sort_order": 50,
+    "description_am": "የጾም የቱና ክለብ ሳንድዊች በአትክልት እና ድንች ጥብስ።"
   },
   {
     "id": "item-chicken-sandwich-51",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-club-sandwich",
     "name": "Chicken Sandwich",
-    "name_am": "",
+    "name_am": "የዶሮ ሳንድዊች",
     "price": 900,
     "description": "Chicken, Cheese, Mayo, Tomato, Lettuce, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041065/nitsuh-menu/dishes/co9lz2atn7gojpak4nfu.jpg",
@@ -935,14 +976,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 51
+    "sort_order": 51,
+    "description_am": "ትኩስ የተጠበሰ የዶሮ ስጋ ሳንድዊች በስስ ዳቦ እና ማዮኔዝ።"
   },
   {
     "id": "item-steak-sandwich-52",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-club-sandwich",
     "name": "Steak Sandwich",
-    "name_am": "",
+    "name_am": "ስቴክ ሳንድዊች",
     "price": 900,
     "description": "Beef, Cheese, Mayo, Tomato, Lettuce, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041114/nitsuh-menu/dishes/a6wha3avezcys8ix9ulx.jpg",
@@ -950,14 +992,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 52
+    "sort_order": 52,
+    "description_am": "ጣፋጭ የተጠበሰ የበሬ ስቴክ ስጋ ሳንድዊች በካራሜላይዝድ ሽንኩርት።"
   },
   {
     "id": "item-tuna-sandwich-53",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-club-sandwich",
     "name": "Tuna Sandwich",
-    "name_am": "",
+    "name_am": "የቱና ሳንድዊች",
     "price": 900,
     "description": "Tuna, Cheese, Mayo, Tomato, Lettuce, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041121/nitsuh-menu/dishes/sxgil8mwetardqqdls9y.jpg",
@@ -965,14 +1008,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 53
+    "sort_order": 53,
+    "description_am": "ክላሲክ የቱና አሳ ሳንድዊች በትኩስ ሰላጣ እና ቲማቲም።"
   },
   {
     "id": "item-avocado-sandwich-54",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-club-sandwich",
     "name": "Avocado Sandwich",
-    "name_am": "",
+    "name_am": "የአቮካዶ ሳንድዊች",
     "price": 600,
     "description": "Avocado, Ketchup, Tomato, Lettuce, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041057/nitsuh-menu/dishes/g4batwakr2fapek98uz8.jpg",
@@ -980,14 +1024,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 54
+    "sort_order": 54,
+    "description_am": "ትኩስ የተፈጨ አቮካዶ ሳንድዊች በሎሚ እና የወይራ ዘይት (የጾም)።"
   },
   {
     "id": "item-special-wrap-55",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-wrap",
     "name": "Special Wrap",
-    "name_am": "",
+    "name_am": "ስፔሻል ራፕ",
     "price": 850,
     "description": "Beef, Chicken, Boiled egg, Cheese, Mayo, Tomato, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041114/nitsuh-menu/dishes/qwc9frfwwyvnkjupkfsa.jpg",
@@ -997,14 +1042,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": true,
-    "sort_order": 55
+    "sort_order": 55,
+    "description_am": "ልዩ የተጠቀለለ ቶርቲላ ራፕ በስጋ፣ ዶሮ፣ ቺዝ እና ልዩ ሶስ።"
   },
   {
     "id": "item-chicken-wrap-56",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-wrap",
     "name": "Chicken Wrap",
-    "name_am": "",
+    "name_am": "የዶሮ ራፕ",
     "price": 750,
     "description": "Chicken, Cheese, Mayo, Tomato, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041066/nitsuh-menu/dishes/lfajwcltgqwhkvznpswc.jpg",
@@ -1012,14 +1058,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 56
+    "sort_order": 56,
+    "description_am": "ጣፋጭ የተጠበሰ የዶሮ ስጋ ራፕ በሰላጣ እና ነጭ ሽንኩርት ሶስ።"
   },
   {
     "id": "item-tuna-wrap-57",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-wrap",
     "name": "Tuna Wrap",
-    "name_am": "",
+    "name_am": "የቱና ራፕ",
     "price": 750,
     "description": "Tuna, Cheese, Mayo, Tomato, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/o0kcl4f2l3m5kxr66xoe.jpg",
@@ -1027,14 +1074,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 57
+    "sort_order": 57,
+    "description_am": "የቱና አሳ ራፕ በትኩስ አትክልቶች እና ማዮኔዝ።"
   },
   {
     "id": "item-beef-wrap-58",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-wrap",
     "name": "Beef Wrap",
-    "name_am": "",
+    "name_am": "የበሬ ስጋ ራፕ",
     "price": 650,
     "description": "Beef, Cheese, Mayo, Tomato, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/p3a7afyhyml0wjvuuwqv.jpg",
@@ -1042,14 +1090,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 58
+    "sort_order": 58,
+    "description_am": "የተጠበሰ ጭማቂ የበሬ ስጋ ራፕ በቺዝ እና የተጠበሰ ሽንኩርት።"
   },
   {
     "id": "item-fasting-tuna-wrap-59",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-wrap",
     "name": "Fasting Tuna Wrap",
-    "name_am": "",
+    "name_am": "የጾም ቱና ራፕ",
     "price": 650,
     "description": "Tuna, Ketchup, Tomato, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/o0kcl4f2l3m5kxr66xoe.jpg",
@@ -1060,14 +1109,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 59
+    "sort_order": 59,
+    "description_am": "የጾም የቱና አሳ ራፕ በትኩስ ሰላጣ እና ሎሚ።"
   },
   {
     "id": "item-fasting-vegetable-wrap-60",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-wrap",
     "name": "Fasting Vegetable Wrap",
-    "name_am": "",
+    "name_am": "የጾም የአትክልት ራፕ",
     "price": 550,
     "description": "Vegetables, Ketchup, Tomato, Onion, & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041082/nitsuh-menu/dishes/wzgqpcbcyucfwtwmrgee.jpg",
@@ -1078,14 +1128,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 60
+    "sort_order": 60,
+    "description_am": "100% የጾም የተጠበሰ አትክልት ራፕ በአቮካዶ እና የወይራ ዘይት።"
   },
   {
     "id": "item-chicken-nuggate-61",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-chicken",
     "name": "Chicken Nuggate",
-    "name_am": "",
+    "name_am": "የዶሮ ናጌትስ",
     "price": 1200,
     "description": "Chicken, Mayo, Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041065/nitsuh-menu/dishes/iviqnmpjmgv93jne2u7a.jpg",
@@ -1093,14 +1144,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 61
+    "sort_order": 61,
+    "description_am": "ጥርት ብለው የተጠበሱ ወርቃማ የዶሮ ናጌቶች ከዲፕ ሶስ ጋር።"
   },
   {
     "id": "item-crispy-chicken-strips-62",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-chicken",
     "name": "Crispy Chicken Strips",
-    "name_am": "",
+    "name_am": "ክሪስፒ ዶሮ ስትሪፕስ",
     "price": 1500,
     "description": "Slice Chicken Strips, Mayo, Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041070/nitsuh-menu/dishes/pxiji5izmrzhv7tn8stl.jpg",
@@ -1108,14 +1160,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 62
+    "sort_order": 62,
+    "description_am": "የተጠበሱ ጥርት ያሉ የዶሮ ስስ ቁርጥራጮች ከድንች ጥብስ ጋር።"
   },
   {
     "id": "item-crispy-fried-chicken-leg-1-pic-63",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-chicken",
     "name": "Crispy Fried Chicken Leg (1 pic)",
-    "name_am": "",
+    "name_am": "የተጠበሰ የዶሮ እግር (1 ፍሬ)",
     "price": 1200,
     "description": "1 Chicken leg, Mayo, Salad & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041076/nitsuh-menu/dishes/iltf7zucjql3n8znvo2t.jpg",
@@ -1123,14 +1176,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 63
+    "sort_order": 63,
+    "description_am": "ጥርት ብሎ በዘይት የተጠበሰ ወርቃማ የዶሮ እግር ከፍሬንች ፍራይስ ጋር።"
   },
   {
     "id": "item-crispy-fried-chicken-leg-2-pic-64",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-chicken",
     "name": "Crispy Fried Chicken Leg (2 pic)",
-    "name_am": "",
+    "name_am": "የተጠበሰ የዶሮ እግር (2 ፍሬ)",
     "price": 2200,
     "description": "2 Chicken leg, Mayo, Salad & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041076/nitsuh-menu/dishes/iltf7zucjql3n8znvo2t.jpg",
@@ -1138,14 +1192,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 64
+    "sort_order": 64,
+    "description_am": "ሁለት ጥርት ብለው የተጠበሱ የዶሮ እግሮች ከትኩስ ድንች ጥብስ ጋር።"
   },
   {
     "id": "item-chicken-leg-with-honey-bbq-souce-65",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-chicken",
     "name": "Chicken Leg with Honey BBQ Souce",
-    "name_am": "",
+    "name_am": "የዶሮ እግር በሃኒ BBQ ሶስ",
     "price": 1500,
     "description": "1 pic Chicken Leg, Honey BBQ Sauce, Mayo, Salad & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041063/nitsuh-menu/dishes/ds5mqolveib58z4rmeku.jpg",
@@ -1153,14 +1208,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 65
+    "sort_order": 65,
+    "description_am": "ጣፋጭ የዶሮ እግር በማር እና ባርቢኪው ሶስ ተለውሶ የቀረበ።"
   },
   {
     "id": "item-chicken-wings-66",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-chicken",
     "name": "Chicken Wings",
-    "name_am": "",
+    "name_am": "የዶሮ ክንፍ (ዊንግስ)",
     "price": 1000,
     "description": "Chicken Wings, Mayo, Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041066/nitsuh-menu/dishes/joa47lvnmir6zrpkor22.jpg",
@@ -1168,14 +1224,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 66
+    "sort_order": 66,
+    "description_am": "ጥርት ብለው የተጠበሱ ጣፋጭ የዶሮ ክንፎች ከዲፕ ሶስ ጋር።"
   },
   {
     "id": "item-chicken-wings-with-honey-bbq-souce-67",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-chicken",
     "name": "Chicken Wings with Honey BBQ Souce",
-    "name_am": "",
+    "name_am": "የዶሮ ክንፍ በሃኒ BBQ ሶስ",
     "price": 1300,
     "description": "Chicken Wings, Honey BBQ Souce, Mayo, Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041125/nitsuh-menu/dishes/vekwpnrdbbqmzrwkrbkc.jpg",
@@ -1183,14 +1240,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 67
+    "sort_order": 67,
+    "description_am": "የተጠበሱ የዶሮ ክንፎች በማር እና ባርቢኪው ሶስ ተለውሰው የቀረቡ።"
   },
   {
     "id": "item-chicken-special-combo-68",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-chicken",
     "name": "Chicken Special Combo",
-    "name_am": "",
+    "name_am": "የዶሮ ስፔሻል ኮምቦ",
     "price": 2500,
     "description": "1 pic Chicken Fried Leg, Wings, Chicken Strip, Mayo, Salad & Fries",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041066/nitsuh-menu/dishes/hj5h2ttotfkmfizby7uj.jpg",
@@ -1200,14 +1258,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": true,
-    "sort_order": 68
+    "sort_order": 68,
+    "description_am": "የዶሮ እግር፣ ዊንግስ፣ ናጌትስ እና ድንች ጥብስ የያዘ የተሟላ ኮምቦ።"
   },
   {
     "id": "item-special-salad-69",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-salad",
     "name": "Special salad",
-    "name_am": "",
+    "name_am": "ስፔሻል ሰላጣ",
     "price": 1100,
     "description": "Chicken, tuna, Salad, tomato, carrot, cucumber, onion, chili, olives, kidney bean, mayo, salad souce",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041113/nitsuh-menu/dishes/kggchipcxsmjclgakqjy.jpg",
@@ -1217,14 +1276,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 69
+    "sort_order": 69,
+    "description_am": "ልዩ ትኩስ ሰላጣ በዶሮ፣ ቺዝ፣ እንቁላል እና ልዩ ድሬሲንግ።"
   },
   {
     "id": "item-fasting-special-salad-70",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-salad",
     "name": "Fasting Special salad",
-    "name_am": "",
+    "name_am": "የጾም ስፔሻል ሰላጣ",
     "price": 900,
     "description": "Avocado Salad, tomato, carrot, cucumber, onion, chili, olives, kidney bean, salad souce",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041082/nitsuh-menu/dishes/qck5jizuutup1gcoij9y.jpg",
@@ -1236,14 +1296,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 70
+    "sort_order": 70,
+    "description_am": "ልዩ የጾም ሰላጣ በአቮካዶ፣ ቱና፣ የወይራ ፍሬ እና የሎሚ ድሬሲንግ።"
   },
   {
     "id": "item-tuna-salad-71",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-salad",
     "name": "Tuna Salad",
-    "name_am": "",
+    "name_am": "የቱና ሰላጣ",
     "price": 900,
     "description": "Tuna, Salad, tomato, carrot, cucumber, onion, chili, mayo, salad souce",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041121/nitsuh-menu/dishes/eqokbmmdnhntu0f75yrg.jpg",
@@ -1251,14 +1312,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 71
+    "sort_order": 71,
+    "description_am": "ትኩስ የቱና አሳ ሰላጣ በሰላጣ ቅጠል፣ ቲማቲም እና ሎሚ።"
   },
   {
     "id": "item-chicken-salad-72",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-salad",
     "name": "Chicken Salad",
-    "name_am": "",
+    "name_am": "የዶሮ ሰላጣ",
     "price": 900,
     "description": "Chicken, Salad, tomato, carrot, cucumber, onion, chili, mayo, salad souce",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041064/nitsuh-menu/dishes/wekifchc8swwyiwh1xcs.jpg",
@@ -1266,14 +1328,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 72
+    "sort_order": 72,
+    "description_am": "የተጠበሰ የዶሮ ስጋ ቁርጥራጭ በሰላጣ፣ ኪያር እና ማዮኔዝ ድሬሲንግ።"
   },
   {
     "id": "item-avocado-salad-73",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-salad",
     "name": "Avocado Salad",
-    "name_am": "",
+    "name_am": "የአቮካዶ ሰላጣ",
     "price": 700,
     "description": "Avocado Salad, tomato, carrot, cucumber, onion, chili, salad souce",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041057/nitsuh-menu/dishes/cgcykz0pczufjttgir0c.jpg",
@@ -1281,14 +1344,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 73
+    "sort_order": 73,
+    "description_am": "ትኩስ የአቮካዶ ቁርጥራጭ በቲማቲም፣ ቃሪያ እና የወይራ ዘይት (የጾም)።"
   },
   {
     "id": "item-normal-salad-74",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-salad",
     "name": "Normal Salad",
-    "name_am": "",
+    "name_am": "ኖርማል ሰላጣ",
     "price": 700,
     "description": "Salad, tomato, carrot, cucumber, onion, chili, kidney bean, salad souce",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041103/nitsuh-menu/dishes/giotydwog4po6ibiabxf.jpg",
@@ -1296,14 +1360,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 74
+    "sort_order": 74,
+    "description_am": "ቀላል እና ትኩስ የአትክልት ሰላጣ በሰላጣ ቅጠል፣ ቲማቲም እና ሽንኩርት።"
   },
   {
     "id": "item-tomato-pasta-75",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-pasta",
     "name": "Tomato Pasta",
-    "name_am": "",
+    "name_am": "የቲማቲም ፓስታ",
     "price": 500,
     "description": "Pasta With Tomato souce & Bread",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041121/nitsuh-menu/dishes/fq6jd3em4ox2zveh9k13.jpg",
@@ -1311,14 +1376,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 75
+    "sort_order": 75,
+    "description_am": "ክላሲክ ፓስታ በትኩስ የቲማቲም ሶስ፣ ነጭ ሽንኩርት እና ባሲል (የጾም)።"
   },
   {
     "id": "item-vegi-pasta-76",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-pasta",
     "name": "Vegi Pasta",
-    "name_am": "",
+    "name_am": "የአትክልት ፓስታ",
     "price": 500,
     "description": "Pasta With Vegtables & Bread",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041125/nitsuh-menu/dishes/hibwelmw10l8rp2blmop.jpg",
@@ -1329,14 +1395,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 76
+    "sort_order": 76,
+    "description_am": "ጣፋጭ የጾም ፓስታ በተጠበሱ የተመረጡ አትክልቶች።"
   },
   {
     "id": "item-tuna-pasta-77",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-pasta",
     "name": "Tuna Pasta",
-    "name_am": "",
+    "name_am": "የቱና ፓስታ",
     "price": 500,
     "description": "Pasta With Tomato souce Tuna & Bread",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041121/nitsuh-menu/dishes/zjm0fju8hdmketpqnqxi.jpg",
@@ -1344,14 +1411,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 77
+    "sort_order": 77,
+    "description_am": "ፓስታ በቱና አሳ፣ ቲማቲም ሶስ እና የወይራ ፍሬ።"
   },
   {
     "id": "item-tomato-pasta-with-meat-78",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-pasta",
     "name": "Tomato Pasta With Meat",
-    "name_am": "",
+    "name_am": "የቲማቲም ፓስታ በስጋ",
     "price": 650,
     "description": "Pasta With Tomato souce, Meat & Bread",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041120/nitsuh-menu/dishes/lyjzjjt8ltfe3jlstyo2.jpg",
@@ -1359,14 +1427,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 78
+    "sort_order": 78,
+    "description_am": "ፓስታ በተፈጨ የበሬ ስጋ ቦሎኔዝ እና የቲማቲም ሶስ።"
   },
   {
     "id": "item-arabiyata-pasta-79",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-pasta",
     "name": "Arabiyata Pasta",
-    "name_am": "",
+    "name_am": "አራቢያታ ፓስታ",
     "price": 650,
     "description": "Pasta With Tomato souce, Hot Spicy & Bread",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041056/nitsuh-menu/dishes/hiozsoyehskrhasxpnnh.jpg",
@@ -1374,14 +1443,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 79
+    "sort_order": 79,
+    "description_am": "የሚያቃጥል የጣሊያን አራቢያታ ፓስታ በቃሪያ እና ነጭ ሽንኩርት ሶስ።"
   },
   {
     "id": "item-alfredo-pasta-80",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-pasta",
     "name": "Alfredo Pasta",
-    "name_am": "",
+    "name_am": "አልፍሬዶ ፓስታ",
     "price": 750,
     "description": "Pasta With Creamy souce, Cheese & Bread",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041055/nitsuh-menu/dishes/oxbj3kfv8c8x7alj0fwn.jpg",
@@ -1389,14 +1459,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 80
+    "sort_order": 80,
+    "description_am": "ክሬሚ ነጭ አልፍሬዶ ፓስታ በቅቤ እና ፓርሜዛን ቺዝ።"
   },
   {
     "id": "item-alfredo-pasta-with-chicken-81",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-pasta",
     "name": "Alfredo Pasta With Chicken",
-    "name_am": "",
+    "name_am": "አልፍሬዶ ፓስታ በዶሮ",
     "price": 900,
     "description": "Pasta With Creamy souce, Chicken, Cheese & Bread",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041055/nitsuh-menu/dishes/lmycpw8mgtpflyrnite9.jpg",
@@ -1404,14 +1475,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 81
+    "sort_order": 81,
+    "description_am": "ክሬሚ አልፍሬዶ ፓስታ በተጠበሰ የዶሮ ስጋ ቁርጥራጭ እና ቺዝ።"
   },
   {
     "id": "item-pesto-pasta-82",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-pasta",
     "name": "Pesto Pasta",
-    "name_am": "",
+    "name_am": "ፔስቶ ፓስታ",
     "price": 750,
     "description": "Pasta With Pesto souce, Cheese & Bread",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041107/nitsuh-menu/dishes/u4gctqfkdl6l0htgwqzw.jpg",
@@ -1419,14 +1491,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 82
+    "sort_order": 82,
+    "description_am": "አረንጓዴ የባሲል ፔስቶ ፓስታ በወይራ ዘይት እና ነጭ ሽንኩርት።"
   },
   {
     "id": "item-classic-mojito-83",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-mojito",
     "name": "Classic Mojito",
-    "name_am": "",
+    "name_am": "ክላሲክ ሞሂቶ",
     "price": 450,
     "description": "Lemon, Mint, Pineapple, Cinnamon, Honey syrup, Fresh Mint, Soft drink, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041074/nitsuh-menu/dishes/iciwxll5jdtr9onzkcl4.jpg",
@@ -1434,14 +1507,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 83
+    "sort_order": 83,
+    "description_am": "ቀዝቃዛ ክላሲክ ሞሂቶ በትኩስ ሚንት ቅጠል፣ ሎሚ እና በረዶ።"
   },
   {
     "id": "item-lemon-mint-mojito-84",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-mojito",
     "name": "Lemon Mint Mojito",
-    "name_am": "",
+    "name_am": "የሎሚ ሚንት ሞሂቶ",
     "price": 350,
     "description": "Lemon juice, Fresh Mint, Soft drink, Honey syrup, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041091/nitsuh-menu/dishes/czoizyvboi8okrsrm3ok.jpg",
@@ -1449,14 +1523,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 84
+    "sort_order": 84,
+    "description_am": "መንፈስ የሚያድስ የሎሚ እና ሚንት ሞሂቶ ከሶዳ ጋር።"
   },
   {
     "id": "item-pineapple-mojito-85",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-mojito",
     "name": "Pineapple Mojito",
-    "name_am": "",
+    "name_am": "የአናናስ ሞሂቶ",
     "price": 350,
     "description": "Pineapple Rum, Lemon juice, Mint, Soft drink, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041106/nitsuh-menu/dishes/hgtvu9elf92ed1c88rel.jpg",
@@ -1464,14 +1539,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 85
+    "sort_order": 85,
+    "description_am": "ጣፋጭ የተፈጥሮ አናናስ ሞሂቶ በሚንት እና በረዶ።"
   },
   {
     "id": "item-watermelon-mojito-86",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-mojito",
     "name": "Watermelon Mojito",
-    "name_am": "",
+    "name_am": "የሀብሀብ ሞሂቶ",
     "price": 350,
     "description": "Watermelon Rum, Honey syrup, Lemon, Fresh Mint, Ambo water, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041127/nitsuh-menu/dishes/lomommsl0xmc9lc5qcfn.jpg",
@@ -1479,14 +1555,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 86
+    "sort_order": 86,
+    "description_am": "ቀዝቃዛ የሀብሀብ ፍሬ ሞሂቶ ከሚንት ቅጠል ጋር።"
   },
   {
     "id": "item-strawberry-mojito-87",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-mojito",
     "name": "Strawberry Mojito",
-    "name_am": "",
+    "name_am": "የእንጆሪ ሞሂቶ",
     "price": 350,
     "description": "Strawberry Rum, Honey syrup, Lemon, Soft drink, Fresh Mint, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041118/nitsuh-menu/dishes/bd1d3sgxf1w7rm1trjft.jpg",
@@ -1494,14 +1571,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 87
+    "sort_order": 87,
+    "description_am": "ጣፋጭ የእንጆሪ ፍራፍሬ ሞሂቶ በሎሚ እና በረዶ።"
   },
   {
     "id": "item-ginger-mojito-88",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-mojito",
     "name": "Ginger Mojito",
-    "name_am": "",
+    "name_am": "የዝንጅብል ሞሂቶ",
     "price": 350,
     "description": "Ginger juice, Sugar syrup, Soft drink, Lemon, Fresh Mint, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041086/nitsuh-menu/dishes/eexcys2lkt1wcwk6lolv.jpg",
@@ -1509,14 +1587,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 88
+    "sort_order": 88,
+    "description_am": "ልዩ የዝንጅብል ቃና ያለው ቀዝቃዛ ሞሂቶ በሎሚ።"
   },
   {
     "id": "item-cinnamon-mojito-89",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-mojito",
     "name": "Cinnamon Mojito",
-    "name_am": "",
+    "name_am": "የቀረፋ ሞሂቶ",
     "price": 350,
     "description": "Cinnamon, Lemon, Soft drink, Sugar syrup, Fresh Mint, Ice, Mojito",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041070/nitsuh-menu/dishes/uyfuy1fksqh7dfepg89y.jpg",
@@ -1524,14 +1603,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 89
+    "sort_order": 89,
+    "description_am": "ልዩ የቀረፋ መዓዛ ያለው የሚያድስ ቀዝቃዛ ሞሂቶ።"
   },
   {
     "id": "item-soft-drink-90",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-soft-drinks",
     "name": "Soft Drink",
-    "name_am": "",
+    "name_am": "ለስላሳ መጠጥ",
     "price": 90,
     "description": "Soft Drink prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041111/nitsuh-menu/dishes/ga0vubbafzchiv5en8ym.jpg",
@@ -1539,14 +1619,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 90
+    "sort_order": 90,
+    "description_am": "ቀዝቃዛ የታሸገ ለስላሳ መጠጥ (ኮካ፣ ፋንታ፣ ስፕራይት)።"
   },
   {
     "id": "item-novida-soft-drink-91",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-soft-drinks",
     "name": "Novida Soft Drink",
-    "name_am": "",
+    "name_am": "ኖቪዳ ለስላሳ መጠጥ",
     "price": 90,
     "description": "Novida Soft Drink prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041103/nitsuh-menu/dishes/ptuap4elwsz0jsqza4we.jpg",
@@ -1554,14 +1635,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 91
+    "sort_order": 91,
+    "description_am": "ቀዝቃዛ ጣፋጭ የኖቪዳ አናናስ ለስላሳ መጠጥ።"
   },
   {
     "id": "item-bottle-soft-drink-92",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-soft-drinks",
     "name": "Bottle Soft Drink",
-    "name_am": "",
+    "name_am": "የጠርሙስ ለስላሳ መጠጥ",
     "price": 100,
     "description": "Bottle Soft Drink prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/fmnxextfvpywtzmpbk9z.jpg",
@@ -1569,14 +1651,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 92
+    "sort_order": 92,
+    "description_am": "ቀዝቃዛ የጠርሙስ ለስላሳ መጠጥ።"
   },
   {
     "id": "item-ambo-water-93",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-soft-drinks",
     "name": "Ambo water",
-    "name_am": "",
+    "name_am": "አምቦ ውሃ",
     "price": 90,
     "description": "Ambo water prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041055/nitsuh-menu/dishes/gbvbnloskqvzcp0nn77i.jpg",
@@ -1584,14 +1667,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 93
+    "sort_order": 93,
+    "description_am": "የተፈጥሮ ማዕድን አምቦ ውሃ።"
   },
   {
     "id": "item-water-liter-94",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-soft-drinks",
     "name": "Water ½ Liter",
-    "name_am": "",
+    "name_am": "ውሃ ግማሽ ሊትር (½)",
     "price": 50,
     "description": "Water ½ Liter prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/hghrqph8pdx1b8plshwe.jpg",
@@ -1599,14 +1683,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 94
+    "sort_order": 94,
+    "description_am": "ንጹህ የታሸገ የተፈጥሮ ውሃ ግማሽ ሊትር።"
   },
   {
     "id": "item-water-1-liter-95",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-soft-drinks",
     "name": "Water 1 Liter",
-    "name_am": "",
+    "name_am": "ውሃ 1 ሊትር",
     "price": 70,
     "description": "Water 1 Liter prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/hghrqph8pdx1b8plshwe.jpg",
@@ -1614,14 +1699,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 95
+    "sort_order": 95,
+    "description_am": "ንጹህ የታሸገ የተፈጥሮ ውሃ አንድ ሊትር።"
   },
   {
     "id": "item-water-2-liter-96",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-soft-drinks",
     "name": "Water 2 Liter",
-    "name_am": "",
+    "name_am": "ውሃ 2 ሊትር",
     "price": 80,
     "description": "Water 2 Liter prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041060/nitsuh-menu/dishes/hghrqph8pdx1b8plshwe.jpg",
@@ -1629,14 +1715,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 96
+    "sort_order": 96,
+    "description_am": "ንጹህ የታሸገ የተፈጥሮ ውሃ ሁለት ሊትር።"
   },
   {
     "id": "item-special-juice-97",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-juices",
     "name": "Special Juice",
-    "name_am": "",
+    "name_am": "ስፔሻል ጭማቂ",
     "price": 450,
     "description": "Special Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041113/nitsuh-menu/dishes/jmil4upegrojwzezxy1c.jpg",
@@ -1646,14 +1733,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": true,
-    "sort_order": 97
+    "sort_order": 97,
+    "description_am": "ልዩ የበርካታ የተፈጥሮ ፍራፍሬዎች ቅልቅል ስፕሪስ ጭማቂ በቪምቶ።"
   },
   {
     "id": "item-papaya-juice-98",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-juices",
     "name": "Papaya Juice",
-    "name_am": "",
+    "name_am": "የፓፓያ ጭማቂ",
     "price": 320,
     "description": "Papaya Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041105/nitsuh-menu/dishes/bbgniire8laoamq2h8nv.jpg",
@@ -1661,14 +1749,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 98
+    "sort_order": 98,
+    "description_am": "100% የተፈጥሮ ፓፓያ ጭማቂ በሎሚ።"
   },
   {
     "id": "item-avocado-juice-99",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-juices",
     "name": "Avocado Juice",
-    "name_am": "",
+    "name_am": "የአቮካዶ ጭማቂ",
     "price": 320,
     "description": "Avocado Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041057/nitsuh-menu/dishes/yfunjaelohtajhbcdd6s.jpg",
@@ -1676,14 +1765,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 99
+    "sort_order": 99,
+    "description_am": "ወፍራም የተፈጥሮ አቮካዶ ጭማቂ በቪምቶ።"
   },
   {
     "id": "item-watermelon-juice-100",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-juices",
     "name": "Watermelon Juice",
-    "name_am": "",
+    "name_am": "የሀብሀብ ጭማቂ",
     "price": 400,
     "description": "Watermelon Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041124/nitsuh-menu/dishes/fnq3bcrlfjyzulrcpdte.jpg",
@@ -1691,14 +1781,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 100
+    "sort_order": 100,
+    "description_am": "ቀዝቃዛና መንፈስ የሚያድስ 100% የሀብሀብ ጭማቂ።"
   },
   {
     "id": "item-mango-juice-101",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-juices",
     "name": "Mango Juice",
-    "name_am": "",
+    "name_am": "የማንጎ ጭማቂ",
     "price": 400,
     "description": "Mango Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041092/nitsuh-menu/dishes/uzcbfsh8xf5utdzzqmef.jpg",
@@ -1706,14 +1797,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 101
+    "sort_order": 101,
+    "description_am": "ጣፋጭ የተፈጥሮ የማንጎ ጭማቂ።"
   },
   {
     "id": "item-pineapple-juice-102",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-juices",
     "name": "Pineapple Juice",
-    "name_am": "",
+    "name_am": "የአናናስ ጭማቂ",
     "price": 400,
     "description": "Pineapple Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041107/nitsuh-menu/dishes/bqhhfr9z28z4kp7vy6b6.jpg",
@@ -1721,14 +1813,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 102
+    "sort_order": 102,
+    "description_am": "ትኩስ የተጨመቀ የተፈጥሮ አናናስ ጭማቂ።"
   },
   {
     "id": "item-strawberry-juice-103",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-juices",
     "name": "Strawberry Juice",
-    "name_am": "",
+    "name_am": "የእንጆሪ ጭማቂ",
     "price": 400,
     "description": "Strawberry Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041118/nitsuh-menu/dishes/bovydy8kn0nstzellkiq.jpg",
@@ -1736,14 +1829,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 103
+    "sort_order": 103,
+    "description_am": "ጣፋጭ የተፈጥሮ እንጆሪ ፍራፍሬ ጭማቂ።"
   },
   {
     "id": "item-lemon-mint-juice-104",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-juices",
     "name": "Lemon Mint Juice",
-    "name_am": "",
+    "name_am": "የሎሚ ሚንት ጭማቂ",
     "price": 400,
     "description": "Lemon Mint Juice prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041090/nitsuh-menu/dishes/ovdjiunyxgmcajgf53mc.jpg",
@@ -1751,14 +1845,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 104
+    "sort_order": 104,
+    "description_am": "ትኩስ የሎሚ ጭማቂ በሚንት ቅጠል እና በረዶ።"
   },
   {
     "id": "item-banana-shake-105",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-shakes",
     "name": "Banana Shake",
-    "name_am": "",
+    "name_am": "የሙዝ ሼክ",
     "price": 450,
     "description": "Banana Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041059/nitsuh-menu/dishes/vudraahudym4plg9muft.jpg",
@@ -1766,14 +1861,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 105
+    "sort_order": 105,
+    "description_am": "ክሬሚ የሙዝ ወተት ሼክ በቫኒላ።"
   },
   {
     "id": "item-strawberry-shake-106",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-shakes",
     "name": "Strawberry Shake",
-    "name_am": "",
+    "name_am": "የእንጆሪ ሼክ",
     "price": 450,
     "description": "Strawberry Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041118/nitsuh-menu/dishes/sbsunf5dwcqnrx36dqx4.jpg",
@@ -1781,14 +1877,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 106
+    "sort_order": 106,
+    "description_am": "ወፍራም የእንጆሪ ወተት ሼክ።"
   },
   {
     "id": "item-avocado-shake-107",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-shakes",
     "name": "Avocado Shake",
-    "name_am": "",
+    "name_am": "የአቮካዶ ሼክ",
     "price": 450,
     "description": "Avocado Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041057/nitsuh-menu/dishes/lhqoalppvbhvatf20sr9.jpg",
@@ -1796,14 +1893,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 107
+    "sort_order": 107,
+    "description_am": "ጣፋጭ የአቮካዶ እና የወተት ክሬም ሼክ።"
   },
   {
     "id": "item-mocha-shake-108",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-shakes",
     "name": "Mocha Shake",
-    "name_am": "",
+    "name_am": "ሞካ ሼክ",
     "price": 450,
     "description": "Mocha Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041103/nitsuh-menu/dishes/bxsmhyltromyh7sovjlk.jpg",
@@ -1811,14 +1909,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 108
+    "sort_order": 108,
+    "description_am": "የቡና እና ቸኮሌት ቅልቅል ክሬሚ ሼክ።"
   },
   {
     "id": "item-flaxseed-shake-109",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-shakes",
     "name": "Flaxseed Shake",
-    "name_am": "",
+    "name_am": "የተልባ ሼክ",
     "price": 450,
     "description": "Flaxseed Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041083/nitsuh-menu/dishes/vuyb1ucxvjlnknchrzus.jpg",
@@ -1826,14 +1925,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 109
+    "sort_order": 109,
+    "description_am": "ጤናማ የተልባ ፍሬ እና ወተት ሼክ።"
   },
   {
     "id": "item-chocolate-shake-110",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-shakes",
     "name": "Chocolate Shake",
-    "name_am": "",
+    "name_am": "የቸኮሌት ሼክ",
     "price": 450,
     "description": "Chocolate Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041069/nitsuh-menu/dishes/if0kyrlx0okwlskzd1qf.jpg",
@@ -1841,14 +1941,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 110
+    "sort_order": 110,
+    "description_am": "ጣፋጭ የቸኮሌት ወተት ሼክ በቸኮሌት ሶስ።"
   },
   {
     "id": "item-protien-shake-111",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-shakes",
     "name": "Protien Shake",
-    "name_am": "",
+    "name_am": "ፕሮቲን ሼክ",
     "price": 600,
     "description": "Protien Shake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041109/nitsuh-menu/dishes/ve4vvrhaxsxqahvauw8p.jpg",
@@ -1856,14 +1957,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 111
+    "sort_order": 111,
+    "description_am": "ከፍተኛ ጉልበት ሰጪ የፕሮቲን ሼክ።"
   },
   {
     "id": "item-tea-112",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Tea",
-    "name_am": "",
+    "name_am": "ሻይ",
     "price": 60,
     "description": "Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041131/nitsuh-menu/dishes/k0k6d9gyrikfmrdpsfgi.jpg",
@@ -1871,14 +1973,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 112
+    "sort_order": 112,
+    "description_am": "ትኩስ ጥቁር ሻይ በቅመሞች።"
   },
   {
     "id": "item-coffee-113",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Coffee",
-    "name_am": "",
+    "name_am": "ቡና",
     "price": 70,
     "description": "Coffee prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041130/nitsuh-menu/dishes/veed0cxidtvqsiu5a1qf.jpg",
@@ -1886,14 +1989,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 113
+    "sort_order": 113,
+    "description_am": "ትኩስ የሀበሻ ጀበና ቡና።"
   },
   {
     "id": "item-espresso-114",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Espresso",
-    "name_am": "",
+    "name_am": "ኤስፕሬሶ",
     "price": 140,
     "description": "Espresso prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041080/nitsuh-menu/dishes/y9yoj6bm73dzyngt7hgy.jpg",
@@ -1901,14 +2005,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 114
+    "sort_order": 114,
+    "description_am": "ጠንካራና መዓዛ ያለው የጣሊያን ኤስፕሬሶ።"
   },
   {
     "id": "item-macchiato-115",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Macchiato",
-    "name_am": "",
+    "name_am": "ማኪያቶ",
     "price": 110,
     "description": "Macchiato prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041096/nitsuh-menu/dishes/tnyjy4radumocnq6pvwd.jpg",
@@ -1916,14 +2021,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 115
+    "sort_order": 115,
+    "description_am": "የኢትዮጵያ ምርጥ ወተት ማኪያቶ።"
   },
   {
     "id": "item-milk-116",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Milk",
-    "name_am": "",
+    "name_am": "ትኩስ ወተት",
     "price": 120,
     "description": "Milk prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041098/nitsuh-menu/dishes/pang3vzasaiaxrskxklu.jpg",
@@ -1931,14 +2037,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 116
+    "sort_order": 116,
+    "description_am": "ትኩስ ንጹህ ላም ወተት።"
   },
   {
     "id": "item-milk-with-coffee-117",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Milk with coffee",
-    "name_am": "",
+    "name_am": "ወተት በቡና",
     "price": 140,
     "description": "Milk with coffee prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "/images/dishes/roasted-chicken.jpg",
@@ -1946,14 +2053,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 117
+    "sort_order": 117,
+    "description_am": "ትኩስ ወተት በትንሽ ቡና።"
   },
   {
     "id": "item-milk-with-tea-118",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Milk with Tea",
-    "name_am": "",
+    "name_am": "ወተት በሻይ",
     "price": 140,
     "description": "Milk with Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041098/nitsuh-menu/dishes/mdut2mirewmlcvogqoth.jpg",
@@ -1961,14 +2069,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 118
+    "sort_order": 118,
+    "description_am": "ትኩስ ወተት በሻይ ቅመም።"
   },
   {
     "id": "item-fasting-macchiato-119",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Fasting Macchiato",
-    "name_am": "",
+    "name_am": "የጾም ማኪያቶ",
     "price": 200,
     "description": "Fasting Macchiato prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041082/nitsuh-menu/dishes/hn6wq1klnyjdrxoicehb.jpg",
@@ -1979,14 +2088,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 119
+    "sort_order": 119,
+    "description_am": "የጾም ማኪያቶ በአኩሪ አተር ወተት።"
   },
   {
     "id": "item-tea-sprice-120",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Tea Sprice",
-    "name_am": "",
+    "name_am": "ሻይ ስፕሪስ",
     "price": 100,
     "description": "Tea Sprice prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041118/nitsuh-menu/dishes/a8r4sp83k3bdnbpez7rb.jpg",
@@ -1994,14 +2104,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 120
+    "sort_order": 120,
+    "description_am": "ሻይ እና ቡና በግማሽ የተቀላቀለ ስፕሪስ።"
   },
   {
     "id": "item-lemon-tea-121",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Lemon Tea",
-    "name_am": "",
+    "name_am": "የሎሚ ሻይ",
     "price": 70,
     "description": "Lemon Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041091/nitsuh-menu/dishes/fnfuh4lgzdpi4irlyqul.jpg",
@@ -2009,14 +2120,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 121
+    "sort_order": 121,
+    "description_am": "ትኩስ ሻይ በተጨመቀ ሎሚ።"
   },
   {
     "id": "item-mint-tea-122",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Mint Tea",
-    "name_am": "",
+    "name_am": "የናና ሻይ",
     "price": 70,
     "description": "Mint Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041101/nitsuh-menu/dishes/biby0eypxe4vhjokpuga.jpg",
@@ -2024,14 +2136,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 122
+    "sort_order": 122,
+    "description_am": "ትኩስ ሻይ በሚንት (ናና) ቅጠል።"
   },
   {
     "id": "item-peanut-tea-123",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Peanut Tea",
-    "name_am": "",
+    "name_am": "የለውዝ ሻይ",
     "price": 140,
     "description": "Peanut Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041106/nitsuh-menu/dishes/uvxhfhn07czophmzb2nr.jpg",
@@ -2039,14 +2152,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 123
+    "sort_order": 123,
+    "description_am": "ትኩስ ሻይ በኦቾሎኒ (ለውዝ) ቅቤ።"
   },
   {
     "id": "item-pineapple-tea-124",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Pineapple Tea",
-    "name_am": "",
+    "name_am": "የአናናስ ሻይ",
     "price": 140,
     "description": "Pineapple Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041108/nitsuh-menu/dishes/sj90dmt4dzdpz0r0hd4c.jpg",
@@ -2054,14 +2168,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 124
+    "sort_order": 124,
+    "description_am": "ትኩስ ሻይ በአናናስ ጣዕም።"
   },
   {
     "id": "item-orange-tea-125",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Orange Tea",
-    "name_am": "",
+    "name_am": "የብርቱካን ሻይ",
     "price": 140,
     "description": "Orange Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041105/nitsuh-menu/dishes/lx34cy62he3wzxgjx3w1.jpg",
@@ -2069,14 +2184,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 125
+    "sort_order": 125,
+    "description_am": "ትኩስ ሻይ በብርቱካን ጭማቂ።"
   },
   {
     "id": "item-caramel-latte-126",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Caramel Latte",
-    "name_am": "",
+    "name_am": "ካራሜል ላቴ",
     "price": 170,
     "description": "Caramel Latte prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041062/nitsuh-menu/dishes/ph1wjknqhatwo6ubyrii.jpg",
@@ -2084,14 +2200,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 126
+    "sort_order": 126,
+    "description_am": "ትኩስ ቡና በወተት እና ጣፋጭ ካራሜል ሶስ።"
   },
   {
     "id": "item-vanilla-latte-127",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Vanilla Latte",
-    "name_am": "",
+    "name_am": "ቫኒላ ላቴ",
     "price": 170,
     "description": "Vanilla Latte prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041123/nitsuh-menu/dishes/hkstjfyblwnexlcetron.jpg",
@@ -2099,14 +2216,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 127
+    "sort_order": 127,
+    "description_am": "ትኩስ ቡና በወተት እና የቫኒላ ጣዕም።"
   },
   {
     "id": "item-ginger-latte-128",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Ginger Latte",
-    "name_am": "",
+    "name_am": "ዝንጅብል ላቴ",
     "price": 170,
     "description": "Ginger Latte prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041085/nitsuh-menu/dishes/vfypfkllotffrep5zw6m.jpg",
@@ -2114,14 +2232,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 128
+    "sort_order": 128,
+    "description_am": "ትኩስ ቡና በወተት እና በሚያሞቅ ዝንጅብል።"
   },
   {
     "id": "item-hot-chocolate-129",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Hot Chocolate",
-    "name_am": "",
+    "name_am": "ትኩስ ቸኮሌት",
     "price": 170,
     "description": "Hot Chocolate prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041087/nitsuh-menu/dishes/xmjphybs9kpqdqkdyo2s.jpg",
@@ -2129,14 +2248,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 129
+    "sort_order": 129,
+    "description_am": "የቀለጠ የበለፀገ ትኩስ ቸኮሌት በወተት።"
   },
   {
     "id": "item-hot-caramel-130",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Hot Caramel",
-    "name_am": "",
+    "name_am": "ትኩስ ካራሜል",
     "price": 170,
     "description": "Hot Caramel prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041085/nitsuh-menu/dishes/fbr6bfam8mtsvisvt9sj.jpg",
@@ -2144,14 +2264,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 130
+    "sort_order": 130,
+    "description_am": "ጣፋጭ ትኩስ ካራሜል መጠጥ በወተት።"
   },
   {
     "id": "item-cuppuchino-131",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Cuppuchino",
-    "name_am": "",
+    "name_am": "ካፑቺኖ",
     "price": 170,
     "description": "Cuppuchino prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041062/nitsuh-menu/dishes/gquibaftrzfgmv7zk3ja.jpg",
@@ -2159,14 +2280,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 131
+    "sort_order": 131,
+    "description_am": "ክላሲክ ካፑቺኖ በወተት አረፋ እና ኮኮዋ።"
   },
   {
     "id": "item-special-tea-132",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-hot-drinks",
     "name": "Special Tea",
-    "name_am": "",
+    "name_am": "ስፔሻል ሻይ",
     "price": 180,
     "description": "Special Tea prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041105/nitsuh-menu/dishes/lx34cy62he3wzxgjx3w1.jpg",
@@ -2176,14 +2298,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": true,
-    "sort_order": 132
+    "sort_order": 132,
+    "description_am": "ልዩ የቅመም ሻይ በዝንጅብል፣ ቀረፋ፣ ቅርንፉድ እና ሎሚ።"
   },
   {
     "id": "item-ice-latte-133",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-iced-drinks",
     "name": "ICE Latte",
-    "name_am": "",
+    "name_am": "አይስ ላቴ",
     "price": 450,
     "description": "Coffee, milk, sugar syrup, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041089/nitsuh-menu/dishes/ijbaoshw8scfdtaxqsem.jpg",
@@ -2191,14 +2314,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 133
+    "sort_order": 133,
+    "description_am": "ቀዝቃዛ ኤስፕሬሶ ቡና በቀዝቃዛ ወተት እና በረዶ።"
   },
   {
     "id": "item-ice-tea-134",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-iced-drinks",
     "name": "ICE Tea",
-    "name_am": "",
+    "name_am": "አይስ ሻይ",
     "price": 450,
     "description": "Tea, milk, sugar syrup, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041089/nitsuh-menu/dishes/sijyn58zxvdxdd4rh9vz.jpg",
@@ -2206,14 +2330,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 134
+    "sort_order": 134,
+    "description_am": "ቀዝቃዛ ሻይ በሎሚ እና በረዶ።"
   },
   {
     "id": "item-ice-vanilla-135",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-iced-drinks",
     "name": "ICE Vanilla",
-    "name_am": "",
+    "name_am": "አይስ ቫኒላ",
     "price": 450,
     "description": "Vanilla, coffee, milk, sugar syrup, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041090/nitsuh-menu/dishes/wbpcs2h4p8tep83q9nxz.jpg",
@@ -2221,14 +2346,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 135
+    "sort_order": 135,
+    "description_am": "ቀዝቃዛ የቫኒላ ቡና በበረዶ።"
   },
   {
     "id": "item-ice-chocolate-136",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-iced-drinks",
     "name": "ICE Chocolate",
-    "name_am": "",
+    "name_am": "አይስ ቸኮሌት",
     "price": 450,
     "description": "Chocolate syrup, coffee, milk, sugar syrup, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041087/nitsuh-menu/dishes/pag1zlp1oqjqdy3arnfo.jpg",
@@ -2236,14 +2362,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 136
+    "sort_order": 136,
+    "description_am": "ቀዝቃዛ የቸኮሌት መጠጥ በበረዶ።"
   },
   {
     "id": "item-ice-caramel-137",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-iced-drinks",
     "name": "ICE Caramel",
-    "name_am": "",
+    "name_am": "አይስ ካራሜል",
     "price": 450,
     "description": "Caramel syrup, coffee, milk, sugar syrup, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041087/nitsuh-menu/dishes/ngdyvmycdtsxrwlugxdj.jpg",
@@ -2251,14 +2378,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 137
+    "sort_order": 137,
+    "description_am": "ቀዝቃዛ ካራሜል ቡና በበረዶ እና ክሬም።"
   },
   {
     "id": "item-ice-strawberry-138",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-iced-drinks",
     "name": "ICE Strawberry",
-    "name_am": "",
+    "name_am": "አይስ እንጆሪ",
     "price": 450,
     "description": "Strawberry syrup, coffee, milk, sugar syrup, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041089/nitsuh-menu/dishes/ynnrg75rej1a7raxxprv.jpg",
@@ -2266,14 +2394,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 138
+    "sort_order": 138,
+    "description_am": "ቀዝቃዛ የእንጆሪ መጠጥ በበረዶ።"
   },
   {
     "id": "item-ice-deluxe-139",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-iced-drinks",
     "name": "ICE Deluxe",
-    "name_am": "",
+    "name_am": "አይስ ዲሉክስ",
     "price": 600,
     "description": "Chocolate, caramel, vanilla, coffee, milk, sugar syrup, Ice",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041089/nitsuh-menu/dishes/birl5pgbgobn8qkxaasb.jpg",
@@ -2283,14 +2412,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 139
+    "sort_order": 139,
+    "description_am": "ልዩ ቀዝቃዛ ቡና በክሬም፣ ቸኮሌት እና ካራሜል።"
   },
   {
     "id": "item-mini-custard-vanilla-cake-140",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts",
     "name": "Mini Custard Vanilla cake",
-    "name_am": "",
+    "name_am": "ሚኒ ካስተርድ ቫኒላ ኬክ",
     "price": 80,
     "description": "Mini Custard Vanilla cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041101/nitsuh-menu/dishes/gbmqzx61bktna2gswrx6.jpg",
@@ -2298,14 +2428,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 140
+    "sort_order": 140,
+    "description_am": "ለስላሳ ሚኒ ቫኒላ ኬክ በጣፋጭ ካስተርድ ክሬም።"
   },
   {
     "id": "item-mini-millifoni-cake-141",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts",
     "name": "Mini Millifoni cake",
-    "name_am": "",
+    "name_am": "ሚኒ ሚሊፎኒ ኬክ",
     "price": 80,
     "description": "Mini Millifoni cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041101/nitsuh-menu/dishes/hul9aj4jg95oashit3py.jpg",
@@ -2313,14 +2444,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 141
+    "sort_order": 141,
+    "description_am": "ጥርት ያለ የጣሊያን ሚሊፎኒ ፔስትሪ በክሬም።"
   },
   {
     "id": "item-mini-chocolate-cake-142",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts",
     "name": "Mini Chocolate cake",
-    "name_am": "",
+    "name_am": "ሚኒ ቸኮሌት ኬክ",
     "price": 100,
     "description": "Mini Chocolate cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041101/nitsuh-menu/dishes/tjgbm5dkfcgg3okf6whi.jpg",
@@ -2328,14 +2460,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 142
+    "sort_order": 142,
+    "description_am": "ጣፋጭ የበለፀገ ሚኒ ቸኮሌት ኬክ።"
   },
   {
     "id": "item-tart-cake-143",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts",
     "name": "Tart cake",
-    "name_am": "",
+    "name_am": "ታርት ኬክ",
     "price": 80,
     "description": "Tart cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041131/nitsuh-menu/dishes/vm4rygeyrsblzgt96y0v.jpg",
@@ -2343,14 +2476,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 143
+    "sort_order": 143,
+    "description_am": "ጥርት ያለ የታርት ኬክ በፍራፍሬ እና ክሬም።"
   },
   {
     "id": "item-mini-boxega-cake-144",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts",
     "name": "Mini Boxega cake",
-    "name_am": "",
+    "name_am": "ሚኒ ቦዜጋ ኬክ",
     "price": 80,
     "description": "Mini Boxega cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041098/nitsuh-menu/dishes/hznywmufhjxepvszypgw.jpg",
@@ -2358,14 +2492,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 144
+    "sort_order": 144,
+    "description_am": "ባህላዊ ለስላሳ ሚኒ ቦዜጋ ኬክ።"
   },
   {
     "id": "item-english-cake-145",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts",
     "name": "English Cake",
-    "name_am": "",
+    "name_am": "ኢንግሊሽ ኬክ",
     "price": 150,
     "description": "English Cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041078/nitsuh-menu/dishes/fui6gjghyjuu2hnse4zw.jpg",
@@ -2373,14 +2508,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 145
+    "sort_order": 145,
+    "description_am": "ክላሲክ ለስላሳ የሻይ ሰዓት ኢንግሊሽ ኬክ።"
   },
   {
     "id": "item-classic-dounut-146",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts",
     "name": "Classic Dounut",
-    "name_am": "",
+    "name_am": "ክላሲክ ዶናት",
     "price": 200,
     "description": "Classic Dounut prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041071/nitsuh-menu/dishes/kjrssz0b2kk3fjglroej.jpg",
@@ -2388,14 +2524,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 146
+    "sort_order": 146,
+    "description_am": "ለስላሳ የተጠበሰ ጣፋጭ ክላሲክ ዶናት።"
   },
   {
     "id": "item-chocolate-chips-cookie-147",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts",
     "name": "Chocolate Chips Cookie",
-    "name_am": "",
+    "name_am": "ቸኮሌት ቺፕስ ኩኪስ",
     "price": 250,
     "description": "Chocolate Chips Cookie prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041067/nitsuh-menu/dishes/auy6u6sui7os4cis4jzm.jpg",
@@ -2403,14 +2540,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 147
+    "sort_order": 147,
+    "description_am": "ጥርት ያለ ኩኪስ በጣፋጭ ቸኮሌት ቺፕስ።"
   },
   {
     "id": "item-croissant-148",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts",
     "name": "Croissant",
-    "name_am": "",
+    "name_am": "ክሮሳንት",
     "price": 250,
     "description": "Croissant prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041076/nitsuh-menu/dishes/t1adb7tozz3mpys5abyd.jpg",
@@ -2418,14 +2556,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 148
+    "sort_order": 148,
+    "description_am": "ትኩስ ቅቤማ ለስላሳ የፈረንሳይ ክሮሳንት።"
   },
   {
     "id": "item-chocolate-croissant-149",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts",
     "name": "Chocolate Croissant",
-    "name_am": "",
+    "name_am": "የቸኮሌት ክሮሳንት",
     "price": 350,
     "description": "Chocolate Croissant prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041069/nitsuh-menu/dishes/sxbylouxyxzghrxjdqwe.jpg",
@@ -2433,14 +2572,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 149
+    "sort_order": 149,
+    "description_am": "ትኩስ ክሮሳንት በጣፋጭ ቸኮሌት የተሞላ።"
   },
   {
     "id": "item-tiramisu-cake-150",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts",
     "name": "Tiramisu cake",
-    "name_am": "",
+    "name_am": "ቲራሚሱ ኬክ",
     "price": 400,
     "description": "Tiramisu cake prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041119/nitsuh-menu/dishes/b5cpkaz85wry6zq4mr50.jpg",
@@ -2448,14 +2588,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 150
+    "sort_order": 150,
+    "description_am": "ክላሲክ የጣሊያን ቡና እና ማስካርፖኔ ቲራሚሱ ኬክ።"
   },
   {
     "id": "item-custard-vanilla-torta-1kg-151",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts-kg",
     "name": "Custard Vanilla Torta 1Kg",
-    "name_am": "",
+    "name_am": "ካስተርድ ቫኒላ ቶርታ 1ኪሎ",
     "price": 2000,
     "description": "Custard Vanilla Torta 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041076/nitsuh-menu/dishes/gnfchwipgbgs7fhfoodm.jpg",
@@ -2463,14 +2604,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 151
+    "sort_order": 151,
+    "description_am": "የ1 ኪሎ ክብረ በዓል ካስተርድ ቫኒላ ቶርታ ኬክ።"
   },
   {
     "id": "item-millifoni-torta-1kg-152",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts-kg",
     "name": "Millifoni Torta 1Kg",
-    "name_am": "",
+    "name_am": "ሚሊፎኒ ቶርታ 1ኪሎ",
     "price": 2200,
     "description": "Millifoni Torta 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041098/nitsuh-menu/dishes/fcskgzdramfzw4smuvhi.jpg",
@@ -2478,14 +2620,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 152
+    "sort_order": 152,
+    "description_am": "የ1 ኪሎ ክብረ በዓል ሚሊፎኒ ቶርታ ኬክ።"
   },
   {
     "id": "item-chocolate-torta-1kg-153",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts-kg",
     "name": "Chocolate Torta 1Kg",
-    "name_am": "",
+    "name_am": "ቸኮሌት ቶርታ 1ኪሎ",
     "price": 2500,
     "description": "Chocolate Torta 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041068/nitsuh-menu/dishes/bfonwbylxzlmwqsrx2ji.jpg",
@@ -2493,14 +2636,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 153
+    "sort_order": 153,
+    "description_am": "የ1 ኪሎ ክብረ በዓል የበለፀገ ቸኮሌት ቶርታ ኬክ።"
   },
   {
     "id": "item-tiramisu-1kg-154",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts-kg",
     "name": "Tiramisu 1Kg",
-    "name_am": "",
+    "name_am": "ቲራሚሱ ቶርታ 1ኪሎ",
     "price": 2500,
     "description": "Tiramisu 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041119/nitsuh-menu/dishes/lwkg2cimfah9hxqlen9p.jpg",
@@ -2508,14 +2652,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 154
+    "sort_order": 154,
+    "description_am": "የ1 ኪሎ ክላሲክ የጣሊያን ቲራሚሱ ቶርታ ኬክ።"
   },
   {
     "id": "item-butter-cookeis-1kg-155",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts-kg",
     "name": "Butter Cookeis 1Kg",
-    "name_am": "",
+    "name_am": "የቅቤ ኩኪስ 1ኪሎ",
     "price": 1600,
     "description": "Butter Cookeis 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041062/nitsuh-menu/dishes/fy1gojvmyczhz8ltdiji.jpg",
@@ -2523,14 +2668,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 155
+    "sort_order": 155,
+    "description_am": "የ1 ኪሎ ለስላሳ ጥርት ያለ የቤት ውስጥ የቅቤ ኩኪስ።"
   },
   {
     "id": "item-chocolate-chips-cookeis-1kg-156",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts-kg",
     "name": "Chocolate Chips Cookeis 1Kg",
-    "name_am": "",
+    "name_am": "ቸኮሌት ቺፕስ ኩኪስ 1ኪሎ",
     "price": 2000,
     "description": "Chocolate Chips Cookeis 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041069/nitsuh-menu/dishes/hgbmysarp0aifdak0vne.jpg",
@@ -2538,14 +2684,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 156
+    "sort_order": 156,
+    "description_am": "የ1 ኪሎ ጣፋጭ የቸኮሌት ቺፕስ ኩኪስ።"
   },
   {
     "id": "item-english-cake-1kg-157",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts-kg",
     "name": "English Cake 1Kg",
-    "name_am": "",
+    "name_am": "ኢንግሊሽ ኬክ 1ኪሎ",
     "price": 800,
     "description": "English Cake 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041078/nitsuh-menu/dishes/ssszlh0yhqsgqbwveump.jpg",
@@ -2553,14 +2700,15 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 157
+    "sort_order": 157,
+    "description_am": "የ1 ኪሎ ክላሲክ ለስላሳ ኢንግሊሽ ኬክ።"
   },
   {
     "id": "item-marble-cake-1kg-158",
     "restaurant_id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "category_id": "cat-desserts-kg",
     "name": "Marble Cake 1Kg",
-    "name_am": "",
+    "name_am": "ማርብል ኬክ 1ኪሎ",
     "price": 800,
     "description": "Marble Cake 1Kg prepared fresh daily at Nitsuh Cafe & Restaurant.",
     "image_url": "https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041092/nitsuh-menu/dishes/gnobfvzsrbecdzxhzdbq.jpg",
@@ -2568,7 +2716,8 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
     "spice_level": 0,
     "is_available": true,
     "is_chefs_pick": false,
-    "sort_order": 158
+    "sort_order": 158,
+    "description_am": "የ1 ኪሎ ቫኒላ እና ቸኮሌት የተቀላቀለበት ማርብል ኬክ።"
   }
 ];
 
@@ -2912,7 +3061,7 @@ export async function getMenuItems(restaurantId: string): Promise<MenuItem[]> {
         if (Array.isArray(items)) {
           inMemoryItems = items;
           try {
-            localStorage.setItem('digital_menu_items_cache_v3', JSON.stringify(inMemoryItems));
+            localStorage.setItem('digital_menu_items_cache_v4', JSON.stringify(inMemoryItems));
           } catch {}
           return inMemoryItems;
         }
@@ -2944,7 +3093,7 @@ export async function getMenuItems(restaurantId: string): Promise<MenuItem[]> {
           inMemoryItems = sanitized;
           if (typeof window !== 'undefined') {
             try {
-              localStorage.setItem('digital_menu_items_cache_v3', JSON.stringify(inMemoryItems));
+              localStorage.setItem('digital_menu_items_cache_v4', JSON.stringify(inMemoryItems));
             } catch {}
           }
           if (typeof window === 'undefined') {
@@ -2976,7 +3125,7 @@ export async function getMenuItems(restaurantId: string): Promise<MenuItem[]> {
         inMemoryItems = sanitized;
         if (typeof window !== 'undefined') {
           try {
-            localStorage.setItem('digital_menu_items_cache_v3', JSON.stringify(inMemoryItems));
+            localStorage.setItem('digital_menu_items_cache_v4', JSON.stringify(inMemoryItems));
           } catch {}
         }
         return inMemoryItems;
@@ -2988,7 +3137,7 @@ export async function getMenuItems(restaurantId: string): Promise<MenuItem[]> {
 
   if (typeof window !== 'undefined') {
     try {
-      const cached = localStorage.getItem('digital_menu_items_cache_v3');
+      const cached = localStorage.getItem('digital_menu_items_cache_v4');
       if (cached) {
         const parsed = JSON.parse(cached);
         if (Array.isArray(parsed) && parsed.length >= MOCK_ITEMS_NITSUH.length) {
@@ -4441,7 +4590,7 @@ export async function saveMenuItem(itemData: Partial<MenuItem>): Promise<MenuIte
 
   if (typeof window !== 'undefined') {
     try {
-      localStorage.setItem('digital_menu_items_cache_v3', JSON.stringify(inMemoryItems));
+      localStorage.setItem('digital_menu_items_cache_v4', JSON.stringify(inMemoryItems));
     } catch {}
   }
 
@@ -4747,7 +4896,7 @@ export async function deleteCategory(
 
   if (affectedDishesCount > 0 && typeof window !== 'undefined') {
     try {
-      localStorage.setItem('digital_menu_items_cache_v3', JSON.stringify(inMemoryItems));
+      localStorage.setItem('digital_menu_items_cache_v4', JSON.stringify(inMemoryItems));
       broadcastSync({ type: 'ITEMS_REFRESH' });
     } catch {}
   }

@@ -23,7 +23,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "Nitsuh Cafe & Restaurant | Digital Menu",
-  description: "Official interactive digital menu for Nitsuh Cafe & Restaurant. Handcrafted burgers, fresh artisan pizzas, pastries, and barista coffee.",
+  description: "Official interactive digital menu for Nitsuh Cafe & Restaurant. From Savour Bites to Sweet Delights, We Cater It All! • Hot & fresh fast food, burgers, pizzas, sandwiches, handcrafted sweets & desserts, and specialty coffees.",
   manifest: "/manifest.webmanifest",
   applicationName: "Nitsuh Menu",
   appleWebApp: {
