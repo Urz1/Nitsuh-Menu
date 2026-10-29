@@ -1,4 +1,4 @@
-export type Language = 'en' | 'am' | 'so' | 'es';
+export type Language = 'en' | 'am' | 'es';
 
 export interface CategoryTranslation {
   name: string;
@@ -685,68 +685,6 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     tableQrDesc: 'Escanea con la cámara para cargar el menú digital de',
     copyMenuLink: 'Copiar Enlace Directo',
     linkCopied: '¡Enlace copiado!',
-  },
-
-  so: {
-    ...enTranslations,
-    openNow: 'Hada furan • Cunto gudaha',
-    closed: 'Xiran',
-    table: 'Miiska',
-    wifi: 'Wi-Fi',
-    wifiCopied: 'Xogta Wi-Fi waa la koobiyey',
-    searchPlaceholder: 'Raadi cunto, maaddooyin...',
-    allCategories: 'Dhammaan Qaybaha',
-    browseCategories: 'Liiska Menu-ga',
-    nextCategory: 'Qaybta Xigta',
-    endOfCategory: 'Dhamaadka',
-    viewCategory: 'Fiiri Cuntooyinka',
-    backToTop: 'Ku noqo kor',
-
-    filterAll: 'Dhammaan',
-    filterOnOffer: 'Dalabyo Gaar ah',
-    filterChefsPick: 'Dooxashada Chef-ka',
-    filterFasting: 'Soomid (Tsom)',
-    filterVegetarian: 'Khudaar',
-    filterVegan: 'Vegan',
-    filterGlutenFree: 'Gluten-Free',
-    filterHalal: 'Xalaal',
-    filterSpicy: 'Basbaas leh',
-
-    sortLabel: 'Kala saar',
-    sortFeatured: 'Caanka ah',
-    sortPriceAsc: 'Qiimo: Hoose ilaa Sare',
-    sortPriceDesc: 'Qiimo: Sare ilaa Hoose',
-    sortNameAsc: 'Magaca: A ilaa Z',
-
-    addToOrder: 'Kudar Dalabka',
-    soldOut: 'Maanta waa dhamaatay',
-    chefsPick: 'Dooxashada Chef-ka',
-    specialOffer: 'Dalab Gaar ah',
-    saveAmount: 'Badbaadi',
-    customizations: 'Xulashooyin Dheeraad ah',
-    goesWellWith: 'Ku wanaagsan la socoshada',
-    authenticPairing: 'Isku-dhafan sax ah',
-    spiceLevel: 'Heerka Basbaaska',
-    spiceNone: 'Aan lahayn / Fudud',
-    dietary: 'Cuntada',
-    guestReviews: 'Fikradaha Martida',
-    guestReviewsSubtitle: 'Fikrado dhab ah oo ka yimid macaamiishii hore',
-    reviewsCount: 'qiimeyn la xaqiijiyey',
-    rateThisDish: 'Qiimee cuntadan',
-    noReviewsYet: 'Weli ma jiraan wax fikrado ah. Noqo qofka ugu horreeya ee qiimeeya!',
-    newDish: 'Cunto Cusub',
-    beFirstToReview: 'Noqo qofka ugu horreeya ee qiimeeya',
-    reportReview: 'Warbixi',
-    specialInstructions: 'Tilmaamo Gaar ah',
-    specialInstructionsPlaceholder: 'tusaale: tirtiraha dheeraad ah...',
-    pairingTitle: 'Ku wanaagsan',
-    addPairingBtn: '+ Kudar',
-    verifiedDiner: 'Macaamiil Xaqiijiyey',
-
-    tableQrTitle: 'QR Code-ka Miiska',
-    tableQrDesc: 'Ku sawir kaamirada taleefankaaga si aad u furto menu-ga',
-    copyMenuLink: 'Koobiyeey Xiriiriyaha',
-    linkCopied: 'Xiriiriyaha waa la koobiyey!',
   },
 };
 

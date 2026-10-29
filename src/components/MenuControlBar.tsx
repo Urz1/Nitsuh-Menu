@@ -75,7 +75,6 @@ export function MenuControlBar({
     : activeCategory
     ? CATEGORY_TRANSLATIONS[activeCategory.id]?.[locale]?.name ||
       (locale === 'am' && activeCategory.name_am) ||
-      (locale === 'so' && activeCategory.name_so) ||
       (locale === 'es' && activeCategory.name_es) ||
       activeCategory.name
     : t.allCategories;

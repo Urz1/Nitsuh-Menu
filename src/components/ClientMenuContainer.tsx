@@ -792,9 +792,7 @@ export function ClientMenuContainer({
             showToast(
               newLocale === 'am'
                 ? 'ቋንቋ ወደ አማርኛ ተቀይሯል'
-                : newLocale === 'so'
-                  ? 'Af-Soomaali ayaa loo beddelay'
-                  : 'Switched to English'
+                : 'Switched to English'
             );
           }}
           onLogoTap={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -1009,13 +1007,11 @@ export function ClientMenuContainer({
               const displayName =
                 CATEGORY_TRANSLATIONS[cat.id]?.[locale]?.name ||
                 (locale === 'am' && cat.name_am) ||
-                (locale === 'so' && cat.name_so) ||
                 (locale === 'es' && cat.name_es) ||
                 cat.name;
               const displayDesc =
                 CATEGORY_TRANSLATIONS[cat.id]?.[locale]?.description ||
                 (locale === 'am' && cat.description_am) ||
-                (locale === 'so' && cat.description_so) ||
                 (locale === 'es' && cat.description_es) ||
                 cat.description;
 
@@ -1400,13 +1396,11 @@ export function ClientMenuContainer({
                 const translatedName =
                   CATEGORY_TRANSLATIONS[cat.id]?.[locale]?.name ||
                   (locale === 'am' && cat.name_am) ||
-                  (locale === 'so' && cat.name_so) ||
                   (locale === 'es' && cat.name_es) ||
                   cat.name;
                 const translatedDesc =
                   CATEGORY_TRANSLATIONS[cat.id]?.[locale]?.description ||
                   (locale === 'am' && cat.description_am) ||
-                  (locale === 'so' && cat.description_so) ||
                   (locale === 'es' && cat.description_es) ||
                   cat.description;
                 const count = itemCountsByCategory[cat.id] || 0;

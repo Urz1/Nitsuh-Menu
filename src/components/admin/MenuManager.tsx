@@ -1261,73 +1261,39 @@ export function MenuManager({
                       />
                     </div>
 
-                    {/* Trilingual Localization Fields (Amharic & Somali) */}
+                    {/* Bilingual Localization Fields (Amharic) */}
                     <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/10 space-y-3">
                       <div className="text-xs font-bold text-amber-300">
-                        Multilingual Translations (Amharic & Somali)
+                        Multilingual Translations (Amharic)
                       </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                        <div>
-                          <label className="block text-[11px] font-semibold text-neutral-300 mb-1">
-                            Name (Amharic - አማርኛ)
-                          </label>
-                          <input
-                            type="text"
-                            value={editingItem.name_am || ''}
-                            onChange={(e) =>
-                              setEditingItem({ ...editingItem, name_am: e.target.value })
-                            }
-                            placeholder="የምግብ ስም በአማርኛ"
-                            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-[11px] font-semibold text-neutral-300 mb-1">
-                            Name (Somali - Af-Soomaali)
-                          </label>
-                          <input
-                            type="text"
-                            value={editingItem.name_so || ''}
-                            onChange={(e) =>
-                              setEditingItem({ ...editingItem, name_so: e.target.value })
-                            }
-                            placeholder="Magaca cuntada ee Soomaaliga"
-                            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
-                          />
-                        </div>
+                      <div>
+                        <label className="block text-[11px] font-semibold text-neutral-300 mb-1">
+                          Name (Amharic - አማርኛ)
+                        </label>
+                        <input
+                          type="text"
+                          value={editingItem.name_am || ''}
+                          onChange={(e) =>
+                            setEditingItem({ ...editingItem, name_am: e.target.value })
+                          }
+                          placeholder="የምግብ ስም በአማርኛ"
+                          className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
+                        />
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                        <div>
-                          <label className="block text-[11px] font-semibold text-neutral-300 mb-1">
-                            Description (Amharic - አማርኛ)
-                          </label>
-                          <textarea
-                            rows={2}
-                            value={editingItem.description_am || ''}
-                            onChange={(e) =>
-                              setEditingItem({ ...editingItem, description_am: e.target.value })
-                            }
-                            placeholder="የምግቡ ዝርዝር መግለጫ..."
-                            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-[11px] font-semibold text-neutral-300 mb-1">
-                            Description (Somali - Af-Soomaali)
-                          </label>
-                          <textarea
-                            rows={2}
-                            value={editingItem.description_so || ''}
-                            onChange={(e) =>
-                              setEditingItem({ ...editingItem, description_so: e.target.value })
-                            }
-                            placeholder="Faahfaahinta cuntada..."
-                            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
-                          />
-                        </div>
+                      <div>
+                        <label className="block text-[11px] font-semibold text-neutral-300 mb-1">
+                          Description (Amharic - አማርኛ)
+                        </label>
+                        <textarea
+                          rows={2}
+                          value={editingItem.description_am || ''}
+                          onChange={(e) =>
+                            setEditingItem({ ...editingItem, description_am: e.target.value })
+                          }
+                          placeholder="የምግቡ ዝርዝር መግለጫ..."
+                          className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
+                        />
                       </div>
                     </div>
 
