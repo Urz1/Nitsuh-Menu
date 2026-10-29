@@ -54,6 +54,7 @@ export function DesignStudio({
 }: DesignStudioProps) {
   // Active design sub-tab
   const [activeTab, setActiveTab] = useState<'themes' | 'colors' | 'layout' | 'features' | 'badges' | 'messaging'>('themes');
+  const [mobileStudioTab, setMobileStudioTab] = useState<'controls' | 'preview'>('controls');
 
   // Form State
   const [themeConfig, setThemeConfig] = useState<ThemeConfig>({
@@ -367,12 +368,46 @@ export function DesignStudio({
         </button>
       </div>
 
+      {/* Mobile Toggle: Controls vs Live Phone */}
+      <div className="flex lg:hidden items-center bg-[#12141C] border border-white/10 rounded-2xl p-1 gap-1">
+        <button
+          type="button"
+          onClick={() => {
+            triggerHaptic(8);
+            setMobileStudioTab('controls');
+          }}
+          className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+            mobileStudioTab === 'controls'
+              ? 'bg-amber-600 text-white shadow-md'
+              : 'text-neutral-400 hover:text-white'
+          }`}
+        >
+          <Sliders className="w-4 h-4" />
+          <span>Design Controls</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            triggerHaptic(8);
+            setMobileStudioTab('preview');
+          }}
+          className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+            mobileStudioTab === 'preview'
+              ? 'bg-amber-600 text-white shadow-md'
+              : 'text-neutral-400 hover:text-white'
+          }`}
+        >
+          <Smartphone className="w-4 h-4" />
+          <span>Live Phone Preview</span>
+        </button>
+      </div>
+
       {/* Main Two-Column Layout: Controls on Left, Live Phone on Right */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* LEFT COLUMN: CONTROLS (7 Cols) */}
-        <div className="lg:col-span-7 flex flex-col gap-5">
+        <div className={`lg:col-span-7 flex flex-col gap-5 ${mobileStudioTab === 'controls' ? 'flex' : 'hidden lg:flex'}`}>
           {/* Sub Navigation Tabs */}
-          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#12141C] border border-white/5 overflow-x-auto">
+          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#12141C] border border-white/5 overflow-x-auto no-scrollbar">
             {[
               { id: 'themes', label: 'Presets', icon: Layers },
               { id: 'colors', label: 'Colors & Contrast', icon: Palette },
@@ -390,7 +425,7 @@ export function DesignStudio({
                     triggerHaptic(8);
                     setActiveTab(tab.id as any);
                   }}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap shrink-0 ${
                     isActive
                       ? 'bg-amber-600 text-white shadow-xs'
                       : 'text-neutral-400 hover:text-white hover:bg-white/5'
@@ -891,7 +926,7 @@ export function DesignStudio({
         </div>
 
         {/* RIGHT COLUMN: INTERACTIVE LIVE PHONE PREVIEW (5 Cols) */}
-        <div className="lg:col-span-5 sticky top-6">
+        <div className={`lg:col-span-5 sticky top-6 ${mobileStudioTab === 'preview' ? 'flex flex-col' : 'hidden lg:block'}`}>
           <div className="flex items-center justify-between mb-3 px-1">
             <div className="flex items-center gap-2">
               <Smartphone className="w-4 h-4 text-amber-400" />

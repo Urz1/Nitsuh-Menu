@@ -27,8 +27,8 @@ interface QRStudioProps {
 export type QRTemplateType = 'tent' | 'a4-4' | 'a4-6' | 'sticker' | 'a4';
 
 export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudioProps) {
-  // Template Type (defaults to 4 Large Table Tents - 4"x6" / A6 acrylic stand size)
-  const [templateType, setTemplateType] = useState<QRTemplateType>('a4-4');
+  // Template Type (defaults to Table Tent stand)
+  const [templateType, setTemplateType] = useState<QRTemplateType>('tent');
 
   // Customization Options
   const [qrColor, setQrColor] = useState<string>('#111827');
@@ -458,7 +458,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
                 2. Print Template Format
               </h3>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
                 <button
                   type="button"
                   onClick={() => {
@@ -481,11 +481,29 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
                   type="button"
                   onClick={() => {
                     triggerHaptic(8);
-                    setTemplateType('a4-4');
+                    setTemplateType('a4');
                   }}
                   data-testid="template-a4-btn"
                   className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 text-center transition-all cursor-pointer ${
-                    templateType === 'a4-4' || templateType === 'a4'
+                    templateType === 'a4'
+                      ? 'border-amber-500 bg-amber-500/10 text-white shadow-sm ring-1 ring-amber-500/30'
+                      : 'border-white/10 bg-white/[0.02] text-neutral-400 hover:text-white'
+                  }`}
+                >
+                  <FileText className="w-4 h-4 text-amber-400" />
+                  <span className="text-[11px] font-bold">A4 Cut Sheet</span>
+                  <span className="text-[9px] text-neutral-400 font-normal">8 Cards (2×4)</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    triggerHaptic(8);
+                    setTemplateType('a4-4');
+                  }}
+                  data-testid="template-a4-4-btn"
+                  className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 text-center transition-all cursor-pointer ${
+                    templateType === 'a4-4'
                       ? 'border-amber-500 bg-amber-500/10 text-white shadow-sm ring-1 ring-amber-500/30'
                       : 'border-white/10 bg-white/[0.02] text-neutral-400 hover:text-white'
                   }`}
@@ -689,7 +707,8 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
               <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider flex items-center justify-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-amber-400" />
                 {templateType === 'tent' && 'Master Counter Stand Preview (1 Full Page)'}
-                {(templateType === 'a4-4' || templateType === 'a4') && '4 Large Acrylic Table Tents (4" × 6" / A6 Sheet)'}
+                {templateType === 'a4' && 'Printable A4 Sheet Preview (8 Cards)'}
+                {templateType === 'a4-4' && '4 Large Acrylic Table Tents (4" × 6" / A6 Sheet)'}
                 {templateType === 'a4-6' && '6 Compact Dining Table Cards (2×3 Sheet)'}
                 {templateType === 'sticker' && 'Table & Takeaway Stickers (6× Sheet)'}
               </span>
@@ -775,8 +794,66 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
               </div>
             )}
 
-            {/* TEMPLATE 2: 4 LARGE TABLE TENTS PREVIEW (2x2) */}
-            {(templateType === 'a4-4' || templateType === 'a4') && (
+            {/* TEMPLATE 2: A4 SHEET GRID PREVIEW (8 CARDS) */}
+            {templateType === 'a4' && (
+              <div
+                data-testid="preview-a4-sheet"
+                className="w-full max-w-xl bg-white text-black p-5 rounded-3xl shadow-2xl border border-neutral-300"
+              >
+                <div className="text-center pb-3 border-b border-neutral-200 mb-3">
+                  <div className="flex items-center justify-center gap-2">
+                    {/* eslint-disable-next-js/no-img-element */}
+                    <img src={logoUrl} alt={restaurant.name} className="w-5 h-5 object-contain" />
+                    <h4 className="font-bold text-xs text-neutral-800">{restaurant.name} • A4 Sheet Cutting Guide</h4>
+                  </div>
+                  <p className="text-[10px] text-neutral-500 mt-0.5">Cut along dotted lines to separate 8 counter stand cards</p>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  {[1, 2, 3, 4, 5, 6, 7, 8].map((cardIndex) => (
+                    <div
+                      key={cardIndex}
+                      className="p-2.5 rounded-xl border-2 border-dashed border-neutral-300 flex flex-col items-center text-center bg-neutral-50 hover:bg-white transition-colors"
+                    >
+                      {/* Logo header */}
+                      <div className="w-6 h-6 rounded-md bg-white p-0.5 shadow-2xs border border-amber-500/30 mb-1 flex items-center justify-center">
+                        {/* eslint-disable-next-js/no-img-element */}
+                        <img src={logoUrl} alt={restaurant.name} className="w-full h-full object-contain" />
+                      </div>
+                      <span className="text-[9px] font-bold text-neutral-900 truncate max-w-full">
+                        {restaurant.name}
+                      </span>
+                      <span className="text-[8px] font-mono font-black text-amber-600 uppercase tracking-tight">
+                        Digital Menu
+                      </span>
+
+                      {/* QR with Center Logo */}
+                      <div className="relative my-1">
+                        {/* eslint-disable-next-js/no-img-element */}
+                        <img
+                          src={qrSvgUri}
+                          alt="Restaurant menu QR code"
+                          className="w-18 h-18 bg-white p-1 rounded-lg border border-neutral-200 block mx-auto"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                          <div className="w-5 h-5 bg-white rounded-md border border-amber-500 p-0.5 flex items-center justify-center">
+                            {/* eslint-disable-next-js/no-img-element */}
+                            <img src={logoUrl} alt="Logo" className="w-full h-full object-contain" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <span className="text-[8px] text-neutral-600 font-semibold truncate max-w-full">
+                        Scan to explore
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* TEMPLATE 3: 4 LARGE TABLE TENTS PREVIEW (2x2) */}
+            {templateType === 'a4-4' && (
               <div
                 data-testid="preview-a4-4-sheet"
                 className="w-full max-w-xl bg-white text-black p-5 rounded-3xl shadow-2xl border border-neutral-300"
@@ -1019,8 +1096,65 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
           </div>
         )}
 
+        {/* TEMPLATE: 8 A4 TABLE CARDS (2x4 GRID) */}
+        {templateType === 'a4' && (
+          <div className="w-full max-w-[190mm] mx-auto flex flex-col justify-between py-1 box-border">
+            {/* Cutting guide header */}
+            <div className="text-center pb-2 border-b border-neutral-300 mb-2.5 flex-shrink-0">
+              <div className="flex items-center justify-center gap-2">
+                {/* eslint-disable-next-js/no-img-element */}
+                <img src={logoUrl} alt={restaurant.name} className="w-5 h-5 object-contain" />
+                <h1 className="text-xs font-bold text-neutral-800 tracking-tight">
+                  {restaurant.name} • Printable A4 Sheet (8 Cards)
+                </h1>
+              </div>
+              <p className="text-[9px] text-neutral-500 mt-0.5">
+                Cut along dotted lines to separate 8 counter stand cards
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 flex-1">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((cardIndex) => (
+                <div
+                  key={cardIndex}
+                  className="border-2 border-dashed border-neutral-300 rounded-xl p-2.5 bg-white flex flex-col items-center justify-between text-center box-border"
+                >
+                  <div className="flex items-center gap-1 mb-0.5">
+                    <div className="w-4 h-4 rounded-md bg-white border border-amber-500/30 p-0.5 flex items-center justify-center">
+                      {/* eslint-disable-next-js/no-img-element */}
+                      <img src={logoUrl} alt={restaurant.name} className="w-full h-full object-contain" />
+                    </div>
+                    <span className="font-extrabold text-[10px] text-neutral-900 truncate">
+                      {restaurant.name}
+                    </span>
+                  </div>
+
+                  <div className="relative my-1">
+                    {/* eslint-disable-next-js/no-img-element */}
+                    <img
+                      src={qrSvgUri}
+                      alt="Restaurant menu QR code"
+                      className="w-16 h-16 bg-white p-0.5 rounded-lg border border-neutral-200 block mx-auto"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="w-4 h-4 bg-white rounded-md border border-amber-500 p-0.5 flex items-center justify-center">
+                        {/* eslint-disable-next-js/no-img-element */}
+                        <img src={logoUrl} alt="Logo" className="w-full h-full object-contain" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <span className="text-[8px] text-neutral-600 font-semibold truncate max-w-full">
+                    Scan to explore
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* TEMPLATE 2: 4 LARGE TABLE TENTS (2x2 GRID - 4" x 6" / A6 ACRYLIC SIZE) */}
-        {(templateType === 'a4-4' || templateType === 'a4') && (
+        {templateType === 'a4-4' && (
           <div className="w-full max-w-[190mm] mx-auto flex flex-col justify-between py-1 box-border">
             {/* Cutting guide header */}
             <div className="text-center pb-2 border-b border-neutral-300 mb-2.5 flex-shrink-0">

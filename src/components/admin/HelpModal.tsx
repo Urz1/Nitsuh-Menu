@@ -147,9 +147,9 @@ export function HelpModal({ isOpen, onClose, activeSection }: HelpModalProps) {
   return (
     <div
       data-testid="help-modal"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
     >
-      <div className="w-full max-w-md bg-[#12141C] border border-white/10 rounded-2xl shadow-2xl overflow-hidden p-6 space-y-5">
+      <div className="w-full sm:max-w-md bg-[#12141C] border-t sm:border border-white/10 rounded-t-3xl sm:rounded-2xl shadow-2xl overflow-hidden p-5 sm:p-6 space-y-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:pb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">

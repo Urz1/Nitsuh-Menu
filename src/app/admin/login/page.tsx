@@ -687,7 +687,7 @@ export default function AdminLoginPage() {
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') handleOwnerLogin(e);
                       }}
-                      placeholder="e.g. owner@restaurant.com"
+                      placeholder="e.g. owner@restaurant.com (owner@nitsuhcafeteria.com)"
                       className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${isLight
                           ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
                           : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
@@ -1023,7 +1023,7 @@ export default function AdminLoginPage() {
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') handleStaffLogin(e);
                       }}
-                      placeholder="e.g. username or +251..."
+                      placeholder="e.g. username or +251... (staff_selam)"
                       className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${isLight
                           ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
                           : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'

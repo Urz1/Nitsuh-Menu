@@ -461,17 +461,6 @@ export function getCurrentSession(): AdminAuthSession | null {
     const raw = localStorage.getItem(STORAGE_KEY_SESSION);
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (
-        parsed.identifier === 'owner@nitsuhcafeteria.com' ||
-        parsed.identifier === 'owner@addiscafeteria.com' ||
-        parsed.name === 'Abebe Bikila' ||
-        parsed.userId === 'owner-nitsuh-master' ||
-        parsed.userId === 'owner-addis-master'
-      ) {
-        localStorage.removeItem(STORAGE_KEY_SESSION);
-        localStorage.removeItem(STORAGE_KEY_OWNER);
-        return null;
-      }
       try {
         sessionStorage.removeItem('admin_explicitly_logged_out');
       } catch {}

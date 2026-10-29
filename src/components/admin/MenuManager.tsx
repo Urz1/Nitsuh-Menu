@@ -977,10 +977,10 @@ export function MenuManager({
       {isDishModalOpen && editingItem && (
         <div
           data-testid="dish-form-modal"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex flex-col sm:items-center sm:justify-center sm:p-4 bg-[#12141C] sm:bg-black/80 sm:backdrop-blur-sm animate-in fade-in duration-200"
         >
-          <div className="w-full max-w-2xl bg-[#12141C] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
+          <div className="w-full sm:max-w-2xl h-full sm:h-auto sm:max-h-[90vh] bg-[#12141C] sm:border border-white/10 sm:rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+            <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-white/10 flex items-center justify-between bg-white/[0.02] shrink-0">
               <div className="flex items-center gap-2">
                 <UtensilsCrossed className="w-4 h-4 text-amber-400" />
                 <h3 className="text-base font-bold text-white">
@@ -998,7 +998,7 @@ export function MenuManager({
               </button>
             </div>
 
-            <div className="p-6 overflow-y-auto flex-1 space-y-5">
+            <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-5">
               {/* ESSENTIALS FIRST */}
               <div className="space-y-4">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-400">
@@ -1467,42 +1467,48 @@ export function MenuManager({
                       </div>
                     </div>
 
-                    {/* Fasting Tag */}
+                    {/* Dietary Tags */}
                     <div>
                       <label className="block text-xs font-semibold text-neutral-300 mb-1.5">
-                        Dietary Tag
+                        Dietary Tags
                       </label>
-                      <div>
-                        {(() => {
-                          const isFasting = editingItem.tags?.includes('fasting');
+                      <div className="flex flex-wrap gap-2">
+                        {[
+                          { id: 'fasting', label: 'Fasting (የጾም)' },
+                          { id: 'vegetarian', label: 'Vegetarian' },
+                          { id: 'vegan', label: 'Vegan' },
+                          { id: 'gluten-free', label: 'Gluten-Free' },
+                        ].map((tag) => {
+                          const isSelected = editingItem.tags?.includes(tag.id);
                           return (
                             <button
+                              key={tag.id}
                               type="button"
                               onClick={() => {
                                 const current = editingItem.tags || [];
-                                const updated = isFasting
-                                  ? current.filter((t) => t !== 'fasting')
-                                  : [...current.filter((t) => t === 'fasting'), 'fasting'];
+                                const updated = isSelected
+                                  ? current.filter((t) => t !== tag.id)
+                                  : [...current.filter((t) => t !== tag.id), tag.id];
                                 setEditingItem({
                                   ...editingItem,
                                   tags: updated,
                                 });
                               }}
-                              className={`px-4 py-2 rounded-xl text-xs font-bold border transition-all inline-flex items-center gap-2 ${
-                                isFasting
-                                  ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-sm'
+                              className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-all inline-flex items-center gap-1.5 cursor-pointer ${
+                                isSelected
+                                  ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-sm ring-1 ring-emerald-500/30'
                                   : 'bg-white/5 border-white/10 text-neutral-400 hover:text-white hover:border-white/20'
                               }`}
                             >
                               <Leaf className="w-3.5 h-3.5 text-emerald-400" />
-                              <span>Fasting (የጾም)</span>
-                              {isFasting && <Check className="w-3.5 h-3.5 text-emerald-400" />}
+                              <span>{tag.label}</span>
+                              {isSelected && <Check className="w-3.5 h-3.5 text-emerald-400" />}
                             </button>
                           );
-                        })()}
+                        })}
                       </div>
                       <p className="text-[11px] text-neutral-500 mt-1">
-                        Tag this dish as fasting-friendly for customers observing Ethiopian Orthodox fasting.
+                        Tag this dish for guests filtering by dietary preferences or fasting.
                       </p>
                     </div>
 
@@ -1529,14 +1535,14 @@ export function MenuManager({
             </div>
 
             {/* Modal Footer */}
-            <div className="px-6 py-4 border-t border-white/10 flex items-center justify-between bg-white/[0.02]">
+            <div className="px-4 py-3 sm:px-6 sm:py-4 border-t border-white/10 flex items-center justify-between bg-[#12141C] shrink-0 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
               <button
                 type="button"
                 onClick={() => {
                   setIsDishModalOpen(false);
                   if (onCloseAddModal) onCloseAddModal();
                 }}
-                className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-400 hover:text-white text-xs font-semibold"
+                className="h-11 sm:h-10 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-300 hover:text-white text-xs font-semibold active:scale-95 transition-all"
               >
                 Cancel
               </button>
@@ -1567,7 +1573,7 @@ export function MenuManager({
                     'success'
                   );
                 }}
-                className="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5"
+                className="h-11 sm:h-10 px-5 rounded-xl bg-amber-600 hover:bg-amber-500 active:scale-95 text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5"
               >
                 <Check className="w-4 h-4" />
                 <span>Save & Publish Dish</span>
@@ -1581,9 +1587,9 @@ export function MenuManager({
       {isBulkPriceModalOpen && (
         <div
           data-testid="bulk-price-modal"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
         >
-          <div className="w-full max-w-md bg-[#12141C] border border-white/10 rounded-2xl shadow-2xl overflow-hidden p-6 space-y-5">
+          <div className="w-full sm:max-w-md bg-[#12141C] border-t sm:border border-white/10 rounded-t-3xl sm:rounded-2xl shadow-2xl overflow-hidden p-5 sm:p-6 space-y-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:pb-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <DollarSign className="w-5 h-5 text-amber-400" />
@@ -1683,9 +1689,9 @@ export function MenuManager({
       {isVersionsModalOpen && (
         <div
           data-testid="menu-versions-modal"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
         >
-          <div className="w-full max-w-lg bg-[#12141C] border border-white/10 rounded-2xl shadow-2xl overflow-hidden p-6 space-y-5">
+          <div className="w-full sm:max-w-lg bg-[#12141C] border-t sm:border border-white/10 rounded-t-3xl sm:rounded-2xl shadow-2xl overflow-hidden p-5 sm:p-6 space-y-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:pb-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <History className="w-5 h-5 text-amber-400" />
@@ -1759,9 +1765,9 @@ export function MenuManager({
       {isSchedulesModalOpen && (
         <div
           data-testid="scheduled-menus-modal"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
         >
-          <div className="w-full max-w-lg bg-[#12141C] border border-white/10 rounded-2xl shadow-2xl overflow-hidden p-6 space-y-5">
+          <div className="w-full sm:max-w-lg bg-[#12141C] border-t sm:border border-white/10 rounded-t-3xl sm:rounded-2xl shadow-2xl overflow-hidden p-5 sm:p-6 space-y-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:pb-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Clock className="w-5 h-5 text-amber-400" />
@@ -1821,11 +1827,11 @@ export function MenuManager({
       {isCategoriesModalOpen && (
         <div
           data-testid="categories-manager-modal"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex flex-col sm:items-center sm:justify-center sm:p-4 bg-[#12141C] sm:bg-black/80 sm:backdrop-blur-sm animate-in fade-in duration-200"
         >
-          <div className="w-full max-w-2xl bg-[#12141C] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+          <div className="w-full sm:max-w-2xl h-full sm:h-auto sm:max-h-[90vh] bg-[#12141C] sm:border border-white/10 sm:rounded-2xl shadow-2xl overflow-hidden flex flex-col">
             {/* Modal Header */}
-            <div className="p-6 border-b border-white/10 flex items-center justify-between">
+            <div className="p-4 sm:p-6 border-b border-white/10 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
                   <Layers className="w-5 h-5" />

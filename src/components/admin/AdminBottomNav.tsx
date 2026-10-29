@@ -16,6 +16,7 @@ import {
   X,
   LogOut,
   User,
+  HelpCircle,
 } from 'lucide-react';
 import { AdminAuthSession } from '@/lib/auth-service';
 
@@ -25,6 +26,7 @@ interface AdminBottomNavProps {
   userRole: UserRole;
   session?: AdminAuthSession | null;
   onSignOut?: () => void;
+  onOpenHelp?: () => void;
   badgeCounts: {
     reviewsAttention: number;
     activeOffers: number;
@@ -37,6 +39,7 @@ export function AdminBottomNav({
   userRole,
   session,
   onSignOut,
+  onOpenHelp,
   badgeCounts,
 }: AdminBottomNavProps) {
   const [isMoreOpen, setIsMoreOpen] = useState(false);
@@ -76,7 +79,7 @@ export function AdminBottomNav({
     <>
       {/* Fixed Bottom Bar */}
       <nav
-        className="fixed bottom-0 left-0 right-0 z-40 bg-[#0E1015]/95 backdrop-blur-md border-t border-white/10 md:hidden flex items-center justify-around h-16 px-2 select-none"
+        className="fixed bottom-0 left-0 right-0 z-40 bg-[#0E1015]/95 backdrop-blur-md border-t border-white/10 md:hidden flex items-center justify-around h-[calc(3.75rem+env(safe-area-inset-bottom,0px))] pb-[env(safe-area-inset-bottom,0px)] px-2 select-none shadow-2xl"
         aria-label="Mobile Admin Navigation"
       >
         {primaryItems.map((item) => {
@@ -88,14 +91,14 @@ export function AdminBottomNav({
               key={item.id}
               data-testid={`admin-nav-${item.id}`}
               onClick={() => handleSelect(item.id)}
-              className={`flex-1 h-full flex flex-col items-center justify-center gap-1 relative ${
+              className={`flex-1 h-full py-1 flex flex-col items-center justify-center gap-1 relative active:scale-95 transition-transform ${
                 isActive ? 'text-amber-400 font-bold' : 'text-neutral-400 hover:text-white'
               }`}
             >
               <div className="relative">
                 <Icon className="w-5 h-5" />
                 {item.badge !== undefined && item.badge > 0 && (
-                  <span className="absolute -top-1 -right-2.5 px-1.5 py-0.2 rounded-full bg-rose-500 text-white text-[9px] font-black animate-pulse">
+                  <span className="absolute -top-1 -right-2 px-1.5 py-0.2 rounded-full bg-rose-500 text-white text-[9px] font-black animate-pulse">
                     {item.badge}
                   </span>
                 )}
@@ -113,7 +116,7 @@ export function AdminBottomNav({
               triggerHaptic(8);
               setIsMoreOpen(true);
             }}
-            className={`flex-1 h-full flex flex-col items-center justify-center gap-1 text-neutral-400 hover:text-white ${
+            className={`flex-1 h-full py-1 flex flex-col items-center justify-center gap-1 text-neutral-400 hover:text-white active:scale-95 transition-transform ${
               overflowItems.some((o) => o.id === activeSection) ? 'text-amber-400 font-bold' : ''
             }`}
           >
@@ -130,7 +133,7 @@ export function AdminBottomNav({
           onClick={() => setIsMoreOpen(false)}
         >
           <div
-            className="w-full bg-[#16181E] border-t border-white/10 rounded-t-3xl p-5 text-white animate-in slide-in-from-bottom duration-200"
+            className="w-full bg-[#16181E] border-t border-white/10 rounded-t-3xl p-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-white animate-in slide-in-from-bottom duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-3">
@@ -168,9 +171,24 @@ export function AdminBottomNav({
               })}
             </div>
 
-            {/* Mobile Sign Out Button */}
-            {onSignOut && (
-              <div className="mt-4 pt-3 border-t border-white/10">
+            {/* Mobile Actions: Help & Sign Out */}
+            <div className="mt-4 pt-3 border-t border-white/10 flex flex-col gap-2">
+              {onOpenHelp && (
+                <button
+                  type="button"
+                  data-testid="mobile-help-btn"
+                  onClick={() => {
+                    setIsMoreOpen(false);
+                    triggerHaptic(8);
+                    onOpenHelp();
+                  }}
+                  className="w-full h-11 rounded-2xl bg-white/5 border border-white/10 text-neutral-300 text-xs font-bold flex items-center justify-center gap-2 hover:bg-white/10 active:scale-95 transition-all"
+                >
+                  <HelpCircle className="w-4 h-4 text-amber-400" />
+                  <span>Help & Tips Guide</span>
+                </button>
+              )}
+              {onSignOut && (
                 <button
                   type="button"
                   data-testid="mobile-signout-btn"
@@ -179,13 +197,13 @@ export function AdminBottomNav({
                     triggerHaptic(10);
                     onSignOut();
                   }}
-                  className="w-full h-11 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs font-bold flex items-center justify-center gap-2 hover:bg-rose-500/20 transition-colors"
+                  className="w-full h-11 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs font-bold flex items-center justify-center gap-2 hover:bg-rose-500/20 active:scale-95 transition-all"
                 >
                   <LogOut className="w-4 h-4" />
                   <span>Sign Out ({session?.identifier || userRole})</span>
                 </button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       )}

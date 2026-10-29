@@ -33,6 +33,8 @@ import {
   ShoppingBag,
   Gift,
   Flame,
+  Search,
+  Smartphone,
 } from 'lucide-react';
 
 interface OffersManagerProps {
@@ -202,6 +204,7 @@ export function OffersManager({
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [wizardStep, setWizardStep] = useState<1 | 2 | 3 | 4>(1);
   const [liveSuccessModal, setLiveSuccessModal] = useState<Offer | null>(null);
+  const [mobileModalTab, setMobileModalTab] = useState<'form' | 'preview'>('form');
 
   // Form draft state
   const [selectedTemplate, setSelectedTemplate] = useState<TemplatePreset>(OFFER_TEMPLATES[0]);
@@ -257,6 +260,41 @@ export function OffersManager({
     }
     return true;
   }, [scopeType, selectedCategoryIds, applyToAllInCategory, selectedCategoryDishes, selectedItemIds]);
+
+  // Mobile responsive view & dish search state
+  const [mobileViewMode, setMobileViewMode] = useState<'form' | 'preview'>('form');
+  const [dishSearchQuery, setDishSearchQuery] = useState('');
+  const [dishCategoryFilter, setDishCategoryFilter] = useState('all');
+
+  // Filtered dishes for Step 2 dish picking
+  const filteredItemsList = useMemo(() => {
+    let list = menuItems;
+    if (dishCategoryFilter !== 'all') {
+      list = list.filter((m) => m.category_id === dishCategoryFilter);
+    }
+    if (dishSearchQuery.trim()) {
+      const q = dishSearchQuery.toLowerCase();
+      list = list.filter(
+        (m) =>
+          m.name.toLowerCase().includes(q) ||
+          (m.name_am && m.name_am.toLowerCase().includes(q))
+      );
+    }
+    return list;
+  }, [menuItems, dishCategoryFilter, dishSearchQuery]);
+
+  const filteredCategoryDishes = useMemo(() => {
+    let list = selectedCategoryDishes;
+    if (dishSearchQuery.trim()) {
+      const q = dishSearchQuery.toLowerCase();
+      list = list.filter(
+        (m) =>
+          m.name.toLowerCase().includes(q) ||
+          (m.name_am && m.name_am.toLowerCase().includes(q))
+      );
+    }
+    return list;
+  }, [selectedCategoryDishes, dishSearchQuery]);
 
   // Schedule state
   const [scheduleType, setScheduleType] = useState<'always' | 'scheduled'>('always');
@@ -324,6 +362,9 @@ export function OffersManager({
     setApplyToAllInCategory(false);
     handleApplyTemplate(OFFER_TEMPLATES[0]);
     setWizardStep(1);
+    setMobileViewMode('form');
+    setDishSearchQuery('');
+    setDishCategoryFilter('all');
     setIsWizardOpen(true);
   };
 
@@ -386,6 +427,9 @@ export function OffersManager({
     }
 
     setWizardStep(1);
+    setMobileViewMode('form');
+    setDishSearchQuery('');
+    setDishCategoryFilter('all');
     setIsWizardOpen(true);
   };
 
@@ -928,51 +972,91 @@ export function OffersManager({
 
       {/* 4. STEP-BY-STEP CREATION & EDIT WIZARD MODAL WITH LIVE PHONE PREVIEW */}
       {isWizardOpen && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="w-full max-w-5xl max-h-[92vh] bg-[#12141C] border border-white/15 rounded-3xl overflow-hidden flex flex-col shadow-2xl animate-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 bg-[#12141C] sm:bg-black/80 sm:backdrop-blur-md flex flex-col sm:items-center sm:justify-center sm:p-4">
+          <div className="w-full sm:max-w-5xl h-full sm:h-auto sm:max-h-[92vh] bg-[#12141C] sm:border border-white/15 sm:rounded-3xl overflow-hidden flex flex-col shadow-2xl animate-in zoom-in-95 duration-200">
             {/* Modal Top Header */}
-            <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
-              <div>
-                <h3 className="font-bold text-base text-white">
-                  {draftId ? 'Edit Offer' : 'Create New Offer'}
-                </h3>
-                <p className="text-xs text-neutral-400">Step {wizardStep} of 4: Live Phone Preview synced</p>
-              </div>
+            <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-white/10 bg-white/[0.02] shrink-0">
+              <div className="flex items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <h3 className="font-bold text-base text-white truncate">
+                    {draftId ? 'Edit Offer' : 'Create New Offer'}
+                  </h3>
+                  <p className="text-xs text-neutral-400">
+                    Step {wizardStep} of 4: {wizardStep === 1 ? 'Details' : wizardStep === 2 ? 'Dishes' : wizardStep === 3 ? 'Schedule' : 'Review & Publish'}
+                  </p>
+                </div>
 
-              {/* Step Pills */}
-              <div className="hidden sm:flex items-center gap-2">
-                {[
-                  { step: 1, label: '1. Offer Details' },
-                  { step: 2, label: '2. Dishes' },
-                  { step: 3, label: '3. Schedule' },
-                  { step: 4, label: '4. Review' },
-                ].map((s) => (
+                {/* Mobile View Toggle (Form vs Live Preview) */}
+                <div className="flex lg:hidden items-center p-0.5 bg-white/10 rounded-full shrink-0">
                   <button
-                    key={s.step}
-                    onClick={() => setWizardStep(s.step as any)}
-                    className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${
-                      wizardStep === s.step
-                        ? 'bg-amber-500 text-black'
-                        : 'bg-white/5 text-neutral-400 hover:text-white'
+                    type="button"
+                    onClick={() => {
+                      triggerHaptic(5);
+                      setMobileModalTab('form');
+                    }}
+                    className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                      mobileModalTab === 'form' ? 'bg-amber-500 text-black shadow-xs' : 'text-neutral-400 hover:text-white'
                     }`}
                   >
-                    {s.label}
+                    📝 Form
                   </button>
-                ))}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      triggerHaptic(5);
+                      setMobileModalTab('preview');
+                    }}
+                    className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                      mobileModalTab === 'preview' ? 'bg-amber-500 text-black shadow-xs' : 'text-neutral-400 hover:text-white'
+                    }`}
+                  >
+                    📱 Preview
+                  </button>
+                </div>
+
+                {/* Step Pills for Desktop */}
+                <div className="hidden lg:flex items-center gap-2">
+                  {[
+                    { step: 1, label: '1. Offer Details' },
+                    { step: 2, label: '2. Dishes' },
+                    { step: 3, label: '3. Schedule' },
+                    { step: 4, label: '4. Review' },
+                  ].map((s) => (
+                    <button
+                      key={s.step}
+                      onClick={() => setWizardStep(s.step as any)}
+                      className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${
+                        wizardStep === s.step
+                          ? 'bg-amber-500 text-black'
+                          : 'bg-white/5 text-neutral-400 hover:text-white'
+                      }`}
+                    >
+                      {s.label}
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  onClick={() => setIsWizardOpen(false)}
+                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/15 flex items-center justify-center text-neutral-400 hover:text-white shrink-0"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
 
-              <button
-                onClick={() => setIsWizardOpen(false)}
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/15 flex items-center justify-center text-neutral-400 hover:text-white"
-              >
-                <X className="w-4 h-4" />
-              </button>
+              {/* Mobile 4-Step Progress Bar */}
+              <div className="w-full h-1 bg-white/10 rounded-full mt-2.5 overflow-hidden">
+                <div
+                  className="h-full bg-amber-500 rounded-full transition-all duration-300"
+                  style={{ width: `${(wizardStep / 4) * 100}%` }}
+                />
+              </div>
             </div>
 
             {/* Split Body: Left Configuration | Right Live Phone Mockup */}
             <div className="flex-1 overflow-y-auto grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-white/10">
               {/* LEFT: STEP CONFIGURATION (7 COLS) */}
-              <div className="lg:col-span-7 p-6 overflow-y-auto space-y-6">
+              <div className={`p-4 sm:p-6 overflow-y-auto space-y-6 ${mobileModalTab === 'form' ? 'block lg:col-span-7' : 'hidden lg:block lg:col-span-7'}`}>
                 {/* STEP 1: WHAT IS THE OFFER? */}
                 {wizardStep === 1 && (
                   <div className="space-y-5 animate-in fade-in duration-200">
@@ -980,7 +1064,7 @@ export function OffersManager({
                       <label className="text-xs font-bold text-neutral-300 block mb-2 uppercase tracking-wider">
                         Choose a Plain-Language Template
                       </label>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                         {OFFER_TEMPLATES.map((tmpl) => {
                           const isSelected = selectedTemplate.id === tmpl.id;
                           return (
@@ -988,7 +1072,7 @@ export function OffersManager({
                               key={tmpl.id}
                               type="button"
                               onClick={() => handleApplyTemplate(tmpl)}
-                              className={`p-2.5 rounded-xl border text-left flex flex-col justify-between transition-all ${
+                              className={`p-3 min-h-[74px] sm:min-h-[80px] rounded-2xl border text-left flex flex-col justify-between transition-all active:scale-[0.98] ${
                                 isSelected
                                   ? 'bg-amber-500/20 border-amber-500 text-white shadow-sm'
                                   : 'bg-white/[0.02] border-white/10 text-neutral-400 hover:border-white/30 hover:text-white'
@@ -1026,7 +1110,7 @@ export function OffersManager({
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="e.g. Afternoon Happy Hour: 25% Off"
-                        className="w-full h-11 px-3.5 rounded-xl bg-white/5 border border-white/15 text-xs text-white outline-none focus:border-amber-500"
+                        className="w-full h-12 px-3.5 rounded-xl bg-white/5 border border-white/15 text-sm text-white outline-none focus:border-amber-500"
                       />
                     </div>
 
@@ -1038,7 +1122,7 @@ export function OffersManager({
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="e.g. 25% off all craft beverages and small bites Mon-Fri 4-6pm."
-                        className="w-full h-18 p-3 rounded-xl bg-white/5 border border-white/15 text-xs text-white outline-none focus:border-amber-500 resize-none"
+                        className="w-full min-h-[76px] p-3 rounded-xl bg-white/5 border border-white/15 text-sm text-white outline-none focus:border-amber-500 resize-none"
                       />
                     </div>
 
@@ -1740,54 +1824,10 @@ export function OffersManager({
                     </div>
                   </div>
                 )}
-
-                {/* Wizard Bottom Navigation Buttons */}
-                <div className="sticky bottom-0 bg-[#12141C] pt-3 pb-1 border-t border-white/10 flex items-center justify-between z-30">
-                  {wizardStep > 1 ? (
-                    <button
-                      type="button"
-                      onClick={() => setWizardStep((prev) => (prev - 1) as any)}
-                      className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-neutral-300 flex items-center gap-1.5"
-                    >
-                      <ChevronLeft className="w-4 h-4" />
-                      <span>Back</span>
-                    </button>
-                  ) : (
-                    <div />
-                  )}
-
-                  {wizardStep < 4 ? (
-                    <div className="flex items-center gap-3">
-                      {wizardStep === 2 && !canContinueStep2 && (
-                        <span className="text-[11px] text-amber-400 font-medium hidden sm:inline">
-                          Select at least 1 dish or check &quot;Apply to ALL dishes&quot;
-                        </span>
-                      )}
-                      <button
-                        type="button"
-                        disabled={wizardStep === 2 && !canContinueStep2}
-                        onClick={() => setWizardStep((prev) => (prev + 1) as any)}
-                        className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-xs font-extrabold flex items-center gap-1.5 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-                      >
-                        <span>Continue</span>
-                        <ChevronRight className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={handlePublishOffer}
-                      className="px-6 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-extrabold flex items-center gap-2 shadow-lg shadow-emerald-950/40"
-                    >
-                      <CheckCircle2 className="w-4 h-4" />
-                      <span>Publish Offer Live</span>
-                    </button>
-                  )}
-                </div>
               </div>
 
               {/* RIGHT: LIVE INTERACTIVE PHONE PREVIEW (5 COLS) */}
-              <div className="lg:col-span-5 p-6 bg-black/40 offer-preview-panel flex flex-col items-center justify-center">
+              <div className={`p-4 sm:p-6 bg-black/40 offer-preview-panel flex-col items-center justify-center ${mobileModalTab === 'preview' ? 'flex lg:col-span-5' : 'hidden lg:flex lg:col-span-5'}`}>
                 <div className="text-center mb-3">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400">
                     Live Phone Preview
@@ -1796,7 +1836,7 @@ export function OffersManager({
                 </div>
 
                 {/* Mobile Mockup Shell */}
-                <div className="live-phone-mockup w-[300px] bg-[#16181E] border-4 border-neutral-700 rounded-[32px] overflow-hidden shadow-2xl flex flex-col text-neutral-200">
+                <div className="live-phone-mockup w-full max-w-[320px] bg-[#16181E] border-4 border-neutral-700 rounded-[32px] overflow-hidden shadow-2xl flex flex-col text-neutral-200 my-auto">
                   {/* Speaker notch */}
                   <div className="h-5 w-full bg-black flex justify-center items-center">
                     <div className="w-12 h-1 rounded-full bg-neutral-700" />
@@ -1902,6 +1942,56 @@ export function OffersManager({
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* FIXED WIZARD BOTTOM NAVIGATION (Pinned to bottom of modal, never overlaps inputs) */}
+            <div className="px-4 py-3 sm:px-6 sm:py-4 bg-[#161822] border-t border-white/10 flex items-center justify-between shrink-0 pb-[max(0.75rem,env(safe-area-inset-bottom))] z-30">
+              {wizardStep > 1 ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    triggerHaptic(10);
+                    setWizardStep((prev) => (prev - 1) as any);
+                  }}
+                  className="h-10 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-neutral-300 flex items-center gap-1.5 transition-colors"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  <span>Back</span>
+                </button>
+              ) : (
+                <div />
+              )}
+
+              {wizardStep < 4 ? (
+                <div className="flex items-center gap-3">
+                  {wizardStep === 2 && !canContinueStep2 && (
+                    <span className="text-[11px] text-amber-400 font-medium hidden sm:inline">
+                      Select at least 1 dish or check &quot;Apply to ALL dishes&quot;
+                    </span>
+                  )}
+                  <button
+                    type="button"
+                    disabled={wizardStep === 2 && !canContinueStep2}
+                    onClick={() => {
+                      triggerHaptic(10);
+                      setWizardStep((prev) => (prev + 1) as any);
+                    }}
+                    className="h-10 px-5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-xs font-extrabold flex items-center gap-1.5 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-transform active:scale-95"
+                  >
+                    <span>Continue</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handlePublishOffer}
+                  className="h-11 px-6 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-extrabold flex items-center gap-2 shadow-lg shadow-emerald-950/40 transition-transform active:scale-95"
+                >
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Publish Offer Live</span>
+                </button>
+              )}
             </div>
           </div>
         </div>

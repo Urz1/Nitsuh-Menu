@@ -71,6 +71,7 @@ export function ReviewsManager({
   const [activeReplyReviewId, setActiveReplyReviewId] = useState<string | null>(null);
   const [replyText, setReplyText] = useState<string>('');
   const [isSubmittingReply, setIsSubmittingReply] = useState<boolean>(false);
+  const [isDigestOpen, setIsDigestOpen] = useState<boolean>(false);
 
   // Moderation Removal Dialog
   const [removalReview, setRemovalReview] = useState<DishReview | null>(null);
@@ -393,109 +394,155 @@ export function ReviewsManager({
       </div>
 
       {/* 2. WEEKLY SUMMARY IN PLAIN LANGUAGE */}
-      <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-amber-600/5 to-transparent border border-amber-500/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
-            <Star className="w-5 h-5 fill-current" />
-          </div>
-          <div>
-            <span className="text-[10px] font-bold text-amber-950 dark:text-amber-400 uppercase tracking-wider block">
-              Weekly Feedback Digest
-            </span>
-            <p className="text-xs text-amber-950 dark:text-neutral-100 font-semibold mt-0.5 leading-relaxed">
-              {weeklySummary.headlineSentence}
-            </p>
-            <div className="flex items-center gap-3 mt-1.5 text-[11px] text-amber-900 dark:text-neutral-300 flex-wrap">
-              {weeklySummary.topRatedDish && (
-                <span className="text-emerald-900 dark:text-emerald-300 font-bold">
-                  ★ Top: <strong>{weeklySummary.topRatedDish.name}</strong> ({weeklySummary.topRatedDish.rating} avg)
-                </span>
-              )}
-              {weeklySummary.needsAttentionDish && (
-                <span className="text-amber-950 dark:text-amber-200 font-bold">
-                  ⚡ Focus: <strong>{weeklySummary.needsAttentionDish.name}</strong> ({weeklySummary.needsAttentionDish.rating} avg)
-                </span>
-              )}
+      <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-amber-600/5 to-transparent border border-amber-500/20">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 flex items-center justify-center shrink-0">
+              <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
             </div>
+            <div className="min-w-0">
+              <span className="text-[10px] font-bold text-amber-950 dark:text-amber-400 uppercase tracking-wider block">
+                Weekly Feedback Digest
+              </span>
+              <p className="text-xs text-amber-950 dark:text-neutral-100 font-semibold truncate sm:whitespace-normal">
+                {weeklySummary.headlineSentence}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                triggerHaptic(5);
+                setIsDigestOpen(!isDigestOpen);
+              }}
+              className="sm:hidden px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-950 dark:text-amber-300 text-[11px] font-bold"
+            >
+              {isDigestOpen ? 'Less' : 'Details'}
+            </button>
+            <span className="hidden sm:inline text-[11px] text-neutral-700 dark:text-neutral-400 font-medium">
+              Threshold: <strong className="text-neutral-900 dark:text-neutral-200">{settings?.min_reviews_threshold || 3} reviews</strong>
+            </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 self-end md:self-center">
-          <span className="text-[11px] text-neutral-700 dark:text-neutral-400 font-medium">
-            Threshold: <strong className="text-neutral-900 dark:text-neutral-200">{settings?.min_reviews_threshold || 3} reviews</strong> to show rating badge
-          </span>
+        {/* Extended Digest Info (Always visible on desktop, toggleable on mobile) */}
+        <div className={`${isDigestOpen ? 'block' : 'hidden sm:block'} mt-2.5 pt-2.5 border-t border-amber-500/20`}>
+          <div className="flex items-center gap-3 text-[11px] text-amber-900 dark:text-neutral-300 flex-wrap">
+            {weeklySummary.topRatedDish && (
+              <span className="text-emerald-900 dark:text-emerald-300 font-bold">
+                ★ Top: <strong>{weeklySummary.topRatedDish.name}</strong> ({weeklySummary.topRatedDish.rating} avg)
+              </span>
+            )}
+            {weeklySummary.needsAttentionDish && (
+              <span className="text-amber-950 dark:text-amber-200 font-bold">
+                ⚡ Focus: <strong>{weeklySummary.needsAttentionDish.name}</strong> ({weeklySummary.needsAttentionDish.rating} avg)
+              </span>
+            )}
+            <span className="sm:hidden text-[10px] text-neutral-500">
+              Threshold: {settings?.min_reviews_threshold || 3} reviews to show badge
+            </span>
+          </div>
         </div>
       </div>
 
       {/* 3. FAIRNESS REMINDER ALERT */}
-      <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-900 dark:text-blue-200 flex items-center gap-2.5">
-        <Info className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+      <div className="p-2.5 sm:p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-900 dark:text-blue-200 flex items-center gap-2">
+        <Info className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" />
         <p className="text-[11px] leading-relaxed text-blue-900 dark:text-blue-200">
-          <strong className="font-bold text-blue-950 dark:text-blue-100">Fairness Rule:</strong> Genuine negative reviews (1-2 stars) help your culinary team improve and build trust with diners. Moderation strictly removes abuse, hate speech, spam, and personal data.
+          <strong className="font-bold text-blue-950 dark:text-blue-100">Fairness Rule:</strong> Genuine negative reviews (1-2 stars) help your culinary team improve and build trust with diners.
         </p>
       </div>
 
-      {/* 4. INBOX TABS */}
-      <div className="flex gap-2 overflow-x-auto border-b border-white/10 pb-2">
+      {/* 4. INBOX TABS (Horizontal single-row pills, never wrap into tall eggs) */}
+      <div className="flex gap-2 overflow-x-auto border-b border-white/10 pb-2.5 no-scrollbar scroll-smooth">
         <button
-          onClick={() => setFilterTab('all')}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors ${
+          onClick={() => {
+            triggerHaptic(5);
+            setFilterTab('all');
+          }}
+          className={`px-3.5 py-2 rounded-full text-xs font-bold transition-all shrink-0 whitespace-nowrap flex items-center gap-1.5 ${
             filterTab === 'all'
-              ? 'bg-amber-500 text-black shadow-xs'
+              ? 'bg-amber-500 text-black shadow-xs font-extrabold'
               : 'bg-white/5 text-neutral-400 hover:text-white'
           }`}
         >
-          All ({reviews.length})
+          <span>All</span>
+          <span className={`px-1.5 py-0.5 rounded-full text-[10px] ${filterTab === 'all' ? 'bg-black/20 text-black font-black' : 'bg-white/10 text-neutral-300'}`}>
+            {reviews.length}
+          </span>
         </button>
 
         <button
-          onClick={() => setFilterTab('attention')}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 transition-colors ${
+          onClick={() => {
+            triggerHaptic(5);
+            setFilterTab('attention');
+          }}
+          className={`px-3.5 py-2 rounded-full text-xs font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
             filterTab === 'attention'
-              ? 'bg-rose-500 text-white shadow-xs'
+              ? 'bg-rose-500 text-white shadow-xs font-extrabold'
               : 'bg-white/5 text-neutral-400 hover:text-white'
           }`}
         >
           <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
           <span>Needs Attention</span>
           {countAttention > 0 && (
-            <span className="px-1.5 py-0.2 rounded-full bg-rose-600 text-white text-[10px] font-extrabold animate-pulse">
+            <span className="px-1.5 py-0.5 rounded-full bg-rose-600 text-white text-[10px] font-extrabold animate-pulse">
               {countAttention}
             </span>
           )}
         </button>
 
         <button
-          onClick={() => setFilterTab('new')}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors ${
+          onClick={() => {
+            triggerHaptic(5);
+            setFilterTab('new');
+          }}
+          className={`px-3.5 py-2 rounded-full text-xs font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
             filterTab === 'new'
-              ? 'bg-amber-500 text-black shadow-xs'
+              ? 'bg-amber-500 text-black shadow-xs font-extrabold'
               : 'bg-white/5 text-neutral-400 hover:text-white'
           }`}
         >
-          New ({countNew})
+          <span>New</span>
+          <span className={`px-1.5 py-0.5 rounded-full text-[10px] ${filterTab === 'new' ? 'bg-black/20 text-black font-black' : 'bg-white/10 text-neutral-300'}`}>
+            {countNew}
+          </span>
         </button>
 
         <button
-          onClick={() => setFilterTab('replied')}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors ${
+          onClick={() => {
+            triggerHaptic(5);
+            setFilterTab('replied');
+          }}
+          className={`px-3.5 py-2 rounded-full text-xs font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
             filterTab === 'replied'
-              ? 'bg-amber-500 text-black shadow-xs'
+              ? 'bg-amber-500 text-black shadow-xs font-extrabold'
               : 'bg-white/5 text-neutral-400 hover:text-white'
           }`}
         >
-          Replied ({countReplied})
+          <span>Replied</span>
+          <span className={`px-1.5 py-0.5 rounded-full text-[10px] ${filterTab === 'replied' ? 'bg-black/20 text-black font-black' : 'bg-white/10 text-neutral-300'}`}>
+            {countReplied}
+          </span>
         </button>
 
         <button
-          onClick={() => setFilterTab('reported')}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors ${
+          onClick={() => {
+            triggerHaptic(5);
+            setFilterTab('reported');
+          }}
+          className={`px-3.5 py-2 rounded-full text-xs font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
             filterTab === 'reported'
-              ? 'bg-amber-500 text-black shadow-xs'
+              ? 'bg-amber-500 text-black shadow-xs font-extrabold'
               : 'bg-white/5 text-neutral-400 hover:text-white'
           }`}
         >
-          Reported by Guests ({countReported})
+          <span>Reported by Guests</span>
+          <span className={`px-1.5 py-0.5 rounded-full text-[10px] ${filterTab === 'reported' ? 'bg-black/20 text-black font-black' : 'bg-white/10 text-neutral-300'}`}>
+            {countReported}
+          </span>
         </button>
       </div>
 

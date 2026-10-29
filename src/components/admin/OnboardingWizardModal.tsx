@@ -126,11 +126,11 @@ export function OnboardingWizardModal({
   return (
     <div
       data-testid="onboarding-wizard-modal"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex flex-col sm:items-center sm:justify-center sm:p-4 bg-[#12141C] sm:bg-black/80 sm:backdrop-blur-sm animate-in fade-in duration-200"
     >
-      <div className="w-full max-w-2xl bg-[#12141C] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div className="w-full sm:max-w-2xl h-full sm:h-auto sm:max-h-[90vh] bg-[#12141C] sm:border border-white/10 sm:rounded-2xl shadow-2xl overflow-hidden flex flex-col">
         {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
+        <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-white/10 flex items-center justify-between bg-white/[0.02] shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
               <Compass className="w-4 h-4" />
@@ -173,7 +173,7 @@ export function OnboardingWizardModal({
         </div>
 
         {/* Step Contents */}
-        <div className="p-6 overflow-y-auto flex-1">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1">
           {/* STEP 1: Name & Logo */}
           {step === 1 && (
             <div className="space-y-5" data-testid="wizard-step-1">
@@ -548,11 +548,11 @@ export function OnboardingWizardModal({
         </div>
 
         {/* Modal Footer Controls */}
-        <div className="px-6 py-4 border-t border-white/10 flex items-center justify-between bg-white/[0.02]">
+        <div className="px-4 py-3 sm:px-6 sm:py-4 border-t border-white/10 flex items-center justify-between bg-[#12141C] shrink-0 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
           {step > 1 ? (
             <button
               onClick={handleBack}
-              className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-300 text-xs font-semibold transition-colors flex items-center gap-1.5"
+              className="h-11 sm:h-10 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-300 text-xs font-semibold transition-colors flex items-center gap-1.5 active:scale-95"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back</span>
@@ -567,7 +567,7 @@ export function OnboardingWizardModal({
                 type="button"
                 onClick={handleNext}
                 data-testid="onboarding-next-button"
-                className="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+                className="h-11 sm:h-10 px-5 rounded-xl bg-amber-600 hover:bg-amber-500 active:scale-95 text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
               >
                 <span>Continue</span>
                 <ArrowRight className="w-4 h-4" />
@@ -577,7 +577,7 @@ export function OnboardingWizardModal({
                 type="button"
                 onClick={handleFinish}
                 data-testid="onboarding-finish-button"
-                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white text-xs font-bold transition-all shadow-lg shadow-orange-950/40 flex items-center gap-1.5 cursor-pointer"
+                className="h-11 sm:h-10 px-6 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 active:scale-95 text-white text-xs font-bold transition-all shadow-lg shadow-orange-950/40 flex items-center gap-1.5 cursor-pointer"
               >
                 <Check className="w-4 h-4" />
                 <span>Publish Menu & Enter Admin</span>
