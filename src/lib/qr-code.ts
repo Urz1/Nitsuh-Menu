@@ -19,6 +19,41 @@ export interface QrPngOptions {
   errorCorrectionLevel?: 'L' | 'M' | 'Q' | 'H';
 }
 
+export interface QrMatrixData {
+  path: string;
+  moduleCount: number;
+  totalSize: number;
+}
+
+/**
+ * Extracts raw vector path data for a QR code modules matrix.
+ */
+export function getQrMatrixData(
+  text: string,
+  options: { margin?: number; errorCorrectionLevel?: 'L' | 'M' | 'Q' | 'H' } = {}
+): QrMatrixData {
+  const { margin = 1, errorCorrectionLevel = 'H' } = options;
+  try {
+    const qr = QRCode.create(text, { errorCorrectionLevel });
+    const moduleCount = qr.modules.size;
+    const totalSize = moduleCount + margin * 2;
+
+    let path = '';
+    for (let r = 0; r < moduleCount; r++) {
+      for (let c = 0; c < moduleCount; c++) {
+        if (qr.modules.get(r, c)) {
+          path += `M${c + margin},${r + margin}h1v1h-1z `;
+        }
+      }
+    }
+
+    return { path: path.trim(), moduleCount, totalSize };
+  } catch (err) {
+    console.error('Error generating QR matrix:', err);
+    return { path: '', moduleCount: 25, totalSize: 27 };
+  }
+}
+
 /**
  * Synchronously generates a crisp, resolution-independent SVG string for a given text/URL.
  * Supports embedded logo overlay in the center with High error correction (30% redundancy).
@@ -34,18 +69,7 @@ export function generateQrSvgString(text: string, options: QrSvgOptions = {}): s
   } = options;
 
   try {
-    const qr = QRCode.create(text, { errorCorrectionLevel });
-    const moduleCount = qr.modules.size;
-    const totalSize = moduleCount + margin * 2;
-
-    let path = '';
-    for (let r = 0; r < moduleCount; r++) {
-      for (let c = 0; c < moduleCount; c++) {
-        if (qr.modules.get(r, c)) {
-          path += `M${c + margin},${r + margin}h1v1h-1z `;
-        }
-      }
-    }
+    const { path, totalSize } = getQrMatrixData(text, { margin, errorCorrectionLevel });
 
     let logoOverlay = '';
     if (logoUrl) {

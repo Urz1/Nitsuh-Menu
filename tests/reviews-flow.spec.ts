@@ -104,7 +104,7 @@ test.describe('Dish Reviews System - Customer Submission & Owner Management Pari
     if (await ownerBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
       await ownerBtn.click();
     }
-    await page.locator('[data-testid="owner-identifier-input"]').fill('frenitsuh10@gmail.com');
+    await page.locator('[data-testid="owner-identifier-input"]').fill('email@gmail.com');
     await page.locator('[data-testid="owner-password-input"]').fill('Nitsuh@2026');
     await page.locator('button:has-text("Sign In as Owner")').click();
 

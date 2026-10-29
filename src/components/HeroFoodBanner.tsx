@@ -138,22 +138,60 @@ export function HeroFoodBanner({ locale = 'en', offers = [], menuItems = [], onS
       .filter((o) => !o.is_paused && o.status === 'live')
       .slice(0, 3)
       .map((o) => {
-        // Resolve targeted dish image if available
-        let imageUrl = '/images/categories/burger.jpg';
-        if (menuItems && menuItems.length > 0) {
-          if (o.scope_type === 'items' && Array.isArray(o.item_ids) && o.item_ids.length > 0) {
-            const itemIds = o.item_ids;
-            const matched = menuItems.find((m) => itemIds.includes(m.id) && m.image_url);
-            if (matched && matched.image_url) {
-              imageUrl = matched.image_url;
-            }
-          } else if (o.scope_type === 'categories' && Array.isArray(o.category_ids) && o.category_ids.length > 0) {
-            const catIds = o.category_ids;
-            const matched = menuItems.find((m) => catIds.includes(m.category_id) && m.image_url);
-            if (matched && matched.image_url) {
-              imageUrl = matched.image_url;
-            }
+        // 1. Resolve matched item or category from menuItems
+        let matchedItem: MenuItem | undefined;
+        if (Array.isArray(o.item_ids) && o.item_ids.length > 0 && menuItems && menuItems.length > 0) {
+          matchedItem = menuItems.find((m) => o.item_ids!.includes(m.id));
+        } else if (Array.isArray(o.category_ids) && o.category_ids.length > 0 && menuItems && menuItems.length > 0) {
+          matchedItem = menuItems.find((m) => o.category_ids!.includes(m.category_id) && m.image_url);
+        }
+
+        const targetCatId = o.category_ids?.[0] || matchedItem?.category_id || '';
+        const combinedContext = `${o.title} ${o.description || ''} ${targetCatId} ${matchedItem?.name || ''}`.toLowerCase();
+
+        // 2. Resolve image URL dynamically
+        let imageUrl = matchedItem?.image_url || '';
+        if (!imageUrl) {
+          if (combinedContext.includes('mojito') || combinedContext.includes('mojit') || combinedContext.includes('drink') || combinedContext.includes('cocktail')) {
+            imageUrl = '/images/categories/mojito.jpg';
+          } else if (combinedContext.includes('pizza') || combinedContext.includes('ፒዛ')) {
+            imageUrl = '/images/categories/pizza.jpg';
+          } else if (combinedContext.includes('burger') || combinedContext.includes('በርገር')) {
+            imageUrl = '/images/categories/burger.jpg';
+          } else if (combinedContext.includes('pasta') || combinedContext.includes('ፓስታ')) {
+            imageUrl = '/images/categories/pasta.jpg';
+          } else if (combinedContext.includes('salad') || combinedContext.includes('ሰላጣ')) {
+            imageUrl = '/images/categories/salad.jpg';
+          } else if (combinedContext.includes('chicken') || combinedContext.includes('ዶሮ')) {
+            imageUrl = '/images/categories/chicken.jpg';
+          } else if (combinedContext.includes('breakfast') || combinedContext.includes('ቁርስ') || combinedContext.includes('coffee')) {
+            imageUrl = '/images/categories/breakfast.jpg';
+          } else if (combinedContext.includes('dessert') || combinedContext.includes('cake') || combinedContext.includes('ጣፋጭ')) {
+            imageUrl = '/images/categories/dessert.jpg';
+          } else {
+            imageUrl = '/images/categories/pizza.jpg';
           }
+        }
+
+        // 3. Resolve dynamic mood gradient matching the culinary category
+        let bgGradient = 'from-[#6B1800] via-[#8B2200] to-[#3A0A00]';
+        let accentColor = '#F59E0B';
+
+        if (combinedContext.includes('mojito') || combinedContext.includes('drink') || combinedContext.includes('juice') || combinedContext.includes('softdrink')) {
+          bgGradient = 'from-[#064E3B] via-[#047857] to-[#022C22]'; // lush emerald mint
+          accentColor = '#10B981';
+        } else if (combinedContext.includes('pizza') || combinedContext.includes('pasta')) {
+          bgGradient = 'from-[#7F1D1D] via-[#991B1B] to-[#450A0A]'; // artisan tomato wood-fired
+          accentColor = '#F59E0B';
+        } else if (combinedContext.includes('burger') || combinedContext.includes('sandwich') || combinedContext.includes('wrap') || combinedContext.includes('chicken')) {
+          bgGradient = 'from-[#6B1800] via-[#8B2200] to-[#3A0A00]'; // warm ember grill
+          accentColor = '#F97316';
+        } else if (combinedContext.includes('coffee') || combinedContext.includes('breakfast') || combinedContext.includes('hotdrink')) {
+          bgGradient = 'from-[#3E2723] via-[#5C4033] to-[#1F1610]'; // rich espresso roast
+          accentColor = '#D97706';
+        } else if (combinedContext.includes('dessert')) {
+          bgGradient = 'from-[#48121E] via-[#631828] to-[#24080F]'; // berry ruby glaze
+          accentColor = '#E11D48';
         }
 
         return {
@@ -171,13 +209,13 @@ export function HeroFoodBanner({ locale = 'en', offers = [], menuItems = [], onS
             am: o.description || 'ልዩ የቅናሽ ምርጫ በንፁህ ካፌ እና ሬስቶራንት።',
           },
           cta: {
-            en: o.banner_link_text || 'View Offer',
+            en: o.banner_link_text || 'See offer',
             am: 'ቅናሹን ይመልከቱ',
           },
           imageUrl,
-          bgGradient: 'from-[#6B1800] via-[#8B2200] to-[#3A0A00]',
-          accentColor: '#F59E0B',
-          targetCategoryId: 'offers',
+          bgGradient,
+          accentColor,
+          targetCategoryId: targetCatId || 'offers',
         };
       });
 

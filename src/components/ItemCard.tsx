@@ -245,8 +245,8 @@ export function ItemCard({
               </span>
             )}
             {item.spice_level > 0 && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--background)] text-rose-500 font-semibold border border-[var(--border)] inline-flex items-center gap-0.5">
-                {Array.from({ length: Math.min(item.spice_level, 3) }).map((_, i) => (
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--background)] text-rose-500 font-semibold border border-[var(--border)] inline-flex items-center gap-0.5" title={`Spice Level ${item.spice_level}`}>
+                {Array.from({ length: Math.min(item.spice_level, 4) }).map((_, i) => (
                   <Flame key={i} className="w-2.5 h-2.5 fill-rose-500/25 text-rose-500" />
                 ))}
               </span>

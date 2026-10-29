@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Restaurant, ThemeConfig, MenuItem, CustomBadge, HolidayClosure } from '@/types/database';
+import { Restaurant, ThemeConfig, MenuItem, Category, CustomBadge, HolidayClosure } from '@/types/database';
 import { checkWcagContrast } from '@/lib/admin-engine';
 import { formatMoney, triggerHaptic } from '@/lib/utils';
 import { applyThemeTokensToDOM } from '@/components/ThemeManager';
@@ -28,11 +28,19 @@ import {
   Heart,
   Save,
   RotateCcw,
+  Search,
+  SlidersHorizontal,
+  Utensils,
+  Moon,
+  Sun,
+  Flame,
+  ChevronRight,
 } from 'lucide-react';
 
 interface DesignStudioProps {
   restaurant: Restaurant;
   menuItems: MenuItem[];
+  categories?: Category[];
   onSaveRestaurant: (updates: Partial<Restaurant>) => Promise<Restaurant>;
   onShowToast: (message: string, type?: 'success' | 'info' | 'error') => void;
 }
@@ -40,6 +48,7 @@ interface DesignStudioProps {
 export function DesignStudio({
   restaurant,
   menuItems,
+  categories = [],
   onSaveRestaurant,
   onShowToast,
 }: DesignStudioProps) {
@@ -973,21 +982,21 @@ export function DesignStudio({
             }}
           >
             {/* Phone Speaker Notch */}
-            <div className="pt-2.5 pb-1 flex justify-center bg-black/10">
-              <div className="w-16 h-2.5 rounded-full bg-neutral-800" />
+            <div className="pt-2 pb-1 flex justify-center bg-black/10">
+              <div className="w-14 h-2 rounded-full bg-neutral-800" />
             </div>
 
-            {/* Simulated Live Customer Header */}
+            {/* 1. TOP NAVBAR (Authentic Brand Header matching live customer UI) */}
             <div
-              className="sim-header p-3.5 border-b flex items-center justify-between transition-colors"
+              className="p-3 border-b flex items-center justify-between transition-colors"
               style={{
-                backgroundColor: isDark ? 'rgba(20, 16, 14, 0.95)' : 'rgba(250, 246, 240, 0.95)',
+                backgroundColor: isDark ? 'rgba(20, 16, 14, 0.98)' : 'rgba(250, 246, 240, 0.98)',
                 borderColor: isDark ? '#2E2420' : '#E8DED1',
               }}
             >
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2">
                 <div
-                  className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center font-bold text-white text-xs shadow-md"
+                  className="w-7 h-7 rounded-lg overflow-hidden flex items-center justify-center font-bold text-white text-[11px] shadow-sm flex-shrink-0"
                   style={{ backgroundColor: themeConfig.primaryColor }}
                 >
                   {restaurant.logo_url ? (
@@ -997,320 +1006,342 @@ export function DesignStudio({
                       className="w-full h-full object-contain p-0.5"
                     />
                   ) : (
-                    <span>{restaurant.logo_letter || 'N'}</span>
+                    <Flame className="w-4 h-4 fill-white" />
                   )}
                 </div>
                 <div>
-                  <h4
-                    className="sim-title text-xs font-bold truncate max-w-[170px]"
-                    style={{ color: isDark ? '#FFF5EC' : '#1A1412' }}
-                  >
-                    {restaurant.name}
-                  </h4>
-                  <div className="flex items-center gap-1.5 text-[9px]">
-                    <span className="flex items-center gap-1 font-semibold text-emerald-500">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <div className="flex items-center gap-1.5">
+                    <span
+                      className="text-xs font-black tracking-tight"
+                      style={{ color: isDark ? '#FFF5EC' : '#1A1412' }}
+                    >
+                      {restaurant.name.toLowerCase().includes('nitsuh') ? 'nitsuh' : restaurant.name}
+                    </span>
+                    <span className="text-[10px] font-bold text-neutral-400">Foods</span>
+                    <span className="px-1.5 py-0.2 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[8px] font-bold text-emerald-500 flex items-center gap-1">
+                      <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
                       Open Now
                     </span>
-                    <span style={{ color: isDark ? '#6B5E55' : '#A39488' }}>•</span>
-                    <span style={{ color: isDark ? '#A89B91' : '#7A6B60' }}>Dine-In</span>
                   </div>
                 </div>
               </div>
 
-              {/* Language Switch Simulation */}
-              <div
-                className="px-2 py-0.5 rounded-full text-[9px] font-bold border flex items-center gap-1"
-                style={{
-                  backgroundColor: isDark ? '#1E1815' : '#FFFFFF',
-                  borderColor: isDark ? '#3D332C' : '#E8DED1',
-                  color: isDark ? '#FFF5EC' : '#1A1412',
-                }}
-              >
-                <span>🇬🇧 EN</span>
-                <span style={{ color: isDark ? '#6B5E55' : '#C4B7AC' }}>|</span>
-                <span>🇪🇹 አማ</span>
+              {/* Right Navbar Controls */}
+              <div className="flex items-center gap-1 text-[9px] font-bold">
+                <div
+                  className="px-2 py-0.5 rounded-full border flex items-center gap-1"
+                  style={{
+                    backgroundColor: isDark ? '#1E1815' : '#FFFFFF',
+                    borderColor: isDark ? '#3D332C' : '#E8DED1',
+                    color: isDark ? '#FFF5EC' : '#1A1412',
+                  }}
+                >
+                  <span>EN</span>
+                  <span style={{ color: isDark ? '#6B5E55' : '#C4B7AC' }}>|</span>
+                  <span>አማ</span>
+                </div>
               </div>
             </div>
 
-            {/* Category Filter Pills Simulation */}
+            {/* 2. SEARCH BAR & FILTER ICON */}
             <div
-              className="px-3.5 py-2 flex items-center gap-1.5 overflow-x-hidden border-b transition-colors"
-              style={{
-                borderColor: isDark ? '#2E2420' : '#E8DED1',
-                backgroundColor: isDark ? 'rgba(20, 16, 14, 0.6)' : 'rgba(250, 246, 240, 0.6)',
-              }}
-            >
-              <span
-                className="px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs transition-all flex items-center gap-1 flex-shrink-0"
-                style={{
-                  backgroundColor: themeConfig.primaryColor,
-                  borderRadius: simButtonRadius,
-                }}
-              >
-                <span>🔥 All Dishes</span>
-              </span>
-              <span
-                className="sim-pill-inactive px-2.5 py-0.5 text-[10px] font-medium border flex items-center gap-1 flex-shrink-0 transition-all"
-                style={{
-                  backgroundColor: isDark ? '#1E1815' : '#FFFFFF',
-                  borderColor: isDark ? '#3D332C' : '#E8DED1',
-                  color: isDark ? '#B2A398' : '#7A6B60',
-                  borderRadius: simButtonRadius,
-                }}
-              >
-                <span>🌱 Fasting (የጾም)</span>
-              </span>
-              <span
-                className="sim-pill-inactive px-2.5 py-0.5 text-[10px] font-medium border flex items-center gap-1 flex-shrink-0 transition-all"
-                style={{
-                  backgroundColor: isDark ? '#1E1815' : '#FFFFFF',
-                  borderColor: isDark ? '#3D332C' : '#E8DED1',
-                  color: isDark ? '#B2A398' : '#7A6B60',
-                  borderRadius: simButtonRadius,
-                }}
-              >
-                <span>⭐ Chef&apos;s Picks</span>
-              </span>
-            </div>
-
-            {/* Live Simulated Dish Cards Area */}
-            <div
-              className="p-3.5 max-h-[380px] overflow-y-auto transition-colors"
+              className="px-3 pt-2.5 pb-2 flex items-center gap-2 transition-colors"
               style={{
                 backgroundColor: isDark ? '#14100E' : '#FAF6F0',
               }}
             >
-              {previewLayout === 'grid' ? (
-                /* GRID 2-COLUMN LAYOUT */
-                <div className="grid grid-cols-2 gap-2.5">
-                  {previewItems.map((item) => (
-                    <div
-                      key={item.id}
-                      className="sim-card border overflow-hidden flex flex-col justify-between transition-all"
-                      style={{
-                        backgroundColor:
-                          themeConfig.cardStyle === 'bordered'
-                            ? (isDark ? 'transparent' : '#FFFFFF')
-                            : (isDark ? '#1E1815' : '#FFFFFF'),
-                        borderColor:
-                          themeConfig.cardStyle === 'minimal'
-                            ? 'transparent'
-                            : (isDark ? '#3D332C' : '#E8DED1'),
-                        boxShadow:
-                          themeConfig.cardStyle === 'elevated'
-                            ? (isDark ? '0 4px 18px rgba(0,0,0,0.4)' : '0 4px 14px rgba(0,0,0,0.06)')
-                            : 'none',
-                        borderRadius: simRadius,
-                      }}
-                    >
-                      <div className="relative w-full h-24 bg-neutral-800">
-                        <Image
-                          src={item.image_url}
-                          alt={item.name}
-                          fill
-                          sizes="150px"
-                          className="object-cover"
-                        />
-                        {item.is_chefs_pick ? (
-                          <span
-                            className="absolute top-1.5 left-1.5 px-1.5 py-0.2 rounded-full text-[8px] font-extrabold uppercase tracking-wider text-white shadow-xs"
-                            style={{ backgroundColor: themeConfig.primaryColor }}
-                          >
-                            Chef&apos;s Pick
-                          </span>
-                        ) : item.tags?.includes('fasting') ? (
-                          <span className="absolute top-1.5 left-1.5 px-1.5 py-0.2 rounded-full text-[8px] font-extrabold uppercase tracking-wider bg-emerald-600 text-white shadow-xs">
-                            Fasting
-                          </span>
-                        ) : null}
-                      </div>
-
-                      <div className="p-2 flex flex-col justify-between flex-1 gap-1.5">
-                        <div>
-                          <p
-                            className="sim-title text-[11px] font-bold truncate leading-tight"
-                            style={{ color: isDark ? '#FFF5EC' : '#1A1412' }}
-                          >
-                            {item.name}
-                          </p>
-                          {item.name_am && (
-                            <p
-                              className="text-[9px] truncate"
-                              style={{ color: isDark ? '#B2A398' : '#8C7B70' }}
-                            >
-                              {item.name_am}
-                            </p>
-                          )}
-                        </div>
-
-                        <div
-                          className="flex items-center justify-between pt-1 border-t"
-                          style={{ borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}
-                        >
-                          <span
-                            className="text-xs font-mono font-bold"
-                            style={{ color: themeConfig.primaryColor }}
-                          >
-                            {formatMoney(item.price, restaurant.currency)}
-                          </span>
-                          <span
-                            className="px-2 py-0.5 text-[9px] font-bold text-white shadow-xs"
-                            style={{
-                              backgroundColor: themeConfig.primaryColor,
-                              borderRadius: simButtonRadius,
-                            }}
-                          >
-                            + Add
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                /* LIST 1-COLUMN ROW LAYOUT */
-                <div className="space-y-2.5">
-                  {previewItems.map((item) => (
-                    <div
-                      key={item.id}
-                      className="sim-card p-2.5 border transition-all flex gap-2.5"
-                      style={{
-                        backgroundColor:
-                          themeConfig.cardStyle === 'bordered'
-                            ? (isDark ? 'transparent' : '#FFFFFF')
-                            : (isDark ? '#1E1815' : '#FFFFFF'),
-                        borderColor:
-                          themeConfig.cardStyle === 'minimal'
-                            ? 'transparent'
-                            : (isDark ? '#3D332C' : '#E8DED1'),
-                        boxShadow:
-                          themeConfig.cardStyle === 'elevated'
-                            ? (isDark ? '0 4px 18px rgba(0,0,0,0.4)' : '0 4px 14px rgba(0,0,0,0.06)')
-                            : 'none',
-                        borderRadius: simRadius,
-                      }}
-                    >
-                      <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-neutral-800 flex-shrink-0">
-                        <Image
-                          src={item.image_url}
-                          alt={item.name}
-                          fill
-                          sizes="64px"
-                          className="object-cover"
-                        />
-                        {item.is_chefs_pick ? (
-                          <span
-                            className="absolute top-1 left-1 px-1 py-0.2 rounded-full text-[7px] font-black uppercase tracking-wider text-white"
-                            style={{ backgroundColor: themeConfig.primaryColor }}
-                          >
-                            ⭐ Top
-                          </span>
-                        ) : null}
-                      </div>
-
-                      <div className="flex-1 min-w-0 flex flex-col justify-between">
-                        <div>
-                          <div className="flex items-start justify-between gap-1">
-                            <span
-                              className="sim-title text-xs font-bold truncate"
-                              style={{ color: isDark ? '#FFF5EC' : '#1A1412' }}
-                            >
-                              {item.name}
-                            </span>
-                            {customBadges[0] && (
-                              <span
-                                className="px-1.5 py-0.2 rounded-full text-[8px] font-bold text-white flex-shrink-0"
-                                style={{ backgroundColor: customBadges[0].color }}
-                              >
-                                {customBadges[0].name}
-                              </span>
-                            )}
-                          </div>
-
-                          {item.name_am && (
-                            <p
-                              className="text-[10px] truncate"
-                              style={{ color: isDark ? '#B2A398' : '#8C7B70' }}
-                            >
-                              {item.name_am}
-                            </p>
-                          )}
-
-                          <p
-                            className="sim-desc text-[10px] line-clamp-1 mt-0.5"
-                            style={{ color: isDark ? '#A89B91' : '#7A6B60' }}
-                          >
-                            {item.description}
-                          </p>
-                        </div>
-
-                        <div
-                          className="flex items-center justify-between mt-1 pt-1 border-t"
-                          style={{ borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}
-                        >
-                          <span
-                            className="text-xs font-mono font-bold"
-                            style={{
-                              color:
-                                themeConfig.priceStyle === 'accented'
-                                  ? themeConfig.primaryColor
-                                  : (isDark ? '#FFF5EC' : '#1A1412'),
-                            }}
-                          >
-                            {formatMoney(item.price, restaurant.currency)}
-                          </span>
-
-                          <span
-                            className="px-2.5 py-0.5 text-[9px] font-bold text-white shadow-xs"
-                            style={{
-                              backgroundColor: themeConfig.primaryColor,
-                              borderRadius: simButtonRadius,
-                            }}
-                          >
-                            Add +
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Bottom Floating Menu Bar Simulation */}
-            <div
-              className="sim-bottom-bar p-2.5 border-t flex items-center justify-between text-[11px] transition-colors"
-              style={{
-                backgroundColor: isDark ? 'rgba(20, 16, 14, 0.95)' : 'rgba(250, 246, 240, 0.95)',
-                borderColor: isDark ? '#2E2420' : '#E8DED1',
-                color: isDark ? '#FFF5EC' : '#1A1412',
-              }}
-            >
-              <div className="flex items-center gap-1.5">
-                <span
-                  className="w-5 h-5 rounded-full flex items-center justify-center text-white text-[9px] font-bold"
-                  style={{ backgroundColor: themeConfig.primaryColor }}
-                >
-                  2
-                </span>
-                <span
-                  className="font-semibold text-[10px]"
-                  style={{ color: isDark ? '#FFF5EC' : '#1A1412' }}
-                >
-                  Table 4 • {formatMoney(1542, restaurant.currency)}
-                </span>
-              </div>
-
               <div
-                className="px-3 py-1 text-[10px] font-bold text-white shadow-xs flex items-center gap-1"
+                className="flex-1 h-8 px-2.5 rounded-full border flex items-center gap-2 shadow-xs transition-colors"
+                style={{
+                  backgroundColor: isDark ? '#1E1815' : '#FFFFFF',
+                  borderColor: isDark ? '#3D332C' : '#E8DED1',
+                }}
+              >
+                <Search className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
+                <span className="text-[10px] text-neutral-400 truncate">Search for your favorite dish...</span>
+              </div>
+              <button
+                type="button"
+                className="w-8 h-8 rounded-xl flex items-center justify-center text-white shadow-xs flex-shrink-0 relative"
                 style={{
                   backgroundColor: themeConfig.primaryColor,
                   borderRadius: simButtonRadius,
                 }}
               >
-                <span>View Tray</span>
+                <SlidersHorizontal className="w-3.5 h-3.5" />
+                <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-red-600 text-white text-[8px] font-black flex items-center justify-center border border-white">
+                  1
+                </span>
+              </button>
+            </div>
+
+            {/* SCROLLABLE INNER MENU PREVIEW AREA */}
+            <div
+              className="overflow-y-auto max-h-[420px] px-3 pb-3 space-y-3 transition-colors"
+              style={{
+                backgroundColor: isDark ? '#14100E' : '#FAF6F0',
+              }}
+            >
+              {/* 3. HERO FOOD PROMO BILLBOARD (Exact replica of HeroFoodBanner from live customer view) */}
+              <div
+                className="rounded-2xl p-3.5 text-white shadow-lg overflow-hidden relative transition-all"
+                style={{
+                  background: 'linear-gradient(135deg, #6B1800 0%, #8B2200 50%, #3A0A00 100%)',
+                  borderRadius: simRadius,
+                }}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex-1 min-w-0 pr-1 space-y-1">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-[8px] font-black uppercase tracking-wider">
+                      🔥 25% OFF
+                    </span>
+                    <h5 className="text-[11px] font-black uppercase tracking-tight leading-tight line-clamp-2">
+                      AFTERNOON HAPPY HOUR: 25% OFF CLASSIC MOJITO
+                    </h5>
+                    <p className="text-[9px] text-amber-100/80 line-clamp-2 leading-relaxed">
+                      Enjoy 25% off our handcrafted Classic Mojito prepared with fresh mint and lime.
+                    </p>
+                    <div className="pt-1">
+                      <span
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-white text-[9px] font-bold shadow-md"
+                        style={{ backgroundColor: themeConfig.primaryColor }}
+                      >
+                        <span>See offer</span>
+                        <ChevronRight className="w-2.5 h-2.5" />
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="w-20 h-20 rounded-xl overflow-hidden bg-white/10 flex-shrink-0 relative shadow-md border border-white/20">
+                    <Image
+                      src={previewItems[1]?.image_url || 'https://res.cloudinary.com/dekmg6rhe/image/upload/v1793041074/nitsuh-menu/dishes/iciwxll5jdtr9onzkcl4.jpg'}
+                      alt="Featured Offer"
+                      fill
+                      sizes="80px"
+                      className="object-cover"
+                    />
+                  </div>
+                </div>
+
+                {/* Dot pagination indicator */}
+                <div className="flex items-center justify-center gap-1 mt-2.5">
+                  <span className="w-3.5 h-1 rounded-full bg-white" />
+                  <span className="w-1 h-1 rounded-full bg-white/40" />
+                  <span className="w-1 h-1 rounded-full bg-white/40" />
+                </div>
               </div>
+
+              {/* 4. FASTING PILL FILTER */}
+              <div className="flex items-center gap-1.5">
+                <span
+                  className="px-2.5 py-0.5 rounded-full text-[9px] font-bold border flex items-center gap-1"
+                  style={{
+                    backgroundColor: isDark ? '#1E1815' : '#FFFFFF',
+                    borderColor: isDark ? '#3D332C' : '#E8DED1',
+                    color: isDark ? '#B2A398' : '#7A6B60',
+                    borderRadius: simButtonRadius,
+                  }}
+                >
+                  <span>🌱 Fasting</span>
+                </span>
+              </div>
+
+              {/* 5. CIRCULAR FOOD CATEGORY CAROUSEL (Matching live customer UI) */}
+              <div className="flex items-center gap-2.5 overflow-x-auto pb-1 pt-0.5 scrollbar-none">
+                {[
+                  { id: 'all', name: 'All', icon: '/images/categories/breakfast.jpg', active: false },
+                  { id: 'breakfast', name: 'Breakfast', icon: '/images/categories/breakfast.jpg', active: true },
+                  { id: 'burger', name: 'Burger', icon: '/images/categories/burger.jpg', active: false },
+                  { id: 'pizza', name: 'Pizza', icon: '/images/categories/pizza.jpg', active: false },
+                  { id: 'sandwich', name: 'Club Sandwich', icon: '/images/categories/chicken.jpg', active: false },
+                  { id: 'mojito', name: 'Mojito', icon: '/images/categories/mojito.jpg', active: false },
+                  { id: 'dessert', name: 'Dessert', icon: '/images/categories/dessert.jpg', active: false },
+                ].map((cat) => (
+                  <div key={cat.id} className="flex flex-col items-center gap-1 flex-shrink-0 cursor-pointer">
+                    <div
+                      className={`w-11 h-11 rounded-full p-0.5 transition-all ${
+                        cat.active ? 'ring-2 shadow-xs' : 'border'
+                      }`}
+                      style={{
+                        boxShadow: cat.active ? `0 0 0 2px ${themeConfig.primaryColor}` : undefined,
+                        borderColor: isDark ? '#3D332C' : '#E8DED1',
+                      }}
+                    >
+                      <div className="w-full h-full rounded-full overflow-hidden relative bg-neutral-800">
+                        <Image
+                          src={cat.icon}
+                          alt={cat.name}
+                          fill
+                          sizes="44px"
+                          className="object-cover"
+                        />
+                      </div>
+                    </div>
+                    <span
+                      className="text-[9px] truncate max-w-[50px] text-center"
+                      style={{
+                        fontWeight: cat.active ? 800 : 500,
+                        color: cat.active ? themeConfig.primaryColor : (isDark ? '#B2A398' : '#7A6B60'),
+                      }}
+                    >
+                      {cat.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              {/* 6. DISHES ON OFFER SECTION */}
+              <div className="pt-1">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-1.5">
+                    <Tag className="w-3 h-3 text-red-500" />
+                    <span
+                      className="text-[11px] font-black tracking-tight"
+                      style={{ color: isDark ? '#FFF5EC' : '#1A1412' }}
+                    >
+                      Dishes on Offer (1)
+                    </span>
+                  </div>
+                  <span className="text-[9px] text-neutral-400">1 deal running</span>
+                </div>
+
+                {/* Dish Cards Grid / List */}
+                <div className={previewLayout === 'grid' ? 'grid grid-cols-2 gap-2' : 'space-y-2'}>
+                  {previewItems.slice(0, previewLayout === 'grid' ? 4 : 3).map((item, idx) => {
+                    const isOnOffer = idx === 0 || item.id === 'prev-2';
+                    const originalPrice = Number(item.price);
+                    const discountedPrice = isOnOffer ? Math.round(originalPrice * 0.75 * 100) / 100 : originalPrice;
+
+                    return (
+                      <div
+                        key={item.id}
+                        className="sim-card border overflow-hidden flex flex-col justify-between transition-all relative"
+                        style={{
+                          backgroundColor:
+                            themeConfig.cardStyle === 'bordered'
+                              ? (isDark ? 'transparent' : '#FFFFFF')
+                              : (isDark ? '#1E1815' : '#FFFFFF'),
+                          borderColor:
+                            themeConfig.cardStyle === 'minimal'
+                              ? 'transparent'
+                              : (isDark ? '#3D332C' : '#E8DED1'),
+                          boxShadow:
+                            themeConfig.cardStyle === 'elevated'
+                              ? (isDark ? '0 4px 18px rgba(0,0,0,0.4)' : '0 4px 14px rgba(0,0,0,0.06)')
+                              : 'none',
+                          borderRadius: simRadius,
+                        }}
+                      >
+                        {/* Food Image Container */}
+                        <div className="relative w-full h-24 bg-neutral-800 overflow-hidden">
+                          <Image
+                            src={item.image_url}
+                            alt={item.name}
+                            fill
+                            sizes="160px"
+                            className="object-cover"
+                          />
+                          {/* Badge (25% OFF or Chef's Pick) */}
+                          {isOnOffer ? (
+                            <span className="absolute top-1.5 left-1.5 px-1.5 py-0.2 rounded-full text-[8px] font-black uppercase tracking-wider bg-red-600 text-white shadow-xs">
+                              25% OFF
+                            </span>
+                          ) : item.is_chefs_pick ? (
+                            <span
+                              className="absolute top-1.5 left-1.5 px-1.5 py-0.2 rounded-full text-[8px] font-black uppercase tracking-wider text-white shadow-xs"
+                              style={{ backgroundColor: themeConfig.primaryColor }}
+                            >
+                              Chef&apos;s Pick
+                            </span>
+                          ) : null}
+
+                          {/* Heart Favorite Icon */}
+                          <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-black/40 backdrop-blur-xs flex items-center justify-center text-white/90">
+                            <Heart className="w-3 h-3" />
+                          </div>
+                        </div>
+
+                        {/* Card Info */}
+                        <div className="p-2 flex flex-col justify-between flex-1 gap-1">
+                          <div>
+                            <p
+                              className="sim-title text-[11px] font-bold truncate leading-tight"
+                              style={{ color: isDark ? '#FFF5EC' : '#1A1412' }}
+                            >
+                              {item.name}
+                            </p>
+                            {item.name_am && (
+                              <p
+                                className="text-[9px] truncate"
+                                style={{ color: isDark ? '#B2A398' : '#8C7B70' }}
+                              >
+                                {item.name_am}
+                              </p>
+                            )}
+                          </div>
+
+                          {/* Pricing & Add Button */}
+                          <div
+                            className="flex items-center justify-between pt-1 border-t mt-1"
+                            style={{ borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}
+                          >
+                            <div className="flex flex-col">
+                              {isOnOffer && (
+                                <span className="text-[8px] line-through text-neutral-400 font-mono">
+                                  {formatMoney(originalPrice, restaurant.currency)}
+                                </span>
+                              )}
+                              <span
+                                className="text-[11px] font-mono font-black"
+                                style={{ color: themeConfig.primaryColor }}
+                              >
+                                {formatMoney(discountedPrice, restaurant.currency)}
+                              </span>
+                            </div>
+
+                            <span
+                              className="px-2 py-0.5 text-[9px] font-bold text-white shadow-xs"
+                              style={{
+                                backgroundColor: themeConfig.primaryColor,
+                                borderRadius: simButtonRadius,
+                              }}
+                            >
+                              + Add
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* FLOATING BOTTOM BAR SIMULATION */}
+            <div
+              className="p-2 border-t flex items-center justify-between transition-colors"
+              style={{
+                backgroundColor: isDark ? '#1A1412' : '#F5EFEB',
+                borderColor: isDark ? '#2E2420' : '#E8DED1',
+              }}
+            >
+              <div className="flex items-center gap-1.5 pl-1 text-[10px]">
+                <span className="w-4 h-4 rounded-full bg-red-600 text-white font-black text-[9px] flex items-center justify-center">
+                  2
+                </span>
+                <span className="font-bold" style={{ color: isDark ? '#FFF5EC' : '#1A1412' }}>
+                  Table 4 • 1,542 ETB
+                </span>
+              </div>
+              <span
+                className="px-2.5 py-1 text-[9px] font-black text-white shadow-xs"
+                style={{
+                  backgroundColor: themeConfig.primaryColor,
+                  borderRadius: simButtonRadius,
+                }}
+              >
+                View Tray
+              </span>
             </div>
           </div>
         </div>

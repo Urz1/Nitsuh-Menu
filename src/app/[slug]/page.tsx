@@ -87,7 +87,7 @@ export default async function RestaurantMenuPage({ params }: PageProps) {
     name: restaurant.name,
     description: restaurant.tagline,
     servesCuisine: categories.map((c) => c.name.split('/')[0].trim()).join(', '),
-    telephone: '0966833177',
+    telephone: '0912345678',
     address: {
       '@type': 'PostalAddress',
       streetAddress: restaurant.address,

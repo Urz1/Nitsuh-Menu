@@ -609,6 +609,43 @@ export function OffersManager({
     stackingRule,
   ]);
 
+  // Dynamic Title Suggestion based on what the owner actually selected
+  const suggestedTitle = useMemo(() => {
+    let targetName = 'All Dishes';
+    if (effectiveScopeType === 'items' && selectedItemIds.length > 0) {
+      if (selectedItemIds.length === 1) {
+        const item = menuItems.find((i) => i.id === selectedItemIds[0]);
+        targetName = item?.name || 'Selected Dish';
+      } else {
+        targetName = `${selectedItemIds.length} Selected Dishes`;
+      }
+    } else if (scopeType === 'categories' && selectedCategoryIds.length > 0) {
+      if (selectedCategoryIds.length === 1) {
+        const cat = categories.find((c) => c.id === selectedCategoryIds[0]);
+        targetName = cat?.name || 'Category';
+      } else {
+        targetName = `${selectedCategoryIds.length} Categories`;
+      }
+    }
+
+    if (discountType === 'percentage') {
+      return `${discountValue}% Off ${targetName}`;
+    } else if (discountType === 'fixed_amount') {
+      return `Save ${discountValue} ${restaurant.currency} on ${targetName}`;
+    }
+    return `Special Offer on ${targetName}`;
+  }, [
+    effectiveScopeType,
+    scopeType,
+    selectedItemIds,
+    selectedCategoryIds,
+    menuItems,
+    categories,
+    discountType,
+    discountValue,
+    restaurant.currency,
+  ]);
+
   // Plain-English performance summary
   const totalViews = offersList.reduce((sum, o) => sum + o.views_count, 0);
   const totalTaps = offersList.reduce((sum, o) => sum + o.taps_count, 0);
@@ -967,9 +1004,23 @@ export function OffersManager({
 
                     {/* Offer Title & Plain Description */}
                     <div>
-                      <label className="text-xs font-bold text-neutral-300 block mb-1">
-                        Offer Title (What guests read)
-                      </label>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="text-xs font-bold text-neutral-300 block">
+                          Offer Title (What guests read)
+                        </label>
+                        {suggestedTitle && title !== suggestedTitle && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setTitle(suggestedTitle);
+                              setBannerText(`🍹 ${suggestedTitle} until late.`);
+                            }}
+                            className="text-[11px] text-amber-400 hover:text-amber-300 font-bold hover:underline cursor-pointer flex items-center gap-1"
+                          >
+                            <span>✨ Sync with selected dishes ({suggestedTitle})</span>
+                          </button>
+                        )}
+                      </div>
                       <input
                         type="text"
                         value={title}
@@ -991,40 +1042,169 @@ export function OffersManager({
                       />
                     </div>
 
-                    {/* Badge & Discount Value */}
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <label className="text-xs font-bold text-neutral-300 block mb-1">
-                          Badge Label
+                    {/* Owner-Defined Discount Configuration & Realtime Calculation Engine */}
+                    <div className="space-y-3 p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
+                      <div className="flex items-center justify-between flex-wrap gap-2">
+                        <label className="text-xs font-bold text-neutral-200">
+                          Discount Type & Amount
                         </label>
-                        <input
-                          type="text"
-                          value={badgeText}
-                          onChange={(e) => setBadgeText(e.target.value)}
-                          placeholder={`e.g. 20% Off, Save 40 ${restaurant.currency}`}
-                          className="w-full h-11 px-3.5 rounded-xl bg-white/5 border border-white/15 text-xs text-white outline-none focus:border-amber-500"
-                        />
+                        {/* Discount Type Toggle */}
+                        <div className="flex items-center gap-1 bg-white/5 p-1 rounded-lg border border-white/10 text-[11px]">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setDiscountType('percentage');
+                              if (discountValue > 100) setDiscountValue(20);
+                              setBadgeText(`${discountValue || 20}% Off`);
+                            }}
+                            className={`px-2.5 py-1 rounded-md font-bold transition-all ${
+                              discountType === 'percentage'
+                                ? 'bg-amber-500 text-black shadow-xs'
+                                : 'text-neutral-400 hover:text-white'
+                            }`}
+                          >
+                            % Percentage Off
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setDiscountType('fixed_amount');
+                              if (discountValue <= 0 || discountValue > 100) setDiscountValue(50);
+                              setBadgeText(`Save ${discountValue || 50} ${restaurant.currency}`);
+                            }}
+                            className={`px-2.5 py-1 rounded-md font-bold transition-all ${
+                              discountType === 'fixed_amount'
+                                ? 'bg-amber-500 text-black shadow-xs'
+                                : 'text-neutral-400 hover:text-white'
+                            }`}
+                          >
+                            Fixed Money Off ({restaurant.currency})
+                          </button>
+                        </div>
                       </div>
 
+                      {/* Quick Discount Selection Chips */}
                       <div>
-                        <label className="text-xs font-bold text-neutral-300 block mb-1">
+                        <span className="text-[10px] text-neutral-400 font-medium block mb-1.5">
+                          Quick Presets (or enter custom value below):
+                        </span>
+                        <div className="flex items-center gap-1.5 flex-wrap">
                           {discountType === 'percentage'
-                            ? 'Discount Percentage (%)'
-                            : discountType === 'fixed_amount'
-                            ? `Amount Off (${restaurant.currency})`
-                            : `Order Threshold (${restaurant.currency})`}
-                        </label>
-                        <input
-                          type="number"
-                          value={discountType === 'free_item' ? minOrderAmount : discountValue}
-                          onChange={(e) => {
-                            const val = parseFloat(e.target.value) || 0;
-                            if (discountType === 'free_item') setMinOrderAmount(val);
-                            else setDiscountValue(val);
-                          }}
-                          className="w-full h-11 px-3.5 rounded-xl bg-white/5 border border-white/15 text-xs text-white outline-none focus:border-amber-500"
-                        />
+                            ? [10, 15, 20, 25, 30, 35, 50].map((pct) => (
+                                <button
+                                  key={pct}
+                                  type="button"
+                                  onClick={() => {
+                                    setDiscountValue(pct);
+                                    setBadgeText(`${pct}% Off`);
+                                  }}
+                                  className={`px-2.5 py-1 rounded-lg text-xs font-bold border transition-all ${
+                                    discountValue === pct
+                                      ? 'bg-amber-500 text-black border-amber-500'
+                                      : 'bg-white/5 border-white/10 text-neutral-300 hover:bg-white/10'
+                                  }`}
+                                >
+                                  {pct}%
+                                </button>
+                              ))
+                            : [25, 50, 100, 150, 200].map((amt) => (
+                                <button
+                                  key={amt}
+                                  type="button"
+                                  onClick={() => {
+                                    setDiscountValue(amt);
+                                    setBadgeText(`Save ${amt} ${restaurant.currency}`);
+                                  }}
+                                  className={`px-2.5 py-1 rounded-lg text-xs font-bold border transition-all ${
+                                    discountValue === amt
+                                      ? 'bg-amber-500 text-black border-amber-500'
+                                      : 'bg-white/5 border-white/10 text-neutral-300 hover:bg-white/10'
+                                  }`}
+                                >
+                                  {amt} {restaurant.currency}
+                                </button>
+                              ))}
+                        </div>
                       </div>
+
+                      {/* Value Input and Badge Label */}
+                      <div className="grid grid-cols-2 gap-3 pt-1">
+                        <div>
+                          <label className="text-[11px] font-bold text-neutral-300 block mb-1">
+                            {discountType === 'percentage'
+                              ? 'Discount Percentage (%)'
+                              : discountType === 'fixed_amount'
+                              ? `Amount Off (${restaurant.currency})`
+                              : `Order Threshold (${restaurant.currency})`}
+                          </label>
+                          <input
+                            type="number"
+                            value={discountType === 'free_item' ? minOrderAmount : discountValue}
+                            onChange={(e) => {
+                              const val = parseFloat(e.target.value) || 0;
+                              if (discountType === 'free_item') setMinOrderAmount(val);
+                              else {
+                                setDiscountValue(val);
+                                if (discountType === 'percentage') {
+                                  setBadgeText(`${val}% Off`);
+                                } else {
+                                  setBadgeText(`Save ${val} ${restaurant.currency}`);
+                                }
+                              }
+                            }}
+                            className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/15 text-xs text-white outline-none focus:border-amber-500"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-[11px] font-bold text-neutral-300 block mb-1">
+                            Badge Label
+                          </label>
+                          <input
+                            type="text"
+                            value={badgeText}
+                            onChange={(e) => setBadgeText(e.target.value)}
+                            placeholder={`e.g. 20% Off, Save 40 ${restaurant.currency}`}
+                            className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/15 text-xs text-white outline-none focus:border-amber-500"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Realtime Background Engine Calculation Preview */}
+                      {previewSampleItem && previewItemPricing && (
+                        <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs space-y-1 mt-2">
+                          <div className="flex items-center justify-between text-amber-300 font-bold">
+                            <span>⚡ Live Calculation Engine (Background)</span>
+                            <span className="font-mono">
+                              Sample: {previewSampleItem.name}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between text-neutral-300 text-[11px] pt-1">
+                            <span>Original Menu Price:</span>
+                            <span className="font-mono font-bold">
+                              {formatMoney(previewSampleItem.price, restaurant.currency)}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between text-emerald-400 text-[11px]">
+                            <span>
+                              Discount Applied (
+                              {discountType === 'percentage'
+                                ? `${discountValue}%`
+                                : formatMoney(discountValue, restaurant.currency)}
+                              ):
+                            </span>
+                            <span className="font-mono font-bold">
+                              -{formatMoney(previewItemPricing.savings, restaurant.currency)}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between text-white text-xs font-bold pt-1 border-t border-amber-500/20">
+                            <span>Customer Pays:</span>
+                            <span className="font-mono text-amber-400">
+                              {formatMoney(previewItemPricing.finalPrice, restaurant.currency)}
+                            </span>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     {/* Free item selection if template is free item */}
@@ -1079,6 +1259,24 @@ export function OffersManager({
                 {/* STEP 2: WHICH DISHES OR CATEGORIES? */}
                 {wizardStep === 2 && (
                   <div className="space-y-5 animate-in fade-in duration-200">
+                    {/* Auto-suggested Title Banner based on selected dishes/categories */}
+                    <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-2 text-amber-200 min-w-0 pr-2">
+                        <span className="flex-shrink-0">✨ Matched Title:</span>
+                        <span className="font-bold text-white truncate underline">{suggestedTitle}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setTitle(suggestedTitle);
+                          setBannerText(`🍹 ${suggestedTitle} until late.`);
+                        }}
+                        className="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-extrabold text-[11px] cursor-pointer flex-shrink-0 shadow-xs"
+                      >
+                        Apply Title
+                      </button>
+                    </div>
+
                     <div>
                       <label className="text-xs font-bold text-neutral-300 block mb-2 uppercase tracking-wider">
                         Offer Scope

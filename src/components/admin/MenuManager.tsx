@@ -827,19 +827,28 @@ export function MenuManager({
                       {item.description || 'No description provided.'}
                     </p>
 
-                    {/* Tags row */}
-                    {item.tags && item.tags.length > 0 && (
-                      <div className="flex items-center gap-1 mt-1 flex-wrap">
-                        {item.tags.slice(0, 3).map((t) => (
+                    {/* Tags & Spice row */}
+                    <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+                      {Boolean(item.spice_level && item.spice_level > 0) && (
+                        <span
+                          className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/15 text-rose-300 border border-rose-500/30 flex items-center gap-0.5"
+                          title={`Spice Level ${item.spice_level}`}
+                        >
+                          <Flame className="w-2.5 h-2.5 fill-rose-500 text-rose-500" />
+                          <span>Lvl {item.spice_level}</span>
+                        </span>
+                      )}
+                      {item.tags && item.tags.length > 0 && (
+                        item.tags.slice(0, 3).map((t) => (
                           <span
                             key={t}
                             className="px-1.5 py-0.2 rounded text-[10px] bg-white/5 text-neutral-400 capitalize"
                           >
                             {t}
                           </span>
-                        ))}
-                      </div>
-                    )}
+                        ))
+                      )}
+                    </div>
                   </div>
                 </div>
 
@@ -1346,28 +1355,84 @@ export function MenuManager({
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                      <div>
-                        <label className="block text-xs font-semibold text-neutral-300 mb-1">
-                          Spice Level
+                    {/* SPICE LEVEL CONFIGURATION */}
+                    <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2.5">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1.5">
+                          <Flame className="w-4 h-4 text-rose-500" />
+                          <label className="text-xs font-bold text-white">
+                            Spice Level (የማቃጠል መጠን)
+                          </label>
+                        </div>
+
+                        {/* Owner/Staff Toggle */}
+                        <label className="flex items-center gap-2 cursor-pointer select-none">
+                          <input
+                            type="checkbox"
+                            checked={Boolean(editingItem.spice_level && editingItem.spice_level > 0)}
+                            onChange={(e) => {
+                              triggerHaptic(8);
+                              setEditingItem({
+                                ...editingItem,
+                                spice_level: e.target.checked
+                                  ? (editingItem.spice_level && editingItem.spice_level > 0 ? editingItem.spice_level : 1)
+                                  : 0,
+                              });
+                            }}
+                            className="w-4 h-4 rounded border-white/20 text-rose-500 focus:ring-0 bg-white/5 cursor-pointer"
+                          />
+                          <span className="text-xs font-semibold text-neutral-300">
+                            {Boolean(editingItem.spice_level && editingItem.spice_level > 0)
+                              ? 'Display on menu'
+                              : "Hidden / Don't show"}
+                          </span>
                         </label>
-                        <select
-                          value={editingItem.spice_level ?? 0}
-                          onChange={(e) =>
-                            setEditingItem({
-                              ...editingItem,
-                              spice_level: parseInt(e.target.value, 10),
-                            })
-                          }
-                          className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
-                        >
-                          <option value={0} className="bg-[#12141C]">0 - Not Spicy</option>
-                          <option value={1} className="bg-[#12141C]">1 - Mild</option>
-                          <option value={2} className="bg-[#12141C]">2 - Medium</option>
-                          <option value={3} className="bg-[#12141C]">3 - Hot</option>
-                        </select>
                       </div>
 
+                      {Boolean(editingItem.spice_level && editingItem.spice_level > 0) ? (
+                        <div className="space-y-1.5 pt-1">
+                          <p className="text-[11px] text-neutral-400">
+                            Choose the spice intensity level to display to customers:
+                          </p>
+                          <div className="grid grid-cols-4 gap-2">
+                            {[
+                              { level: 1, label: 'Mild', labelAm: 'አልጫ/ትንሽ', flames: 1 },
+                              { level: 2, label: 'Medium', labelAm: 'መካከለኛ', flames: 2 },
+                              { level: 3, label: 'Hot', labelAm: 'የሚያቃጥል', flames: 3 },
+                              { level: 4, label: 'Extra Hot', labelAm: 'በጣም ቃሪያ', flames: 4 },
+                            ].map((s) => (
+                              <button
+                                key={s.level}
+                                type="button"
+                                onClick={() => {
+                                  triggerHaptic(6);
+                                  setEditingItem({ ...editingItem, spice_level: s.level });
+                                }}
+                                className={`py-2 px-1.5 rounded-xl text-xs font-bold flex flex-col items-center gap-1 border transition-all cursor-pointer ${
+                                  editingItem.spice_level === s.level
+                                    ? 'bg-rose-500/20 border-rose-500 text-rose-200 shadow-md ring-1 ring-rose-500/50'
+                                    : 'bg-white/5 border-white/10 text-neutral-400 hover:text-white hover:bg-white/10'
+                                }`}
+                              >
+                                <div className="flex items-center gap-0.5">
+                                  {Array.from({ length: s.flames }).map((_, i) => (
+                                    <Flame key={i} className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
+                                  ))}
+                                </div>
+                                <span className="text-[11px] leading-tight">{s.label}</span>
+                                <span className="text-[9px] text-neutral-400 font-normal leading-tight">{s.labelAm}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="text-[11px] text-neutral-400 italic">
+                          Spice indicator is hidden for this dish. Customers will not see any spice label.
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
                         <label className="block text-xs font-semibold text-neutral-300 mb-1">
                           Calories (kcal)

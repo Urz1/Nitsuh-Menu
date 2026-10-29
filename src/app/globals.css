@@ -209,7 +209,32 @@ nextjs-portal,
    STANDARD PRINT STYLESHEET (Clean isolated stand cards / display cards only)
    ============================================================================= */
 @media print {
-  /* Hide all admin chrome, navigations, sidebars, headers, footers, buttons, and tools */
+  /* Set A4 Portrait geometry with calibrated margins */
+  @page {
+    size: A4 portrait;
+    margin: 8mm;
+  }
+
+  /* Reset document root and force exact print colors */
+  html,
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Hide all interactive admin UI, headers, sidebars, navigation, toasts, and controls */
   header,
   nav,
   aside,
@@ -228,57 +253,45 @@ nextjs-portal,
     display: none !important;
   }
 
-  /* Reset canvas */
-  html, body {
-    background: #ffffff !important;
-    color: #000000 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    height: auto !important;
-    min-height: auto !important;
-    overflow: visible !important;
-  }
-
-  /* Force browsers to print exact background colors and graphics */
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
-
-  /* Standard print page settings */
-  @page {
-    size: auto;
-    margin: 10mm;
-  }
-
-  /* Reset layout containers */
-  main {
+  /* Reset layout wrappers to eliminate margins, padding, and height constraints */
+  main,
+  div:has(> #qr-printable-sheet),
+  div:has(> main),
+  .admin-main-viewport,
+  .admin-layout-root,
+  .admin-content-container,
+  [data-testid="qr-studio-container"] {
     padding: 0 !important;
     margin: 0 !important;
     border: none !important;
     max-width: 100% !important;
     width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
     background: #ffffff !important;
+    display: block !important;
   }
 
-  /* Standard counter stand card container */
-  .print-only-card {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin: 10mm auto !important;
-    width: 110mm !important;
-    min-height: 155mm !important;
-    padding: 10mm !important;
+  /* Printable sheet container: strictly auto-height, no forced 285mm overflow */
+  #qr-printable-sheet {
+    display: block !important;
+    width: 100% !important;
+    max-width: 194mm !important;
+    height: auto !important;
+    max-height: none !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
     background: #ffffff !important;
     color: #111827 !important;
-    border: 3px solid #111827 !important;
-    border-radius: 24px !important;
-    text-align: center !important;
     page-break-inside: avoid !important;
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
     break-inside: avoid !important;
-    box-shadow: none !important;
+    break-before: avoid !important;
+    break-after: avoid !important;
+    overflow: visible !important;
   }
 }
 

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Restaurant, Category, MenuItem, ItemOption, Offer, DishReview, RestaurantReviewSettings, DishReviewStats } from '@/types/database';
+import { Restaurant, Category, MenuItem, ItemOption, Offer, DishReview, RestaurantReviewSettings, DishReviewStats, Order } from '@/types/database';
 import { CartItem, DietaryFilter, SortOrder } from '@/types/menu';
 import { MenuHeader } from './MenuHeader';
 import { MenuControlBar } from './MenuControlBar';
@@ -37,6 +37,7 @@ import {
   DEFAULT_REVIEW_SETTINGS_NITSUH,
   submitDishReview,
   reportDishReview,
+  getRestaurantOrders,
 } from '@/lib/data-provider';
 import {
   evaluateOfferSchedule,
@@ -58,6 +59,7 @@ interface ClientMenuContainerProps {
   initialOffers?: Offer[];
   initialReviews?: DishReview[];
   initialReviewSettings?: RestaurantReviewSettings;
+  initialOrders?: Order[];
 }
 
 export function ClientMenuContainer({
@@ -67,6 +69,7 @@ export function ClientMenuContainer({
   initialOffers,
   initialReviews,
   initialReviewSettings,
+  initialOrders,
 }: ClientMenuContainerProps) {
   // Restaurant state (updated live via sync / realtime / cache)
   const [restaurant, setRestaurant] = useState<Restaurant>(initialRestaurant);
@@ -136,6 +139,34 @@ export function ClientMenuContainer({
   const [reviewSettings] = useState<RestaurantReviewSettings>(
     initialReviewSettings || DEFAULT_REVIEW_SETTINGS_NITSUH
   );
+
+  // Orders state (used for tangible popularity / sales velocity scoring)
+  const [orders, setOrders] = useState<Order[]>(initialOrders || []);
+
+  useEffect(() => {
+    getRestaurantOrders(restaurant.id).then((freshOrders) => {
+      if (Array.isArray(freshOrders)) {
+        setOrders(freshOrders);
+      }
+    });
+  }, [restaurant.id]);
+
+  // Tangible order velocity count per dish
+  const orderCountMap = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const ord of orders) {
+      if (Array.isArray(ord.items)) {
+        for (const item of ord.items) {
+          const itemId = (item as any).item_id || (item as any).id;
+          if (itemId) {
+            map.set(itemId, (map.get(itemId) || 0) + (item.quantity || 1));
+          }
+        }
+      }
+    }
+    return map;
+  }, [orders]);
+
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [reviewModalItem, setReviewModalItem] = useState<MenuItem | null>(null);
   const [sessionToken, setSessionToken] = useState<string>('guest-session-default');
@@ -690,8 +721,6 @@ export function ClientMenuContainer({
           (i as any).is_fasting ||
           i.category_id?.includes('fasting')
       );
-    } else if (activeFilter === 'chefsPick') {
-      result = result.filter((i) => i.is_chefs_pick);
     } else if (activeFilter === 'favorites') {
       result = result.filter((i) => favorites.has(i.id));
     } else if (activeFilter !== 'all') {
@@ -713,10 +742,41 @@ export function ClientMenuContainer({
       });
     } else if (sortOrder === 'name-asc') {
       result.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortOrder === 'featured') {
+      result.sort((a, b) => {
+        // 1. Availability: sold-out dishes sink below available dishes
+        const availA = a.is_available !== false ? 1 : 0;
+        const availB = b.is_available !== false ? 1 : 0;
+        if (availA !== availB) return availB - availA;
+
+        // 2. Verified guest reviews (Star rating * review volume)
+        const statsA = reviewStatsMap.get(a.id);
+        const statsB = reviewStatsMap.get(b.id);
+        const reviewScoreA = statsA ? (statsA.average_rating * statsA.review_count * 2) : 0;
+        const reviewScoreB = statsB ? (statsB.average_rating * statsB.review_count * 2) : 0;
+
+        // 3. Real order count / sales velocity
+        const ordersA = (orderCountMap.get(a.id) || 0) * 3;
+        const ordersB = (orderCountMap.get(b.id) || 0) * 3;
+
+        // 4. Live promotional discount / special offer boost
+        const offerA = itemPricingMap.get(a.id)?.hasOffer ? 5 : 0;
+        const offerB = itemPricingMap.get(b.id)?.hasOffer ? 5 : 0;
+
+        const totalScoreA = reviewScoreA + ordersA + offerA;
+        const totalScoreB = reviewScoreB + ordersB + offerB;
+
+        if (totalScoreB !== totalScoreA) {
+          return totalScoreB - totalScoreA;
+        }
+
+        // 5. Tie-breaker: Curated catalog order
+        return (a.sort_order ?? 999) - (b.sort_order ?? 999);
+      });
     }
 
     return result;
-  }, [items, searchQuery, activeFilter, sortOrder, favorites, itemPricingMap]);
+  }, [items, searchQuery, activeFilter, sortOrder, favorites, itemPricingMap, reviewStatsMap, orderCountMap]);
 
   // Categories displayed on screen (filtered by active category or all)
   const displayedCategories = useMemo(() => {

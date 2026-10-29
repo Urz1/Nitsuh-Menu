@@ -361,37 +361,35 @@ export function ItemDetailModal({
             </div>
           )}
 
-          {/* Meta Box (Spice & Fasting Tag) */}
-          <div className="p-3.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs flex flex-col gap-2">
-            <div className="flex justify-between items-center">
-              <span className="font-semibold text-[var(--muted)]">{t.spiceLevel}:</span>
-              <div className="flex items-center gap-1.5 font-bold text-[var(--foreground)]">
-                {item.spice_level === 0 ? (
-                  <span>{t.spiceNone}</span>
-                ) : (
-                  <>
+          {/* Meta Box (Spice & Fasting Tag - only shown when configured by owner) */}
+          {((Boolean(item.spice_level && item.spice_level > 0)) || Boolean(item.tags?.includes('fasting'))) && (
+            <div className="p-3.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs flex flex-col gap-2">
+              {Boolean(item.spice_level && item.spice_level > 0) && (
+                <div className="flex justify-between items-center">
+                  <span className="font-semibold text-[var(--muted)]">{t.spiceLevel}:</span>
+                  <div className="flex items-center gap-1.5 font-bold text-[var(--foreground)]">
                     <div className="flex items-center gap-0.5">
-                      {Array.from({ length: Math.min(item.spice_level, 3) }).map((_, i) => (
+                      {Array.from({ length: Math.min(item.spice_level, 4) }).map((_, i) => (
                         <Flame key={i} className="w-3.5 h-3.5 fill-rose-500/25 text-rose-500" />
                       ))}
                     </div>
                     <span className="text-xs text-[var(--muted)] font-medium">
                       {currentLocale === 'am' ? `(ደረጃ ${item.spice_level})` : `(Level ${item.spice_level})`}
                     </span>
-                  </>
-                )}
-              </div>
-            </div>
+                  </div>
+                </div>
+              )}
 
-            {item.tags?.includes('fasting') && (
-              <div className="flex justify-between items-center">
-                <span className="font-semibold text-[var(--muted)]">{t.dietary}:</span>
-                <span className="font-bold text-emerald-600 dark:text-emerald-400">
-                  {t.filterFasting || 'Fasting (የጾም)'}
-                </span>
-              </div>
-            )}
-          </div>
+              {item.tags?.includes('fasting') && (
+                <div className="flex justify-between items-center">
+                  <span className="font-semibold text-[var(--muted)]">{t.dietary}:</span>
+                  <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                    {t.filterFasting || 'Fasting (የጾም)'}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Add-ons & Customizations */}
           {availableOptions.length > 0 && (

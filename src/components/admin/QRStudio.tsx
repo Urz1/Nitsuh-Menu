@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Restaurant } from '@/types/database';
 import { triggerHaptic } from '@/lib/utils';
-import { generateQrSvgDataUri, generateQrPngDataUrl } from '@/lib/qr-code';
+import { generateQrSvgDataUri, generateQrPngDataUrl, getQrMatrixData } from '@/lib/qr-code';
 import {
   Printer,
   Download,
@@ -24,11 +24,11 @@ interface QRStudioProps {
   onShowToast: (message: string, type?: 'success' | 'info' | 'error') => void;
 }
 
-export type QRTemplateType = 'tent' | 'a4' | 'sticker';
+export type QRTemplateType = 'tent' | 'a4-4' | 'a4-6' | 'sticker' | 'a4';
 
 export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudioProps) {
-  // Template Type
-  const [templateType, setTemplateType] = useState<QRTemplateType>('tent');
+  // Template Type (defaults to 4 Large Table Tents - 4"x6" / A6 acrylic stand size)
+  const [templateType, setTemplateType] = useState<QRTemplateType>('a4-4');
 
   // Customization Options
   const [qrColor, setQrColor] = useState<string>('#111827');
@@ -111,41 +111,122 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
     window.print();
   };
 
-  // Download SVG Vector with brand logo embedded
-  const handleDownloadSvg = () => {
+  // Download standalone Vector SVG with embedded vector QR paths and base64 logo
+  const handleDownloadSvg = async () => {
     triggerHaptic(10);
-    const svgContent = `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 560" width="440" height="560">
-  <rect width="440" height="560" fill="#ffffff" rx="24"/>
+    try {
+      // 1. Generate crisp raw QR matrix path (pure vector XML, 100% resolution independent)
+      const { path, totalSize } = getQrMatrixData(menuUrl, { margin: 1, errorCorrectionLevel: 'H' });
+
+      // 2. Safely convert brand logo to inline base64 so SVG is 100% self-contained offline
+      let base64Logo = '';
+      try {
+        const res = await fetch(logoUrl);
+        if (res.ok) {
+          const blob = await res.blob();
+          base64Logo = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve((reader.result as string) || '');
+            reader.readAsDataURL(blob);
+          });
+        }
+      } catch {
+        // Fallback without embedded raster image if fetch is blocked
+      }
+
+      // XML escape text strings
+      const safeName = (restaurant.name || 'Restaurant')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+      const safeTagline = (restaurant.tagline || '')
+        .slice(0, 60)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+      const safeCta = callToAction
+        .slice(0, 65)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+
+      // Scale factors for the QR code box
+      const qrBoxX = 85;
+      const qrBoxY = 210;
+      const qrBoxSize = 270;
+      const qrScale = qrBoxSize / totalSize;
+
+      // Center logo dimensions inside QR
+      const centerShieldSize = 64;
+      const centerShieldX = qrBoxX + (qrBoxSize - centerShieldSize) / 2;
+      const centerShieldY = qrBoxY + (qrBoxSize - centerShieldSize) / 2;
+      const centerLogoSize = 52;
+      const centerLogoX = qrBoxX + (qrBoxSize - centerLogoSize) / 2;
+      const centerLogoY = qrBoxY + (qrBoxSize - centerLogoSize) / 2;
+
+      const svgContent = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 600" width="440" height="600">
+  <rect width="440" height="600" fill="#ffffff" rx="24"/>
+  <!-- Outer Guide Border -->
+  <rect x="12" y="12" width="416" height="576" rx="20" fill="none" stroke="#E5E7EB" stroke-width="1.5" stroke-dasharray="6 6"/>
+  
   <!-- Top Gold Accent Line -->
-  <rect x="170" y="24" width="100" height="4" rx="2" fill="#D97706"/>
-  <!-- Logo Crest -->
-  <rect x="190" y="38" width="60" height="60" rx="14" fill="#ffffff" stroke="#D97706" stroke-width="1.5"/>
-  <image href="${logoUrl}" x="194" y="42" width="52" height="52" preserveAspectRatio="xMidYMid meet"/>
+  <rect x="180" y="28" width="80" height="4" rx="2" fill="#D97706"/>
+  
+  <!-- Top Logo Crest -->
+  <rect x="188" y="44" width="64" height="64" rx="16" fill="#ffffff" stroke="#D97706" stroke-width="1.5"/>
+  ${
+    base64Logo
+      ? `<image href="${base64Logo}" x="194" y="50" width="52" height="52" preserveAspectRatio="xMidYMid meet"/>`
+      : `<text x="220" y="84" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="900" fill="#D97706" text-anchor="middle">${safeName.charAt(0)}</text>`
+  }
+  
   <!-- Restaurant Name & Tagline -->
-  <text x="220" y="125" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="900" fill="#111827" text-anchor="middle">${restaurant.name}</text>
-  <text x="220" y="145" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#4B5563" text-anchor="middle">${restaurant.tagline.slice(0, 55)}...</text>
+  <text x="220" y="132" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="900" fill="#111827" text-anchor="middle">${safeName}</text>
+  <text x="220" y="152" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#4B5563" text-anchor="middle">${safeTagline}</text>
+  
   <!-- Digital Menu Pill -->
-  <rect x="150" y="160" width="140" height="26" rx="13" fill="#111827"/>
-  <text x="220" y="177" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="bold" fill="#F59E0B" text-anchor="middle" letter-spacing="1">DIGITAL MENU</text>
-  <!-- High Contrast Center-Branded QR -->
-  <rect x="80" y="200" width="280" height="280" rx="16" fill="#ffffff" stroke="#111827" stroke-width="2"/>
-  <image href="${qrSvgUri}" x="90" y="210" width="260" height="260"/>
+  <rect x="145" y="166" width="150" height="26" rx="13" fill="#111827"/>
+  <text x="220" y="183" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="bold" fill="#F59E0B" text-anchor="middle" letter-spacing="1">DIGITAL MENU</text>
+  
+  <!-- High Contrast Center-Branded QR Box -->
+  <rect x="${qrBoxX - 10}" y="${qrBoxY - 10}" width="${qrBoxSize + 20}" height="${qrBoxSize + 20}" rx="18" fill="#ffffff" stroke="#111827" stroke-width="2"/>
+  
+  <!-- QR Code Modules (Pure Vector Path) -->
+  <g transform="translate(${qrBoxX}, ${qrBoxY}) scale(${qrScale})">
+    <path d="${path.trim()}" fill="${qrColor}" shape-rendering="crispEdges"/>
+  </g>
+  
+  <!-- Center Logo Shield on QR -->
+  <rect x="${centerShieldX}" y="${centerShieldY}" width="${centerShieldSize}" height="${centerShieldSize}" rx="14" fill="#ffffff" stroke="#D97706" stroke-width="2"/>
+  ${
+    base64Logo
+      ? `<image href="${base64Logo}" x="${centerLogoX}" y="${centerLogoY}" width="${centerLogoSize}" height="${centerLogoSize}" preserveAspectRatio="xMidYMid meet"/>`
+      : `<text x="${centerShieldX + centerShieldSize / 2}" y="${centerShieldY + centerShieldSize / 2 + 8}" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="900" fill="#D97706" text-anchor="middle">${safeName.charAt(0)}</text>`
+  }
+  
   <!-- Call to action -->
-  <text x="220" y="505" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#1F2937" text-anchor="middle">${callToAction.slice(0, 60)}</text>
-  ${includeWifi && wifiSsid ? `<text x="220" y="532" font-family="ui-monospace, monospace" font-size="11" fill="#6B7280" text-anchor="middle">WiFi: ${wifiSsid} • Pass: ${wifiPassword || 'none'}</text>` : ''}
+  <text x="220" y="525" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#1F2937" text-anchor="middle">${safeCta}</text>
+  ${includeWifi && wifiSsid ? `<text x="220" y="552" font-family="ui-monospace, monospace" font-size="11" fill="#6B7280" text-anchor="middle">WiFi: ${wifiSsid.replace(/&/g, '&amp;')} • Pass: ${(wifiPassword || 'none').replace(/&/g, '&amp;')}</text>` : ''}
 </svg>`.trim();
 
-    const blob = new Blob([svgContent], { type: 'image/svg+xml' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${restaurant.slug}-menu-qr.svg`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    onShowToast('Vector SVG downloaded with embedded logo!', 'success');
+      const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${restaurant.slug}-menu-qr.svg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      onShowToast('Standalone Vector SVG downloaded successfully!', 'success');
+    } catch (err) {
+      console.error('Failed to export vector SVG:', err);
+      onShowToast('Failed to export SVG vector', 'error');
+    }
   };
 
   // Download high-resolution branded PNG with logo
@@ -174,10 +255,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
       ctx.fillStyle = '#D97706';
       ctx.fillRect(320, 36, 160, 6);
 
-      // Load & Draw Top Logo Crest
-      const topLogo = new window.Image();
-      topLogo.crossOrigin = 'anonymous';
-      topLogo.onload = () => {
+      const renderFinalPng = (logoImg?: HTMLImageElement) => {
         // Draw top logo frame
         ctx.fillStyle = '#FFFFFF';
         ctx.strokeStyle = '#D97706';
@@ -187,7 +265,14 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
         ctx.fill();
         ctx.stroke();
 
-        ctx.drawImage(topLogo, 350, 70, 100, 100);
+        if (logoImg && logoImg.complete && logoImg.naturalWidth > 0) {
+          ctx.drawImage(logoImg, 350, 70, 100, 100);
+        } else {
+          ctx.fillStyle = '#D97706';
+          ctx.font = 'bold 50px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText((restaurant.name || 'R').charAt(0), 400, 142);
+        }
 
         // Header Restaurant Name
         ctx.fillStyle = '#111827';
@@ -210,7 +295,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
         ctx.font = 'bold 16px monospace';
         ctx.fillText('DIGITAL MENU', 400, 313);
 
-        // QR Image with double border
+        // QR Image with border
         const img = new window.Image();
         img.onload = () => {
           ctx.strokeStyle = '#111827';
@@ -227,7 +312,14 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
           ctx.fill();
           ctx.stroke();
 
-          ctx.drawImage(topLogo, 355, 540, 90, 90);
+          if (logoImg && logoImg.complete && logoImg.naturalWidth > 0) {
+            ctx.drawImage(logoImg, 355, 540, 90, 90);
+          } else {
+            ctx.fillStyle = '#D97706';
+            ctx.font = 'bold 42px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText((restaurant.name || 'R').charAt(0), 400, 600);
+          }
 
           // Call to action
           ctx.fillStyle = '#1F2937';
@@ -252,10 +344,29 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
         };
         img.src = qrDataUrl;
       };
-      topLogo.onerror = () => {
-        // Fallback draw without image logo
-        onShowToast('PNG generated with vector QR', 'info');
+
+      const topLogo = new window.Image();
+      topLogo.crossOrigin = 'anonymous';
+      let hasRendered = false;
+      topLogo.onload = () => {
+        if (!hasRendered) {
+          hasRendered = true;
+          renderFinalPng(topLogo);
+        }
       };
+      topLogo.onerror = () => {
+        if (!hasRendered) {
+          hasRendered = true;
+          renderFinalPng();
+        }
+      };
+      // Fallback timer in case image load stalls
+      setTimeout(() => {
+        if (!hasRendered) {
+          hasRendered = true;
+          renderFinalPng();
+        }
+      }, 2500);
       topLogo.src = logoUrl;
     } catch (err) {
       console.error('Failed to generate PNG:', err);
@@ -268,7 +379,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
 
   return (
     <div className="flex flex-col gap-6 pb-20 print:p-0 print:pb-0" data-testid="qr-studio-container">
-      <div className="screen-only-admin flex flex-col gap-6">
+      <div className="screen-only-admin flex flex-col gap-6 print:hidden">
         {/* 1. Header & Quick Actions (Hidden during print) */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
@@ -347,7 +458,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
                 2. Print Template Format
               </h3>
 
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 <button
                   type="button"
                   onClick={() => {
@@ -355,31 +466,51 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
                     setTemplateType('tent');
                   }}
                   data-testid="template-tent-btn"
-                  className={`p-2.5 rounded-xl border flex flex-col items-center gap-1.5 text-center transition-all ${
+                  className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 text-center transition-all cursor-pointer ${
                     templateType === 'tent'
-                      ? 'border-amber-500 bg-amber-500/10 text-white'
+                      ? 'border-amber-500 bg-amber-500/10 text-white shadow-sm ring-1 ring-amber-500/30'
                       : 'border-white/10 bg-white/[0.02] text-neutral-400 hover:text-white'
                   }`}
                 >
                   <Smartphone className="w-4 h-4 text-amber-400" />
-                  <span className="text-[11px] font-bold">Stand Card</span>
+                  <span className="text-[11px] font-bold">Counter Stand</span>
+                  <span className="text-[9px] text-neutral-400 font-normal">1 Full Page</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => {
                     triggerHaptic(8);
-                    setTemplateType('a4');
+                    setTemplateType('a4-4');
                   }}
                   data-testid="template-a4-btn"
-                  className={`p-2.5 rounded-xl border flex flex-col items-center gap-1.5 text-center transition-all ${
-                    templateType === 'a4'
-                      ? 'border-amber-500 bg-amber-500/10 text-white'
+                  className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 text-center transition-all cursor-pointer ${
+                    templateType === 'a4-4' || templateType === 'a4'
+                      ? 'border-amber-500 bg-amber-500/10 text-white shadow-sm ring-1 ring-amber-500/30'
                       : 'border-white/10 bg-white/[0.02] text-neutral-400 hover:text-white'
                   }`}
                 >
                   <FileText className="w-4 h-4 text-amber-400" />
-                  <span className="text-[11px] font-bold">A4 Sheet (8)</span>
+                  <span className="text-[11px] font-bold">4 Table Tents</span>
+                  <span className="text-[9px] text-neutral-400 font-normal">2×2 Acrylic Size</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    triggerHaptic(8);
+                    setTemplateType('a4-6');
+                  }}
+                  data-testid="template-a4-6-btn"
+                  className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 text-center transition-all cursor-pointer ${
+                    templateType === 'a4-6'
+                      ? 'border-amber-500 bg-amber-500/10 text-white shadow-sm ring-1 ring-amber-500/30'
+                      : 'border-white/10 bg-white/[0.02] text-neutral-400 hover:text-white'
+                  }`}
+                >
+                  <FileText className="w-4 h-4 text-amber-400" />
+                  <span className="text-[11px] font-bold">6 Table Cards</span>
+                  <span className="text-[9px] text-neutral-400 font-normal">2×3 Compact</span>
                 </button>
 
                 <button
@@ -389,14 +520,15 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
                     setTemplateType('sticker');
                   }}
                   data-testid="template-sticker-btn"
-                  className={`p-2.5 rounded-xl border flex flex-col items-center gap-1.5 text-center transition-all ${
+                  className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 text-center transition-all cursor-pointer ${
                     templateType === 'sticker'
-                      ? 'border-amber-500 bg-amber-500/10 text-white'
+                      ? 'border-amber-500 bg-amber-500/10 text-white shadow-sm ring-1 ring-amber-500/30'
                       : 'border-white/10 bg-white/[0.02] text-neutral-400 hover:text-white'
                   }`}
                 >
                   <Layers className="w-4 h-4 text-amber-400" />
-                  <span className="text-[11px] font-bold">Sticker</span>
+                  <span className="text-[11px] font-bold">Stickers (6×)</span>
+                  <span className="text-[9px] text-neutral-400 font-normal">Table & Box</span>
                 </button>
               </div>
             </div>
@@ -556,13 +688,14 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
             <div className="text-center mb-4">
               <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider flex items-center justify-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                {templateType === 'tent' && 'Foldable Counter Stand Preview'}
-                {templateType === 'a4' && 'Printable A4 Sheet (8 Branded Menu Cards)'}
-                {templateType === 'sticker' && 'Compact Counter Sticker Preview'}
+                {templateType === 'tent' && 'Master Counter Stand Preview (1 Full Page)'}
+                {(templateType === 'a4-4' || templateType === 'a4') && '4 Large Acrylic Table Tents (4" × 6" / A6 Sheet)'}
+                {templateType === 'a4-6' && '6 Compact Dining Table Cards (2×3 Sheet)'}
+                {templateType === 'sticker' && 'Table & Takeaway Stickers (6× Sheet)'}
               </span>
             </div>
 
-            {/* TEMPLATE 1: STAND / TENT */}
+            {/* TEMPLATE 1: MASTER COUNTER STAND */}
             {templateType === 'tent' && (
               <div
                 data-testid="preview-tent-card"
@@ -585,13 +718,15 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
                 </div>
 
                 <h3 className="font-extrabold text-xl text-neutral-900 tracking-tight">{restaurant.name}</h3>
-                <p className="text-xs text-neutral-500 font-medium max-w-xs mt-1 leading-snug">
-                  {restaurant.tagline}
-                </p>
+                {restaurant.tagline && (
+                  <p className="text-xs text-neutral-500 font-medium max-w-xs mt-1 leading-snug">
+                    {restaurant.tagline}
+                  </p>
+                )}
 
                 {/* Digital Menu Luxury Pill */}
                 <div className="my-3 px-4 py-1 rounded-full bg-neutral-900 text-amber-400 font-mono text-xs font-bold uppercase tracking-wider shadow-sm border border-amber-500/40">
-                  Digital Menu
+                  DIGITAL MENU • የዲጂታል ሜኑ
                 </div>
 
                 {/* QR Code Container with Centered Logo Emblem */}
@@ -617,7 +752,10 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
                 </div>
 
                 {/* Call to action */}
-                <p className="text-xs text-neutral-700 max-w-xs mt-2.5 font-semibold">
+                <p className="text-xs text-neutral-900 max-w-xs mt-2 font-bold">
+                  በስልክዎ ካሜራ ይቃኙ • Scan with phone camera
+                </p>
+                <p className="text-[11px] text-neutral-600 max-w-xs mt-0.5">
                   {callToAction}
                 </p>
 
@@ -626,14 +764,153 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
                   <div className="mt-4 pt-3 border-t border-neutral-200 w-full flex items-center justify-center gap-1.5 text-xs text-neutral-600 font-mono">
                     <Wifi className="w-3.5 h-3.5 text-neutral-700" />
                     <span>WiFi: <strong>{wifiSsid}</strong></span>
-                    <span className="text-neutral-400">•</span>
-                    <span>Pass: <strong>{wifiPassword || 'none'}</strong></span>
+                    {wifiPassword && (
+                      <>
+                        <span className="text-neutral-400">•</span>
+                        <span>Pass: <strong>{wifiPassword}</strong></span>
+                      </>
+                    )}
                   </div>
                 )}
               </div>
             )}
 
-            {/* TEMPLATE 2: COMPACT STICKER */}
+            {/* TEMPLATE 2: 4 LARGE TABLE TENTS PREVIEW (2x2) */}
+            {(templateType === 'a4-4' || templateType === 'a4') && (
+              <div
+                data-testid="preview-a4-4-sheet"
+                className="w-full max-w-xl bg-white text-black p-5 rounded-3xl shadow-2xl border border-neutral-300"
+              >
+                <div className="text-center pb-3 border-b border-neutral-200 mb-3">
+                  <div className="flex items-center justify-center gap-2">
+                    {/* eslint-disable-next-js/no-img-element */}
+                    <img src={logoUrl} alt={restaurant.name} className="w-5 h-5 object-contain" />
+                    <h4 className="font-bold text-xs text-neutral-800">
+                      {restaurant.name} • 4 Large Table Tents (4&quot; × 6&quot; / A6 Acrylic Stand Size)
+                    </h4>
+                  </div>
+                  <p className="text-[10px] text-neutral-500 mt-0.5">
+                    Cut along dashed lines (✂) to separate 4 luxury table tent cards
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {[1, 2, 3, 4].map((cardIndex) => (
+                    <div
+                      key={cardIndex}
+                      className="p-3 rounded-2xl border-2 border-dashed border-neutral-300 flex flex-col items-center justify-between text-center bg-neutral-50/50 hover:bg-white transition-colors relative"
+                    >
+                      <div className="w-8 h-0.5 bg-amber-500 rounded-full mb-1" />
+                      <div className="w-7 h-7 rounded-lg bg-white p-0.5 shadow-2xs border border-amber-500/30 mb-0.5 flex items-center justify-center">
+                        {/* eslint-disable-next-js/no-img-element */}
+                        <img src={logoUrl} alt={restaurant.name} className="w-full h-full object-contain" />
+                      </div>
+                      <span className="text-[11px] font-extrabold text-neutral-900 truncate max-w-full">
+                        {restaurant.name}
+                      </span>
+                      <span className="px-2 py-0.5 my-1 rounded-full bg-neutral-900 text-amber-400 font-mono text-[7px] font-bold uppercase tracking-wider">
+                        DIGITAL MENU • የዲጂታል ሜኑ
+                      </span>
+
+                      {/* QR with Center Logo */}
+                      <div className="relative my-1 p-1 bg-white rounded-xl border border-neutral-200">
+                        {/* eslint-disable-next-js/no-img-element */}
+                        <img
+                          src={qrSvgUri}
+                          alt="Menu QR"
+                          className="w-24 h-24 block mx-auto"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                          <div className="w-6 h-6 bg-white rounded-md border border-amber-500 p-0.5 flex items-center justify-center">
+                            {/* eslint-disable-next-js/no-img-element */}
+                            <img src={logoUrl} alt="Logo" className="w-full h-full object-contain" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-1">
+                        <p className="text-[9px] font-bold text-neutral-800 leading-tight">
+                          በስልክዎ ካሜራ ይቃኙ
+                        </p>
+                        <p className="text-[8px] text-neutral-500 leading-tight">
+                          Scan with phone camera
+                        </p>
+                        {includeWifi && wifiSsid && (
+                          <p className="text-[7px] font-mono text-neutral-500 truncate mt-0.5">
+                            WiFi: {wifiSsid}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* TEMPLATE 3: 6 COMPACT TABLE CARDS PREVIEW (2x3) */}
+            {templateType === 'a4-6' && (
+              <div
+                data-testid="preview-a4-6-sheet"
+                className="w-full max-w-xl bg-white text-black p-4 rounded-3xl shadow-2xl border border-neutral-300"
+              >
+                <div className="text-center pb-2 border-b border-neutral-200 mb-2.5">
+                  <div className="flex items-center justify-center gap-2">
+                    {/* eslint-disable-next-js/no-img-element */}
+                    <img src={logoUrl} alt={restaurant.name} className="w-5 h-5 object-contain" />
+                    <h4 className="font-bold text-xs text-neutral-800">
+                      {restaurant.name} • 6 Compact Table Cards
+                    </h4>
+                  </div>
+                  <p className="text-[10px] text-neutral-500 mt-0.5">
+                    Cut along dashed lines (✂) to separate 6 compact dining table cards
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {[1, 2, 3, 4, 5, 6].map((cardIndex) => (
+                    <div
+                      key={cardIndex}
+                      className="p-2 rounded-xl border-2 border-dashed border-neutral-300 flex flex-col items-center justify-between text-center bg-neutral-50/50 hover:bg-white transition-colors"
+                    >
+                      <div className="flex items-center gap-1 mb-0.5">
+                        <div className="w-4 h-4 rounded-md bg-white p-0.5 shadow-2xs border border-amber-500/30 flex items-center justify-center">
+                          {/* eslint-disable-next-js/no-img-element */}
+                          <img src={logoUrl} alt={restaurant.name} className="w-full h-full object-contain" />
+                        </div>
+                        <span className="text-[9px] font-bold text-neutral-900 truncate max-w-[80px]">
+                          {restaurant.name}
+                        </span>
+                      </div>
+                      <span className="text-[7px] font-mono font-bold text-amber-600 uppercase tracking-tight">
+                        የዲጂታል ሜኑ
+                      </span>
+
+                      {/* QR with Center Logo */}
+                      <div className="relative my-0.5">
+                        {/* eslint-disable-next-js/no-img-element */}
+                        <img
+                          src={qrSvgUri}
+                          alt="Menu QR"
+                          className="w-16 h-16 bg-white p-0.5 rounded-lg border border-neutral-200 block mx-auto"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                          <div className="w-4 h-4 bg-white rounded-md border border-amber-500 p-0.5 flex items-center justify-center">
+                            {/* eslint-disable-next-js/no-img-element */}
+                            <img src={logoUrl} alt="Logo" className="w-full h-full object-contain" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <span className="text-[7.5px] text-neutral-700 font-bold truncate max-w-full">
+                        በስልክዎ ካሜራ ይቃኙ
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* TEMPLATE 4: COMPACT STICKER PREVIEW */}
             {templateType === 'sticker' && (
               <div
                 data-testid="preview-sticker-card"
@@ -665,66 +942,8 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
                 </div>
 
                 <span className="px-3.5 py-0.5 rounded-full bg-neutral-900 text-amber-400 text-[10px] font-mono font-bold tracking-wider">
-                  SCAN MENU
+                  SCAN MENU • ይቃኙ
                 </span>
-              </div>
-            )}
-
-            {/* TEMPLATE 3: A4 SHEET GRID PREVIEW (8 CARDS) */}
-            {templateType === 'a4' && (
-              <div
-                data-testid="preview-a4-sheet"
-                className="w-full max-w-xl bg-white text-black p-5 rounded-3xl shadow-2xl border border-neutral-300"
-              >
-                <div className="text-center pb-3 border-b border-neutral-200 mb-3">
-                  <div className="flex items-center justify-center gap-2">
-                    {/* eslint-disable-next-js/no-img-element */}
-                    <img src={logoUrl} alt={restaurant.name} className="w-5 h-5 object-contain" />
-                    <h4 className="font-bold text-xs text-neutral-800">{restaurant.name} • A4 Sheet Cutting Guide</h4>
-                  </div>
-                  <p className="text-[10px] text-neutral-500 mt-0.5">Cut along dotted lines to separate 8 counter stand cards</p>
-                </div>
-
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                  {sheetCards.map((cardIndex) => (
-                    <div
-                      key={cardIndex}
-                      className="p-2.5 rounded-xl border-2 border-dashed border-neutral-300 flex flex-col items-center text-center bg-neutral-50 hover:bg-white transition-colors"
-                    >
-                      {/* Logo header */}
-                      <div className="w-6 h-6 rounded-md bg-white p-0.5 shadow-2xs border border-amber-500/30 mb-1">
-                        {/* eslint-disable-next-js/no-img-element */}
-                        <img src={logoUrl} alt={restaurant.name} className="w-full h-full object-contain" />
-                      </div>
-                      <span className="text-[9px] font-bold text-neutral-900 truncate max-w-full">
-                        {restaurant.name}
-                      </span>
-                      <span className="text-[8px] font-mono font-black text-amber-600 uppercase tracking-tight">
-                        Digital Menu
-                      </span>
-
-                      {/* QR with Center Logo */}
-                      <div className="relative my-1">
-                        {/* eslint-disable-next-js/no-img-element */}
-                        <img
-                          src={qrSvgUri}
-                          alt="Restaurant menu QR code"
-                          className="w-18 h-18 bg-white p-1 rounded-lg border border-neutral-200 block mx-auto"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                          <div className="w-5 h-5 bg-white rounded-md border border-amber-500 p-0.5 flex items-center justify-center">
-                            {/* eslint-disable-next-js/no-img-element */}
-                            <img src={logoUrl} alt="Logo" className="w-full h-full object-contain" />
-                          </div>
-                        </div>
-                      </div>
-
-                      <span className="text-[8px] text-neutral-600 font-semibold truncate max-w-full">
-                        Scan to explore
-                      </span>
-                    </div>
-                  ))}
-                </div>
               </div>
             )}
           </div>
@@ -732,125 +951,285 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
       </div>
 
       {/* ----------------------------------------------------------------------- */}
-      {/* 3. PRINT ONLY LAYOUT (@media print) */}
+      {/* 3. PRINT ONLY LAYOUT (@media print) - GUARANTEED 1-PAGE ZERO-OVERFLOW */}
       {/* ----------------------------------------------------------------------- */}
-      <div className="hidden print:block text-black bg-white w-full print-only-card">
-        {/* PRINT STAND */}
+      <div id="qr-printable-sheet" className="hidden print:flex text-black bg-white w-full flex-col items-center justify-center">
+        {/* TEMPLATE 1: MASTER COUNTER STAND (1 Full Page) */}
         {templateType === 'tent' && (
-          <div className="w-[140mm] mx-auto p-8 border-2 border-black rounded-3xl flex flex-col items-center text-center">
-            {/* Top Logo */}
-            <div className="w-20 h-20 rounded-2xl bg-white border-2 border-black p-2 flex items-center justify-center mb-3">
+          <div className="w-[134mm] max-h-[238mm] mx-auto p-5 border-2 border-neutral-900 rounded-3xl flex flex-col items-center text-center bg-white my-auto box-border">
+            {/* Top Gold Accent Bar */}
+            <div className="w-16 h-1 bg-amber-500 rounded-full mb-2.5" />
+
+            {/* Top Logo Crest */}
+            <div className="w-14 h-14 rounded-2xl bg-white border-2 border-amber-500/40 p-1 flex items-center justify-center mb-2 shadow-none">
               {/* eslint-disable-next-js/no-img-element */}
               <img src={logoUrl} alt={restaurant.name} className="w-full h-full object-contain" />
             </div>
 
-            <h1 className="text-2xl font-black mb-1">{restaurant.name}</h1>
-            <p className="text-sm text-gray-700 mb-3 max-w-sm">{restaurant.tagline}</p>
+            <h1 className="text-lg font-black text-neutral-900 tracking-tight leading-tight mb-0.5">{restaurant.name}</h1>
+            {restaurant.tagline && (
+              <p className="text-[11px] text-neutral-600 font-medium max-w-xs mb-1.5 leading-snug line-clamp-2">{restaurant.tagline}</p>
+            )}
 
-            <div className="my-2 px-6 py-1.5 rounded-full bg-black text-white text-sm font-mono font-bold">
-              DIGITAL MENU
+            {/* Digital Menu Luxury Pill */}
+            <div className="my-1 px-4 py-0.5 rounded-full bg-neutral-900 text-amber-400 font-mono text-[10px] font-bold uppercase tracking-wider">
+              DIGITAL MENU • የዲጂታል ሜኑ
             </div>
 
-            <div className="my-4 p-4 bg-white border-4 border-black rounded-2xl relative">
+            {/* QR Code Container with Centered Logo */}
+            <div className="my-2 p-3 bg-white border-2 border-neutral-900 rounded-2xl relative shadow-none">
               {/* eslint-disable-next-js/no-img-element */}
               <img
                 src={qrSvgUri}
                 alt="Print QR"
-                className="w-[75mm] h-[75mm] block"
+                className="w-[52mm] h-[52mm] block"
               />
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-16 h-16 bg-white rounded-xl border-2 border-black p-1.5 flex items-center justify-center">
+                <div className="w-11 h-11 bg-white rounded-xl border border-amber-500 p-1 flex items-center justify-center">
                   {/* eslint-disable-next-js/no-img-element */}
                   <img src={logoUrl} alt="Logo" className="w-full h-full object-contain" />
                 </div>
               </div>
             </div>
 
-            <p className="text-sm text-gray-900 max-w-xs font-semibold mb-4">
+            {/* Call to action */}
+            <p className="text-[11px] text-neutral-800 max-w-xs font-bold mt-0.5">
+              በስልክዎ ካሜራ ይቃኙ • Scan with phone camera
+            </p>
+            <p className="text-[9.5px] text-neutral-600 max-w-xs font-medium mt-0.5">
               {callToAction}
             </p>
 
+            {/* Wi-Fi Info */}
             {includeWifi && wifiSsid && (
-              <div className="pt-4 border-t border-gray-400 w-full text-xs font-mono">
-                WiFi: <strong>{wifiSsid}</strong> • Password: <strong>{wifiPassword || 'none'}</strong>
+              <div className="mt-2.5 pt-2 border-t border-neutral-300 w-full flex items-center justify-center gap-1.5 text-[10px] text-neutral-600 font-mono">
+                <span>WiFi: <strong>{wifiSsid}</strong></span>
+                {wifiPassword && (
+                  <>
+                    <span className="text-neutral-400">•</span>
+                    <span>Password: <strong>{wifiPassword}</strong></span>
+                  </>
+                )}
               </div>
             )}
+
+            <p className="text-[8.5px] text-neutral-400 mt-2 font-sans">
+              Fold or place in acrylic counter display stand
+            </p>
           </div>
         )}
 
-        {/* PRINT STICKER */}
-        {templateType === 'sticker' && (
-          <div className="w-[95mm] h-[95mm] mx-auto border-4 border-black rounded-full flex flex-col items-center justify-center text-center p-4">
-            <div className="w-10 h-10 mb-1">
-              {/* eslint-disable-next-js/no-img-element */}
-              <img src={logoUrl} alt={restaurant.name} className="w-full h-full object-contain" />
-            </div>
-            <h2 className="text-xs font-black uppercase tracking-wider">{restaurant.name}</h2>
-            <div className="my-2 relative">
-              {/* eslint-disable-next-js/no-img-element */}
-              <img
-                src={qrSvgUri}
-                alt="Print Sticker QR"
-                className="w-[48mm] h-[48mm] block"
-              />
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-10 h-10 bg-white rounded-md border border-black p-1 flex items-center justify-center">
-                  {/* eslint-disable-next-js/no-img-element */}
-                  <img src={logoUrl} alt="Logo" className="w-full h-full object-contain" />
-                </div>
-              </div>
-            </div>
-            <span className="text-xs font-mono font-bold bg-black text-white px-3 py-0.5 rounded-full">
-              SCAN MENU
-            </span>
-          </div>
-        )}
-
-        {/* PRINT A4 SHEET (8 per page) */}
-        {templateType === 'a4' && (
-          <div className="w-[210mm] min-h-[297mm] p-6 mx-auto">
-            <div className="text-center mb-6">
-              <div className="flex items-center justify-center gap-2 mb-1">
+        {/* TEMPLATE 2: 4 LARGE TABLE TENTS (2x2 GRID - 4" x 6" / A6 ACRYLIC SIZE) */}
+        {(templateType === 'a4-4' || templateType === 'a4') && (
+          <div className="w-full max-w-[190mm] mx-auto flex flex-col justify-between py-1 box-border">
+            {/* Cutting guide header */}
+            <div className="text-center pb-2 border-b border-neutral-300 mb-2.5 flex-shrink-0">
+              <div className="flex items-center justify-center gap-2">
                 {/* eslint-disable-next-js/no-img-element */}
-                <img src={logoUrl} alt={restaurant.name} className="w-7 h-7 object-contain" />
-                <h1 className="text-lg font-bold">{restaurant.name} | Printable Menu QR Cards</h1>
+                <img src={logoUrl} alt={restaurant.name} className="w-5 h-5 object-contain" />
+                <h1 className="text-xs font-bold text-neutral-800 tracking-tight">
+                  {restaurant.name} • 4 Large Table Tents (4&quot; × 6&quot; / A6 Acrylic Stand Size)
+                </h1>
               </div>
-              <p className="text-xs text-gray-500">Cut along the dotted guidelines</p>
+              <p className="text-[9px] text-neutral-500 mt-0.5">
+                Cut along dashed lines (✂) to place inside acrylic table stands or counter displays
+              </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-6">
-              {sheetCards.map((cardIndex) => (
+            {/* 2 columns x 2 rows = 4 large vertical cards */}
+            <div className="grid grid-cols-2 gap-3 flex-1">
+              {[1, 2, 3, 4].map((cardIndex) => (
                 <div
                   key={cardIndex}
-                  className="border-2 border-dashed border-gray-400 rounded-2xl p-4 flex flex-col items-center text-center"
+                  className="border-2 border-dashed border-neutral-300 rounded-2xl p-3.5 bg-white flex flex-col items-center justify-between text-center h-[110mm] max-h-[110mm] box-border relative overflow-hidden"
                 >
-                  <div className="flex items-center justify-between w-full px-2 mb-2">
-                    <div className="flex items-center gap-1.5">
+                  {/* Subtle scissor cutting marks on corners */}
+                  <div className="absolute top-1 left-2 text-[8px] text-neutral-400 font-mono select-none">✂ - - -</div>
+                  <div className="absolute top-1 right-2 text-[8px] text-neutral-400 font-mono select-none">- - - ✂</div>
+
+                  {/* Top: Gold accent + Brand Logo + Title */}
+                  <div className="flex flex-col items-center w-full">
+                    <div className="w-10 h-0.5 bg-amber-500 rounded-full mb-1" />
+                    <div className="w-7 h-7 rounded-xl bg-white border border-amber-500/40 p-0.5 flex items-center justify-center mb-0.5">
                       {/* eslint-disable-next-js/no-img-element */}
-                      <img src={logoUrl} alt={restaurant.name} className="w-6 h-6 object-contain" />
-                      <span className="font-bold text-xs">{restaurant.name}</span>
+                      <img src={logoUrl} alt={restaurant.name} className="w-full h-full object-contain" />
                     </div>
-                    <span className="font-mono font-black text-xs bg-black text-white px-2 py-0.5 rounded">
-                      DIGITAL MENU
+                    <span className="font-extrabold text-[12px] text-neutral-900 tracking-tight truncate max-w-[85mm] leading-tight">
+                      {restaurant.name}
                     </span>
+                    <div className="mt-0.5 px-3 py-0.5 rounded-full bg-neutral-900 text-amber-400 font-mono text-[8px] font-bold uppercase tracking-wider">
+                      DIGITAL MENU • የዲጂታል ሜኑ
+                    </div>
                   </div>
 
-                  <div className="relative my-2">
+                  {/* Center: High-contrast QR with center logo badge */}
+                  <div className="my-1 relative p-1.5 bg-white rounded-xl border border-neutral-200">
                     {/* eslint-disable-next-js/no-img-element */}
                     <img
                       src={qrSvgUri}
-                      alt="Digital Menu QR"
-                      className="w-[45mm] h-[45mm] block"
+                      alt="Menu QR"
+                      className="w-[44mm] h-[44mm] block"
                     />
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div className="w-10 h-10 bg-white rounded-md border border-black p-1 flex items-center justify-center">
+                      <div className="w-9 h-9 bg-white rounded-lg border border-amber-500 p-0.5 flex items-center justify-center shadow-xs">
                         {/* eslint-disable-next-js/no-img-element */}
                         <img src={logoUrl} alt="Logo" className="w-full h-full object-contain" />
                       </div>
                     </div>
                   </div>
 
-                  <p className="text-[10px] text-gray-700 font-semibold mt-1">Scan for digital menu</p>
+                  {/* Bottom: Bilingual Call to action & Wi-Fi */}
+                  <div className="w-full flex flex-col items-center">
+                    <p className="text-[10px] font-bold text-neutral-800 leading-tight">
+                      በስልክዎ ካሜራ ይቃኙ
+                    </p>
+                    <p className="text-[8.5px] text-neutral-600 font-medium leading-tight mt-0.5">
+                      Scan with phone camera to view menu
+                    </p>
+
+                    {includeWifi && wifiSsid && (
+                      <div className="mt-1 pt-0.5 border-t border-neutral-200 w-full flex items-center justify-center gap-1.5 text-[8px] text-neutral-600 font-mono">
+                        <span>WiFi: <strong>{wifiSsid}</strong></span>
+                        {wifiPassword && (
+                          <>
+                            <span className="text-neutral-300">•</span>
+                            <span>Pass: <strong>{wifiPassword}</strong></span>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* TEMPLATE 3: 6 COMPACT TABLE CARDS (2x3 GRID) */}
+        {templateType === 'a4-6' && (
+          <div className="w-full max-w-[190mm] mx-auto flex flex-col justify-between py-1 box-border">
+            {/* Cutting guide header */}
+            <div className="text-center pb-1.5 border-b border-neutral-300 mb-2 flex-shrink-0">
+              <div className="flex items-center justify-center gap-2">
+                {/* eslint-disable-next-js/no-img-element */}
+                <img src={logoUrl} alt={restaurant.name} className="w-4 h-4 object-contain" />
+                <h1 className="text-xs font-bold text-neutral-800 tracking-tight">
+                  {restaurant.name} • 6 Compact Table Display Cards
+                </h1>
+              </div>
+              <p className="text-[9px] text-neutral-500 mt-0.5">
+                Cut along dotted lines (✂) to place on individual dining tables
+              </p>
+            </div>
+
+            {/* 2 columns x 3 rows = 6 compact vertical cards */}
+            <div className="grid grid-cols-2 gap-2 flex-1">
+              {[1, 2, 3, 4, 5, 6].map((cardIndex) => (
+                <div
+                  key={cardIndex}
+                  className="border-2 border-dashed border-neutral-300 rounded-xl p-2 bg-white flex flex-col items-center justify-between text-center h-[74mm] max-h-[74mm] box-border relative overflow-hidden"
+                >
+                  {/* Subtle scissor cutting marks on corners */}
+                  <div className="absolute top-0.5 left-1.5 text-[7px] text-neutral-400 font-mono select-none">✂ - -</div>
+                  <div className="absolute top-0.5 right-1.5 text-[7px] text-neutral-400 font-mono select-none">- - ✂</div>
+
+                  {/* Top: Logo + Restaurant Name + Mini Badge */}
+                  <div className="flex flex-col items-center w-full">
+                    <div className="flex items-center gap-1 mb-0.5">
+                      <div className="w-4 h-4 rounded-md bg-white border border-amber-500/30 p-0.5 flex items-center justify-center">
+                        {/* eslint-disable-next-js/no-img-element */}
+                        <img src={logoUrl} alt={restaurant.name} className="w-full h-full object-contain" />
+                      </div>
+                      <span className="font-extrabold text-[10.5px] text-neutral-900 truncate max-w-[70mm] leading-tight">
+                        {restaurant.name}
+                      </span>
+                    </div>
+                    <span className="px-2 py-0.5 rounded-full bg-neutral-900 text-amber-400 font-mono text-[7px] font-bold uppercase tracking-wider">
+                      DIGITAL MENU • የዲጂታል ሜኑ
+                    </span>
+                  </div>
+
+                  {/* Center: QR Code with Logo Badge */}
+                  <div className="my-0.5 relative p-1 bg-white rounded-lg border border-neutral-200">
+                    {/* eslint-disable-next-js/no-img-element */}
+                    <img
+                      src={qrSvgUri}
+                      alt="Menu QR"
+                      className="w-[34mm] h-[34mm] block"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="w-7 h-7 bg-white rounded-md border border-amber-500 p-0.5 flex items-center justify-center shadow-xs">
+                        {/* eslint-disable-next-js/no-img-element */}
+                        <img src={logoUrl} alt="Logo" className="w-full h-full object-contain" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bottom: Bilingual Call to action */}
+                  <div className="w-full flex flex-col items-center">
+                    <p className="text-[8.5px] font-bold text-neutral-800 leading-tight">
+                      በስልክዎ ካሜራ ይቃኙ • Scan to explore
+                    </p>
+                    {includeWifi && wifiSsid && (
+                      <p className="text-[7px] font-mono text-neutral-500 truncate mt-0.5">
+                        WiFi: <strong>{wifiSsid}</strong> {wifiPassword ? `• Pass: ${wifiPassword}` : ''}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* TEMPLATE 4: 6 CIRCULAR STICKERS (2x3 GRID) */}
+        {templateType === 'sticker' && (
+          <div className="w-full max-w-[190mm] mx-auto flex flex-col justify-between py-1 box-border">
+            {/* Cutting guide header */}
+            <div className="text-center pb-1.5 border-b border-neutral-300 mb-2 flex-shrink-0">
+              <div className="flex items-center justify-center gap-2">
+                {/* eslint-disable-next-js/no-img-element */}
+                <img src={logoUrl} alt={restaurant.name} className="w-4 h-4 object-contain" />
+                <h1 className="text-xs font-bold text-neutral-800 tracking-tight">
+                  {restaurant.name} • 6 Table & Takeaway QR Stickers
+                </h1>
+              </div>
+              <p className="text-[9px] text-neutral-500 mt-0.5">
+                Peel or cut along circular borders for table corners, bar tops, and takeout packaging
+              </p>
+            </div>
+
+            {/* 2 columns x 3 rows = 6 stickers */}
+            <div className="grid grid-cols-2 gap-3 flex-1">
+              {[1, 2, 3, 4, 5, 6].map((idx) => (
+                <div
+                  key={idx}
+                  className="w-[74mm] h-[74mm] mx-auto rounded-full border-2 border-dashed border-neutral-400 flex flex-col items-center justify-center text-center p-2.5 bg-white box-border relative"
+                >
+                  <div className="w-6 h-6 mb-0.5 flex items-center justify-center">
+                    {/* eslint-disable-next-js/no-img-element */}
+                    <img src={logoUrl} alt={restaurant.name} className="w-full h-full object-contain" />
+                  </div>
+                  <h2 className="text-[9.5px] font-black uppercase tracking-wider text-neutral-900 truncate max-w-[60mm] mb-0.5">
+                    {restaurant.name}
+                  </h2>
+                  <div className="my-0.5 relative">
+                    {/* eslint-disable-next-js/no-img-element */}
+                    <img
+                      src={qrSvgUri}
+                      alt="Print Sticker QR"
+                      className="w-[32mm] h-[32mm] block"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="w-6 h-6 bg-white rounded-md border border-amber-500 p-0.5 flex items-center justify-center">
+                        {/* eslint-disable-next-js/no-img-element */}
+                        <img src={logoUrl} alt="Logo" className="w-full h-full object-contain" />
+                      </div>
+                    </div>
+                  </div>
+                  <span className="text-[7.5px] font-mono font-bold bg-neutral-900 text-amber-400 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                    SCAN MENU • ይቃኙ
+                  </span>
                 </div>
               ))}
             </div>

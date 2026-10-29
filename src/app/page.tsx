@@ -47,7 +47,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
       images: [
         restaurant.logo_url ||
-          'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1200&h=630&q=80',
+        'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1200&h=630&q=80',
       ],
     },
   };
@@ -74,7 +74,7 @@ export default async function HomePage() {
     name: restaurant.name,
     description: restaurant.tagline,
     servesCuisine: categories.map((c) => c.name.split('/')[0].trim()).join(', '),
-    telephone: '0966833177',
+    telephone: '0912345678',
     address: {
       '@type': 'PostalAddress',
       streetAddress: restaurant.address,

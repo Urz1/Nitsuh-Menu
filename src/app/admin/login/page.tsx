@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
       try {
         const saved = localStorage.getItem('admin_theme');
         if (saved === 'dark' || saved === 'light') return saved;
-      } catch {}
+      } catch { }
     }
     return 'light';
   });
@@ -50,7 +50,7 @@ export default function AdminLoginPage() {
     setAdminTheme(next);
     try {
       localStorage.setItem('admin_theme', next);
-    } catch {}
+    } catch { }
   };
 
   // Setup state (Detects whether master owner already exists in Neon DB)
@@ -93,6 +93,7 @@ export default function AdminLoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [isResetRedirecting, setIsResetRedirecting] = useState(false);
 
   // Check setup on mount
   useEffect(() => {
@@ -103,7 +104,7 @@ export default function AdminLoginPage() {
           setHasOwner(data.hasOwner);
         }
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setIsCheckingSetup(false));
   }, []);
 
@@ -245,6 +246,7 @@ export default function AdminLoginPage() {
     setConfirmPassword('');
     setErrorMsg(null);
     setSuccessMsg(null);
+    setIsResetRedirecting(false);
   };
 
   const handleCloseForgot = () => {
@@ -253,6 +255,7 @@ export default function AdminLoginPage() {
     setForgotStep('verify');
     setErrorMsg(null);
     setSuccessMsg(null);
+    setIsResetRedirecting(false);
   };
 
   const handleVerifyOwner = async (e: React.FormEvent) => {
@@ -301,7 +304,9 @@ export default function AdminLoginPage() {
       setMaskedPhone(data.maskedPhone || '');
       setVerificationToken(data.verificationToken || '');
       setForgotStep('reset');
-      setSuccessMsg(`Identity verified! Welcome back, ${data.ownerName || 'Owner'}. Please set your new password.`);
+      setSuccessMsg(null);
+      setErrorMsg(null);
+      setIsResetRedirecting(false);
     } catch {
       setIsLoading(false);
       setErrorMsg('Failed to connect to verification service. Please try again.');
@@ -310,7 +315,7 @@ export default function AdminLoginPage() {
 
   const handleSaveNewPassword = async (e: React.FormEvent) => {
     if (e && 'preventDefault' in e) e.preventDefault();
-    if (isLoading || Boolean(successMsg && forgotStep === 'reset' && !errorMsg)) return;
+    if (isLoading || isResetRedirecting) return;
     triggerHaptic(10);
     setErrorMsg(null);
 
@@ -369,6 +374,7 @@ export default function AdminLoginPage() {
       }
 
       setIsLoading(false);
+      setIsResetRedirecting(true);
       triggerHaptic(25);
       setSuccessMsg('🎉 Password successfully updated! Redirecting to owner dashboard...');
 
@@ -386,28 +392,25 @@ export default function AdminLoginPage() {
   return (
     <div
       data-admin-theme={adminTheme}
-      className={`min-h-screen flex flex-col justify-center items-center px-4 py-12 transition-colors duration-200 ${
-        isLight
+      className={`min-h-screen flex flex-col justify-center items-center px-4 py-12 transition-colors duration-200 ${isLight
           ? 'bg-[#F8F9FA] text-neutral-900 selection:bg-amber-500 selection:text-white'
           : 'bg-[#0C0D11] text-white selection:bg-amber-500 selection:text-black'
-      }`}
+        }`}
     >
       <div
-        className={`w-full max-w-md rounded-3xl p-8 transition-all duration-200 border ${
-          isLight
+        className={`w-full max-w-md rounded-3xl p-8 transition-all duration-200 border ${isLight
             ? 'bg-white border-neutral-200/90 shadow-2xl shadow-neutral-200/60 text-neutral-900'
             : 'bg-white/[0.04] border-white/10 shadow-2xl backdrop-blur-xl text-white'
-        }`}
+          }`}
       >
         {/* Top Header: Back Link & Theme Toggle */}
         <div className="flex items-center justify-between mb-6">
           <Link
             href="/"
-            className={`inline-flex items-center gap-1.5 text-xs transition-colors ${
-              isLight
+            className={`inline-flex items-center gap-1.5 text-xs transition-colors ${isLight
                 ? 'text-neutral-500 hover:text-neutral-900'
                 : 'text-neutral-400 hover:text-white'
-            }`}
+              }`}
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Menu</span>
@@ -416,11 +419,10 @@ export default function AdminLoginPage() {
             type="button"
             data-testid="login-theme-toggle"
             onClick={toggleAdminTheme}
-            className={`px-3 py-1.5 rounded-full border text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
-              isLight
+            className={`px-3 py-1.5 rounded-full border text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${isLight
                 ? 'bg-neutral-100 hover:bg-neutral-200/80 border-neutral-200 text-neutral-800'
                 : 'bg-white/5 hover:bg-white/10 border-white/10 text-neutral-300 hover:text-white'
-            }`}
+              }`}
             title={isLight ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
           >
             {isLight ? (
@@ -503,11 +505,10 @@ export default function AdminLoginPage() {
                     value={setupName}
                     onChange={(e) => setSetupName(e.target.value)}
                     placeholder="e.g. Your Full Name"
-                    className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
-                      isLight
+                    className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${isLight
                         ? 'bg-neutral-50 border-neutral-300 text-neutral-900 focus:bg-white focus:border-amber-500'
                         : 'bg-white/[0.05] border-white/10 text-white focus:border-amber-500'
-                    }`}
+                      }`}
                   />
                 </div>
               </div>
@@ -524,11 +525,10 @@ export default function AdminLoginPage() {
                     value={setupEmail}
                     onChange={(e) => setSetupEmail(e.target.value)}
                     placeholder="owner@yourrestaurant.com"
-                    className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
-                      isLight
+                    className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${isLight
                         ? 'bg-neutral-50 border-neutral-300 text-neutral-900 focus:bg-white focus:border-amber-500'
                         : 'bg-white/[0.05] border-white/10 text-white focus:border-amber-500'
-                    }`}
+                      }`}
                   />
                 </div>
               </div>
@@ -544,11 +544,10 @@ export default function AdminLoginPage() {
                     value={setupPhone}
                     onChange={(e) => setSetupPhone(e.target.value)}
                     placeholder="+251..."
-                    className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
-                      isLight
+                    className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${isLight
                         ? 'bg-neutral-50 border-neutral-300 text-neutral-900 focus:bg-white focus:border-amber-500'
                         : 'bg-white/[0.05] border-white/10 text-white focus:border-amber-500'
-                    }`}
+                      }`}
                   />
                 </div>
               </div>
@@ -566,11 +565,10 @@ export default function AdminLoginPage() {
                     value={setupPassword}
                     onChange={(e) => setSetupPassword(e.target.value)}
                     placeholder="Min 6 characters"
-                    className={`w-full h-11 pl-10 pr-10 rounded-xl text-xs outline-none transition-colors border ${
-                      isLight
+                    className={`w-full h-11 pl-10 pr-10 rounded-xl text-xs outline-none transition-colors border ${isLight
                         ? 'bg-neutral-50 border-neutral-300 text-neutral-900 focus:bg-white focus:border-amber-500'
                         : 'bg-white/[0.05] border-white/10 text-white focus:border-amber-500'
-                    }`}
+                      }`}
                   />
                   <button
                     type="button"
@@ -614,9 +612,8 @@ export default function AdminLoginPage() {
                 <button
                   type="button"
                   onClick={handleCloseForgot}
-                  className={`text-xs font-semibold inline-flex items-center gap-1.5 transition-colors cursor-pointer ${
-                    isLight ? 'text-amber-600 hover:text-amber-700' : 'text-amber-400 hover:text-amber-300'
-                  }`}
+                  className={`text-xs font-semibold inline-flex items-center gap-1.5 transition-colors cursor-pointer ${isLight ? 'text-amber-600 hover:text-amber-700' : 'text-amber-400 hover:text-amber-300'
+                    }`}
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                   <span>Return to Owner Sign In</span>
@@ -627,9 +624,8 @@ export default function AdminLoginPage() {
               </div>
             ) : (
               <div
-                className={`flex p-1 rounded-2xl mb-6 border transition-colors ${
-                  isLight ? 'bg-neutral-100 border-neutral-200' : 'bg-white/[0.04] border-white/10'
-                }`}
+                className={`flex p-1 rounded-2xl mb-6 border transition-colors ${isLight ? 'bg-neutral-100 border-neutral-200' : 'bg-white/[0.04] border-white/10'
+                  }`}
               >
                 <button
                   type="button"
@@ -639,13 +635,12 @@ export default function AdminLoginPage() {
                     setErrorMsg(null);
                     setSuccessMsg(null);
                   }}
-                  className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                    tab === 'owner'
+                  className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${tab === 'owner'
                       ? 'bg-amber-500 text-black shadow-md'
                       : isLight
-                      ? 'text-neutral-600 hover:text-neutral-900'
-                      : 'text-neutral-400 hover:text-white'
-                  }`}
+                        ? 'text-neutral-600 hover:text-neutral-900'
+                        : 'text-neutral-400 hover:text-white'
+                    }`}
                 >
                   Restaurant Owner
                 </button>
@@ -657,13 +652,12 @@ export default function AdminLoginPage() {
                     setErrorMsg(null);
                     setSuccessMsg(null);
                   }}
-                  className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                    tab === 'staff'
+                  className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${tab === 'staff'
                       ? 'bg-amber-500 text-black shadow-md'
                       : isLight
-                      ? 'text-neutral-600 hover:text-neutral-900'
-                      : 'text-neutral-400 hover:text-white'
-                  }`}
+                        ? 'text-neutral-600 hover:text-neutral-900'
+                        : 'text-neutral-400 hover:text-white'
+                    }`}
                 >
                   Staff Portal
                 </button>
@@ -677,9 +671,8 @@ export default function AdminLoginPage() {
               <form onSubmit={handleOwnerLogin} className="flex flex-col gap-4">
                 <div>
                   <label
-                    className={`text-xs font-semibold block mb-1.5 ${
-                      isLight ? 'text-neutral-700' : 'text-neutral-300'
-                    }`}
+                    className={`text-xs font-semibold block mb-1.5 ${isLight ? 'text-neutral-700' : 'text-neutral-300'
+                      }`}
                   >
                     Owner Email or Phone Number
                   </label>
@@ -695,11 +688,10 @@ export default function AdminLoginPage() {
                         if (e.key === 'Enter') handleOwnerLogin(e);
                       }}
                       placeholder="e.g. owner@restaurant.com"
-                      className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
-                        isLight
+                      className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${isLight
                           ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
                           : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
-                      }`}
+                        }`}
                     />
                   </div>
                 </div>
@@ -707,18 +699,16 @@ export default function AdminLoginPage() {
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
                     <label
-                      className={`text-xs font-semibold ${
-                        isLight ? 'text-neutral-700' : 'text-neutral-300'
-                      }`}
+                      className={`text-xs font-semibold ${isLight ? 'text-neutral-700' : 'text-neutral-300'
+                        }`}
                     >
                       Owner Password
                     </label>
                     <button
                       type="button"
                       onClick={handleOpenForgot}
-                      className={`text-[11px] hover:underline cursor-pointer ${
-                        isLight ? 'text-amber-600 font-semibold' : 'text-amber-400/90'
-                      }`}
+                      className={`text-[11px] hover:underline cursor-pointer ${isLight ? 'text-amber-600 font-semibold' : 'text-amber-400/90'
+                        }`}
                     >
                       Forgot password?
                     </button>
@@ -735,20 +725,18 @@ export default function AdminLoginPage() {
                         if (e.key === 'Enter') handleOwnerLogin(e);
                       }}
                       placeholder="••••••••••••"
-                      className={`w-full h-11 pl-10 pr-10 rounded-xl text-xs outline-none transition-colors border ${
-                        isLight
+                      className={`w-full h-11 pl-10 pr-10 rounded-xl text-xs outline-none transition-colors border ${isLight
                           ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
                           : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
-                      }`}
+                        }`}
                     />
                     <button
                       type="button"
                       onClick={() => setShowOwnerPassword(!showOwnerPassword)}
-                      className={`absolute right-3.5 top-3.5 transition-colors ${
-                        isLight
+                      className={`absolute right-3.5 top-3.5 transition-colors ${isLight
                           ? 'text-neutral-400 hover:text-neutral-700'
                           : 'text-neutral-400 hover:text-white'
-                      }`}
+                        }`}
                       aria-label={showOwnerPassword ? 'Hide password' : 'Show password'}
                     >
                       {showOwnerPassword ? (
@@ -808,9 +796,8 @@ export default function AdminLoginPage() {
                     {/* Email or Username */}
                     <div>
                       <label
-                        className={`text-xs font-semibold block mb-1.5 ${
-                          isLight ? 'text-neutral-700' : 'text-neutral-300'
-                        }`}
+                        className={`text-xs font-semibold block mb-1.5 ${isLight ? 'text-neutral-700' : 'text-neutral-300'
+                          }`}
                       >
                         Registered Owner Email or Username
                       </label>
@@ -821,12 +808,11 @@ export default function AdminLoginPage() {
                           required
                           value={recoveryIdentifier}
                           onChange={(e) => setRecoveryIdentifier(e.target.value)}
-                          placeholder="e.g. frenitsuh10@gmail.com"
-                          className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
-                            isLight
+                          placeholder="e.g. email@gmail.com"
+                          className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${isLight
                               ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
                               : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
-                          }`}
+                            }`}
                         />
                       </div>
                     </div>
@@ -834,9 +820,8 @@ export default function AdminLoginPage() {
                     {/* Registered Phone */}
                     <div>
                       <label
-                        className={`text-xs font-semibold block mb-1.5 ${
-                          isLight ? 'text-neutral-700' : 'text-neutral-300'
-                        }`}
+                        className={`text-xs font-semibold block mb-1.5 ${isLight ? 'text-neutral-700' : 'text-neutral-300'
+                          }`}
                       >
                         Registered Owner Phone Number
                       </label>
@@ -848,11 +833,10 @@ export default function AdminLoginPage() {
                           value={recoveryPhone}
                           onChange={(e) => setRecoveryPhone(e.target.value)}
                           placeholder="e.g. 09... or +251..."
-                          className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
-                            isLight
+                          className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${isLight
                               ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
                               : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
-                          }`}
+                            }`}
                         />
                       </div>
                       <p className={`text-[11px] mt-1.5 ${isLight ? 'text-neutral-500' : 'text-neutral-400'}`}>
@@ -864,11 +848,10 @@ export default function AdminLoginPage() {
                       <button
                         type="button"
                         onClick={handleCloseForgot}
-                        className={`flex-1 h-11 rounded-xl border text-xs font-semibold cursor-pointer transition-colors ${
-                          isLight
+                        className={`flex-1 h-11 rounded-xl border text-xs font-semibold cursor-pointer transition-colors ${isLight
                             ? 'bg-neutral-100 hover:bg-neutral-200 border-neutral-200 text-neutral-700'
                             : 'bg-white/5 border-white/10 text-white hover:bg-white/10'
-                        }`}
+                          }`}
                       >
                         Cancel
                       </button>
@@ -909,9 +892,8 @@ export default function AdminLoginPage() {
                     {/* New Password */}
                     <div>
                       <label
-                        className={`text-xs font-semibold block mb-1.5 ${
-                          isLight ? 'text-neutral-700' : 'text-neutral-300'
-                        }`}
+                        className={`text-xs font-semibold block mb-1.5 ${isLight ? 'text-neutral-700' : 'text-neutral-300'
+                          }`}
                       >
                         New Master Password
                       </label>
@@ -923,18 +905,16 @@ export default function AdminLoginPage() {
                           value={newPassword}
                           onChange={(e) => setNewPassword(e.target.value)}
                           placeholder="At least 6 characters"
-                          className={`w-full h-11 pl-10 pr-10 rounded-xl text-xs outline-none transition-colors border ${
-                            isLight
+                          className={`w-full h-11 pl-10 pr-10 rounded-xl text-xs outline-none transition-colors border ${isLight
                               ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
                               : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
-                          }`}
+                            }`}
                         />
                         <button
                           type="button"
                           onClick={() => setShowNewPassword(!showNewPassword)}
-                          className={`absolute right-3.5 top-3.5 transition-colors ${
-                            isLight ? 'text-neutral-400 hover:text-neutral-700' : 'text-neutral-400 hover:text-white'
-                          }`}
+                          className={`absolute right-3.5 top-3.5 transition-colors ${isLight ? 'text-neutral-400 hover:text-neutral-700' : 'text-neutral-400 hover:text-white'
+                            }`}
                           aria-label={showNewPassword ? 'Hide password' : 'Show password'}
                         >
                           {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -945,9 +925,8 @@ export default function AdminLoginPage() {
                     {/* Confirm Password */}
                     <div>
                       <label
-                        className={`text-xs font-semibold block mb-1.5 ${
-                          isLight ? 'text-neutral-700' : 'text-neutral-300'
-                        }`}
+                        className={`text-xs font-semibold block mb-1.5 ${isLight ? 'text-neutral-700' : 'text-neutral-300'
+                          }`}
                       >
                         Confirm New Password
                       </label>
@@ -959,18 +938,16 @@ export default function AdminLoginPage() {
                           value={confirmPassword}
                           onChange={(e) => setConfirmPassword(e.target.value)}
                           placeholder="Re-enter your new password"
-                          className={`w-full h-11 pl-10 pr-10 rounded-xl text-xs outline-none transition-colors border ${
-                            isLight
+                          className={`w-full h-11 pl-10 pr-10 rounded-xl text-xs outline-none transition-colors border ${isLight
                               ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
                               : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
-                          }`}
+                            }`}
                         />
                         <button
                           type="button"
                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                          className={`absolute right-3.5 top-3.5 transition-colors ${
-                            isLight ? 'text-neutral-400 hover:text-neutral-700' : 'text-neutral-400 hover:text-white'
-                          }`}
+                          className={`absolute right-3.5 top-3.5 transition-colors ${isLight ? 'text-neutral-400 hover:text-neutral-700' : 'text-neutral-400 hover:text-white'
+                            }`}
                           aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
                         >
                           {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -986,18 +963,18 @@ export default function AdminLoginPage() {
                           setForgotStep('verify');
                           setErrorMsg(null);
                           setSuccessMsg(null);
+                          setIsResetRedirecting(false);
                         }}
-                        className={`flex-1 h-11 rounded-xl border text-xs font-semibold cursor-pointer transition-colors ${
-                          isLight
+                        className={`flex-1 h-11 rounded-xl border text-xs font-semibold cursor-pointer transition-colors ${isLight
                             ? 'bg-neutral-100 hover:bg-neutral-200 border-neutral-200 text-neutral-700'
                             : 'bg-white/5 border-white/10 text-white hover:bg-white/10'
-                        }`}
+                          }`}
                       >
                         Back
                       </button>
                       <button
                         type="submit"
-                        disabled={isLoading || Boolean(successMsg && !errorMsg)}
+                        disabled={isLoading || isResetRedirecting}
                         className="flex-[2] h-11 rounded-xl bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 active:scale-[0.99]"
                       >
                         {isLoading ? (
@@ -1005,7 +982,7 @@ export default function AdminLoginPage() {
                             <Loader2 className="w-4 h-4 animate-spin" />
                             <span>Updating Password...</span>
                           </>
-                        ) : successMsg ? (
+                        ) : isResetRedirecting ? (
                           <>
                             <Loader2 className="w-4 h-4 animate-spin" />
                             <span>Opening Dashboard...</span>
@@ -1030,9 +1007,8 @@ export default function AdminLoginPage() {
               <form onSubmit={handleStaffLogin} className="flex flex-col gap-4">
                 <div>
                   <label
-                    className={`text-xs font-semibold block mb-1.5 ${
-                      isLight ? 'text-neutral-700' : 'text-neutral-300'
-                    }`}
+                    className={`text-xs font-semibold block mb-1.5 ${isLight ? 'text-neutral-700' : 'text-neutral-300'
+                      }`}
                   >
                     Staff Username or Phone Number
                   </label>
@@ -1048,20 +1024,18 @@ export default function AdminLoginPage() {
                         if (e.key === 'Enter') handleStaffLogin(e);
                       }}
                       placeholder="e.g. username or +251..."
-                      className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
-                        isLight
+                      className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${isLight
                           ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
                           : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
-                      }`}
+                        }`}
                     />
                   </div>
                 </div>
 
                 <div>
                   <label
-                    className={`text-xs font-semibold block mb-1.5 ${
-                      isLight ? 'text-neutral-700' : 'text-neutral-300'
-                    }`}
+                    className={`text-xs font-semibold block mb-1.5 ${isLight ? 'text-neutral-700' : 'text-neutral-300'
+                      }`}
                   >
                     Staff Password / PIN
                   </label>
@@ -1077,20 +1051,18 @@ export default function AdminLoginPage() {
                         if (e.key === 'Enter') handleStaffLogin(e);
                       }}
                       placeholder="Enter staff password or PIN"
-                      className={`w-full h-11 pl-10 pr-10 rounded-xl text-xs outline-none transition-colors border ${
-                        isLight
+                      className={`w-full h-11 pl-10 pr-10 rounded-xl text-xs outline-none transition-colors border ${isLight
                           ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
                           : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
-                      }`}
+                        }`}
                     />
                     <button
                       type="button"
                       onClick={() => setShowStaffPassword(!showStaffPassword)}
-                      className={`absolute right-3.5 top-3.5 transition-colors ${
-                        isLight
+                      className={`absolute right-3.5 top-3.5 transition-colors ${isLight
                           ? 'text-neutral-400 hover:text-neutral-700'
                           : 'text-neutral-400 hover:text-white'
-                      }`}
+                        }`}
                       aria-label={showStaffPassword ? 'Hide password' : 'Show password'}
                     >
                       {showStaffPassword ? (
@@ -1101,9 +1073,8 @@ export default function AdminLoginPage() {
                     </button>
                   </div>
                   <p
-                    className={`text-[11px] mt-1.5 flex items-center gap-1 ${
-                      isLight ? 'text-neutral-500' : 'text-neutral-400'
-                    }`}
+                    className={`text-[11px] mt-1.5 flex items-center gap-1 ${isLight ? 'text-neutral-500' : 'text-neutral-400'
+                      }`}
                   >
                     <HelpCircle className="w-3 h-3 text-amber-500 flex-shrink-0" />
                     <span>Forgot your staff password? Contact your restaurant owner to reset it.</span>

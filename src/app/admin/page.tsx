@@ -592,7 +592,7 @@ export default function AdminDashboardPage() {
     <div
       data-admin-theme={adminTheme}
       data-hydrated={isHydrated ? 'true' : undefined}
-      className="min-h-screen md:h-screen md:overflow-hidden bg-[#0C0D11] text-white flex flex-col md:flex-row selection:bg-amber-500 selection:text-black"
+      className="admin-layout-root min-h-screen md:h-screen md:overflow-hidden bg-[#0C0D11] text-white flex flex-col md:flex-row selection:bg-amber-500 selection:text-black print:min-h-0 print:h-auto print:overflow-visible print:bg-white print:text-black"
     >
       {/* DESKTOP LEFT SIDEBAR */}
       <AdminSidebar
@@ -617,7 +617,7 @@ export default function AdminDashboardPage() {
       />
 
       {/* MAIN VIEWPORT CONTAINER */}
-      <div className="flex-1 flex flex-col min-w-0 md:h-screen md:overflow-hidden pb-16 md:pb-0">
+      <div className="admin-main-viewport flex-1 flex flex-col min-w-0 md:h-screen md:overflow-hidden pb-16 md:pb-0 print:h-auto print:min-h-0 print:overflow-visible print:pb-0">
         {/* TOP ADMIN HEADER BAR */}
         <header className="sticky top-0 md:static flex-shrink-0 z-30 border-b border-white/10 px-3 sm:px-6 md:px-8 py-2.5 sm:py-3.5 flex items-center justify-between bg-[#0C0D11]/90 backdrop-blur-md">
           {/* Left: Mobile Title / Brand */}
@@ -744,8 +744,8 @@ export default function AdminDashboardPage() {
         )}
 
         {/* SECTION VIEW CONTAINER */}
-        <main className="flex-1 w-full md:overflow-y-auto admin-scroll">
-          <div className="max-w-7xl w-full mx-auto px-4 md:px-8 py-6 pb-28 md:pb-8">
+        <main className="flex-1 w-full md:overflow-y-auto admin-scroll print:overflow-visible print:h-auto print:p-0">
+          <div className="admin-content-container max-w-7xl w-full mx-auto px-4 md:px-8 py-6 pb-28 md:pb-8 print:p-0 print:m-0 print:max-w-none">
             {/* SECTION 1: HOME (Owner only) */}
           {activeSection === 'home' && userRole === 'owner' && (
             <HomeDashboard
@@ -818,6 +818,7 @@ export default function AdminDashboardPage() {
             <DesignStudio
               restaurant={restaurant}
               menuItems={menuItems}
+              categories={categories}
               onSaveRestaurant={handleSaveRestaurantSettings}
               onShowToast={showToast}
             />
