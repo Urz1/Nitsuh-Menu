@@ -809,6 +809,7 @@ export function ClientMenuContainer({
       <HeroFoodBanner
         locale={locale}
         offers={activeOffers}
+        menuItems={items}
         onSelectCategory={(catId) => {
           triggerHaptic(12);
           if (catId === 'offers') {

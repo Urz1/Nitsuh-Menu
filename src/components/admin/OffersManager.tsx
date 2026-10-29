@@ -774,6 +774,37 @@ export function OffersManager({
 
                       <p className="text-xs text-neutral-400 mt-1 line-clamp-1">{offer.description}</p>
 
+                      {/* Applicable Target Scope Badge */}
+                      {(() => {
+                        let scopeSummary = 'All Menu Dishes';
+                        if (offer.scope_type === 'items') {
+                          const targetDishes = (offer.item_ids || [])
+                            .map((id) => menuItems.find((m) => m.id === id)?.name)
+                            .filter(Boolean);
+                          if (targetDishes.length === 1) {
+                            scopeSummary = `Applies to: ${targetDishes[0]}`;
+                          } else if (targetDishes.length > 1) {
+                            scopeSummary = `Applies to ${targetDishes.length} dishes: ${targetDishes.slice(0, 2).join(', ')}${
+                              targetDishes.length > 2 ? ` +${targetDishes.length - 2} more` : ''
+                            }`;
+                          } else {
+                            scopeSummary = 'Specific dishes (none selected)';
+                          }
+                        } else if (offer.scope_type === 'categories') {
+                          const targetCats = (offer.category_ids || [])
+                            .map((id) => categories.find((c) => c.id === id)?.name)
+                            .filter(Boolean);
+                          scopeSummary = targetCats.length > 0 ? `Applies to categories: ${targetCats.join(', ')}` : 'Categories';
+                        }
+                        return (
+                          <div className="mt-1.5 flex items-center gap-1.5 flex-wrap">
+                            <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/25 text-amber-300">
+                              🎯 {scopeSummary}
+                            </span>
+                          </div>
+                        );
+                      })()}
+
                       <div className="flex items-center gap-3 text-[11px] text-neutral-400 mt-2 flex-wrap">
                         <span className="inline-flex items-center gap-1">
                           <Clock className="w-3 h-3 text-neutral-400" />
@@ -1254,6 +1285,42 @@ export function OffersManager({
                         </div>
                       </div>
                     )}
+                    {/* Dish-Title Sync Helper */}
+                    {selectedItemIds.length > 0 && (
+                      <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between gap-3 text-xs">
+                        <div className="text-amber-200">
+                          <span className="font-bold block text-amber-300">
+                            💡 Selected {selectedItemIds.length} {selectedItemIds.length === 1 ? 'dish' : 'dishes'}
+                          </span>
+                          <span className="text-[11px] text-amber-200/80">
+                            Want your Offer Title & Description to match the selected dish automatically?
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            triggerHaptic(10);
+                            const names = selectedItemIds
+                              .map((id) => menuItems.find((m) => m.id === id)?.name)
+                              .filter(Boolean);
+                            if (names.length === 1) {
+                              const discountStr = discountType === 'percentage' ? `${discountValue}% Off` : `Save ${restaurant.currency} ${discountValue} on`;
+                              setTitle(`Afternoon Happy Hour: ${discountStr} ${names[0]}`);
+                              setDescription(`Enjoy special promotional savings on our freshly crafted ${names[0]}!`);
+                              setBannerText(`🍹 ${discountStr} ${names[0]} until late.`);
+                            } else if (names.length > 1) {
+                              const discountStr = discountType === 'percentage' ? `${discountValue}% Off` : `Special Savings on`;
+                              setTitle(`${discountStr} Selected Specials`);
+                              setDescription(`Enjoy discounts on ${names.slice(0, 3).join(', ')}${names.length > 3 ? ' & more' : ''}.`);
+                              setBannerText(`🔥 Special discounts on ${names.slice(0, 2).join(', ')}.`);
+                            }
+                          }}
+                          className="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs whitespace-nowrap cursor-pointer transition-colors shadow-sm"
+                        >
+                          Sync Title to Dish
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -1427,6 +1494,13 @@ export function OffersManager({
                         </span>
                         <span className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-neutral-300">
                           {useTimeWindow ? `${startTime} – ${endTime}` : 'All Day'}
+                        </span>
+                        <span className="px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 font-semibold">
+                          {effectiveScopeType === 'items'
+                            ? `🎯 ${selectedItemIds.length} Dish(es) Targeted`
+                            : effectiveScopeType === 'categories'
+                            ? `🎯 ${selectedCategoryIds.length} Category(ies) Targeted`
+                            : '🎯 All Menu Dishes'}
                         </span>
                       </div>
                     </div>

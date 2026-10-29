@@ -114,15 +114,16 @@ const AUTHENTIC_HERO_SLIDES: BannerSlide[] = [
   },
 ];
 
-import { Offer } from '@/types/database';
+import { Offer, MenuItem } from '@/types/database';
 
 interface HeroFoodBannerProps {
   locale?: Language | string;
   offers?: Offer[];
+  menuItems?: MenuItem[];
   onSelectCategory?: (categoryId: string) => void;
 }
 
-export function HeroFoodBanner({ locale = 'en', offers = [], onSelectCategory }: HeroFoodBannerProps) {
+export function HeroFoodBanner({ locale = 'en', offers = [], menuItems = [], onSelectCategory }: HeroFoodBannerProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
@@ -136,32 +137,52 @@ export function HeroFoodBanner({ locale = 'en', offers = [], onSelectCategory }:
     const liveOfferSlides: BannerSlide[] = (offers || [])
       .filter((o) => !o.is_paused && o.status === 'live')
       .slice(0, 3)
-      .map((o) => ({
-        id: `slide-offer-${o.id}`,
-        badge: {
-          en: o.badge_text || 'SPECIAL OFFER',
-          am: 'ልዩ ቅናሽ',
-        },
-        title: {
-          en: o.title,
-          am: o.title,
-        },
-        description: {
-          en: o.description || 'Exclusive limited-time special offer at Nitsuh Cafe & Restaurant.',
-          am: o.description || 'ልዩ የቅናሽ ምርጫ በንፁህ ካፌ እና ሬስቶራንት።',
-        },
-        cta: {
-          en: o.banner_link_text || 'View Offer',
-          am: 'ቅናሹን ይመልከቱ',
-        },
-        imageUrl: '/images/categories/burger.jpg',
-        bgGradient: 'from-[#6B1800] via-[#8B2200] to-[#3A0A00]',
-        accentColor: '#F59E0B',
-        targetCategoryId: 'offers',
-      }));
+      .map((o) => {
+        // Resolve targeted dish image if available
+        let imageUrl = '/images/categories/burger.jpg';
+        if (menuItems && menuItems.length > 0) {
+          if (o.scope_type === 'items' && Array.isArray(o.item_ids) && o.item_ids.length > 0) {
+            const itemIds = o.item_ids;
+            const matched = menuItems.find((m) => itemIds.includes(m.id) && m.image_url);
+            if (matched && matched.image_url) {
+              imageUrl = matched.image_url;
+            }
+          } else if (o.scope_type === 'categories' && Array.isArray(o.category_ids) && o.category_ids.length > 0) {
+            const catIds = o.category_ids;
+            const matched = menuItems.find((m) => catIds.includes(m.category_id) && m.image_url);
+            if (matched && matched.image_url) {
+              imageUrl = matched.image_url;
+            }
+          }
+        }
+
+        return {
+          id: `slide-offer-${o.id}`,
+          badge: {
+            en: o.badge_text || 'SPECIAL OFFER',
+            am: 'ልዩ ቅናሽ',
+          },
+          title: {
+            en: o.title,
+            am: o.title,
+          },
+          description: {
+            en: o.description || 'Exclusive limited-time special offer at Nitsuh Cafe & Restaurant.',
+            am: o.description || 'ልዩ የቅናሽ ምርጫ በንፁህ ካፌ እና ሬስቶራንት።',
+          },
+          cta: {
+            en: o.banner_link_text || 'View Offer',
+            am: 'ቅናሹን ይመልከቱ',
+          },
+          imageUrl,
+          bgGradient: 'from-[#6B1800] via-[#8B2200] to-[#3A0A00]',
+          accentColor: '#F59E0B',
+          targetCategoryId: 'offers',
+        };
+      });
 
     return liveOfferSlides.length > 0 ? [...liveOfferSlides, ...AUTHENTIC_HERO_SLIDES] : AUTHENTIC_HERO_SLIDES;
-  }, [offers]);
+  }, [offers, menuItems]);
 
   // Keep currentIdx valid if slides change
   useEffect(() => {

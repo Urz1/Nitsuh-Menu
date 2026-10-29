@@ -6,7 +6,6 @@ import {
   SlidersHorizontal,
   Tag,
   Leaf,
-  ChefHat,
   ArrowDownNarrowWide,
   ArrowUpNarrowWide,
   Award,
@@ -51,16 +50,31 @@ export function FilterSheet({
   const t = TRANSLATIONS[currentLocale] || TRANSLATIONS.en;
   const isAm = currentLocale === 'am';
 
-  const DIETARY_OPTIONS: { id: DietaryFilter; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-    { id: 'fasting', label: isAm ? 'የጾም (Fasting)' : t.filterFasting, icon: Leaf },
-    { id: 'chefsPick', label: isAm ? 'የሼፍ ምርጥ' : t.filterChefsPick, icon: ChefHat },
-  ];
-
-  const SORT_OPTIONS: { id: SortOrder; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-    { id: 'featured', label: isAm ? 'ተመራጭ እና ታዋቂ' : t.sortFeatured, icon: Award },
-    { id: 'price-asc', label: isAm ? 'ዋጋ፡ ከዝቅተኛ ወደ ከፍተኛ' : t.sortPriceAsc, icon: ArrowDownNarrowWide },
-    { id: 'price-desc', label: isAm ? 'ዋጋ፡ ከከፍተኛ ወደ ዝቅተኛ' : t.sortPriceDesc, icon: ArrowUpNarrowWide },
-    { id: 'name-asc', label: isAm ? 'በፊደል ቅደም ተከተል' : t.sortNameAsc, icon: ArrowDownAZ },
+  const SORT_OPTIONS: { id: SortOrder; label: string; desc: string; icon: React.ComponentType<{ className?: string }> }[] = [
+    {
+      id: 'featured',
+      label: isAm ? 'ተመራጭ እና ታዋቂ' : 'Featured & Popular',
+      desc: isAm ? 'ከፍተኛ የደንበኞች ደረጃ፣ ግምገማ እና የትዕዛዝ ተወዳጅነት' : 'Ranked by guest ratings, review volume & orders',
+      icon: Award,
+    },
+    {
+      id: 'price-asc',
+      label: isAm ? 'ዋጋ፡ ከዝቅተኛ ወደ ከፍተኛ' : t.sortPriceAsc,
+      desc: isAm ? 'ተመጣጣኝ ዋጋ ያላቸው ምግቦች በመጀመሪያ' : 'Lowest price first',
+      icon: ArrowDownNarrowWide,
+    },
+    {
+      id: 'price-desc',
+      label: isAm ? 'ዋጋ፡ ከከፍተኛ ወደ ዝቅተኛ' : t.sortPriceDesc,
+      desc: isAm ? 'ከፍተኛ ዋጋ ያላቸው ምግቦች በመጀመሪያ' : 'Highest price first',
+      icon: ArrowUpNarrowWide,
+    },
+    {
+      id: 'name-asc',
+      label: isAm ? 'በፊደል ቅደም ተከተል' : t.sortNameAsc,
+      desc: isAm ? 'ከሀ እስከ ፖ (A እስከ Z)' : 'Alphabetical order',
+      icon: ArrowDownAZ,
+    },
   ];
 
   const activeCount =
@@ -103,7 +117,7 @@ export function FilterSheet({
               <button
                 type="button"
                 onClick={handleReset}
-                className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors px-2 py-1 rounded-md"
+                className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors px-2 py-1 rounded-md cursor-pointer"
               >
                 <RotateCcw className="w-3 h-3" />
                 <span>{isAm ? 'አጽዳ' : 'Reset'}</span>
@@ -111,7 +125,7 @@ export function FilterSheet({
             )}
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-[var(--surface)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] flex items-center justify-center transition-colors active:scale-95"
+              className="w-8 h-8 rounded-full bg-[var(--surface)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] flex items-center justify-center transition-colors active:scale-95 cursor-pointer"
               aria-label="Close"
             >
               <X className="w-4 h-4" />
@@ -132,7 +146,7 @@ export function FilterSheet({
                 triggerHaptic(8);
                 onFilterChange(activeFilter === 'onOffer' ? 'all' : 'onOffer');
               }}
-              className={`w-full p-3 rounded-xl border flex items-center justify-between transition-all active:scale-[0.99] ${
+              className={`w-full p-3 rounded-xl border flex items-center justify-between transition-all active:scale-[0.99] cursor-pointer ${
                 activeFilter === 'onOffer'
                   ? 'border-[var(--primary)] bg-[var(--primary)]/10 text-[var(--foreground)] font-bold'
                   : 'border-[var(--border)] bg-[var(--surface)] text-[var(--muted-foreground)] font-medium hover:border-[var(--foreground)]/40'
@@ -164,45 +178,46 @@ export function FilterSheet({
             </button>
           </div>
 
-          {/* 2. Dietary Choices */}
+          {/* 2. Dietary Choices: Fasting Only */}
           <div>
             <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)] mb-2.5 block">
               {isAm ? 'የምግብ ዓይነት እና ጾም' : 'Dietary Preferences'}
             </span>
-            <div className="grid grid-cols-2 gap-2">
-              {DIETARY_OPTIONS.map((opt) => {
-                const Icon = opt.icon;
-                const isSelected = activeFilter === opt.id;
-
-                return (
-                  <button
-                    key={opt.id}
-                    type="button"
-                    onClick={() => {
-                      triggerHaptic(8);
-                      onFilterChange(isSelected ? 'all' : opt.id);
-                    }}
-                    className={`p-2.5 rounded-xl border text-left flex items-center justify-between transition-all active:scale-95 ${
-                      isSelected
-                        ? 'border-[var(--primary)] bg-[var(--primary)]/10 text-[var(--foreground)] font-bold shadow-2xs'
-                        : 'border-[var(--border)] bg-[var(--surface)] text-[var(--muted-foreground)] font-medium hover:border-[var(--foreground)]/30'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 min-w-0">
-                      <Icon
-                        className={`w-4 h-4 flex-shrink-0 ${
-                          isSelected ? 'text-[var(--primary)]' : 'text-[var(--muted-foreground)]'
-                        }`}
-                      />
-                      <span className="text-xs truncate">{opt.label}</span>
-                    </div>
-                    {isSelected && (
-                      <Check className="w-3.5 h-3.5 text-[var(--primary)] flex-shrink-0" />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+            <button
+              type="button"
+              onClick={() => {
+                triggerHaptic(8);
+                onFilterChange(activeFilter === 'fasting' ? 'all' : 'fasting');
+              }}
+              className={`w-full p-3 rounded-xl border flex items-center justify-between transition-all active:scale-[0.99] cursor-pointer ${
+                activeFilter === 'fasting'
+                  ? 'border-emerald-600 bg-emerald-600/10 text-[var(--foreground)] font-bold shadow-2xs'
+                  : 'border-[var(--border)] bg-[var(--surface)] text-[var(--muted-foreground)] font-medium hover:border-[var(--foreground)]/30'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div
+                  className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                    activeFilter === 'fasting'
+                      ? 'bg-emerald-600 text-white'
+                      : 'bg-[var(--card)] text-emerald-600 border border-[var(--border)]'
+                  }`}
+                >
+                  <Leaf className="w-4 h-4" />
+                </div>
+                <div className="text-left">
+                  <p className="text-sm font-bold text-[var(--foreground)]">
+                    {isAm ? 'የጾም ምግቦች (Fasting / Tsom)' : 'Fasting (Tsom)'}
+                  </p>
+                  <p className="text-[11px] text-[var(--muted-foreground)]">
+                    {isAm ? 'ከስጋ እና የወተት ተዋጽኦ ነፃ የሆኑ ምግቦች' : '100% plant-based, meat & dairy free dishes'}
+                  </p>
+                </div>
+              </div>
+              {activeFilter === 'fasting' && (
+                <Check className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+              )}
+            </button>
           </div>
 
           {/* 3. Sort Options */}
@@ -223,22 +238,25 @@ export function FilterSheet({
                       triggerHaptic(8);
                       onSortChange(sort.id);
                     }}
-                    className={`w-full p-2.5 rounded-xl border flex items-center justify-between transition-all active:scale-[0.99] ${
+                    className={`w-full p-2.5 rounded-xl border flex items-center justify-between transition-all active:scale-[0.99] cursor-pointer ${
                       isSelected
                         ? 'border-[var(--primary)] bg-[var(--primary)]/10 text-[var(--foreground)] font-bold'
                         : 'border-[var(--border)] bg-[var(--surface)] text-[var(--muted-foreground)] font-medium hover:border-[var(--foreground)]/30'
                     }`}
                   >
-                    <div className="flex items-center gap-2.5">
+                    <div className="flex items-center gap-2.5 min-w-0">
                       <Icon
-                        className={`w-4 h-4 ${
+                        className={`w-4 h-4 flex-shrink-0 ${
                           isSelected ? 'text-[var(--primary)]' : 'text-[var(--muted-foreground)]'
                         }`}
                       />
-                      <span className="text-xs">{sort.label}</span>
+                      <div className="min-w-0 text-left">
+                        <p className="text-xs font-bold leading-tight">{sort.label}</p>
+                        <p className="text-[10px] text-[var(--muted-foreground)] line-clamp-1 mt-0.5">{sort.desc}</p>
+                      </div>
                     </div>
                     {isSelected && (
-                      <Check className="w-3.5 h-3.5 text-[var(--primary)]" />
+                      <Check className="w-3.5 h-3.5 text-[var(--primary)] flex-shrink-0" />
                     )}
                   </button>
                 );

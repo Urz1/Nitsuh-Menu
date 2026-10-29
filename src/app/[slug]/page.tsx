@@ -8,6 +8,7 @@ import {
   getOffers,
   getDishReviews,
   getReviewSettings,
+  getRestaurantOrders,
 } from '@/lib/data-provider';
 import { ThemeManager } from '@/components/ThemeManager';
 import { ClientMenuContainer } from '@/components/ClientMenuContainer';
@@ -70,12 +71,13 @@ export default async function RestaurantMenuPage({ params }: PageProps) {
     notFound();
   }
 
-  const [categories, items, offers, reviews, reviewSettings] = await Promise.all([
+  const [categories, items, offers, reviews, reviewSettings, orders] = await Promise.all([
     getMenuCategories(restaurant.id),
     getMenuItems(restaurant.id),
     getOffers(restaurant.id),
     getDishReviews(restaurant.id),
     getReviewSettings(restaurant.id),
+    getRestaurantOrders(restaurant.id),
   ]);
 
   // Schema.org Structured Data for Google Search

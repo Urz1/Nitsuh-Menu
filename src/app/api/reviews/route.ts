@@ -4,12 +4,17 @@ import { DishReview } from '@/types/database';
 
 export const dynamic = 'force-dynamic';
 
+function isUuid(val?: string | null): boolean {
+  if (!val) return false;
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(val);
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const restaurantId = searchParams.get('restaurantId');
+  const rawRestaurantId = searchParams.get('restaurantId');
   const itemId = searchParams.get('itemId');
 
-  if (!restaurantId) {
+  if (!rawRestaurantId) {
     return NextResponse.json({ error: 'restaurantId is required' }, { status: 400 });
   }
 
@@ -17,6 +22,16 @@ export async function GET(request: Request) {
     try {
       const sql = getNeon();
       if (sql) {
+        let restaurantId = rawRestaurantId;
+        if (!isUuid(restaurantId)) {
+          const rest = await sql`
+            SELECT id FROM public.restaurants WHERE slug = ${rawRestaurantId} LIMIT 1
+          `;
+          if (rest && rest.length > 0) {
+            restaurantId = rest[0].id;
+          }
+        }
+
         let rows;
         if (itemId) {
           rows = await sql`

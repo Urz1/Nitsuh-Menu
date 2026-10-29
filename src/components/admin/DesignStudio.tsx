@@ -802,7 +802,7 @@ export function DesignStudio({
               <div>
                 <h3 className="text-sm font-bold text-white">Custom Labels & Service Messaging</h3>
                 <p className="text-xs text-neutral-400 mt-0.5">
-                  Rename every button and label to fit your restaurant voice (e.g. "Ring Captain" instead of "Call Waiter").
+                  Rename buttons and labels to fit your restaurant voice.
                 </p>
               </div>
 
@@ -840,7 +840,7 @@ export function DesignStudio({
 
               <div>
                 <label className="block text-xs font-semibold text-neutral-300 mb-1">
-                  Custom "We're Closed" Message
+                  Custom &quot;We&apos;re Closed&quot; Message
                 </label>
                 <textarea
                   rows={2}
@@ -1070,7 +1070,7 @@ export function DesignStudio({
                   borderRadius: simButtonRadius,
                 }}
               >
-                <span>⭐ Chef's Picks</span>
+                <span>⭐ Chef&apos;s Picks</span>
               </span>
             </div>
 
@@ -1117,7 +1117,7 @@ export function DesignStudio({
                             className="absolute top-1.5 left-1.5 px-1.5 py-0.2 rounded-full text-[8px] font-extrabold uppercase tracking-wider text-white shadow-xs"
                             style={{ backgroundColor: themeConfig.primaryColor }}
                           >
-                            Chef's Pick
+                            Chef&apos;s Pick
                           </span>
                         ) : item.tags?.includes('fasting') ? (
                           <span className="absolute top-1.5 left-1.5 px-1.5 py-0.2 rounded-full text-[8px] font-extrabold uppercase tracking-wider bg-emerald-600 text-white shadow-xs">

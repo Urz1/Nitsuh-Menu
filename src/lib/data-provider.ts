@@ -3237,6 +3237,66 @@ export async function createOrder(input: CreateOrderInput): Promise<Order> {
   return newOrder;
 }
 
+export async function getRestaurantOrders(restaurantId: string): Promise<Order[]> {
+  const cacheKey = `orders_${restaurantId}`;
+  if (typeof window === 'undefined') {
+    const cachedEntry = serverDataCache.get(cacheKey);
+    if (cachedEntry && Date.now() - cachedEntry.timestamp < SERVER_DATA_CACHE_TTL_MS) {
+      return cachedEntry.data;
+    }
+  }
+
+  // 1. Client-side fetch
+  if (typeof window !== 'undefined') {
+    try {
+      const res = await fetch(`/api/orders?restaurantId=${encodeURIComponent(restaurantId)}`);
+      if (res.ok) {
+        const liveOrders = (await res.json()) as Order[];
+        if (Array.isArray(liveOrders)) {
+          inMemoryOrders = liveOrders;
+          return liveOrders;
+        }
+      }
+    } catch {}
+  }
+
+  // 2. Server-side Neon fetch
+  if (hasNeon()) {
+    try {
+      const sql = getNeon();
+      if (sql) {
+        let targetId = restaurantId;
+        const rows = await sql`
+          SELECT * FROM public.orders
+          WHERE restaurant_id = ${targetId}
+          ORDER BY created_at DESC
+          LIMIT 200
+        `;
+        const mapped: Order[] = (rows || []).map((r: any) => ({
+          id: r.id,
+          restaurant_id: r.restaurant_id,
+          table_number: r.table_number,
+          items: typeof r.items === 'string' ? JSON.parse(r.items) : (r.items || []),
+          subtotal: Number(r.subtotal || 0),
+          tax: Number(r.tax || 0),
+          total: Number(r.total || 0),
+          status: r.status,
+          notes: r.notes || undefined,
+          created_at: r.created_at ? new Date(r.created_at).toISOString() : new Date().toISOString(),
+          updated_at: r.updated_at ? new Date(r.updated_at).toISOString() : new Date().toISOString(),
+        }));
+        if (typeof window === 'undefined') {
+          serverDataCache.set(cacheKey, { data: mapped, timestamp: Date.now() });
+        }
+        inMemoryOrders = mapped;
+        return mapped;
+      }
+    } catch {}
+  }
+
+  return inMemoryOrders;
+}
+
 export async function createServiceRequest(input: ServiceRequestInput): Promise<ServiceRequest> {
   // Rate Limiting Protection (Anti-Spam waiter call flooding)
   const rateLimitKey = `service:${input.restaurant_id}:${input.table_number || 'service'}`;
