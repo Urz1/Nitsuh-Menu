@@ -29,7 +29,7 @@ export function OrderBar({
 
   return (
     <aside
-      className="fixed left-1/2 -translate-x-1/2 w-full max-w-lg md:max-w-xl lg:max-w-2xl z-40 flex justify-center px-3 sm:px-4 pointer-events-none animate-in slide-in-from-bottom duration-300"
+      className="fixed left-1/2 -translate-x-1/2 w-full max-w-lg z-40 md:hidden flex justify-center px-3 sm:px-4 pointer-events-none animate-in slide-in-from-bottom duration-300"
       style={{ bottom: 'calc(env(safe-area-inset-bottom, 0px) + 4.5rem)' }}
     >
       <button

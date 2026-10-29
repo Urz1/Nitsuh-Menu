@@ -31,9 +31,9 @@ export function StickySearchBar({
 
   return (
     <div className="bg-transparent px-3.5 sm:px-6 lg:px-8 py-1.5 border-0 transition-colors">
-      <div className="max-w-7xl mx-auto flex items-center gap-2.5">
+      <div className="max-w-7xl mx-auto flex items-center justify-center gap-2.5">
         {/* Search Input on Canvas */}
-        <div className="relative flex-1 flex items-center">
+        <div className="relative flex-1 max-w-full md:max-w-2xl flex items-center">
           <Search className="absolute left-3.5 w-4 h-4 text-stone-400 dark:text-stone-500 pointer-events-none" />
           <input
             type="search"

@@ -3,15 +3,25 @@
 import React, { useState, useEffect } from 'react';
 import { Restaurant } from '@/types/database';
 import { Language, TRANSLATIONS } from '@/lib/translations';
-import { triggerHaptic } from '@/lib/utils';
+import { formatMoney, triggerHaptic } from '@/lib/utils';
 import Image from 'next/image';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, Utensils, Tag, Heart, Info, ShoppingBag } from 'lucide-react';
+import { BottomNavTab } from './BottomNavBar';
 
 interface SlimHeaderProps {
   restaurant: Restaurant;
   locale: Language;
   onLocaleChange: (lang: Language) => void;
   onLogoTap?: () => void;
+  activeTab?: BottomNavTab;
+  onTabChange?: (tab: BottomNavTab) => void;
+  offersCount?: number;
+  favoritesCount?: number;
+  cartCount?: number;
+  cartSubtotal?: number;
+  currencySymbol?: string;
+  onOpenCart?: () => void;
+  onOpenInfo?: () => void;
 }
 
 export function SlimHeader({
@@ -19,8 +29,18 @@ export function SlimHeader({
   locale,
   onLocaleChange,
   onLogoTap,
+  activeTab = 'menu',
+  onTabChange,
+  offersCount = 0,
+  favoritesCount = 0,
+  cartCount = 0,
+  cartSubtotal = 0,
+  currencySymbol = 'ETB',
+  onOpenCart,
+  onOpenInfo,
 }: SlimHeaderProps) {
   const t = TRANSLATIONS[locale] || TRANSLATIONS.en;
+  const isAm = locale === 'am';
   const [themeMode, setThemeMode] = useState<'light' | 'dark'>('light');
 
   // Detect current theme mode on mount
@@ -59,15 +79,10 @@ export function SlimHeader({
     }
   };
 
-  const greeting =
-    locale === 'am'
-      ? 'ሰላም፣ እንኳን ደህና መጡ! 👋'
-      : 'Hello, Food Lover! 👋';
-
   return (
     <header className="bg-transparent border-0 transition-colors select-none pt-2.5 pb-1">
       <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 flex items-center justify-between gap-2.5">
-        {/* Left: Brand Logo Lockup with Inline Live Status (Un-sandwiched, ample breathing room) */}
+        {/* Left: Brand Logo Lockup with Inline Live Status */}
         <div className="min-w-0 flex items-center gap-2.5">
           <h1 className="m-0 p-0 leading-none flex items-center">
             <button
@@ -87,7 +102,7 @@ export function SlimHeader({
                 className="h-8 sm:h-9 w-auto object-contain dark:hidden pointer-events-none"
                 priority
               />
-              {/* Dark Mode Official Full Logo (Crisp warm-white typography) */}
+              {/* Dark Mode Official Full Logo */}
               <Image
                 src="/images/brand/nitsuh-full-logo-dark.png"
                 alt={restaurant.name}
@@ -99,7 +114,7 @@ export function SlimHeader({
             </button>
           </h1>
 
-          {/* Inline Live Status Pill (Zero vertical clutter) */}
+          {/* Inline Live Status Pill */}
           <span
             className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border shadow-2xs ${
               restaurant.is_open
@@ -116,8 +131,117 @@ export function SlimHeader({
           </span>
         </div>
 
-        {/* Right Controls: Dark/Light Mode Toggle + Floating Language Switcher Pill */}
+        {/* Center: Desktop Navigation Links (Hidden on mobile) */}
+        {onTabChange && (
+          <nav className="hidden md:flex items-center gap-1 lg:gap-1.5" aria-label="Desktop primary navigation">
+            <button
+              type="button"
+              onClick={() => {
+                triggerHaptic(8);
+                onTabChange('menu');
+              }}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                activeTab === 'menu'
+                  ? 'bg-red-600 text-white shadow-xs'
+                  : 'text-stone-700 dark:text-stone-300 hover:bg-stone-200/60 dark:hover:bg-stone-800'
+              }`}
+            >
+              <Utensils className="w-3.5 h-3.5" />
+              <span>{isAm ? 'ሜኑ' : 'Menu'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                triggerHaptic(8);
+                onTabChange('offers');
+              }}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                activeTab === 'offers'
+                  ? 'bg-red-600 text-white shadow-xs'
+                  : 'text-stone-700 dark:text-stone-300 hover:bg-stone-200/60 dark:hover:bg-stone-800'
+              }`}
+            >
+              <Tag className="w-3.5 h-3.5" />
+              <span>{isAm ? 'ቅናሾች' : 'Offers'}</span>
+              {offersCount > 0 && (
+                <span
+                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-extrabold ${
+                    activeTab === 'offers' ? 'bg-white text-red-600' : 'bg-amber-400 text-black'
+                  }`}
+                >
+                  {offersCount}
+                </span>
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                triggerHaptic(8);
+                onTabChange('favorites');
+              }}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                activeTab === 'favorites'
+                  ? 'bg-red-600 text-white shadow-xs'
+                  : 'text-stone-700 dark:text-stone-300 hover:bg-stone-200/60 dark:hover:bg-stone-800'
+              }`}
+            >
+              <Heart className="w-3.5 h-3.5" />
+              <span>{isAm ? 'የተወደዱ' : 'Saved'}</span>
+              {favoritesCount > 0 && (
+                <span
+                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-extrabold ${
+                    activeTab === 'favorites'
+                      ? 'bg-white text-red-600'
+                      : 'bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300'
+                  }`}
+                >
+                  {favoritesCount}
+                </span>
+              )}
+            </button>
+
+            {onOpenInfo && (
+              <button
+                type="button"
+                onClick={() => {
+                  triggerHaptic(8);
+                  onOpenInfo();
+                }}
+                className="px-3.5 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 text-stone-700 dark:text-stone-300 hover:bg-stone-200/60 dark:hover:bg-stone-800 cursor-pointer"
+              >
+                <Info className="w-3.5 h-3.5" />
+                <span>{isAm ? 'ስለ ካፌው' : 'About'}</span>
+              </button>
+            )}
+          </nav>
+        )}
+
+        {/* Right Controls: Desktop Cart + Dark/Light Mode + Language Switcher */}
         <div className="flex items-center gap-2 flex-shrink-0">
+          {/* Desktop Cart Button */}
+          {onOpenCart && (
+            <button
+              type="button"
+              onClick={() => {
+                triggerHaptic(12);
+                onOpenCart();
+              }}
+              className="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-600 hover:bg-red-700 text-white text-xs font-bold shadow-xs transition-transform active:scale-95 cursor-pointer"
+              aria-label="View Order Cart"
+            >
+              <ShoppingBag className="w-3.5 h-3.5" />
+              <span>
+                {cartCount > 0
+                  ? `${cartCount} • ${formatMoney(cartSubtotal, currencySymbol)}`
+                  : isAm
+                  ? 'ትዕዛዝ'
+                  : 'My Order'}
+              </span>
+            </button>
+          )}
+
           {/* Quick Sun/Moon Theme Toggle */}
           <button
             type="button"

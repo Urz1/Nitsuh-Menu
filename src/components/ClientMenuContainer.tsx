@@ -796,6 +796,15 @@ export function ClientMenuContainer({
             );
           }}
           onLogoTap={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+          offersCount={activeOffers.length}
+          favoritesCount={favorites.size}
+          cartCount={totalCartCount}
+          cartSubtotal={cartPricing.netSubtotal}
+          currencySymbol={restaurant.currency || 'ETB'}
+          onOpenCart={() => setIsOrderSheetOpen(true)}
+          onOpenInfo={() => setIsInfoModalOpen(true)}
         />
 
         {/* 1.2 Sticky Search & Filter: Inline search pill + filter button matching reference */}

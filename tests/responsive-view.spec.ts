@@ -8,8 +8,16 @@ test.describe('Responsive Customer Dining Experience across Viewports', () => {
     // Wait for hydration and dishes to render
     await expect(page.locator('h1, h2:has-text("Breakfast /  breakfast"), h2:has-text("Breakfast / ቁርስ")').first()).toBeVisible({ timeout: 10000 });
 
-    // Hero food promo billboard is wide and expansive
-    const heroBanner = page.locator('[data-testid="hero-promo-banner"], aside:has-text("OFF")').first();
+    // Desktop top navigation is visible in SlimHeader
+    const desktopNav = page.locator('nav[aria-label="Desktop primary navigation"]');
+    await expect(desktopNav).toBeVisible();
+
+    // Floating mobile bottom navigation is HIDDEN on desktop
+    const mobileBottomNav = page.locator('nav[aria-label="Bottom Navigation"]');
+    await expect(mobileBottomNav).toBeHidden();
+
+    // Hero food promo billboard is wide, centered, and balanced
+    const heroBanner = page.locator('aside:has-text("OFF"), [class*="bg-gradient-to-br"]').first();
     await expect(heroBanner).toBeVisible();
 
     // Dish grid has 4 columns on desktop
@@ -55,13 +63,17 @@ test.describe('Responsive Customer Dining Experience across Viewports', () => {
 
     await expect(page.locator('article').first()).toBeVisible({ timeout: 10000 });
 
-    // Grid container uses grid-cols-2 base
+    // Grid container uses grid-cols-2 base on mobile
     const gridContainer = page.locator('#menu-items-anchor .grid').first();
     await expect(gridContainer).toBeVisible();
     await expect(gridContainer).toHaveClass(/grid-cols-2/);
 
-    // Bottom navigation bar is visible and docked
-    const bottomNav = page.locator('nav:has-text("Menu")');
+    // Bottom navigation bar is strictly VISIBLE and docked on mobile
+    const bottomNav = page.locator('nav[aria-label="Bottom Navigation"]');
     await expect(bottomNav).toBeVisible();
+
+    // Desktop top navigation is strictly HIDDEN on mobile
+    const desktopNav = page.locator('nav[aria-label="Desktop primary navigation"]');
+    await expect(desktopNav).toBeHidden();
   });
 });

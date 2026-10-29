@@ -6,7 +6,7 @@ import { Category, MenuItem } from '@/types/database';
 import { DietaryFilter } from '@/types/menu';
 import { Language, CATEGORY_TRANSLATIONS, TRANSLATIONS } from '@/lib/translations';
 import { triggerHaptic } from '@/lib/utils';
-import { Leaf, Check } from 'lucide-react';
+import { Leaf, Check, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface CategoryScrollSpyBarProps {
   categories: Category[];
@@ -202,6 +202,20 @@ export function CategoryScrollSpyBar({
     }
   }, [activeCategoryId]);
 
+  const handleScrollLeft = () => {
+    triggerHaptic(6);
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -280, behavior: 'smooth' });
+    }
+  };
+
+  const handleScrollRight = () => {
+    triggerHaptic(6);
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 280, behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="bg-transparent border-0 select-none transition-colors">
       {/* 1. Quick Fasting & On Offer 1-Tap Toggles */}
@@ -259,7 +273,17 @@ export function CategoryScrollSpyBar({
       </div>
 
       {/* 2. Horizontal Scrollable Circular Food Avatars (Airy Studio Cutout Style) */}
-      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 relative group/cat-strip">
+        {/* Desktop Prev Button (Hidden on mobile) */}
+        <button
+          type="button"
+          onClick={handleScrollLeft}
+          className="hidden md:flex absolute left-2 top-8 z-20 w-8 h-8 rounded-full bg-white dark:bg-[#1E1815] border border-stone-200/80 dark:border-stone-800 shadow-md text-stone-700 dark:text-stone-300 items-center justify-center hover:scale-110 active:scale-95 transition-all opacity-0 group-hover/cat-strip:opacity-100 cursor-pointer"
+          aria-label="Scroll categories left"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
+
         <div
           ref={scrollContainerRef}
           className="flex items-start gap-3 sm:gap-4 overflow-x-auto no-scrollbar scroll-smooth py-3 px-2"
@@ -355,6 +379,16 @@ export function CategoryScrollSpyBar({
             );
           })}
         </div>
+
+        {/* Desktop Next Button (Hidden on mobile) */}
+        <button
+          type="button"
+          onClick={handleScrollRight}
+          className="hidden md:flex absolute right-2 top-8 z-20 w-8 h-8 rounded-full bg-white dark:bg-[#1E1815] border border-stone-200/80 dark:border-stone-800 shadow-md text-stone-700 dark:text-stone-300 items-center justify-center hover:scale-110 active:scale-95 transition-all opacity-0 group-hover/cat-strip:opacity-100 cursor-pointer"
+          aria-label="Scroll categories right"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
       </div>
     </div>
   );

@@ -228,7 +228,7 @@ export function HeroFoodBanner({ locale = 'en', offers = [], onSelectCategory }:
   };
 
   return (
-    <div className="w-full px-3.5 sm:px-6 lg:px-8 pt-3 pb-1 select-none">
+    <div className="w-full max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 pt-3 pb-1 select-none">
       <div
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -240,7 +240,7 @@ export function HeroFoodBanner({ locale = 'en', offers = [], onSelectCategory }:
         <div className="absolute -top-16 -right-16 w-48 h-48 md:w-80 md:h-80 bg-white/10 rounded-full blur-2xl md:blur-3xl pointer-events-none" />
         <div className="absolute -bottom-16 -left-16 w-40 h-40 md:w-64 md:h-64 bg-black/20 rounded-full blur-xl md:blur-2xl pointer-events-none" />
 
-        <div className="relative z-10 flex items-center justify-between gap-4 md:gap-8">
+        <div className="relative z-10 max-w-5xl mx-auto flex items-center justify-between gap-4 sm:gap-6 md:gap-10">
           {/* Left Text Column */}
           <div className="flex-1 min-w-0 pr-1 md:pr-4">
             {/* Kicker badge */}

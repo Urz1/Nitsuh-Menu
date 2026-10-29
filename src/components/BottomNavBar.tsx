@@ -28,7 +28,7 @@ export function BottomNavBar({
 
   return (
     <nav
-      className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-lg md:max-w-xl lg:max-w-2xl z-40 bg-white/95 dark:bg-[#1E1815]/95 backdrop-blur-md border-t border-x border-stone-200/60 dark:border-stone-800/80 shadow-[0_-4px_24px_rgba(0,0,0,0.06)] dark:shadow-[0_-4px_24px_rgba(0,0,0,0.4)] select-none transition-colors rounded-t-3xl"
+      className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-lg z-40 md:hidden bg-white/95 dark:bg-[#1E1815]/95 backdrop-blur-md border-t border-x border-stone-200/60 dark:border-stone-800/80 shadow-[0_-4px_24px_rgba(0,0,0,0.06)] dark:shadow-[0_-4px_24px_rgba(0,0,0,0.4)] select-none transition-colors rounded-t-3xl"
       style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
       aria-label="Bottom Navigation"
     >
