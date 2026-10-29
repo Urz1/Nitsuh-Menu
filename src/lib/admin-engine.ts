@@ -132,22 +132,22 @@ export function classifyMenuMatrix(
     let badgeLabel = 'Regular';
     let suggestion = 'Performing consistently in its category.';
 
-    if (views >= 100 && orders >= 20) {
+    if ((rating >= 4.5 && views >= 20) || (orders >= 10 && rating >= 4.0)) {
       classification = 'star';
       badgeLabel = '⭐ Star';
-      suggestion = 'High views and top sales. Keep front and center on your menu top.';
-    } else if (views < 100 && orders >= 15) {
+      suggestion = 'High views and top ratings. Keep front and center on your menu top.';
+    } else if (rating >= 4.0 || orders >= 5) {
       classification = 'workhorse';
       badgeLabel = '🐎 Workhorse';
       suggestion = 'Consistent favorite. Consider pairing with drinks or featuring in combo deals.';
-    } else if (views < 80 && rating >= 4.5 && rating > 0) {
+    } else if (rating >= 4.5 && views < 20) {
       classification = 'hidden_gem';
       badgeLabel = '💎 Hidden Gem';
       suggestion = 'Loved by guests who try it! Move up in category order or feature as Chef Pick.';
-    } else if (views >= 100 && orders < 8) {
+    } else if (rating > 0 && rating < 3.5 && views >= 10) {
       classification = 'underperformer';
       badgeLabel = '📉 Underperformer';
-      suggestion = 'High diner interest but low orders. Consider reviewing pricing or photo.';
+      suggestion = 'High diner interest but lower guest rating. Consider reviewing preparation, photo, or pricing.';
     }
 
     return {

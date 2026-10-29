@@ -173,9 +173,11 @@ export interface AppTranslations {
   totalItemsLabel: string;
   noteLabel: string;
 
-  // Table QR Modal
+  // Table / Menu QR Modal
   tableQrTitle: string;
   tableQrDesc: string;
+  menuQrTitle: string;
+  menuQrDesc: string;
   copyMenuLink: string;
   linkCopied: string;
 }
@@ -249,7 +251,7 @@ const enTranslations: AppTranslations = {
     thankYouReviewTitle: 'Thank you for your review!',
     thankYouReviewDesc: 'Your honest feedback helps our culinary team maintain top quality dishes.',
     done: 'Done',
-    alreadyReviewedMsg: 'You have already reviewed this dish for this table session',
+    alreadyReviewedMsg: 'You have already reviewed this dish',
 
     reportTitle: 'Moderate Review',
     reportSubtitle: 'Why are you reporting this review?',
@@ -279,7 +281,7 @@ const enTranslations: AppTranslations = {
     offlineBadge: 'Offline Mode',
     comingSoonCalling: 'Digital waiter calling is coming soon. Please let your waiter know in person!',
     waiterAssistance: 'Ask Waiter',
-    tableQr: 'Table QR',
+    tableQr: 'Menu QR',
     menuQr: 'Menu QR',
     shareMenu: 'Share Menu',
     staffOwnerPortal: 'Staff & Owner Portal',
@@ -300,7 +302,7 @@ const enTranslations: AppTranslations = {
     themeClassicElegance: 'Classic Elegance',
     themeBoldDark: 'Bold Dark',
     themeWarmRustic: 'Warm Rustic',
-    tableNumberLabel: 'Table Number',
+    tableNumberLabel: 'Order Number',
     guestWifiLabel: 'Guest WiFi',
 
     starRatingLabels: ['', 'Needs Improvement', 'Fair', 'Good', 'Very Good', 'Exceptional!'],
@@ -327,23 +329,25 @@ const enTranslations: AppTranslations = {
     dishesOnOfferCount: 'Dishes on Offer',
 
     serviceAssistanceTitle: 'Server Assistance',
-    serviceAssistanceDesc: 'Tap a quick request below to alert your server immediately for',
+    serviceAssistanceDesc: 'Tap a quick request below to alert your server immediately',
     callWaiterTitle: 'Call Waiter',
     callWaiterDesc: 'Need help with recommendations or questions',
     requestWaterTitle: 'Request Water Refill',
-    requestWaterDesc: 'Sparkling or still water for the table',
+    requestWaterDesc: 'Sparkling or still water refill',
     extraCutleryTitle: 'Extra Cutlery / Napkins',
     extraCutleryDesc: 'Fresh forks, knives, spoons, or paper napkins',
     requestBillTitle: 'Request Bill / Check',
     requestBillDesc: 'Ready to complete your dining experience',
 
     serverSummaryTitle: 'SERVER SUMMARY',
-    dineInSeating: 'Dine-In Seating',
+    dineInSeating: 'Order Summary',
     totalItemsLabel: 'Total Items',
     noteLabel: 'Note',
 
-    tableQrTitle: 'Table QR Code',
+    tableQrTitle: 'Digital Menu QR Code',
     tableQrDesc: 'Scan with any camera to instantly load the digital menu for',
+    menuQrTitle: 'Digital Menu QR',
+    menuQrDesc: 'Scan with any phone camera to browse the live digital menu for',
     copyMenuLink: 'Copy Direct Menu Link',
     linkCopied: 'Link Copied!',
 };
@@ -420,7 +424,7 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     thankYouReviewTitle: 'ስለ አስተያየትዎ እናመሰግናለን!',
     thankYouReviewDesc: 'የእርስዎ እውነተኛ አስተያየት የሙያተኞቻችንን ጥራት ለማሻሻል ይረዳል።',
     done: 'ተጠናቋል',
-    alreadyReviewedMsg: 'ለዚህ ምግብ አስቀድመው በዚህ ጠረጴዛ አስተያየት ሰጥተዋል',
+    alreadyReviewedMsg: 'ለዚህ ምግብ አስቀድመው አስተያየት ሰጥተዋል',
 
     reportTitle: 'አስተያየትን ሪፖርት ያድርጉ',
     reportSubtitle: 'ይህንን አስተያየት ለምን ሪፖርት ማድረግ ፈለጉ?',
@@ -450,7 +454,7 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     offlineBadge: 'ከመስመር ውጭ',
     comingSoonCalling: 'በስልክ አስተናጋጅ መጥራት በቅርቡ ይጀምራል፤ እባክዎ በአካል ያነጋግሩን!',
     waiterAssistance: 'አስተናጋጅ ይጠይቁ',
-    tableQr: 'የጠረጴዛ QR',
+    tableQr: 'የሜኑ QR',
     menuQr: 'የሜኑ QR',
     shareMenu: 'ምናሌውን ያጋሩ',
     staffOwnerPortal: 'የሰራተኞች እና የባለቤት መግቢያ',
@@ -471,7 +475,7 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     themeClassicElegance: 'ክላሲክ ውበት',
     themeBoldDark: 'ደማቅ ጨለማ',
     themeWarmRustic: 'ሞቅ ያለ ባህላዊ',
-    tableNumberLabel: 'የጠረጴዛ ቁጥር',
+    tableNumberLabel: 'የትዕዛዝ ቁጥር',
     guestWifiLabel: 'የእንግዳ ዋይፋይ',
 
     starRatingLabels: ['', 'ማሻሻል ይፈልጋል', 'መካከለኛ', 'ጥሩ', 'በጣም ጥሩ', 'ድንቅ ጣዕም!'],
@@ -498,23 +502,25 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     dishesOnOfferCount: 'በቅናሽ ላይ ያሉ ምግቦች',
 
     serviceAssistanceTitle: 'የአስተናጋጅ ድጋፍ',
-    serviceAssistanceDesc: 'ለዚህ ጠረጴዛ አስተናጋጅ ለመጥራት ከታች ካሉት ይምረጡ፦',
+    serviceAssistanceDesc: 'አስተናጋጅ ለመጥራት ከታች ካሉት ይምረጡ፦',
     callWaiterTitle: 'አስተናጋጅ ጥራ',
     callWaiterDesc: 'ለጥያቄዎች ወይም ለምክር እገዛ ይፈልጋሉ',
     requestWaterTitle: 'የውሃ መጠጥ ሙላ',
-    requestWaterDesc: 'ለጠረጴዛ የሚሆን ንጹህ ውሃ',
+    requestWaterDesc: 'የሚጣፍጥ ንጹህ ውሃ',
     extraCutleryTitle: 'ተጨማሪ ሹካና ማንኪያ / ሶፍት',
     extraCutleryDesc: 'ንጹህ ሹካ፣ ማንኪያ ወይም የወረቀት ሶፍት',
     requestBillTitle: 'ሒሳብ ጥራ',
     requestBillDesc: 'የተመገቡትን ክፍያ ለመፈጸም',
 
     serverSummaryTitle: 'የአስተናጋጅ ማጠቃለያ',
-    dineInSeating: 'የመመገቢያ ጠረጴዛ',
+    dineInSeating: 'የትዕዛዝ ማጠቃለያ',
     totalItemsLabel: 'ጠቅላላ የምግብ ብዛት',
     noteLabel: 'ማስታወሻ',
 
-    tableQrTitle: 'የጠረጴዛ ኪው አር (QR) ኮድ',
+    tableQrTitle: 'የዲጂታል ሜኑ QR',
     tableQrDesc: 'በስልክዎ ካሜራ በመቃኘት በቀጥታ ዲጂታል ሜኑውን ይክፈቱ፦',
+    menuQrTitle: 'የዲጂታል ሜኑ QR',
+    menuQrDesc: 'በስልክዎ ካሜራ በመቃኘት በቀጥታ ዲጂታል ሜኑውን ይክፈቱ፦',
     copyMenuLink: 'የሜኑ ሊንክ ገልብጥ',
     linkCopied: 'ሊንኩ ተገልብጧል!',
   },
@@ -588,7 +594,7 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     thankYouReviewTitle: '¡Gracias por tu opinión!',
     thankYouReviewDesc: 'Tu comentario honesto ayuda a nuestro equipo de cocina a mantener la máxima calidad.',
     done: 'Listo',
-    alreadyReviewedMsg: 'Ya has calificado este plato en esta mesa',
+    alreadyReviewedMsg: 'Ya has calificado este plato',
 
     reportTitle: 'Moderar opinión',
     reportSubtitle: '¿Por qué deseas reportar esta opinión?',
@@ -618,7 +624,7 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     offlineBadge: 'Modo sin conexión',
     comingSoonCalling: 'La llamada digital al mesero estará disponible pronto. ¡Por favor avisa a tu mesero en persona!',
     waiterAssistance: 'Pedir ayuda',
-    tableQr: 'QR de la mesa',
+    tableQr: 'QR del menú',
     menuQr: 'QR del menú',
     shareMenu: 'Compartir menú',
     staffOwnerPortal: 'Portal del personal y propietario',
@@ -639,7 +645,7 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     themeClassicElegance: 'Elegancia clásica',
     themeBoldDark: 'Oscuro audaz',
     themeWarmRustic: 'Rústico cálido',
-    tableNumberLabel: 'Número de mesa',
+    tableNumberLabel: 'Número de pedido',
     guestWifiLabel: 'Wi-Fi de clientes',
 
     starRatingLabels: ['', 'Necesita mejorar', 'Aceptable', 'Bueno', 'Muy bueno', '¡Excepcional!'],
@@ -666,23 +672,25 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     dishesOnOfferCount: 'Platos en oferta',
 
     serviceAssistanceTitle: 'Asistencia del Camarero',
-    serviceAssistanceDesc: 'Toca una opción para alertar de inmediato a tu camarero para la',
+    serviceAssistanceDesc: 'Toca una opción para alertar de inmediato a tu camarero',
     callWaiterTitle: 'Llamar Camarero',
     callWaiterDesc: 'Ayuda con recomendaciones o preguntas',
     requestWaterTitle: 'Solicitar Agua',
-    requestWaterDesc: 'Agua mineral o natural para la mesa',
+    requestWaterDesc: 'Agua mineral o natural',
     extraCutleryTitle: 'Cubiertos / Servilletas Extra',
     extraCutleryDesc: 'Tenedores, cuchillos, cucharas o servilletas',
     requestBillTitle: 'Pedir la Cuenta',
     requestBillDesc: 'Listo para pagar tu consumo',
 
     serverSummaryTitle: 'RESUMEN PARA CAMARERO',
-    dineInSeating: 'Mesa en Sala',
+    dineInSeating: 'Resumen del Pedido',
     totalItemsLabel: 'Total de Artículos',
     noteLabel: 'Nota',
 
-    tableQrTitle: 'Código QR de Mesa',
+    tableQrTitle: 'Código QR del Menú',
     tableQrDesc: 'Escanea con la cámara para cargar el menú digital de',
+    menuQrTitle: 'Código QR del Menú Digital',
+    menuQrDesc: 'Escanea con cualquier teléfono para ver el menú digital de',
     copyMenuLink: 'Copiar Enlace Directo',
     linkCopied: '¡Enlace copiado!',
   },

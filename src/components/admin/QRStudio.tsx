@@ -76,7 +76,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
   // Copy state
   const [copiedLink, setCopiedLink] = useState(false);
 
-  // Menu URL: Clean global URL without table numbers
+  // Menu URL: Clean global customer menu URL
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://digitalmenu.app';
   const slugPrefix = (restaurant.slug === 'nitsuh' || restaurant.slug === 'addis') ? '' : `/${restaurant.slug}`;
   const menuUrl = `${baseUrl}${slugPrefix || '/'}`;
@@ -171,7 +171,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
         // Call to action
         ctx.fillStyle = '#374151';
         ctx.font = '16px sans-serif';
-        ctx.fillText('Scan to view menu & place orders', 300, 580);
+        ctx.fillText('Scan to view our digital menu', 300, 580);
 
         // Wi-Fi info
         if (includeWifi && wifiSsid) {
@@ -212,7 +212,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
               </span>
             </div>
             <p className="text-xs text-neutral-400 mt-1 max-w-xl">
-              Generate high-contrast, branded QR codes for table tents, stickers, and printable A4 sheets.
+              Generate high-contrast, branded QR codes for counter stands, stickers, and printable A4 sheets.
             </p>
           </div>
 
@@ -269,7 +269,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
                 </a>
               </div>
               <p className="text-[11px] text-neutral-400">
-                Universal digital menu QR code. Customers can scan from any table or counter to view your full menu.
+                Universal digital menu QR code. Customers can scan to view your full menu.
               </p>
             </div>
 
@@ -294,7 +294,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
                   }`}
                 >
                   <Smartphone className="w-4 h-4 text-amber-400" />
-                  <span className="text-[11px] font-bold">Table Tent</span>
+                  <span className="text-[11px] font-bold">Stand Card</span>
                 </button>
 
                 <button
@@ -409,7 +409,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
                         </button>
                       </div>
                       <p className="text-[10px] text-neutral-400 mt-1">
-                        Custom Wi-Fi prints directly onto table cards & updates the dining menu header.
+                        Custom Wi-Fi prints directly onto display cards & updates the dining menu header.
                       </p>
                     </div>
                   </div>
@@ -477,7 +477,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
                   <strong>Local Vector Engine:</strong> Your QR codes are generated directly in-browser. Zero third-party API dependencies, completely offline-safe.
                 </li>
                 <li>
-                  <strong>Minimum Size:</strong> Print at least <strong>2.5 cm (1 in)</strong> for stickers and <strong>4–5 cm (1.8 in)</strong> for table stands.
+                  <strong>Minimum Size:</strong> Print at least <strong>2.5 cm (1 in)</strong> for stickers and <strong>4–5 cm (1.8 in)</strong> for display stands.
                 </li>
                 <li>
                   <strong>Contrast:</strong> Always keep the QR code dark on a pure white background.
@@ -698,7 +698,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
                     alt="Digital Menu QR"
                     className="w-[42mm] h-[42mm] my-1"
                   />
-                  <p className="text-[10px] text-gray-600 mt-1">Scan for menu & orders</p>
+                  <p className="text-[10px] text-gray-600 mt-1">Scan for digital menu</p>
                 </div>
               ))}
             </div>

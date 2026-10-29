@@ -16,7 +16,7 @@ export default function RestaurantNotFound() {
           </span>
           <h1 className="text-2xl font-bold mt-2 text-white">This menu is currently unavailable</h1>
           <p className="text-xs text-neutral-400 mt-2 leading-relaxed">
-            The restaurant slug may have changed or the venue may not be taking digital orders at this moment.
+            The restaurant slug may have changed or the venue is currently updating its digital menu.
           </p>
         </div>
 

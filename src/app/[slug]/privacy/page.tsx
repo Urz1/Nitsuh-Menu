@@ -91,11 +91,10 @@ export default async function RestaurantPrivacyPage({ params }: PrivacyPageProps
           <div className="space-y-2 pt-2">
             <h2 className="text-sm font-bold text-white">1. Information We Process</h2>
             <p>
-              When you scan the table QR code, our platform securely processes only what is strictly necessary to provide food service:
+              When you browse our digital menu, our platform securely processes only what is strictly necessary:
             </p>
             <ul className="list-disc pl-5 space-y-1 text-neutral-400">
-              <li>Your assigned dining table number (e.g. Table 14).</li>
-              <li>Dishes added to your current session order bar.</li>
+              <li>Dishes and customizations added to your order.</li>
               <li>Service alerts you initiate (e.g. requesting water or the bill).</li>
               <li>Dish ratings or feedback you voluntarily submit.</li>
             </ul>
@@ -123,7 +122,7 @@ export default async function RestaurantPrivacyPage({ params }: PrivacyPageProps
           <div className="space-y-2 pt-4">
             <h2 className="text-sm font-bold text-white">4. Data Deletion and Inquiries</h2>
             <p>
-              Restaurant staff and owners periodically purge historical table sessions and service calls. For questions about your privacy at {restaurant.name}, speak directly with your server or the restaurant owner.
+              Restaurant staff and owners periodically purge historical order sessions and service calls. For questions about your privacy at {restaurant.name}, speak directly with your server or the restaurant owner.
             </p>
           </div>
         </section>

@@ -27,7 +27,6 @@ export type AdminSection =
   | 'menu'
   | 'offers'
   | 'reviews'
-  | 'requests'
   | 'qr'
   | 'design'
   | 'insights'
@@ -43,7 +42,6 @@ interface AdminSidebarProps {
   session?: AdminAuthSession | null;
   onSignOut?: () => void;
   badgeCounts: {
-    requests: number;
     reviewsAttention: number;
     activeOffers: number;
     totalDishes: number;
@@ -94,11 +92,11 @@ export function AdminSidebar({
     },
     {
       id: 'offers',
-      label: userRole === 'staff' ? 'Active Offers' : 'Offers & Deals',
+      label: 'Offers & Deals',
       icon: Tag,
       badge: badgeCounts.activeOffers > 0 ? `${badgeCounts.activeOffers} Live` : undefined,
       badgeColor: 'bg-amber-500/20 text-amber-300',
-      allowedRoles: ['owner', 'staff'],
+      allowedRoles: ['owner'],
     },
     {
       id: 'reviews',
@@ -106,7 +104,7 @@ export function AdminSidebar({
       icon: Star,
       badge: badgeCounts.reviewsAttention > 0 ? badgeCounts.reviewsAttention : undefined,
       badgeColor: 'bg-rose-500/20 text-rose-300',
-      allowedRoles: ['owner', 'staff'],
+      allowedRoles: ['owner'],
     },
     {
       id: 'profile',

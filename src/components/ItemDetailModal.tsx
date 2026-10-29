@@ -205,12 +205,14 @@ export function ItemDetailModal({
                   style={{ backgroundColor: 'var(--primary)' }}
                 >
                   <Tag className="w-3 h-3" />
-                  <span>{pricingResult?.badgeText || 'Special Offer'}</span>
+                  <span>{pricingResult?.badgeText || (currentLocale === 'am' ? t.specialOffer : 'Special Offer')}</span>
                 </span>
               )}
               {hasOffer && pricingResult && pricingResult.savings > 0 && (
                 <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">
-                  Save {formatMoney(pricingResult.savings, currencySymbol)}
+                  {currentLocale === 'am'
+                    ? `${formatMoney(pricingResult.savings, currencySymbol)} ${t.saveAmount}`
+                    : `Save ${formatMoney(pricingResult.savings, currencySymbol)}`}
                 </span>
               )}
               {pricingResult?.urgencyText && (
@@ -221,12 +223,12 @@ export function ItemDetailModal({
               )}
               {item.is_chefs_pick && !hasOffer && (
                 <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300">
-                  ⭐ Chef's Pick
+                  ⭐ {t.chefsPick}
                 </span>
               )}
               {!item.is_available && (
                 <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-neutral-200 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400">
-                  Sold Out
+                  {t.soldOut}
                 </span>
               )}
             </div>
@@ -308,50 +310,53 @@ export function ItemDetailModal({
               </div>
 
               <div className="flex gap-2.5 overflow-x-auto no-scrollbar pb-1">
-                {intelligentPairings.map((rec) => (
-                  <div
-                    key={rec.item.id}
-                    className="flex-shrink-0 w-44 bg-[var(--background)] border border-[var(--border)] rounded-xl p-2.5 flex flex-col justify-between hover:border-[var(--primary)] transition-colors"
-                  >
-                    <div>
-                      <div className="relative w-full h-20 rounded-lg overflow-hidden mb-1.5 bg-neutral-800">
-                        <Image
-                          src={getOptimizedCloudinaryUrl(rec.item.image_url, 350) || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=300&q=80'}
-                          alt={rec.item.name}
-                          fill
-                          className="object-cover"
-                          sizes="180px"
-                        />
-                        <span className="absolute top-1 left-1 text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-black/75 backdrop-blur-xs text-amber-300">
-                          {rec.intentBadge}
+                {intelligentPairings.map((rec) => {
+                  const recDisplayName = currentLocale === 'am' && rec.item.name_am ? rec.item.name_am : rec.item.name;
+                  return (
+                    <div
+                      key={rec.item.id}
+                      className="flex-shrink-0 w-44 bg-[var(--background)] border border-[var(--border)] rounded-xl p-2.5 flex flex-col justify-between hover:border-[var(--primary)] transition-colors"
+                    >
+                      <div>
+                        <div className="relative w-full h-20 rounded-lg overflow-hidden mb-1.5 bg-neutral-800">
+                          <Image
+                            src={getOptimizedCloudinaryUrl(rec.item.image_url, 350) || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=300&q=80'}
+                            alt={recDisplayName}
+                            fill
+                            className="object-cover"
+                            sizes="180px"
+                          />
+                          <span className="absolute top-1 left-1 text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-black/75 backdrop-blur-xs text-amber-300">
+                            {rec.intentBadge}
+                          </span>
+                        </div>
+                        <span className="text-xs font-bold text-[var(--foreground)] truncate block leading-tight">
+                          {recDisplayName}
                         </span>
+                        <p className="text-[10px] text-[var(--muted)] line-clamp-2 mt-0.5 leading-snug">
+                          {rec.reasonText}
+                        </p>
                       </div>
-                      <span className="text-xs font-bold text-[var(--foreground)] truncate block leading-tight">
-                        {rec.item.name}
-                      </span>
-                      <p className="text-[10px] text-[var(--muted)] line-clamp-2 mt-0.5 leading-snug">
-                        {rec.reasonText}
-                      </p>
+                      <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-[var(--border)]">
+                        <span className="text-xs font-bold" style={{ color: 'var(--primary)' }}>
+                          +{formatMoney(rec.item.price, currencySymbol)}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            triggerHaptic(12);
+                            if (onQuickAddPairing) onQuickAddPairing(rec.item);
+                          }}
+                          className="h-6 px-2.5 rounded-full text-[10px] font-bold text-white shadow-xs transition-transform active:scale-95"
+                          style={{ backgroundColor: 'var(--primary)' }}
+                          title={`Add ${recDisplayName}`}
+                        >
+                          {t.addPairingBtn}
+                        </button>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-[var(--border)]">
-                      <span className="text-xs font-bold" style={{ color: 'var(--primary)' }}>
-                        +{formatMoney(rec.item.price, currencySymbol)}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          triggerHaptic(12);
-                          if (onQuickAddPairing) onQuickAddPairing(rec.item);
-                        }}
-                        className="h-6 px-2.5 rounded-full text-[10px] font-bold text-white shadow-xs transition-transform active:scale-95"
-                        style={{ backgroundColor: 'var(--primary)' }}
-                        title={`Add ${rec.item.name}`}
-                      >
-                        {t.addPairingBtn}
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -371,7 +376,7 @@ export function ItemDetailModal({
                       ))}
                     </div>
                     <span className="text-xs text-[var(--muted)] font-medium">
-                      (Level {item.spice_level})
+                      {currentLocale === 'am' ? `(ደረጃ ${item.spice_level})` : `(Level ${item.spice_level})`}
                     </span>
                   </>
                 )}
@@ -414,7 +419,7 @@ export function ItemDetailModal({
                         <span className="text-xs font-semibold text-[var(--foreground)]">{optDisplayName}</span>
                       </div>
                       <span className="text-xs font-bold" style={{ color: 'var(--primary)' }}>
-                        {opt.price > 0 ? `+${formatMoney(opt.price, currencySymbol)}` : 'Included'}
+                        {opt.price > 0 ? `+${formatMoney(opt.price, currencySymbol)}` : (currentLocale === 'am' ? 'የተካተተ' : 'Included')}
                       </span>
                     </label>
                   );
@@ -474,9 +479,6 @@ export function ItemDetailModal({
                               />
                             ))}
                           </div>
-                          {rev.table_number && (
-                            <span className="text-[10px] text-[var(--muted)]">• {rev.table_number}</span>
-                          )}
                         </div>
 
                         {/* Report button */}

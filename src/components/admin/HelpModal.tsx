@@ -84,19 +84,6 @@ export function HelpModal({ isOpen, onClose, activeSection }: HelpModalProps) {
         },
       ],
     },
-    requests: {
-      title: 'Service & Kitchen Console Tips',
-      tips: [
-        {
-          heading: 'Realtime Table Calls',
-          desc: 'Keep this screen open on your host counter or service tablet to hear chime alerts whenever a table needs water, bill, or service.',
-        },
-        {
-          heading: 'Quick Resolve',
-          desc: 'Tap "Mark Done" once a server attends to the table to keep the queue clean and track average response times.',
-        },
-      ],
-    },
     design: {
       title: 'Design Studio Tips',
       tips: [
@@ -115,7 +102,7 @@ export function HelpModal({ isOpen, onClose, activeSection }: HelpModalProps) {
       tips: [
         {
           heading: 'Stars vs Hidden Gems',
-          desc: 'Stars are your top sellers; keep quality high. Hidden Gems get lots of views but fewer orders. Try testing a small promotional discount!',
+          desc: 'Stars are your top favorites; keep quality high. Hidden Gems get lots of views but lower guest feedback. Try testing a small promotional discount!',
         },
       ],
     },
@@ -124,7 +111,7 @@ export function HelpModal({ isOpen, onClose, activeSection }: HelpModalProps) {
       tips: [
         {
           heading: 'High-Contrast Scanning',
-          desc: 'Always print dark codes on pure white backgrounds. Never invert colors. Maintain at least 4 cm size on table stands for fast camera scans.',
+          desc: 'Always print dark codes on pure white backgrounds. Never invert colors. Maintain at least 4 cm size on counter stands for fast camera scans.',
         },
         {
           heading: 'Matte Cardstock',

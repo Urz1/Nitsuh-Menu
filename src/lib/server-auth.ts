@@ -193,3 +193,66 @@ export async function requireOwnerSession(): Promise<SessionPayload> {
   }
   return session;
 }
+
+export interface ResetTokenPayload {
+  userId: string;
+  email: string;
+  role: 'owner';
+  purpose: 'password_reset';
+  exp: number;
+}
+
+/**
+ * Creates a cryptographically signed HMAC-SHA256 password reset token valid for 15 minutes.
+ */
+export function createResetToken(userId: string, email: string): string {
+  const exp = Math.floor(Date.now() / 1000) + 15 * 60; // 15 mins
+  const payload: ResetTokenPayload = { userId, email, role: 'owner', purpose: 'password_reset', exp };
+  const payloadBase64 = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  const signature = crypto
+    .createHmac('sha256', getSecretKey())
+    .update(payloadBase64)
+    .digest('base64url');
+  return `${payloadBase64}.${signature}`;
+}
+
+/**
+ * Verifies a password reset token's integrity and expiration.
+ */
+export function verifyResetToken(token: string): ResetTokenPayload | null {
+  if (!token || typeof token !== 'string') return null;
+  const parts = token.split('.');
+  if (parts.length !== 2) return null;
+  const [payloadBase64, providedSignature] = parts;
+  const expectedSignature = crypto
+    .createHmac('sha256', getSecretKey())
+    .update(payloadBase64)
+    .digest('base64url');
+  try {
+    const sigA = Buffer.from(providedSignature);
+    const sigB = Buffer.from(expectedSignature);
+    if (sigA.length !== sigB.length || !crypto.timingSafeEqual(sigA, sigB)) return null;
+    const jsonStr = Buffer.from(payloadBase64, 'base64url').toString('utf-8');
+    const payload = JSON.parse(jsonStr) as ResetTokenPayload;
+    if (payload.purpose !== 'password_reset' || payload.role !== 'owner') return null;
+    if (!payload.exp || payload.exp < Math.floor(Date.now() / 1000)) return null;
+    return payload;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Compares two phone strings flexibly (normalizing non-digits, country codes, and leading zeros).
+ */
+export function phonesMatch(rawPhoneA?: string | null, rawPhoneB?: string | null): boolean {
+  if (!rawPhoneA || !rawPhoneB) return false;
+  const a = rawPhoneA.replace(/\D/g, '');
+  const b = rawPhoneB.replace(/\D/g, '');
+  if (!a || !b) return false;
+  if (a === b) return true;
+  // Compare trailing digits (last 9 or matching min length)
+  const compareLen = Math.min(Math.min(a.length, b.length), 9);
+  if (compareLen < 7) return false;
+  return a.slice(-compareLen) === b.slice(-compareLen);
+}

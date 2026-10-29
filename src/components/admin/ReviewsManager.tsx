@@ -125,7 +125,7 @@ export function ReviewsManager({
           onReviewsChange?.(next);
           return next;
         });
-        showToast(`New feedback received from Table ${event.review.table_number || 'Guest'}!`);
+        showToast('New customer review received!');
       } else if (event.type === 'REVIEW_UPDATED') {
         setReviews((prev) => {
           const next = prev.map((r) => (r.id === event.review.id ? event.review : r));
@@ -536,11 +536,6 @@ export function ReviewsManager({
                     <span className="font-bold text-sm text-white font-brand capitalize">
                       {item?.name || (rev.item_id ? rev.item_id.replace(/^item-/, '').replace(/-\d+$/, '').replace(/-/g, ' ') : 'Verified Dish')}
                     </span>
-                    {rev.table_number && (
-                      <span className="text-[10px] px-2 py-0.5 rounded bg-white/5 text-neutral-400">
-                        {rev.table_number}
-                      </span>
-                    )}
 
                     {/* Status Badge */}
                     <span

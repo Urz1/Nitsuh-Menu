@@ -14,9 +14,6 @@ import { ClientMenuContainer } from '@/components/ClientMenuContainer';
 
 export const dynamic = 'force-dynamic';
 
-interface PageProps {
-  searchParams: Promise<{ table?: string }>;
-}
 
 // -----------------------------------------------------------------------------
 // DYNAMIC SEO METADATA & OPEN GRAPH PREVIEWS FOR NITSUH DIGITAL MENU
@@ -59,8 +56,7 @@ export async function generateMetadata(): Promise<Metadata> {
 // -----------------------------------------------------------------------------
 // SERVER-RENDERED ROOT PAGE: NITSUH CAFE & RESTAURANT DIGITAL MENU DIRECTLY
 // -----------------------------------------------------------------------------
-export default async function HomePage({ searchParams }: PageProps) {
-  const { table } = await searchParams;
+export default async function HomePage() {
   const restaurant = (await getRestaurantBySlug('nitsuh')) || (await getRestaurantBySlug('addis')) || MOCK_RESTAURANT_NITSUH;
 
   const [categories, items, offers, reviews, reviewSettings] = await Promise.all([
@@ -123,7 +119,6 @@ export default async function HomePage({ searchParams }: PageProps) {
           initialOffers={offers}
           initialReviews={reviews}
           initialReviewSettings={reviewSettings}
-          initialTable={table}
         />
       </ThemeManager>
     </>

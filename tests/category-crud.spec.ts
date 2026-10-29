@@ -124,7 +124,7 @@ test.describe('Category CRUD & Inline Creation Flow', () => {
 
   test('3. Real-Time Customer Sync: Newly created category reflects in dining view', async ({ page }) => {
     // Open customer dining view in same browser context
-    await page.goto('/nitsuh?table=Table%2014');
+    await page.goto('/nitsuh');
     await expect(page.locator('h1:has-text("Nitsuh Cafe & Restaurant")')).toBeVisible();
 
     // Categories are rendered on customer page

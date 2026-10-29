@@ -16,7 +16,6 @@ export const dynamic = 'force-dynamic';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ table?: string }>;
 }
 
 // -----------------------------------------------------------------------------
@@ -63,9 +62,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 // -----------------------------------------------------------------------------
 // SERVER-RENDERED PAGE COMPONENT
 // -----------------------------------------------------------------------------
-export default async function RestaurantMenuPage({ params, searchParams }: PageProps) {
+export default async function RestaurantMenuPage({ params }: PageProps) {
   const { slug } = await params;
-  const { table } = await searchParams;
 
   const restaurant = await getRestaurantBySlug(slug);
   if (!restaurant) {
@@ -132,7 +130,6 @@ export default async function RestaurantMenuPage({ params, searchParams }: PageP
           initialOffers={offers}
           initialReviews={reviews}
           initialReviewSettings={reviewSettings}
-          initialTable={table}
         />
       </ThemeManager>
     </>

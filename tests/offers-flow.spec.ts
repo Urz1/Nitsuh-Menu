@@ -71,7 +71,7 @@ test.describe('Stage 3: Offers System - End to End Flow', () => {
 
   test('2. Customer Menu: Single calm banner, dismissibility, inline badges, struck prices, and order savings', async ({ page }) => {
     // Open customer mobile view for Nitsuh Cafe & Restaurant
-    await page.goto('/nitsuh?table=Table%2014');
+    await page.goto('/nitsuh');
     await expect(page.locator('h1:has-text("Nitsuh Cafe & Restaurant")')).toBeVisible();
 
     // Verify at most ONE calm banner is visible at the top

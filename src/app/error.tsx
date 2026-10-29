@@ -31,7 +31,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
           </span>
           <h1 className="text-2xl font-bold mt-2 text-white">Something interrupted the menu</h1>
           <p className="text-xs text-neutral-400 mt-2 leading-relaxed">
-            We encountered a temporary hiccup loading items. Your table selections and cart items remain safely saved in memory.
+            We encountered a temporary hiccup loading items. Your cart items remain safely saved in memory.
           </p>
         </div>
 

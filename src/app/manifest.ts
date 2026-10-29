@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Nitsuh Cafe & Restaurant | Digital Menu',
     short_name: 'Nitsuh Menu',
-    description: 'Official digital menu for Nitsuh Cafe & Restaurant. Browse authentic handcrafted burgers, artisan pizzas, fresh pastries & drinks with table service.',
+    description: 'Official digital menu for Nitsuh Cafe & Restaurant. Browse authentic handcrafted burgers, artisan pizzas, fresh pastries & drinks.',
     start_url: '/?utm_source=pwa',
     id: '/?utm_source=pwa',
     scope: '/',
@@ -63,7 +63,7 @@ export default function manifest(): MetadataRoute.Manifest {
       {
         name: 'Staff & Admin Console',
         short_name: 'Admin',
-        description: 'Manage menu items, orders & settings',
+        description: 'Manage menu items, specials & settings',
         url: '/admin?utm_source=pwa_shortcut',
         icons: [{ src: '/icons/icon-192x192.png', sizes: '192x192' }],
       },

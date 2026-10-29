@@ -27,6 +27,7 @@ import {
   Sun,
   Moon,
   Phone,
+  Loader2,
 } from 'lucide-react';
 
 export default function AdminLoginPage() {
@@ -70,9 +71,19 @@ export default function AdminLoginPage() {
   const [ownerIdentifier, setOwnerIdentifier] = useState('');
   const [ownerPassword, setOwnerPassword] = useState('');
   const [showOwnerPassword, setShowOwnerPassword] = useState(false);
+
+  // Owner Self-Service Recovery flow state
   const [isForgotOpen, setIsForgotOpen] = useState(false);
-  const [recoveryEmail, setRecoveryEmail] = useState('');
-  const [recoverySent, setRecoverySent] = useState(false);
+  const [forgotStep, setForgotStep] = useState<'verify' | 'reset'>('verify');
+  const [recoveryIdentifier, setRecoveryIdentifier] = useState('');
+  const [recoveryPhone, setRecoveryPhone] = useState('');
+  const [verifiedOwnerName, setVerifiedOwnerName] = useState('');
+  const [maskedPhone, setMaskedPhone] = useState('');
+  const [verificationToken, setVerificationToken] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Staff form state
   const [staffUsername, setStaffUsername] = useState('');
@@ -100,7 +111,8 @@ export default function AdminLoginPage() {
   // FIRST-TIME OWNER SETUP
   // ---------------------------------------------------------------------------
   const handleSetupOwner = async (e: React.FormEvent) => {
-    e.preventDefault();
+    if (e && 'preventDefault' in e) e.preventDefault();
+    if (isLoading || successMsg) return;
     triggerHaptic(10);
     setIsLoading(true);
     setErrorMsg(null);
@@ -119,9 +131,9 @@ export default function AdminLoginPage() {
       });
 
       const data = await res.json();
-      setIsLoading(false);
 
       if (!res.ok) {
+        setIsLoading(false);
         triggerHaptic(20);
         setErrorMsg(data.error || 'Failed to initialize owner account');
         return;
@@ -160,6 +172,7 @@ export default function AdminLoginPage() {
   // ---------------------------------------------------------------------------
   const handleOwnerLogin = async (e?: React.FormEvent | React.MouseEvent) => {
     if (e && 'preventDefault' in e) e.preventDefault();
+    if (isLoading || successMsg) return;
     triggerHaptic(10);
     setIsLoading(true);
     setErrorMsg(null);
@@ -168,8 +181,8 @@ export default function AdminLoginPage() {
     try {
       const result = await authenticateOwnerAsync(ownerIdentifier, ownerPassword);
 
-      setIsLoading(false);
       if (!result.success) {
+        setIsLoading(false);
         triggerHaptic(20);
         setErrorMsg(result.error || 'Incorrect owner password. Access denied.');
         return;
@@ -190,6 +203,7 @@ export default function AdminLoginPage() {
   // ---------------------------------------------------------------------------
   const handleStaffLogin = async (e?: React.FormEvent | React.MouseEvent) => {
     if (e && 'preventDefault' in e) e.preventDefault();
+    if (isLoading || successMsg) return;
     triggerHaptic(10);
     setIsLoading(true);
     setErrorMsg(null);
@@ -198,8 +212,8 @@ export default function AdminLoginPage() {
     try {
       const result = await authenticateStaffAsync(staffUsername, staffPassword);
 
-      setIsLoading(false);
       if (!result.success) {
+        setIsLoading(false);
         triggerHaptic(20);
         setErrorMsg(result.error || 'Incorrect staff password / PIN. Access denied.');
         return;
@@ -216,18 +230,154 @@ export default function AdminLoginPage() {
   };
 
   // ---------------------------------------------------------------------------
-  // FORGOT PASSWORD RECOVERY (OWNER ONLY)
+  // FORGOT PASSWORD RECOVERY (OWNER SELF-SERVICE)
   // ---------------------------------------------------------------------------
-  const handleForgotPassword = (e: React.FormEvent) => {
-    e.preventDefault();
-    triggerHaptic(10);
-    if (!recoveryEmail) return;
+  const handleOpenForgot = () => {
+    triggerHaptic(8);
+    setIsForgotOpen(true);
+    setForgotStep('verify');
+    setRecoveryIdentifier(ownerIdentifier.trim());
+    setRecoveryPhone('');
+    setVerifiedOwnerName('');
+    setMaskedPhone('');
+    setVerificationToken('');
+    setNewPassword('');
+    setConfirmPassword('');
+    setErrorMsg(null);
+    setSuccessMsg(null);
+  };
 
-    const currentOwner = getOwnerProfile();
-    if (recoveryEmail.toLowerCase().trim() === currentOwner.email.toLowerCase().trim()) {
-      setRecoverySent(true);
-    } else {
-      setErrorMsg('No owner account registered with this email address.');
+  const handleCloseForgot = () => {
+    triggerHaptic(8);
+    setIsForgotOpen(false);
+    setForgotStep('verify');
+    setErrorMsg(null);
+    setSuccessMsg(null);
+  };
+
+  const handleVerifyOwner = async (e: React.FormEvent) => {
+    if (e && 'preventDefault' in e) e.preventDefault();
+    if (isLoading) return;
+    triggerHaptic(10);
+    setErrorMsg(null);
+    setSuccessMsg(null);
+
+    if (!recoveryIdentifier.trim()) {
+      setErrorMsg('Please enter your registered owner email or username.');
+      return;
+    }
+    if (!recoveryPhone.trim()) {
+      setErrorMsg('Please enter your registered owner phone number.');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const res = await fetch('/api/auth/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'verify',
+          identifier: recoveryIdentifier.trim(),
+          phone: recoveryPhone.trim(),
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.verified) {
+        setIsLoading(false);
+        triggerHaptic(20);
+        setErrorMsg(
+          data.error || 'Owner verification failed. Email/username and phone number do not match.'
+        );
+        return;
+      }
+
+      setIsLoading(false);
+      triggerHaptic(15);
+      setVerifiedOwnerName(data.ownerName || 'Owner');
+      setMaskedPhone(data.maskedPhone || '');
+      setVerificationToken(data.verificationToken || '');
+      setForgotStep('reset');
+      setSuccessMsg(`Identity verified! Welcome back, ${data.ownerName || 'Owner'}. Please set your new password.`);
+    } catch {
+      setIsLoading(false);
+      setErrorMsg('Failed to connect to verification service. Please try again.');
+    }
+  };
+
+  const handleSaveNewPassword = async (e: React.FormEvent) => {
+    if (e && 'preventDefault' in e) e.preventDefault();
+    if (isLoading || Boolean(successMsg && forgotStep === 'reset' && !errorMsg)) return;
+    triggerHaptic(10);
+    setErrorMsg(null);
+
+    if (!newPassword) {
+      setErrorMsg('Please enter a new password.');
+      return;
+    }
+    if (newPassword.length < 6) {
+      setErrorMsg('New password must be at least 6 characters long.');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setErrorMsg('Passwords do not match. Please re-enter confirm password.');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const res = await fetch('/api/auth/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'reset',
+          verificationToken,
+          newPassword,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        setIsLoading(false);
+        triggerHaptic(20);
+        setErrorMsg(data.error || 'Failed to update password.');
+        return;
+      }
+
+      // Establish client cache & session
+      if (data.user) {
+        setAuthSession({
+          role: 'owner',
+          userId: data.user.id,
+          name: data.user.name,
+          identifier: data.user.email,
+          token: data.token || `server-${Date.now()}`,
+          loggedInAt: Date.now(),
+        });
+        saveOwnerProfileCache({
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email,
+          phone: data.user.phone || '',
+          updated_at: new Date().toISOString(),
+        });
+      }
+
+      setIsLoading(false);
+      triggerHaptic(25);
+      setSuccessMsg('🎉 Password successfully updated! Redirecting to owner dashboard...');
+
+      setTimeout(() => {
+        window.location.href = '/admin';
+      }, 500);
+    } catch {
+      setIsLoading(false);
+      setErrorMsg('An unexpected error occurred while saving the password.');
     }
   };
 
@@ -434,59 +584,91 @@ export default function AdminLoginPage() {
 
               <button
                 type="submit"
-                disabled={isLoading}
-                className="w-full h-11 rounded-xl bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 font-bold text-xs text-white shadow-lg shadow-orange-950/20 transition-all flex items-center justify-center gap-1.5 mt-2 disabled:opacity-50 cursor-pointer"
+                disabled={isLoading || Boolean(successMsg)}
+                className="w-full h-11 rounded-xl bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 font-bold text-xs text-white shadow-lg shadow-orange-950/20 transition-all flex items-center justify-center gap-1.5 mt-2 disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed cursor-pointer"
               >
-                <span>{isLoading ? 'Creating Owner...' : 'Initialize Owner & Access Portal'}</span>
-                <ArrowRight className="w-4 h-4" />
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Creating Owner Account...</span>
+                  </>
+                ) : successMsg ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Loading Dashboard...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Initialize Owner & Access Portal</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
               </button>
             </form>
           </div>
         ) : (
           <>
-            {/* Role Tabs: Owner vs Staff */}
-            <div
-              className={`flex p-1 rounded-2xl mb-6 border transition-colors ${
-                isLight ? 'bg-neutral-100 border-neutral-200' : 'bg-white/[0.04] border-white/10'
-              }`}
-            >
-              <button
-                type="button"
-                onClick={() => {
-                  triggerHaptic(8);
-                  setTab('owner');
-                  setErrorMsg(null);
-                  setSuccessMsg(null);
-                }}
-                className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                  tab === 'owner'
-                    ? 'bg-amber-500 text-black shadow-md'
-                    : isLight
-                    ? 'text-neutral-600 hover:text-neutral-900'
-                    : 'text-neutral-400 hover:text-white'
+            {/* Role Tabs or Forgot Password Header */}
+            {tab === 'owner' && isForgotOpen ? (
+              <div className="flex items-center justify-between mb-5 pb-3 border-b border-black/5 dark:border-white/5">
+                <button
+                  type="button"
+                  onClick={handleCloseForgot}
+                  className={`text-xs font-semibold inline-flex items-center gap-1.5 transition-colors cursor-pointer ${
+                    isLight ? 'text-amber-600 hover:text-amber-700' : 'text-amber-400 hover:text-amber-300'
+                  }`}
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Return to Owner Sign In</span>
+                </button>
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30">
+                  Self-Service Reset
+                </span>
+              </div>
+            ) : (
+              <div
+                className={`flex p-1 rounded-2xl mb-6 border transition-colors ${
+                  isLight ? 'bg-neutral-100 border-neutral-200' : 'bg-white/[0.04] border-white/10'
                 }`}
               >
-                Restaurant Owner
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  triggerHaptic(8);
-                  setTab('staff');
-                  setErrorMsg(null);
-                  setSuccessMsg(null);
-                }}
-                className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                  tab === 'staff'
-                    ? 'bg-amber-500 text-black shadow-md'
-                    : isLight
-                    ? 'text-neutral-600 hover:text-neutral-900'
-                    : 'text-neutral-400 hover:text-white'
-                }`}
-              >
-                Staff Portal
-              </button>
-            </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    triggerHaptic(8);
+                    setTab('owner');
+                    setErrorMsg(null);
+                    setSuccessMsg(null);
+                  }}
+                  className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    tab === 'owner'
+                      ? 'bg-amber-500 text-black shadow-md'
+                      : isLight
+                      ? 'text-neutral-600 hover:text-neutral-900'
+                      : 'text-neutral-400 hover:text-white'
+                  }`}
+                >
+                  Restaurant Owner
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    triggerHaptic(8);
+                    setTab('staff');
+                    setErrorMsg(null);
+                    setSuccessMsg(null);
+                  }}
+                  className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    tab === 'staff'
+                      ? 'bg-amber-500 text-black shadow-md'
+                      : isLight
+                      ? 'text-neutral-600 hover:text-neutral-900'
+                      : 'text-neutral-400 hover:text-white'
+                  }`}
+                >
+                  Staff Portal
+                </button>
+              </div>
+            )}
 
             {/* =========================================================================
                 1. OWNER LOGIN FORM (Email/Phone + Password)
@@ -533,10 +715,7 @@ export default function AdminLoginPage() {
                     </label>
                     <button
                       type="button"
-                      onClick={() => {
-                        setIsForgotOpen(true);
-                        setRecoveryEmail(ownerIdentifier.includes('@') ? ownerIdentifier : '');
-                      }}
+                      onClick={handleOpenForgot}
                       className={`text-[11px] hover:underline cursor-pointer ${
                         isLight ? 'text-amber-600 font-semibold' : 'text-amber-400/90'
                       }`}
@@ -584,70 +763,108 @@ export default function AdminLoginPage() {
                 <button
                   type="button"
                   onClick={handleOwnerLogin}
-                  disabled={isLoading}
-                  className="w-full h-11 rounded-xl bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 font-bold text-xs text-white shadow-lg shadow-orange-950/20 transition-all flex items-center justify-center gap-1.5 mt-2 disabled:opacity-50 cursor-pointer active:scale-[0.99]"
+                  disabled={isLoading || Boolean(successMsg)}
+                  className="w-full h-11 rounded-xl bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 font-bold text-xs text-white shadow-lg shadow-orange-950/20 transition-all flex items-center justify-center gap-1.5 mt-2 disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed cursor-pointer active:scale-[0.99]"
                 >
-                  <span>{isLoading ? 'Verifying on Database...' : 'Sign In as Owner'}</span>
-                  <ArrowRight className="w-4 h-4" />
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Verifying on Database...</span>
+                    </>
+                  ) : successMsg ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Loading Dashboard...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Sign In as Owner</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
                 </button>
               </form>
             )}
 
             {/* =========================================================================
-                1.1 OWNER FORGOT PASSWORD VIEW
+                1.1 OWNER SELF-SERVICE PASSWORD RECOVERY
                ========================================================================= */}
             {tab === 'owner' && isForgotOpen && (
-              <form onSubmit={handleForgotPassword} className="flex flex-col gap-4 animate-in fade-in">
-                <h3 className={`text-sm font-bold ${isLight ? 'text-neutral-900' : 'text-white'}`}>
-                  Reset Owner Password
-                </h3>
-                <p className={`text-xs ${isLight ? 'text-neutral-500' : 'text-neutral-400'}`}>
-                  Enter your registered owner email address to receive password recovery instructions.
-                </p>
-
-                {recoverySent ? (
-                  <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center">
-                    <CheckCircle2 className="w-6 h-6 text-emerald-500 mx-auto mb-2" />
-                    <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400 mb-1">
-                      Recovery Dispatched
+              <div className="flex flex-col gap-4 animate-in fade-in">
+                {forgotStep === 'verify' ? (
+                  <form onSubmit={handleVerifyOwner} className="flex flex-col gap-4">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <KeyRound className="w-4 h-4 text-amber-500" />
+                        <h3 className={`text-sm font-bold ${isLight ? 'text-neutral-900' : 'text-white'}`}>
+                          Owner Self-Service Recovery
+                        </h3>
+                      </div>
+                      <p className={`text-xs ${isLight ? 'text-neutral-500' : 'text-neutral-400'}`}>
+                        Enter your registered email and phone number to verify ownership and reset your password immediately.
+                      </p>
                     </div>
-                    <p className={`text-xs ${isLight ? 'text-neutral-700' : 'text-neutral-300'}`}>
-                      Password instructions dispatched to <strong>{recoveryEmail}</strong>.
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsForgotOpen(false);
-                        setRecoverySent(false);
-                      }}
-                      className="mt-4 text-xs text-amber-600 dark:text-amber-400 underline font-semibold block mx-auto cursor-pointer"
-                    >
-                      Return to Sign In
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    <div className="relative">
-                      <Mail className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
-                      <input
-                        type="email"
-                        required
-                        value={recoveryEmail}
-                        onChange={(e) => setRecoveryEmail(e.target.value)}
-                        placeholder="owner@yourrestaurant.com"
-                        className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
-                          isLight
-                            ? 'bg-neutral-50 border-neutral-300 text-neutral-900 focus:bg-white focus:border-amber-500'
-                            : 'bg-white/[0.05] border-white/10 text-white focus:border-amber-500'
+
+                    {/* Email or Username */}
+                    <div>
+                      <label
+                        className={`text-xs font-semibold block mb-1.5 ${
+                          isLight ? 'text-neutral-700' : 'text-neutral-300'
                         }`}
-                      />
+                      >
+                        Registered Owner Email or Username
+                      </label>
+                      <div className="relative">
+                        <Mail className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
+                        <input
+                          type="text"
+                          required
+                          value={recoveryIdentifier}
+                          onChange={(e) => setRecoveryIdentifier(e.target.value)}
+                          placeholder="e.g. frenitsuh10@gmail.com"
+                          className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
+                            isLight
+                              ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
+                              : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
+                          }`}
+                        />
+                      </div>
                     </div>
 
-                    <div className="flex gap-2">
+                    {/* Registered Phone */}
+                    <div>
+                      <label
+                        className={`text-xs font-semibold block mb-1.5 ${
+                          isLight ? 'text-neutral-700' : 'text-neutral-300'
+                        }`}
+                      >
+                        Registered Owner Phone Number
+                      </label>
+                      <div className="relative">
+                        <Phone className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
+                        <input
+                          type="tel"
+                          required
+                          value={recoveryPhone}
+                          onChange={(e) => setRecoveryPhone(e.target.value)}
+                          placeholder="e.g. 09... or +251..."
+                          className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
+                            isLight
+                              ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
+                              : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
+                          }`}
+                        />
+                      </div>
+                      <p className={`text-[11px] mt-1.5 ${isLight ? 'text-neutral-500' : 'text-neutral-400'}`}>
+                        Any standard format (09..., +251...) will be matched.
+                      </p>
+                    </div>
+
+                    <div className="flex gap-2.5 pt-2">
                       <button
                         type="button"
-                        onClick={() => setIsForgotOpen(false)}
-                        className={`flex-1 h-10 rounded-xl border text-xs font-semibold cursor-pointer transition-colors ${
+                        onClick={handleCloseForgot}
+                        className={`flex-1 h-11 rounded-xl border text-xs font-semibold cursor-pointer transition-colors ${
                           isLight
                             ? 'bg-neutral-100 hover:bg-neutral-200 border-neutral-200 text-neutral-700'
                             : 'bg-white/5 border-white/10 text-white hover:bg-white/10'
@@ -657,14 +874,153 @@ export default function AdminLoginPage() {
                       </button>
                       <button
                         type="submit"
-                        className="flex-1 h-10 rounded-xl bg-amber-500 text-black text-xs font-bold hover:bg-amber-400 cursor-pointer shadow-sm"
+                        disabled={isLoading}
+                        className="flex-1 h-11 rounded-xl bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 active:scale-[0.99]"
                       >
-                        Send Recovery
+                        {isLoading ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span>Verifying...</span>
+                          </>
+                        ) : (
+                          <>
+                            <ShieldCheck className="w-4 h-4" />
+                            <span>Verify Ownership</span>
+                          </>
+                        )}
                       </button>
                     </div>
-                  </>
+                  </form>
+                ) : (
+                  <form onSubmit={handleSaveNewPassword} className="flex flex-col gap-4">
+                    {/* Identity Confirmation Banner */}
+                    <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                          Verified: {verifiedOwnerName} (Owner)
+                        </div>
+                        <p className={`text-[11px] mt-0.5 ${isLight ? 'text-neutral-600' : 'text-neutral-300'}`}>
+                          Phone verification confirmed {maskedPhone ? `(${maskedPhone})` : ''}. Choose your new master password.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* New Password */}
+                    <div>
+                      <label
+                        className={`text-xs font-semibold block mb-1.5 ${
+                          isLight ? 'text-neutral-700' : 'text-neutral-300'
+                        }`}
+                      >
+                        New Master Password
+                      </label>
+                      <div className="relative">
+                        <Lock className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
+                        <input
+                          type={showNewPassword ? 'text' : 'password'}
+                          required
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          placeholder="At least 6 characters"
+                          className={`w-full h-11 pl-10 pr-10 rounded-xl text-xs outline-none transition-colors border ${
+                            isLight
+                              ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
+                              : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
+                          }`}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowNewPassword(!showNewPassword)}
+                          className={`absolute right-3.5 top-3.5 transition-colors ${
+                            isLight ? 'text-neutral-400 hover:text-neutral-700' : 'text-neutral-400 hover:text-white'
+                          }`}
+                          aria-label={showNewPassword ? 'Hide password' : 'Show password'}
+                        >
+                          {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Confirm Password */}
+                    <div>
+                      <label
+                        className={`text-xs font-semibold block mb-1.5 ${
+                          isLight ? 'text-neutral-700' : 'text-neutral-300'
+                        }`}
+                      >
+                        Confirm New Password
+                      </label>
+                      <div className="relative">
+                        <CheckCircle2 className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
+                        <input
+                          type={showConfirmPassword ? 'text' : 'password'}
+                          required
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          placeholder="Re-enter your new password"
+                          className={`w-full h-11 pl-10 pr-10 rounded-xl text-xs outline-none transition-colors border ${
+                            isLight
+                              ? 'bg-neutral-50 border-neutral-300 text-neutral-900 placeholder:text-neutral-400 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
+                              : 'bg-white/[0.05] border-white/10 text-white placeholder:text-neutral-500 focus:border-amber-500'
+                          }`}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          className={`absolute right-3.5 top-3.5 transition-colors ${
+                            isLight ? 'text-neutral-400 hover:text-neutral-700' : 'text-neutral-400 hover:text-white'
+                          }`}
+                          aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+                        >
+                          {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2.5 pt-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          triggerHaptic(8);
+                          setForgotStep('verify');
+                          setErrorMsg(null);
+                          setSuccessMsg(null);
+                        }}
+                        className={`flex-1 h-11 rounded-xl border text-xs font-semibold cursor-pointer transition-colors ${
+                          isLight
+                            ? 'bg-neutral-100 hover:bg-neutral-200 border-neutral-200 text-neutral-700'
+                            : 'bg-white/5 border-white/10 text-white hover:bg-white/10'
+                        }`}
+                      >
+                        Back
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={isLoading || Boolean(successMsg && !errorMsg)}
+                        className="flex-[2] h-11 rounded-xl bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 active:scale-[0.99]"
+                      >
+                        {isLoading ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span>Updating Password...</span>
+                          </>
+                        ) : successMsg ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span>Opening Dashboard...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Save & Enter Portal</span>
+                            <ArrowRight className="w-4 h-4" />
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
                 )}
-              </form>
+              </div>
             )}
 
             {/* =========================================================================
@@ -757,11 +1113,25 @@ export default function AdminLoginPage() {
                 <button
                   type="button"
                   onClick={handleStaffLogin}
-                  disabled={isLoading}
-                  className="w-full h-11 rounded-xl bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 font-bold text-xs text-white shadow-lg shadow-orange-950/20 transition-all flex items-center justify-center gap-1.5 mt-2 disabled:opacity-50 cursor-pointer active:scale-[0.99]"
+                  disabled={isLoading || Boolean(successMsg)}
+                  className="w-full h-11 rounded-xl bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 font-bold text-xs text-white shadow-lg shadow-orange-950/20 transition-all flex items-center justify-center gap-1.5 mt-2 disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed cursor-pointer active:scale-[0.99]"
                 >
-                  <span>{isLoading ? 'Verifying on Database...' : 'Open Staff Console'}</span>
-                  <ArrowRight className="w-4 h-4" />
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Verifying on Database...</span>
+                    </>
+                  ) : successMsg ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Loading Staff Console...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Open Staff Console</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
                 </button>
               </form>
             )}

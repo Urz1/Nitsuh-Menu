@@ -10,7 +10,6 @@ interface QrModalProps {
   isOpen: boolean;
   onClose: () => void;
   restaurantName: string;
-  tableNumber?: string;
   locale?: Language | string;
 }
 
@@ -62,9 +61,9 @@ export function QrModal({ isOpen, onClose, restaurantName, locale = 'en' }: QrMo
         </button>
 
         <div>
-          <h2 className="text-xl font-bold text-[var(--foreground)] font-brand">{t.tableQrTitle || 'Digital Menu QR'}</h2>
+          <h2 className="text-xl font-bold text-[var(--foreground)] font-brand">{t.menuQrTitle || 'Digital Menu QR'}</h2>
           <p className="text-xs text-[var(--muted)] mt-1">
-            {t.tableQrDesc} {restaurantName}.
+            {t.menuQrDesc || 'Scan with any phone to browse our digital menu for'} {restaurantName}.
           </p>
         </div>
 

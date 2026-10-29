@@ -897,7 +897,7 @@ export function DesignStudio({
                 </div>
                 <div>
                   <h4 className="text-xs font-bold truncate">{restaurant.name}</h4>
-                  <p className="text-[9px] text-neutral-400">Table 14 • Artisanal Dining</p>
+                  <p className="text-[9px] text-neutral-400">Digital Menu • Artisanal Dining</p>
                 </div>
               </div>
 

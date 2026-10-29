@@ -169,15 +169,15 @@ export function ItemCard({
         {/* Top-Left Pill Badge (BESTSELLER / POPULAR / SAVE 15% / FASTING) */}
         {hasOffer ? (
           <span className="absolute top-2 left-2 z-10 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-red-600 text-white shadow-xs">
-            {pricingResult?.badgeText || 'SPECIAL'}
+            {pricingResult?.badgeText || (currentLocale === 'am' ? 'ልዩ ቅናሽ' : 'SPECIAL')}
           </span>
         ) : item.is_chefs_pick ? (
           <span className="absolute top-2 left-2 z-10 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-amber-500 text-white shadow-xs">
-            POPULAR
+            {currentLocale === 'am' ? 'የተወደደ' : 'POPULAR'}
           </span>
         ) : item.tags?.includes('fasting') ? (
           <span className="absolute top-2 left-2 z-10 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-emerald-600 text-white shadow-xs">
-            FASTING
+            {currentLocale === 'am' ? 'የጾም' : 'FASTING'}
           </span>
         ) : null}
 
@@ -336,7 +336,9 @@ export function ItemCard({
               />
               {!(layout === 'grid' && (!item.options || item.options.length === 0)) && (
                 <span className="text-[11px] font-bold">
-                  {item.options && item.options.length > 0 ? 'Options' : 'Add'}
+                  {item.options && item.options.length > 0
+                    ? (currentLocale === 'am' ? 'ምርጫዎች' : 'Options')
+                    : (currentLocale === 'am' ? 'አክል' : 'Add')}
                 </span>
               )}
             </button>

@@ -14,7 +14,7 @@ export default function GlobalNotFound() {
           <span className="text-xs font-mono font-bold uppercase tracking-widest text-amber-500">
             404 • Page Not Found
           </span>
-          <h1 className="text-2xl font-bold mt-2 text-white">We couldn't find that table or menu</h1>
+          <h1 className="text-2xl font-bold mt-2 text-white">We couldn't find that menu</h1>
           <p className="text-xs text-neutral-400 mt-2 leading-relaxed">
             The link you scanned might have expired, or the restaurant URL was entered incorrectly.
           </p>

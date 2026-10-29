@@ -1,11 +1,24 @@
 import { test, expect } from '@playwright/test';
 import { rateLimiter } from '../src/lib/rate-limiter';
 
-test.describe('STAGE 6: Launch Readiness & QR Studio Suite', () => {
+async function loginAsOwner(page: any) {
+  await page.goto('/admin/login');
+  await page.waitForLoadState('networkidle');
+  const ownerBtn = page.locator('button:has-text("Restaurant Owner")');
+  if (await ownerBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
+    await ownerBtn.click();
+  }
+  await page.locator('[data-testid="owner-identifier-input"]').fill('frenitsuh10@gmail.com');
+  await page.locator('[data-testid="owner-password-input"]').fill('Nitsuh@2026');
+  await page.locator('button:has-text("Sign In as Owner")').click();
+  await expect(page).toHaveURL(/.*\/admin/);
+  await expect(page.locator('[data-hydrated="true"]')).toBeVisible({ timeout: 10000 });
+}
 
-  test('1. QR Studio: Navigation, Templates, Table Parameters & Scanning Advice', async ({ page }) => {
-    // Navigate to admin
-    await page.goto('/admin');
+test.describe('STAGE 6: Launch Readiness & QR Studio Suite', () => {
+  test('1. QR Studio: Navigation, Templates & Scanning Advice', async ({ page }) => {
+    // Sign in as Owner
+    await loginAsOwner(page);
     await page.waitForLoadState('networkidle');
 
     // Click "Share QR" quick action from Home
@@ -109,8 +122,7 @@ test.describe('STAGE 6: Launch Readiness & QR Studio Suite', () => {
     await expect(page.getByText('No Tracking Cookies')).toBeVisible();
     await expect(page.getByText('Anonymous Dining')).toBeVisible();
 
-    // Navigate to Admin Settings
-    await page.goto('/admin');
+    await loginAsOwner(page);
     await page.waitForLoadState('networkidle');
     const settingsBtn = page.locator('aside [data-testid="admin-nav-settings"]').or(page.locator('button:has-text("Settings & Staff")'));
     if (await settingsBtn.first().isVisible().catch(() => false)) {
@@ -121,7 +133,7 @@ test.describe('STAGE 6: Launch Readiness & QR Studio Suite', () => {
     }
 
     // Verify Privacy & Data Compliance section in Settings
-    await expect(page.getByText('Data Privacy & Tenant Ownership')).toBeVisible();
+    await expect(page.getByText('Data Privacy & Tenant Backup')).toBeVisible();
     await expect(page.getByTestId('export-tenant-data-btn')).toBeVisible();
     await expect(page.getByTestId('purge-guest-data-btn')).toBeVisible();
   });
@@ -130,7 +142,7 @@ test.describe('STAGE 6: Launch Readiness & QR Studio Suite', () => {
     rateLimiter.reset();
 
     const config = { maxRequests: 3, windowMs: 1000 };
-    const key = 'table-14-waiter-calls';
+    const key = 'session-waiter-calls';
 
     // 1st, 2nd, 3rd requests should be allowed
     const r1 = rateLimiter.check(key, config);

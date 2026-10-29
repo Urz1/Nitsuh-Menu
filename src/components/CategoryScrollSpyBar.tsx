@@ -188,7 +188,6 @@ export function CategoryScrollSpyBar({
   const currentLocale = (locale as Language) || 'en';
   const isAm = currentLocale === 'am';
   const isFastingActive = activeFilter === 'fasting';
-  const isOffersActive = activeFilter === 'onOffer';
 
   // Auto-scroll the active circular avatar into center view on selection change
   useEffect(() => {
@@ -218,7 +217,7 @@ export function CategoryScrollSpyBar({
 
   return (
     <div className="bg-transparent border-0 select-none transition-colors">
-      {/* 1. Quick Fasting & On Offer 1-Tap Toggles */}
+      {/* 1. Quick Fasting 1-Tap Toggle */}
       <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 pt-1 pb-0.5 flex items-center gap-2">
         <button
           type="button"
@@ -238,38 +237,6 @@ export function CategoryScrollSpyBar({
           <span>{isAm ? 'የጾም' : 'Fasting'}</span>
           {isFastingActive && <Check className="w-3 h-3 stroke-[3px]" />}
         </button>
-
-        {hasOffers && (
-          <button
-            type="button"
-            onClick={() => {
-              triggerHaptic(10);
-              onToggleOnOffer?.();
-            }}
-            className={`h-7 px-3 rounded-full flex items-center gap-1.5 text-xs font-bold transition-all duration-200 active:scale-95 shadow-xs ${
-              isOffersActive
-                ? 'bg-amber-500 text-white ring-2 ring-amber-500/30'
-                : 'bg-white dark:bg-[#1E1815] text-stone-700 dark:text-stone-300 border border-stone-200/80 dark:border-stone-800 hover:border-amber-500/50'
-            }`}
-            title="Dishes on Offer"
-            aria-label="Dishes on Offer"
-          >
-            <span>🏷️</span>
-            <span>On Offer</span>
-            {offersCount > 0 && (
-              <span
-                className={`text-[10px] font-extrabold px-1.5 py-0.2 rounded-full ${
-                  isOffersActive
-                    ? 'bg-black/25 text-white'
-                    : 'bg-amber-100 text-amber-900 dark:bg-amber-900/50 dark:text-amber-200'
-                }`}
-              >
-                {offersCount}
-              </span>
-            )}
-            {isOffersActive && <Check className="w-3 h-3 stroke-[3px]" />}
-          </button>
-        )}
       </div>
 
       {/* 2. Horizontal Scrollable Circular Food Avatars (Airy Studio Cutout Style) */}

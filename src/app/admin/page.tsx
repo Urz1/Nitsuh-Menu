@@ -9,8 +9,6 @@ import {
   Restaurant,
   MenuItem,
   Category,
-  Order,
-  ServiceRequest,
   DishReview,
   Offer,
   ScheduledMenu,
@@ -25,10 +23,6 @@ import {
   MOCK_REVIEWS_NITSUH,
   MOCK_SCHEDULED_MENUS_NITSUH,
   MOCK_MENU_VERSIONS_NITSUH,
-  getLiveOrders,
-  getLiveServiceRequests,
-  updateOrderStatus,
-  resolveServiceRequest,
   saveMenuItem,
   duplicateMenuItem,
   archiveMenuItem,
@@ -68,8 +62,6 @@ import { QRStudio } from '@/components/admin/QRStudio';
 import { ProfileSection } from '@/components/admin/ProfileSection';
 import { formatMoney, triggerHaptic } from '@/lib/utils';
 import {
-  ShoppingBag,
-  Bell,
   UtensilsCrossed,
   Settings,
   QrCode,
@@ -86,9 +78,6 @@ import {
   Eye,
   Sliders,
   ShieldCheck,
-  Droplets,
-  Utensils,
-  Receipt,
   Sun,
   Moon,
 } from 'lucide-react';
@@ -178,8 +167,6 @@ export default function AdminDashboardPage() {
     }
     return MOCK_CATEGORIES_NITSUH;
   });
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [serviceRequests, setServiceRequests] = useState<ServiceRequest[]>([]);
   const [reviews, setReviews] = useState<DishReview[]>([]);
   const [offers, setOffers] = useState<Offer[]>([]);
   const [scheduledMenus, setScheduledMenus] = useState<ScheduledMenu[]>(MOCK_SCHEDULED_MENUS_NITSUH);
@@ -189,9 +176,6 @@ export default function AdminDashboardPage() {
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isAddDishModalOpen, setIsAddDishModalOpen] = useState(false);
-
-  // Requests sub-tab ('orders' | 'service')
-  const [requestsTab, setRequestsTab] = useState<'orders' | 'service'>('orders');
 
   // Autosave status & Toast Notifications
   const [autosaveStatus, setAutosaveStatus] = useState<'saved' | 'saving'>('saved');
@@ -304,8 +288,6 @@ export default function AdminDashboardPage() {
       .catch(() => {});
 
     getMenuCategories(restaurant.id).then(setCategories);
-    getLiveOrders(restaurant.id).then(setOrders);
-    getLiveServiceRequests(restaurant.id).then(setServiceRequests);
     getDishReviews(restaurant.id).then(setReviews);
     getOffers(restaurant.id).then(setOffers);
     getScheduledMenus(restaurant.id).then(setScheduledMenus);
@@ -318,7 +300,7 @@ export default function AdminDashboardPage() {
           if (prev.some((r) => r.id === event.review.id)) return prev;
           return [event.review, ...prev];
         });
-        showToast(`New feedback received from Table ${event.review.table_number || 'Guest'}!`, 'info');
+        showToast('New customer review received!', 'info');
       } else if (event.type === 'ITEM_UPDATED') {
         setMenuItems((prev) =>
           prev.map((item) => (item.id === event.item.id ? { ...item, ...event.item } : item))
@@ -348,10 +330,8 @@ export default function AdminDashboardPage() {
     });
 
     const interval = setInterval(() => {
-      getLiveOrders(restaurant.id).then(setOrders);
-      getLiveServiceRequests(restaurant.id).then(setServiceRequests);
       getDishReviews(restaurant.id).then(setReviews);
-    }, 4000);
+    }, 6000);
 
     return () => {
       clearInterval(interval);
@@ -583,28 +563,7 @@ export default function AdminDashboardPage() {
     showToast('🎉 Setup complete! Your restaurant menu is live.', 'success');
   };
 
-  // Order & Request status handlers
-  const handleUpdateOrderStatus = (orderId: string, status: Order['status']) => {
-    triggerHaptic(10);
-    setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, status } : o)));
-    updateOrderStatus(orderId, status).catch(() => {});
-    showToast(`Order status updated to "${status}".`, 'info');
-  };
-
-  const handleResolveRequest = (requestId: string) => {
-    triggerHaptic(15);
-    setServiceRequests((prev) =>
-      prev.map((r) => (r.id === requestId ? { ...r, status: 'completed' } : r))
-    );
-    resolveServiceRequest(requestId).catch(() => {});
-    showToast('Service call marked as resolved.', 'success');
-  };
-
   // Badge Counts for Navigation
-  const pendingRequestsCount = serviceRequests.filter((r) => r.status === 'pending').length;
-  const activeOrdersCount = orders.filter(
-    (o) => o.status === 'pending' || o.status === 'preparing'
-  ).length;
   const reviewsAttentionCount = reviews.filter(
     (r) => r.status === 'published' && !r.owner_reply && r.rating <= 3
   ).length;
@@ -647,7 +606,6 @@ export default function AdminDashboardPage() {
         session={session}
         onSignOut={handleSignOut}
         badgeCounts={{
-          requests: pendingRequestsCount + activeOrdersCount,
           reviewsAttention: reviewsAttentionCount,
           activeOffers: activeOffersCount,
           totalDishes: menuItems.length,
@@ -797,8 +755,6 @@ export default function AdminDashboardPage() {
               menuItems={menuItems}
               reviews={reviews}
               offers={offers}
-              orders={orders}
-              serviceRequests={serviceRequests}
               onNavigate={setActiveSection}
               onOpenAddDish={() => {
                 setActiveSection('menu');
@@ -838,8 +794,8 @@ export default function AdminDashboardPage() {
             />
           )}
 
-          {/* SECTION 3: OFFERS & DEALS (Owner, Staff pause/view) */}
-          {activeSection === 'offers' && (
+          {/* SECTION 3: OFFERS & DEALS (Owner only) */}
+          {activeSection === 'offers' && userRole === 'owner' && (
             <OffersManager
               restaurant={restaurant}
               categories={categories}
@@ -848,8 +804,8 @@ export default function AdminDashboardPage() {
             />
           )}
 
-          {/* SECTION 4: DISH REVIEWS (Owner, Staff replies) */}
-          {activeSection === 'reviews' && (
+          {/* SECTION 4: DISH REVIEWS (Owner only) */}
+          {activeSection === 'reviews' && userRole === 'owner' && (
             <ReviewsManager
               restaurant={restaurant}
               menuItems={menuItems}
@@ -857,210 +813,6 @@ export default function AdminDashboardPage() {
               initialReviews={reviews}
               onReviewsChange={setReviews}
             />
-          )}
-
-          {/* SECTION 5: KITCHEN & SERVICE REQUESTS (Owner, Staff) */}
-          {activeSection === 'requests' && (
-            <div className="flex flex-col gap-6 pb-20">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div>
-                  <h2 className="text-xl font-bold text-white">Live Kitchen & Table Service</h2>
-                  <p className="text-xs text-neutral-400 mt-0.5">
-                    Real-time queue for dining room service calls and kitchen order tickets.
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#12141C] border border-white/5">
-                  <button
-                    onClick={() => setRequestsTab('orders')}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
-                      requestsTab === 'orders'
-                        ? 'bg-amber-600 text-white'
-                        : 'text-neutral-400 hover:text-white'
-                    }`}
-                  >
-                    <ShoppingBag className="w-3.5 h-3.5" />
-                    <span>Orders ({orders.length})</span>
-                  </button>
-                  <button
-                    onClick={() => setRequestsTab('service')}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
-                      requestsTab === 'service'
-                        ? 'bg-amber-600 text-white'
-                        : 'text-neutral-400 hover:text-white'
-                    }`}
-                  >
-                    <Bell className="w-3.5 h-3.5" />
-                    <span>Service Calls ({pendingRequestsCount})</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* ORDERS TAB */}
-              {requestsTab === 'orders' && (
-                <div className="space-y-4">
-                  {orders.length === 0 ? (
-                    <div className="p-16 text-center rounded-2xl bg-[#12141C] border border-white/5 text-neutral-500">
-                      <ShoppingBag className="w-10 h-10 mx-auto mb-2 opacity-40" />
-                      <p className="text-sm font-semibold text-white">No active orders</p>
-                      <p className="text-xs text-neutral-400 mt-1">
-                        Table orders placed by diners will chime in real-time.
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {orders.map((order) => (
-                        <div
-                          key={order.id}
-                          className="p-5 rounded-2xl bg-[#12141C] border border-white/5 flex flex-col justify-between gap-4"
-                        >
-                          <div>
-                            <div className="flex items-center justify-between mb-3">
-                              <span className="px-3 py-1 rounded-xl bg-amber-500/20 text-amber-300 font-extrabold text-sm">
-                                {order.table_number}
-                              </span>
-                              <span
-                                className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                                  order.status === 'pending'
-                                    ? 'bg-rose-500/20 text-rose-300'
-                                    : order.status === 'preparing'
-                                    ? 'bg-blue-500/20 text-blue-300'
-                                    : 'bg-emerald-500/20 text-emerald-300'
-                                }`}
-                              >
-                                {order.status}
-                              </span>
-                            </div>
-
-                            <div className="space-y-2 divide-y divide-white/5">
-                              {order.items.map((entry, idx) => (
-                                <div
-                                  key={idx}
-                                  className="pt-2 first:pt-0 flex justify-between items-baseline text-xs"
-                                >
-                                  <div>
-                                    <span className="font-bold text-white mr-1.5">
-                                      {entry.quantity}x
-                                    </span>
-                                    <span className="text-neutral-200">{entry.name}</span>
-                                    {entry.selected_options?.length > 0 && (
-                                      <p className="text-[10px] text-neutral-400 mt-0.5">
-                                        + {entry.selected_options.map((o) => o.name).join(', ')}
-                                      </p>
-                                    )}
-                                    {entry.notes && (
-                                      <p className="text-[10px] text-amber-300 italic mt-0.5">
-                                        Note: "{entry.notes}"
-                                      </p>
-                                    )}
-                                  </div>
-                                  <span className="font-semibold text-neutral-300">
-                                    {formatMoney(entry.line_total, restaurant.currency)}
-                                  </span>
-                                </div>
-                              ))}
-                            </div>
-
-                            <div className="pt-3 mt-3 border-t border-white/5 flex justify-between items-baseline text-sm">
-                              <span className="text-neutral-400">Total:</span>
-                              <span className="text-amber-400 font-extrabold font-mono">
-                                {formatMoney(order.total, restaurant.currency)}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="flex gap-2 pt-2 border-t border-white/5">
-                            <button
-                              onClick={() => handleUpdateOrderStatus(order.id, 'preparing')}
-                              className={`flex-1 py-1.5 rounded-xl text-xs font-bold transition-colors ${
-                                order.status === 'preparing'
-                                  ? 'bg-blue-600 text-white'
-                                  : 'bg-white/5 hover:bg-white/10 text-neutral-300'
-                              }`}
-                            >
-                              Preparing
-                            </button>
-                            <button
-                              onClick={() => handleUpdateOrderStatus(order.id, 'served')}
-                              className={`flex-1 py-1.5 rounded-xl text-xs font-bold transition-colors ${
-                                order.status === 'served'
-                                  ? 'bg-emerald-600 text-white'
-                                  : 'bg-white/5 hover:bg-white/10 text-neutral-300'
-                              }`}
-                            >
-                              Served
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* SERVICE REQUESTS TAB */}
-              {requestsTab === 'service' && (
-                <div className="space-y-3">
-                  {serviceRequests.length === 0 ? (
-                    <div className="p-16 text-center rounded-2xl bg-[#12141C] border border-white/5 text-neutral-500">
-                      <Bell className="w-10 h-10 mx-auto mb-2 opacity-40" />
-                      <p className="text-sm font-semibold text-white">No active service calls</p>
-                      <p className="text-xs text-neutral-400 mt-1">
-                        Diners requesting water, cutlery, or the bill will appear here.
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {serviceRequests.map((req) => (
-                        <div
-                          key={req.id}
-                          className="p-4 rounded-xl bg-[#12141C] border border-white/5 flex items-center justify-between gap-4"
-                        >
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold">
-                              {req.request_type === 'water' && <Droplets className="w-5 h-5 text-sky-400" />}
-                              {req.request_type === 'cutlery' && <Utensils className="w-5 h-5 text-amber-400" />}
-                              {req.request_type === 'bill' && <Receipt className="w-5 h-5 text-emerald-400" />}
-                              {req.request_type === 'waiter' && <Bell className="w-5 h-5 text-rose-400" />}
-                            </div>
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <span className="font-extrabold text-sm text-amber-300">
-                                  {req.table_number}
-                                </span>
-                                <span className="text-xs text-neutral-200 font-semibold uppercase">
-                                  {req.request_type} requested
-                                </span>
-                              </div>
-                              <span className="text-[10px] text-neutral-400">
-                                {new Date(req.created_at).toLocaleTimeString()}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div>
-                            {req.status === 'completed' ? (
-                              <span className="inline-flex items-center gap-1 text-xs text-emerald-400 font-bold">
-                                <CheckCircle2 className="w-4 h-4" />
-                                <span>Resolved</span>
-                              </span>
-                            ) : (
-                              <button
-                                onClick={() => handleResolveRequest(req.id)}
-                                className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white flex items-center gap-1.5 transition-colors"
-                              >
-                                <Check className="w-3.5 h-3.5" />
-                                <span>Mark Done</span>
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
           )}
 
           {/* SECTION 6: DESIGN STUDIO (Owner only) */}
@@ -1083,7 +835,7 @@ export default function AdminDashboardPage() {
             />
           )}
 
-          {/* SECTION 8: QR STUDIO & TABLE STANDS (Owner only) */}
+          {/* SECTION 8: QR STUDIO (Owner only) */}
           {activeSection === 'qr' && userRole === 'owner' && (
             <QRStudio
               restaurant={restaurant}
@@ -1130,7 +882,6 @@ export default function AdminDashboardPage() {
         session={session}
         onSignOut={handleSignOut}
         badgeCounts={{
-          requests: pendingRequestsCount + activeOrdersCount,
           reviewsAttention: reviewsAttentionCount,
           activeOffers: activeOffersCount,
         }}

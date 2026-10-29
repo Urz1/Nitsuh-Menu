@@ -15,7 +15,6 @@ interface OrderSummarySheetProps {
   cartPricing?: CartPricingResult;
   currencySymbol?: string;
   taxRate?: number;
-  tableNumber?: string;
   locale?: Language | string;
   onUpdateQty: (cartId: string, delta: number) => void;
   onClearOrder: () => void;
@@ -30,7 +29,6 @@ export function OrderSummarySheet({
   cartPricing,
   currencySymbol = 'ETB',
   taxRate = 0.08,
-  tableNumber,
   locale = 'en',
   onUpdateQty,
   onClearOrder,
@@ -79,12 +77,11 @@ export function OrderSummarySheet({
           <div className="flex items-center justify-between pb-2 border-b border-[var(--border)]">
             <div>
               <h2 className="text-xl font-bold text-[var(--foreground)] font-brand">{t.myOrder}</h2>
-              {tableNumber ? <span className="text-xs text-[var(--muted)]">{tableNumber}</span> : null}
             </div>
             {cart.length > 0 && (
               <button
                 onClick={() => {
-                  if (confirm('Clear all items from your order?')) {
+                  if (confirm(currentLocale === 'am' ? 'ሁሉንም ምግቦች ከትዕዛዝዎ ማጽዳት ይፈልጋሉ?' : 'Clear all items from your order?')) {
                     triggerHaptic(15);
                     onClearOrder();
                   }
@@ -112,18 +109,21 @@ export function OrderSummarySheet({
                 const originalLineTotal = linePricing?.originalLineTotal ?? entry.unitPrice * entry.quantity;
                 const finalLineTotal = linePricing?.finalLineTotal ?? originalLineTotal;
                 const lineSavings = linePricing?.lineSavings ?? 0;
-                const optionsString = entry.options.map((o) => o.name).join(', ');
+                const optionsString = entry.options.map((o) => (currentLocale === 'am' && o.name_am ? o.name_am : o.name)).join(', ');
+                const itemDisplayName = currentLocale === 'am' && entry.item.name_am ? entry.item.name_am : entry.item.name;
 
                 return (
                   <div key={entry.cartId} className="pt-3 first:pt-0 flex items-center justify-between gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5">
                         <h4 className="font-bold text-sm text-[var(--foreground)] truncate">
-                          {entry.item.name}
+                          {itemDisplayName}
                         </h4>
                         {lineSavings > 0 && (
                           <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">
-                            Save {formatMoney(lineSavings, currencySymbol)}
+                            {currentLocale === 'am'
+                              ? `${formatMoney(lineSavings, currencySymbol)} ${t.saveAmount}`
+                              : `Save ${formatMoney(lineSavings, currencySymbol)}`}
                           </span>
                         )}
                       </div>

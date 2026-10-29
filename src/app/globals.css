@@ -206,7 +206,7 @@ nextjs-portal,
 }
 
 /* =============================================================================
-   STANDARD PRINT STYLESHEET (Clean isolated stand cards / table tents only)
+   STANDARD PRINT STYLESHEET (Clean isolated stand cards / display cards only)
    ============================================================================= */
 @media print {
   /* Hide all admin chrome, navigations, sidebars, headers, footers, buttons, and tools */
@@ -261,7 +261,7 @@ nextjs-portal,
     background: #ffffff !important;
   }
 
-  /* Standard table tent stand card container */
+  /* Standard counter stand card container */
   .print-only-card {
     display: flex !important;
     flex-direction: column !important;

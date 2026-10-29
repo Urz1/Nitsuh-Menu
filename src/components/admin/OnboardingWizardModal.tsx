@@ -180,7 +180,7 @@ export function OnboardingWizardModal({
               <div>
                 <h3 className="text-lg font-bold text-white">Welcome! What is your restaurant called?</h3>
                 <p className="text-xs text-neutral-400 mt-1">
-                  This appears at the top of your digital menu and on printable table QR cards.
+                  This appears at the top of your digital menu and on printable QR display cards.
                 </p>
               </div>
 
@@ -369,7 +369,7 @@ export function OnboardingWizardModal({
               <div>
                 <h3 className="text-lg font-bold text-white">Opening hours & currency</h3>
                 <p className="text-xs text-neutral-400 mt-1">
-                  Control when guests can submit table orders or see the closed banner.
+                  Control when guests can submit orders or see the closed banner.
                 </p>
               </div>
 
@@ -506,7 +506,7 @@ export function OnboardingWizardModal({
               <div>
                 <h3 className="text-xl font-bold text-white">Your menu is live and ready!</h3>
                 <p className="text-xs text-neutral-300 max-w-md mx-auto mt-1">
-                  You have configured your branding, schedule, and first signature item. Download your table QR code to start receiving guest orders.
+                  You have configured your branding, schedule, and first signature item. Download your menu QR code to start receiving guest orders.
                 </p>
               </div>
 

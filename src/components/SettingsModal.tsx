@@ -11,8 +11,6 @@ interface SettingsModalProps {
   onClose: () => void;
   locale: Language | string;
   onLocaleChange: (loc: Language) => void;
-  tableNumber?: string;
-  onTableNumberChange?: (table: string) => void;
   wifiInfo: { ssid: string; password?: string; enabled?: boolean };
 }
 
@@ -21,8 +19,6 @@ export function SettingsModal({
   onClose,
   locale = 'en',
   onLocaleChange,
-  tableNumber,
-  onTableNumberChange,
   wifiInfo,
 }: SettingsModalProps) {
   const [copiedWifi, setCopiedWifi] = useState(false);
@@ -269,20 +265,9 @@ export function SettingsModal({
           )}
         </div>
 
-        {/* Dining Table & WiFi */}
-        <div className="p-3.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs flex flex-col gap-2">
-          {tableNumber && onTableNumberChange && (
-            <div className="flex justify-between items-center">
-              <span className="text-[var(--muted)] font-semibold">{t.tableNumberLabel}:</span>
-              <input
-                type="text"
-                value={tableNumber}
-                onChange={(e) => onTableNumberChange(e.target.value)}
-                className="w-24 px-2 py-0.5 rounded border border-[var(--border)] bg-[var(--card)] text-right font-bold text-[var(--foreground)] outline-none"
-              />
-            </div>
-          )}
-          {Boolean(wifiInfo?.enabled && wifiInfo?.ssid) && (
+        {/* Guest WiFi */}
+        {Boolean(wifiInfo?.enabled && wifiInfo?.ssid) && (
+          <div className="p-3.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs flex flex-col gap-2">
             <div className="flex justify-between items-center">
               <span className="text-[var(--muted)] font-semibold">{t.guestWifiLabel}:</span>
               <div className="flex items-center gap-2">
@@ -300,20 +285,20 @@ export function SettingsModal({
                     {copiedWifi ? (
                       <>
                         <Check className="w-3 h-3 text-emerald-500" />
-                        <span className="text-emerald-500">Copied</span>
+                        <span className="text-emerald-500">{locale === 'am' ? 'ተገልብጧል' : 'Copied'}</span>
                       </>
                     ) : (
                       <>
                         <Copy className="w-3 h-3 text-[var(--muted)]" />
-                        <span>Copy</span>
+                        <span>{locale === 'am' ? 'ገልብጥ' : 'Copy'}</span>
                       </>
                     )}
                   </button>
                 )}
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

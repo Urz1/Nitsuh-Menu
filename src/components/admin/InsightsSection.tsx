@@ -214,13 +214,13 @@ export function InsightsSection({
         </div>
       </div>
 
-      {/* Dish Demand & Sales Velocity */}
+      {/* Menu Engineering & Guest Popularity */}
       <section className="p-6 rounded-2xl bg-[#12141C] border border-white/5 space-y-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h3 className="text-base font-bold text-white">Dish Demand & Sales Velocity</h3>
+            <h3 className="text-base font-bold text-white">Menu Engineering & Guest Popularity</h3>
             <p className="text-xs text-neutral-400 mt-0.5">
-              Performance breakdown pairing guest interest (views) with sales velocity (orders).
+              Performance breakdown pairing guest interest (views) with diner ratings and feedback.
             </p>
           </div>
         </div>
@@ -232,10 +232,10 @@ export function InsightsSection({
               <div className="w-6 h-6 rounded-md bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
                 <Award className="w-3.5 h-3.5" />
               </div>
-              <h4 className="text-sm font-bold text-emerald-400">Stars (High Views & Orders)</h4>
+              <h4 className="text-sm font-bold text-emerald-400">Stars (High Views & Top Ratings)</h4>
             </div>
             <p className="text-xs text-neutral-400 mb-3">
-              High views and top sales. Keep front and center on your menu top.
+              High views and top ratings. Keep front and center on your menu.
             </p>
             <div className="space-y-1.5">
               {stars.slice(0, 4).map((it) => (
@@ -262,11 +262,11 @@ export function InsightsSection({
                 <Zap className="w-3.5 h-3.5" />
               </div>
               <h4 className="text-sm font-bold text-blue-400">
-                Workhorses (High Orders, Low Views)
+                Workhorses (Consistent Guest Favorites)
               </h4>
             </div>
             <p className="text-xs text-neutral-400 mb-3">
-              Consistent favorite. Consider pairing with drinks or featuring in combo deals.
+              Consistent favorite with great ratings. Consider pairing with drinks or featuring in combo deals.
             </p>
             <div className="space-y-1.5">
               {workhorses.slice(0, 4).map((it) => (
@@ -293,7 +293,7 @@ export function InsightsSection({
                 <Compass className="w-3.5 h-3.5" />
               </div>
               <h4 className="text-sm font-bold text-purple-400">
-                Hidden Gems (High Interest, Low Orders)
+                Hidden Gems (Top Rated, Fewer Views)
               </h4>
             </div>
             <p className="text-xs text-neutral-400 mb-3">
@@ -324,11 +324,11 @@ export function InsightsSection({
                 <AlertCircle className="w-3.5 h-3.5" />
               </div>
               <h4 className="text-sm font-bold text-rose-400">
-                Underperformers (Low Interest & Orders)
+                Underperformers (Needs Photo or Price Review)
               </h4>
             </div>
             <p className="text-xs text-neutral-400 mb-3">
-              High diner interest but low orders. Consider reviewing pricing or photo.
+              High diner interest but lower guest rating. Consider reviewing preparation, photo, or pricing.
             </p>
             <div className="space-y-1.5">
               {underperformers.slice(0, 4).map((it) => (

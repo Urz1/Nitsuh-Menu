@@ -10,7 +10,6 @@ interface ServerCardModalProps {
   isOpen: boolean;
   onClose: () => void;
   cart: CartItem[];
-  tableNumber?: string;
   restaurantName: string;
   currencySymbol?: string;
   taxRate?: number;
@@ -21,7 +20,6 @@ export function ServerCardModal({
   isOpen,
   onClose,
   cart,
-  tableNumber,
   restaurantName,
   currencySymbol = 'ETB',
   taxRate = 0.15,
@@ -34,6 +32,7 @@ export function ServerCardModal({
 
   const currentLocale = (locale as Language) || 'en';
   const t = TRANSLATIONS[currentLocale] || TRANSLATIONS.en;
+  const isAm = currentLocale === 'am';
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = cart.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
@@ -112,7 +111,7 @@ export function ServerCardModal({
           </div>
         </div>
 
-        {/* Large High-Legibility Dine-In Seating Table Banner */}
+        {/* High-Legibility Order Summary Banner */}
         <div
           className={`my-5 sm:my-6 p-5 sm:p-6 rounded-3xl text-center shadow-xs transition-colors ${
             isDarkMode
@@ -125,20 +124,21 @@ export function ServerCardModal({
               isDarkMode ? 'text-neutral-400' : 'text-neutral-500'
             }`}
           >
-            {tableNumber ? t.dineInSeating : t.myOrder}
+            {t.myOrder}
           </span>
           <h1
             className="text-3xl sm:text-4xl font-black tracking-tight"
             style={{ color: isDarkMode ? '#FBBF24' : 'var(--primary, #D9480F)' }}
           >
-            {tableNumber ? tableNumber.toUpperCase() : `${totalItems} ${totalItems === 1 ? 'Item' : 'Items'}`}
+            {totalItems} {isAm ? (totalItems === 1 ? 'ምግብ' : 'ምግቦች') : (totalItems === 1 ? 'Item' : 'Items')}
           </h1>
         </div>
 
         {/* Itemized Order Rows (Optimized for quick waiter glance) */}
         <div className="flex flex-col gap-4 sm:gap-5">
           {cart.map((entry) => {
-            const optString = entry.options.map((o) => o.name).join(' • ');
+            const optString = entry.options.map((o) => (isAm && o.name_am ? o.name_am : o.name)).join(' • ');
+            const dishName = isAm && entry.item.name_am ? entry.item.name_am : entry.item.name;
             return (
               <div key={entry.cartId} className="flex items-start gap-3 sm:gap-4 text-left">
                 <span
@@ -153,7 +153,7 @@ export function ServerCardModal({
                       isDarkMode ? 'text-white' : 'text-neutral-950'
                     }`}
                   >
-                    {entry.item.name}
+                    {dishName}
                   </h3>
                   {optString && (
                     <p

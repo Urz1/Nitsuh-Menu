@@ -8,7 +8,6 @@ import { Language, TRANSLATIONS } from '@/lib/translations';
 interface ServiceAssistanceModalProps {
   isOpen: boolean;
   onClose: () => void;
-  tableNumber?: string;
   onRequestService: (type: 'waiter' | 'water' | 'cutlery' | 'bill') => void;
   locale?: Language | string;
 }
@@ -16,7 +15,6 @@ interface ServiceAssistanceModalProps {
 export function ServiceAssistanceModal({
   isOpen,
   onClose,
-  tableNumber,
   onRequestService,
   locale = 'en',
 }: ServiceAssistanceModalProps) {
@@ -58,13 +56,7 @@ export function ServiceAssistanceModal({
         <div>
           <h2 className="text-xl font-bold text-[var(--foreground)] font-brand">{t.serviceAssistanceTitle}</h2>
           <p className="text-xs text-[var(--muted)] mt-1">
-            {tableNumber ? (
-              <>
-                {t.serviceAssistanceDesc} <strong className="text-[var(--foreground)]">{tableNumber}</strong>.
-              </>
-            ) : (
-              t.callWaiterDesc
-            )}
+            {t.callWaiterDesc}
           </p>
         </div>
 

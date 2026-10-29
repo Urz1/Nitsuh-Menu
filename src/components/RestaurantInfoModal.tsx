@@ -28,7 +28,6 @@ interface RestaurantInfoModalProps {
   isOpen: boolean;
   onClose: () => void;
   restaurant: Restaurant;
-  tableNumber?: string;
   locale?: Language | string;
   onOpenQrModal?: () => void;
   onShareMenu?: () => void;
@@ -38,7 +37,6 @@ export function RestaurantInfoModal({
   isOpen,
   onClose,
   restaurant,
-  tableNumber,
   locale = 'en',
   onOpenQrModal,
   onShareMenu,
@@ -180,14 +178,6 @@ export function RestaurantInfoModal({
               <p className="font-bold text-sm text-[var(--foreground)]">
                 {restaurant.hours || 'Daily: 7:00 AM to 10:00 PM'}
               </p>
-              {tableNumber && (
-                <p className="text-xs text-[var(--muted-foreground)] mt-1">
-                  {isAm ? 'የጠረጴዛ ቁጥር' : 'Currently seated at'}:{' '}
-                  <strong className="text-[var(--primary)]">
-                    {t.table} {tableNumber}
-                  </strong>
-                </p>
-              )}
             </div>
           </div>
 

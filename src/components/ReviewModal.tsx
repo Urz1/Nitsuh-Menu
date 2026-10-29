@@ -12,7 +12,6 @@ import { compressImage, uploadImageToCloudinary } from '@/lib/upload-client';
 interface ReviewModalProps {
   isOpen: boolean;
   item: MenuItem | null;
-  tableNumber?: string;
   availableTags?: string[];
   locale?: Language | string;
   onClose: () => void;
@@ -212,7 +211,7 @@ export function ReviewModal({
                 {t.reviewModalTitle}
               </span>
               <h2 className="text-lg font-bold text-[var(--foreground)] mt-0.5 truncate">
-                {item.name}
+                {locale === 'am' && item.name_am ? item.name_am : item.name}
               </h2>
               <p className="text-[11px] text-[var(--muted)]">
                 {t.reviewModalSubtitle}

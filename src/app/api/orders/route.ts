@@ -111,7 +111,7 @@ export async function POST(request: Request) {
         updated_at
       ) VALUES (
         ${resolvedRestaurantId},
-        ${table_number || 'Table 1'},
+        ${table_number || 'Order'},
         ${jsonItems}::jsonb,
         ${cleanSubtotal},
         ${cleanTax},

@@ -15,7 +15,7 @@ export const orderItemSchema = z.object({
 
 export const createOrderSchema = z.object({
   restaurant_id: z.string().uuid().or(z.string().min(1)),
-  table_number: z.string().min(1, 'Table number is required').max(30),
+  table_number: z.string().max(30).optional().default('Order'),
   items: z.array(orderItemSchema).min(1, 'At least one item is required'),
   subtotal: z.number().nonnegative(),
   tax: z.number().nonnegative(),
@@ -25,7 +25,7 @@ export const createOrderSchema = z.object({
 
 export const serviceRequestSchema = z.object({
   restaurant_id: z.string().min(1),
-  table_number: z.string().min(1).max(30),
+  table_number: z.string().max(30).optional().default('Service'),
   request_type: z.enum(['waiter', 'water', 'cutlery', 'bill']),
   notes: z.string().max(500).optional(),
 });

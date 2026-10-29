@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Restaurant, MenuItem, DishReview, Offer, ServiceRequest, Order } from '@/types/database';
+import { Restaurant, MenuItem, DishReview, Offer } from '@/types/database';
 import { formatMoney, triggerHaptic } from '@/lib/utils';
 import { AdminSection } from './AdminSidebar';
 import {
@@ -31,8 +31,6 @@ interface HomeDashboardProps {
   menuItems: MenuItem[];
   reviews: DishReview[];
   offers: Offer[];
-  orders: Order[];
-  serviceRequests: ServiceRequest[];
   onNavigate: (section: AdminSection) => void;
   onOpenAddDish: () => void;
   onOpenOnboarding: () => void;
@@ -46,8 +44,6 @@ export function HomeDashboard({
   menuItems,
   reviews,
   offers,
-  orders,
-  serviceRequests,
   onNavigate,
   onOpenAddDish,
   onOpenOnboarding,
@@ -56,14 +52,8 @@ export function HomeDashboard({
   onToggleChecklistStep,
 }: HomeDashboardProps) {
   const activeOffers = offers.filter((o) => o.status === 'live' && !o.is_paused);
-  const pendingRequests = serviceRequests.filter((r) => r.status === 'pending');
   const soldOutItems = menuItems.filter((i) => !i.is_available);
   const activeDishes = menuItems.filter((i) => i.is_available && !i.is_archived);
-
-  // Real operational calculations derived from orders
-  const totalRevenue = orders.reduce((sum, o) => sum + (Number(o.total) || 0), 0);
-  const completedOrdersCount = orders.filter((o) => o.status === 'served').length;
-  const fulfillmentPercent = orders.length > 0 ? Math.round((completedOrdersCount / orders.length) * 100) : 100;
 
   // Calculate rating
   const approvedReviews = reviews.filter((r) => r.status === 'published');
@@ -92,7 +82,7 @@ export function HomeDashboard({
               <div className="flex items-center gap-2">
                 <h2 className="text-lg md:text-xl font-bold text-white banner-title">Your digital menu is live!</h2>
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 banner-badge">
-                  Ready for Orders
+                  Live & Ready for Diners
                 </span>
               </div>
               <p className="text-xs md:text-sm text-neutral-400 mt-0.5 banner-subtitle">
@@ -239,7 +229,7 @@ export function HomeDashboard({
               <p className="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">
                 Share QR
               </p>
-              <p className="text-[11px] text-neutral-400 mt-0.5">Table stands & links</p>
+              <p className="text-[11px] text-neutral-400 mt-0.5">Menu QR & links</p>
             </div>
           </button>
         </div>
@@ -261,30 +251,34 @@ export function HomeDashboard({
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Card 1: Revenue */}
+          {/* Card 1: Active Promotions & Offers */}
           <div className="p-5 rounded-2xl bg-[#12141C] border border-white/5 flex flex-col justify-between">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
-                Today's Orders
+                Special Offers
               </span>
               <span className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${
-                orders.length > 0 ? 'bg-emerald-500/15 text-emerald-400' : 'bg-white/5 text-neutral-400'
+                activeOffers.length > 0 ? 'bg-emerald-500/15 text-emerald-400' : 'bg-white/5 text-neutral-400'
               }`}>
-                {orders.length > 0 ? `${orders.length} Active` : 'Awaiting Orders'}
+                {activeOffers.length > 0 ? `${activeOffers.length} Active` : 'No Deals'}
               </span>
             </div>
             <div className="my-3">
               <p className="text-2xl lg:text-3xl font-extrabold text-white font-mono tracking-tight">
-                {formatMoney(totalRevenue, restaurant.currency)}
+                {activeOffers.length}{' '}
+                <span className="text-sm font-normal text-neutral-400">/ {offers.length}</span>
               </p>
               <p className="text-[11px] text-neutral-400 mt-0.5">
-                {orders.length > 0 ? `Total order volume today` : `No customer orders placed yet today`}
+                {activeOffers.length > 0 ? 'Featured deals running on customer menu' : 'Create discounts and combo offers'}
               </p>
             </div>
-            <div className="pt-2.5 border-t border-white/5 flex items-center justify-between text-xs text-neutral-400">
-              <span>{orders.length} {orders.length === 1 ? 'order' : 'orders'} placed</span>
-              <span className="text-emerald-400 font-medium">{fulfillmentPercent}% fulfillment</span>
-            </div>
+            <button
+              onClick={() => onNavigate('offers')}
+              className="pt-2.5 border-t border-white/5 flex items-center justify-between text-xs text-amber-400 hover:text-amber-300 font-medium transition-colors"
+            >
+              <span>Manage promotions & deals</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
           </div>
 
           {/* Card 2: Active Dishes & Sold Out */}
@@ -355,36 +349,30 @@ export function HomeDashboard({
             </button>
           </div>
 
-          {/* Card 4: Service Requests Queue */}
+          {/* Card 4: QR & Menu Stands */}
           <div className="p-5 rounded-2xl bg-[#12141C] border border-white/5 flex flex-col justify-between">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
-                Table Calls
+                Menu QR & Stands
               </span>
-              <span
-                className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${
-                  pendingRequests.length > 0
-                    ? 'bg-rose-500/20 text-rose-400 animate-pulse'
-                    : 'bg-emerald-500/15 text-emerald-400'
-                }`}
-              >
-                {pendingRequests.length > 0 ? `${pendingRequests.length} Pending` : 'All clear'}
+              <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-400">
+                Ready to Print
               </span>
             </div>
             <div className="my-3">
-              <p className="text-2xl lg:text-3xl font-extrabold text-white font-mono tracking-tight">
-                {pendingRequests.length}
-                <span className="text-sm font-normal text-neutral-400 ml-2">unanswered</span>
+              <p className="text-2xl lg:text-3xl font-extrabold text-white font-mono tracking-tight flex items-center gap-2">
+                <QrCode className="w-7 h-7 text-amber-400" />
+                <span>Menu QR</span>
               </p>
               <p className="text-[11px] text-neutral-400 mt-0.5">
-                {pendingRequests.length > 0 ? 'Requires immediate staff attention' : 'All guest calls attended to'}
+                Instant smartphone menu access for guests
               </p>
             </div>
             <button
-              onClick={() => onNavigate('requests')}
+              onClick={() => onNavigate('qr')}
               className="pt-2.5 border-t border-white/5 flex items-center justify-between text-xs text-amber-400 hover:text-amber-300 font-medium transition-colors"
             >
-              <span>Open service console</span>
+              <span>Open QR Studio</span>
               <ChevronRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -400,7 +388,7 @@ export function HomeDashboard({
             <div>
               <div className="flex items-center gap-2">
                 <h3 id="checklist-heading" className="text-base font-bold text-white">
-                  Next steps to maximize orders
+                  Next steps to complete your digital menu setup
                 </h3>
                 <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300">
                   {completedCount} of {totalCount} completed ({progressPercent}%)
@@ -589,7 +577,11 @@ export function HomeDashboard({
                       <Clock className="w-3 h-3 text-neutral-500" />
                       {offer.start_time ? 'Active during specific hours' : 'Active all day'}
                     </span>
-                    <span className="text-neutral-400 font-mono">{offer.orders_count || 0} orders</span>
+                    <span className="text-neutral-400 font-mono">
+                      {offer.scope_type === 'items'
+                        ? `${(offer.item_ids || []).length} selected dishes`
+                        : 'Category promotion'}
+                    </span>
                   </div>
                 </div>
               ))}

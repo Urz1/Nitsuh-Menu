@@ -86,7 +86,7 @@ export function checkReviewRateLimit(
   if (alreadyReviewedItem) {
     return {
       allowed: false,
-      error: 'You have already reviewed this dish for this table session.',
+      error: 'You have already reviewed this dish.',
     };
   }
 

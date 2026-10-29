@@ -32,7 +32,7 @@ export const MOCK_RESTAURANT_NITSUH: Restaurant = {
   tagline: 'From Savour Bites to Sweet Delights, We Cater It All! • Hot & Fresh Fast Food, Handcrafted Sweets & Desserts',
   currency: 'ETB',
   currency_code: 'ETB',
-  default_table: 'Table 1',
+  default_table: 'Main',
   hours: 'Mon – Sun: 6:30 AM – 11:00 PM',
   branch_name: 'Main Branch, Nitsuh Cafe & Restaurant',
   address: 'Nitsuh Bakery , Pizza & Burger | Bulbula, Addis Ababa, Ethiopia',
@@ -92,7 +92,7 @@ export const MOCK_RESTAURANT_NITSUH: Restaurant = {
     { id: 'step-brand', title: 'Brand & Logo setup', completed: true },
     { id: 'step-hours', title: 'Operating hours configured', completed: true },
     { id: 'step-dishes', title: 'Add signature dishes', completed: true },
-    { id: 'step-qr', title: 'Download & print table QR codes', completed: false },
+    { id: 'step-qr', title: 'Download & print menu QR codes', completed: false },
     { id: 'step-offers', title: 'Create your first promotional offer', completed: false },
   ],
 };
@@ -3005,7 +3005,7 @@ export async function getMenuItems(restaurantId: string): Promise<MenuItem[]> {
 
 export async function createOrder(input: CreateOrderInput): Promise<Order> {
   // 1. Rate Limiting Protection (Anti-Spam / Anti-DDoS)
-  const rateLimitKey = `order:${input.restaurant_id}:${input.table_number}`;
+  const rateLimitKey = `order:${input.restaurant_id}:${input.table_number || 'order'}`;
   const rateCheck = rateLimiter.check(rateLimitKey, RATE_LIMITS.SUBMIT_ORDER);
   if (!rateCheck.allowed) {
     throw new Error(rateCheck.errorMessage || 'Too many orders placed. Please wait a moment before trying again.');
@@ -3041,7 +3041,7 @@ export async function createOrder(input: CreateOrderInput): Promise<Order> {
   const newOrder: Order = {
     id: `ord-${Date.now()}`,
     restaurant_id: input.restaurant_id,
-    table_number: input.table_number,
+    table_number: input.table_number || 'Order',
     items: sanitizedItems,
     subtotal: verifiedSubtotalRounded,
     tax: verifiedTax,
@@ -3090,7 +3090,7 @@ export async function createOrder(input: CreateOrderInput): Promise<Order> {
 
 export async function createServiceRequest(input: ServiceRequestInput): Promise<ServiceRequest> {
   // Rate Limiting Protection (Anti-Spam waiter call flooding)
-  const rateLimitKey = `service:${input.restaurant_id}:${input.table_number}`;
+  const rateLimitKey = `service:${input.restaurant_id}:${input.table_number || 'service'}`;
   const rateCheck = rateLimiter.check(rateLimitKey, RATE_LIMITS.SERVICE_REQUEST);
   if (!rateCheck.allowed) {
     throw new Error(rateCheck.errorMessage || 'Please wait before requesting assistance again.');
@@ -3099,7 +3099,7 @@ export async function createServiceRequest(input: ServiceRequestInput): Promise<
   const newRequest: ServiceRequest = {
     id: `req-${Date.now()}`,
     restaurant_id: input.restaurant_id,
-    table_number: input.table_number,
+    table_number: input.table_number || 'Service',
     request_type: input.request_type,
     notes: input.notes,
     status: 'pending',
@@ -3388,38 +3388,29 @@ export async function getOffers(restaurantId: string): Promise<Offer[]> {
         if (rows) {
           const mapped = (rows as any[])
             .map((d: any) => {
-              const rawCategoryIds: string[] = Array.isArray(d.category_ids) && d.category_ids.filter(Boolean).length > 0
-                ? d.category_ids.filter(Boolean)
-                : Array.isArray(d.target_category_ids) && d.target_category_ids.filter(Boolean).length > 0
-                ? d.target_category_ids.filter(Boolean)
-                : d.offer_type === 'category_discount' || d.template_type === 'happy_hour' || (d.title && d.title.toLowerCase().includes('pizza'))
-                ? ['cat-pizza', 'cat_pizza_30']
-                : [];
+              const scopeType: 'all' | 'categories' | 'items' =
+                d.scope_type ||
+                (d.offer_type === 'category_discount'
+                  ? 'categories'
+                  : d.offer_type === 'item_discount' || (Array.isArray(d.item_ids) && d.item_ids.length > 0)
+                  ? 'items'
+                  : d.offer_type === 'order_threshold'
+                  ? 'all'
+                  : 'categories');
 
-              if (rawCategoryIds.some((c: string) => c.toLowerCase().includes('pizza')) || d.template_type === 'happy_hour' || (d.title && d.title.toLowerCase().includes('pizza'))) {
-                if (!rawCategoryIds.includes('cat-pizza')) rawCategoryIds.push('cat-pizza');
-                if (!rawCategoryIds.includes('cat_pizza_30')) rawCategoryIds.push('cat_pizza_30');
-              }
-              if (rawCategoryIds.some((c: string) => c.toLowerCase().includes('burger')) || (d.title && d.title.toLowerCase().includes('burger'))) {
-                if (!rawCategoryIds.includes('cat-burger')) rawCategoryIds.push('cat-burger');
-                if (!rawCategoryIds.includes('cat_burger_20')) rawCategoryIds.push('cat_burger_20');
-              }
               const rawItemIds: string[] = Array.isArray(d.item_ids) && d.item_ids.length > 0
                 ? d.item_ids
                 : Array.isArray(d.target_item_ids) && d.target_item_ids.length > 0
                 ? d.target_item_ids
                 : [];
 
-              let scopeType: 'all' | 'categories' | 'items' = 'items';
-              if (d.scope_type) {
-                scopeType = d.scope_type;
-              } else if (d.offer_type === 'category_discount' || rawCategoryIds.length > 0) {
-                scopeType = 'categories';
-              } else if (d.offer_type === 'item_discount' || rawItemIds.length > 0) {
-                scopeType = 'items';
-              } else if (d.offer_type === 'order_threshold') {
-                scopeType = 'all';
-              }
+              const rawCategoryIds: string[] = scopeType === 'items'
+                ? []
+                : Array.isArray(d.category_ids) && d.category_ids.filter(Boolean).length > 0
+                ? d.category_ids.filter(Boolean)
+                : Array.isArray(d.target_category_ids) && d.target_category_ids.filter(Boolean).length > 0
+                ? d.target_category_ids.filter(Boolean)
+                : [];
 
               const title = (d.title || '').replace(/\bAddis\b/g, 'Nitsuh');
               const description = (d.description || '').replace(/\bAddis\b/g, 'Nitsuh');
@@ -4424,8 +4415,10 @@ export async function saveMenuItem(itemData: Partial<MenuItem>): Promise<MenuIte
       restaurant_id: itemData.restaurant_id || MOCK_RESTAURANT_NITSUH.id,
       category_id: itemData.category_id || inMemoryCategories[0]?.id || 'cat-breakfast',
       name: itemData.name || 'New Dish',
+      name_am: itemData.name_am || '',
       name_es: itemData.name_es,
       description: itemData.description || '',
+      description_am: itemData.description_am || '',
       description_es: itemData.description_es,
       price: Number(itemData.price || 0),
       image_url: itemData.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80',

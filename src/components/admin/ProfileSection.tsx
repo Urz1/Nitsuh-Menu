@@ -575,7 +575,7 @@ export function ProfileSection({
         <p className="text-xs text-neutral-400 mb-4">
           {isOwner
             ? 'Full administrative permissions to manage restaurant configuration, team members, pricing, and dishes.'
-            : 'Streamlined console for daily floor service, table assistance, and review replies.'}
+            : 'Streamlined console for daily floor service, customer assistance, and review replies.'}
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
@@ -674,7 +674,7 @@ export function ProfileSection({
                   </div>
                   <h4 className="text-xs font-bold text-white tracking-wide">Service Requests</h4>
                   <p className="text-[11px] text-neutral-400 mt-1 leading-relaxed">
-                    Acknowledge and mark table calls and refills as served.
+                    Acknowledge and mark customer calls and refills as served.
                   </p>
                 </div>
               </div>

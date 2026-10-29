@@ -16,7 +16,6 @@ import { CategoryTabs } from './CategoryTabs';
 import { FilterBar } from './FilterBar';
 import { ItemCard } from './ItemCard';
 import { ItemDetailModal } from './ItemDetailModal';
-import { CalmOfferBanner } from './CalmOfferBanner';
 import { ReviewModal } from './ReviewModal';
 import { OrderBar } from './OrderBar';
 import { OrderSummarySheet } from './OrderSummarySheet';
@@ -59,7 +58,6 @@ interface ClientMenuContainerProps {
   initialOffers?: Offer[];
   initialReviews?: DishReview[];
   initialReviewSettings?: RestaurantReviewSettings;
-  initialTable?: string;
 }
 
 export function ClientMenuContainer({
@@ -69,7 +67,6 @@ export function ClientMenuContainer({
   initialOffers,
   initialReviews,
   initialReviewSettings,
-  initialTable,
 }: ClientMenuContainerProps) {
   // Restaurant state (updated live via sync / realtime / cache)
   const [restaurant, setRestaurant] = useState<Restaurant>(initialRestaurant);
@@ -167,7 +164,6 @@ export function ClientMenuContainer({
 
   // PWA Offline detection
   const [isOffline, setIsOffline] = useState(false);
-  const [isBannerDismissed, setIsBannerDismissed] = useState(false);
 
   useEffect(() => {
     if (typeof navigator !== 'undefined') {
@@ -187,9 +183,6 @@ export function ClientMenuContainer({
   }, []);
 
   // User state
-  const [tableNumber, setTableNumber] = useState<string>(
-    initialTable || ''
-  );
   const [locale, setLocale] = useState<Language>('en');
   const [layout, setLayout] = useState<'list' | 'grid'>(
     restaurant.theme_config?.defaultLayout || 'list'
@@ -434,7 +427,6 @@ export function ClientMenuContainer({
       ...data,
       restaurant_id: restaurant.id,
       session_token: sessionToken,
-      table_number: tableNumber,
     });
     if (res.success && res.review) {
       setReviews((prev) => [res.review!, ...prev]);
@@ -501,6 +493,17 @@ export function ClientMenuContainer({
     }
     return map;
   }, [items, activeOffers, currentTime, restaurantTimezone]);
+
+  // Count of individual dishes currently on offer
+  const discountedDishesCount = useMemo(() => {
+    let count = 0;
+    for (const item of items) {
+      if (itemPricingMap.get(item.id)?.hasOffer) {
+        count++;
+      }
+    }
+    return count;
+  }, [items, itemPricingMap]);
 
   // Items lookup map
   const itemsMap = useMemo(() => {
@@ -642,7 +645,7 @@ export function ClientMenuContainer({
   const handleRequestService = async (type: 'waiter' | 'water' | 'cutlery' | 'bill') => {
     await createServiceRequest({
       restaurant_id: restaurant.id,
-      table_number: tableNumber,
+      table_number: 'Service',
       request_type: type,
     });
 
@@ -653,15 +656,7 @@ export function ClientMenuContainer({
       bill: 'The check has been requested!',
     };
 
-    showToast(tableNumber ? `${labels[type]} for ${tableNumber}` : labels[type]);
-  };
-
-  // Banner action handler: smoothly jumps to dishes on offer
-  const handleSeeOffer = (offer: Offer) => {
-    recordOfferInteraction(offer.id, 'tap').catch(() => { });
-    setActiveFilter('onOffer');
-    setActiveCategoryId('offers');
-    window.scrollTo({ top: 120, behavior: 'smooth' });
+    showToast(labels[type]);
   };
 
   // Filtered & Sorted items computation
@@ -774,15 +769,6 @@ export function ClientMenuContainer({
 
       {/* 1. UNIFIED SLIM STICKY HEADER & INLINE SEARCH SYSTEM */}
       <div className="sticky top-0 z-40 bg-[#FAF6F0]/95 dark:bg-[#14100E]/95 backdrop-blur-md">
-        {/* Calm Offer Top Notice Banner */}
-        {!isBannerDismissed && bannerOffer && (
-          <CalmOfferBanner
-            activeOffer={bannerOffer}
-            onSeeOffer={handleSeeOffer}
-            onDismiss={() => setIsBannerDismissed(true)}
-          />
-        )}
-
         {/* 1.1 Slim Header: App-like persona with welcoming greeting */}
         <SlimHeader
           restaurant={restaurant}
@@ -798,7 +784,7 @@ export function ClientMenuContainer({
           onLogoTap={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           activeTab={activeTab}
           onTabChange={handleTabChange}
-          offersCount={activeOffers.length}
+          offersCount={discountedDishesCount}
           favoritesCount={favorites.size}
           cartCount={totalCartCount}
           cartSubtotal={cartPricing.netSubtotal}
@@ -885,17 +871,6 @@ export function ClientMenuContainer({
               showToast(locale === 'am' ? 'የጾም ምግቦች ብቻ ተመርጠዋል' : 'Showing fasting dishes (meat & dairy free)');
             }
           }}
-          onToggleOnOffer={() => {
-            if (activeFilter === 'onOffer') {
-              setActiveFilter('all');
-              if (activeCategoryId === 'offers') setActiveCategoryId(categories[0]?.id || 'all');
-            } else {
-              setActiveFilter('onOffer');
-              setActiveCategoryId('offers');
-            }
-          }}
-          hasOffers={activeOffers.length > 0}
-          offersCount={activeOffers.length}
           onOpenFilterSheet={() => setIsFilterSheetOpen(true)}
           activeFilterCount={
             (activeFilter !== 'all' ? 1 : 0) + (sortOrder !== 'featured' ? 1 : 0)
@@ -1184,7 +1159,7 @@ export function ClientMenuContainer({
         <div className="flex justify-center gap-4 text-xs font-semibold" style={{ color: 'var(--primary)' }}>
           <button onClick={() => setIsQrModalOpen(true)} className="inline-flex items-center gap-1">
             <QrCode className="w-3.5 h-3.5" />
-            <span>{tableNumber ? (TRANSLATIONS[locale]?.tableQr || 'Table QR') : (TRANSLATIONS[locale]?.menuQr || 'Menu QR')}</span>
+            <span>{TRANSLATIONS[locale]?.menuQr || 'Menu QR'}</span>
           </button>
           <button
             onClick={() => {
@@ -1204,15 +1179,7 @@ export function ClientMenuContainer({
             <span>{TRANSLATIONS[locale]?.shareMenu || 'Share Menu'}</span>
           </button>
         </div>
-        <div className="pt-3 border-t border-[var(--border)]/50 mt-1 flex flex-col sm:flex-row items-center justify-center gap-2 text-[11px] text-[var(--muted)]/60">
-          <Link
-            href="/admin"
-            className="hover:text-[var(--foreground)] transition-colors inline-flex items-center gap-1 px-2 py-0.5 rounded-md hover:bg-[var(--border)]/30"
-          >
-            <Lock className="w-3 h-3 opacity-70" />
-            <span>{TRANSLATIONS[locale]?.staffOwnerPortal || 'Staff & Owner Portal'}</span>
-          </Link>
-          <span className="hidden sm:inline-block opacity-40">•</span>
+        <div className="pt-3 border-t border-[var(--border)]/50 mt-1 flex items-center justify-center text-[11px] text-[var(--muted)]/60">
           <span className="inline-flex items-center gap-1">
             <span>Powered by</span>
             <a
@@ -1280,7 +1247,6 @@ export function ClientMenuContainer({
         cartPricing={cartPricing}
         currencySymbol={restaurant.currency || 'ETB'}
         taxRate={restaurant.tax_rate}
-        tableNumber={tableNumber}
         locale={locale}
         onUpdateQty={handleUpdateCartQty}
         onClearOrder={handleClearOrder}
@@ -1292,7 +1258,6 @@ export function ClientMenuContainer({
         isOpen={isServerCardOpen}
         onClose={() => setIsServerCardOpen(false)}
         cart={cart}
-        tableNumber={tableNumber}
         restaurantName={restaurant.name}
         currencySymbol={restaurant.currency || 'ETB'}
         taxRate={restaurant.tax_rate}
@@ -1302,7 +1267,6 @@ export function ClientMenuContainer({
       <ServiceAssistanceModal
         isOpen={isServiceModalOpen}
         onClose={() => setIsServiceModalOpen(false)}
-        tableNumber={tableNumber}
         onRequestService={handleRequestService}
         locale={locale}
       />
@@ -1319,7 +1283,6 @@ export function ClientMenuContainer({
         isOpen={isQrModalOpen}
         onClose={() => setIsQrModalOpen(false)}
         restaurantName={restaurant.name}
-        tableNumber={tableNumber}
         locale={locale}
       />
 
@@ -1485,7 +1448,7 @@ export function ClientMenuContainer({
       <BottomNavBar
         activeTab={activeTab}
         onTabChange={handleTabChange}
-        offersCount={activeOffers.length}
+        offersCount={discountedDishesCount}
         favoritesCount={favorites.size}
         cartCount={totalCartCount}
         onOpenCart={() => setIsOrderSheetOpen(true)}
@@ -1507,7 +1470,7 @@ export function ClientMenuContainer({
         onSortChange={setSortOrder}
         layout={layout}
         onLayoutChange={setLayout}
-        offersCount={activeOffers.length}
+        offersCount={discountedDishesCount}
         locale={locale}
       />
 
@@ -1516,7 +1479,6 @@ export function ClientMenuContainer({
         isOpen={isInfoModalOpen}
         onClose={() => setIsInfoModalOpen(false)}
         restaurant={restaurant}
-        tableNumber={tableNumber}
         locale={locale}
         onOpenQrModal={() => setIsQrModalOpen(true)}
       />

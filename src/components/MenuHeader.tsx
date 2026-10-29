@@ -9,7 +9,6 @@ import { usePWAInstall } from '@/context/PWAInstallContext';
 
 interface MenuHeaderProps {
   restaurant: Restaurant;
-  tableNumber?: string;
   favCount: number;
   locale: Language;
   onLocaleChange: (lang: Language) => void;
@@ -22,7 +21,6 @@ interface MenuHeaderProps {
 
 export function MenuHeader({
   restaurant,
-  tableNumber,
   favCount,
   locale,
   onLocaleChange,
@@ -123,7 +121,7 @@ export function MenuHeader({
                 <span>{restaurant.is_open ? t.openNow : t.closed}</span>
               </span>
               <span className="text-neutral-300 dark:text-neutral-700 select-none">•</span>
-              <span className="text-[11px] text-[var(--muted)] whitespace-nowrap">Dine-In</span>
+              <span className="text-[11px] text-[var(--muted)] whitespace-nowrap">{locale === 'am' ? 'በቦታው ለመመገብ' : 'Dine-In'}</span>
               {restaurant.google_maps_url && (
                 <>
                   <span className="text-neutral-300 dark:text-neutral-700 select-none">•</span>
@@ -136,7 +134,7 @@ export function MenuHeader({
                   >
                     <MapPin className="w-2.5 h-2.5 text-[var(--primary)] flex-shrink-0" />
                     <span className="truncate max-w-[85px] sm:max-w-none">
-                      {restaurant.branch_name ? restaurant.branch_name.split(/[,—\-]/)[0].trim() : 'Main Branch'}
+                      {restaurant.branch_name ? restaurant.branch_name.split(/[,—\-]/)[0].trim() : (locale === 'am' ? 'ዋናው ቅርንጫፍ' : 'Main Branch')}
                     </span>
                   </a>
                 </>

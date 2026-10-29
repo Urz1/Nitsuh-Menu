@@ -312,7 +312,7 @@ export function getIntelligentPairings(
     if (snack) {
       recommendations.push({
         item: snack,
-        intentBadge: 'Table Share',
+        intentBadge: 'Great to Share',
         reasonText: 'Crispy seasoned chicken accompaniment to share',
         affinityScore: 92,
       });
@@ -454,7 +454,7 @@ export function getIntelligentPairings(
     recommendations.push({
       item: side,
       intentBadge: 'Crispy Side',
-      reasonText: 'Delicious accompaniment for the table',
+      reasonText: 'Delicious accompaniment for your order',
       affinityScore: 75,
     });
   }

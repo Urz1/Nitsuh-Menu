@@ -490,6 +490,9 @@ export function MenuManager({
                   restaurant_id: restaurant.id,
                   category_id: categories[0]?.id || 'cat-breakfast',
                   name: '',
+                  name_am: '',
+                  description: '',
+                  description_am: '',
                   price: 15.0,
                   image_url: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80',
                   tags: [],
@@ -801,6 +804,12 @@ export function MenuManager({
                           {item.name}
                         </span>
 
+                        {item.name_am && (
+                          <span className="text-xs text-neutral-400 font-normal truncate hidden sm:inline" title="Amharic Translation">
+                            ({item.name_am})
+                          </span>
+                        )}
+
                         {item.is_chefs_pick && (
                           <span className="px-1.5 py-0.2 rounded-full text-[9px] font-bold bg-amber-500/20 text-amber-300 uppercase">
                             Chef's Pick
@@ -1020,6 +1029,46 @@ export function MenuManager({
                       placeholder="18.50"
                       className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm font-mono focus:outline-none focus:border-amber-500"
                     />
+                  </div>
+                </div>
+
+                {/* Prominent Bilingual Translation Option (Amharic) */}
+                <div className="p-3.5 rounded-xl bg-amber-500/5 border border-amber-500/20 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                      <span>🇪🇹 Amharic Translation (የአማርኛ ስም እና ማብራሪያ)</span>
+                    </span>
+                    <span className="text-[10px] text-amber-300/80 font-medium bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
+                      Optional • አማራጭ
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-300 mb-1">
+                        Dish Name in Amharic (የምግብ ስም በአማርኛ)
+                      </label>
+                      <input
+                        type="text"
+                        data-testid="dish-form-name-am"
+                        value={editingItem.name_am || ''}
+                        onChange={(e) => setEditingItem({ ...editingItem, name_am: e.target.value })}
+                        placeholder="ምሳሌ፡ ንፁህ ስፔሻል በርገር"
+                        className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder:text-neutral-500 focus:outline-none focus:border-amber-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-300 mb-1">
+                        Description in Amharic (የምግብ ማብራሪያ በአማርኛ)
+                      </label>
+                      <input
+                        type="text"
+                        data-testid="dish-form-description-am"
+                        value={editingItem.description_am || ''}
+                        onChange={(e) => setEditingItem({ ...editingItem, description_am: e.target.value })}
+                        placeholder="ምሳሌ፡ በንፁህ ካፌ የተዘጋጀ ልዩ ጣዕም..."
+                        className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder:text-neutral-500 focus:outline-none focus:border-amber-500"
+                      />
+                    </div>
                   </div>
                 </div>
 

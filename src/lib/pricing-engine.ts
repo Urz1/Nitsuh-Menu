@@ -312,7 +312,7 @@ export function isItemApplicableToOffer(item: MenuItem, offer: Offer): boolean {
 
     // 1. Direct or normalized category ID match
     if (rawCategoryIds.length > 0) {
-      const match = rawCategoryIds.some((catId) => {
+      return rawCategoryIds.some((catId) => {
         if (!catId) return false;
         if (catId === item.category_id) return true;
         const cLower = catId.toLowerCase();
@@ -330,10 +330,9 @@ export function isItemApplicableToOffer(item: MenuItem, offer: Offer): boolean {
         }
         return cLower.replace(/[-_0-9]/g, '') === itemCat.replace(/[-_0-9]/g, '');
       });
-      if (match) return true;
     }
 
-    // 2. Fallback to title / template matching if category IDs array was empty or defaulted
+    // 2. Fallback to title / template matching ONLY if category IDs array was empty
     if (offerTitle.includes('pizza') || offer.template_type === 'happy_hour') {
       return itemCat.includes('pizza') || itemName.includes('pizza');
     }
@@ -344,10 +343,14 @@ export function isItemApplicableToOffer(item: MenuItem, offer: Offer): boolean {
   }
   if (offer.scope_type === 'items') {
     const rawItemIds = (offer.item_ids || []).filter(Boolean);
-    if (rawItemIds.includes(item.id)) return true;
+    if (rawItemIds.length > 0) {
+      return (
+        rawItemIds.includes(item.id) ||
+        rawItemIds.some((id) => id.replace(/[-_0-9]/g, '') === item.id.replace(/[-_0-9]/g, ''))
+      );
+    }
     const itemTitle = (item.name || '').toLowerCase();
     const offerTitle = (offer.title || '').toLowerCase();
-    if (rawItemIds.some((id) => id.replace(/[-_0-9]/g, '') === item.id.replace(/[-_0-9]/g, ''))) return true;
     if (offerTitle.includes('special burger') && itemTitle.includes('special burger')) return true;
     return false;
   }

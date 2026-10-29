@@ -145,7 +145,7 @@ const OFFER_TEMPLATES: TemplatePreset[] = [
     id: 'free_item',
     name: 'Free Item with Order Threshold',
     emoji: '🎁',
-    tagline: 'Gift a complimentary item when dining tables spend over a threshold',
+    tagline: 'Gift a complimentary item when customer orders spend over a threshold',
     defaultTitle: 'Free Single-Origin Espresso Over 500 ETB',
     defaultDesc: 'Complimentary single-origin espresso automatically added to orders over 500 ETB.',
     defaultBadge: 'Free Gift',
@@ -154,7 +154,7 @@ const OFFER_TEMPLATES: TemplatePreset[] = [
     defaultScope: 'all',
     defaultHonestUrgency: 0,
     defaultShowBanner: true,
-    defaultBannerText: 'Free espresso with all table orders over 500 ETB.',
+    defaultBannerText: 'Free espresso with all orders over 500 ETB.',
   },
   {
     id: 'todays_special',
@@ -216,6 +216,47 @@ export function OffersManager({
   const [scopeType, setScopeType] = useState<'all' | 'categories' | 'items'>('categories');
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([]);
   const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
+  const [applyToAllInCategory, setApplyToAllInCategory] = useState<boolean>(false);
+
+  // Dishes belonging to currently selected categories
+  const selectedCategoryDishes = useMemo(() => {
+    if (selectedCategoryIds.length === 0) return [];
+    return menuItems.filter((item) => {
+      return selectedCategoryIds.some((catId) => {
+        if (!catId) return false;
+        if (item.category_id === catId) return true;
+        const cLower = catId.toLowerCase();
+        const itemCat = (item.category_id || '').toLowerCase();
+        return (
+          (cLower.includes('pizza') && itemCat.includes('pizza')) ||
+          (cLower.includes('burger') && itemCat.includes('burger'))
+        );
+      });
+    });
+  }, [menuItems, selectedCategoryIds]);
+
+  const effectiveScopeType: 'all' | 'categories' | 'items' = useMemo(() => {
+    if (scopeType === 'all') return 'all';
+    if (scopeType === 'categories') {
+      return applyToAllInCategory ? 'categories' : 'items';
+    }
+    return 'items';
+  }, [scopeType, applyToAllInCategory]);
+
+  const canContinueStep2 = useMemo(() => {
+    if (scopeType === 'all') return true;
+    if (scopeType === 'categories') {
+      if (selectedCategoryIds.length === 0) return false;
+      if (!applyToAllInCategory) {
+        return selectedCategoryDishes.some((d) => selectedItemIds.includes(d.id));
+      }
+      return true;
+    }
+    if (scopeType === 'items') {
+      return selectedItemIds.length > 0;
+    }
+    return true;
+  }, [scopeType, selectedCategoryIds, applyToAllInCategory, selectedCategoryDishes, selectedItemIds]);
 
   // Schedule state
   const [scheduleType, setScheduleType] = useState<'always' | 'scheduled'>('always');
@@ -266,9 +307,11 @@ export function OffersManager({
       setUseTimeWindow(false);
     }
 
+    setApplyToAllInCategory(false);
     if (tmpl.defaultScope === 'categories') {
       const pizzaCat = categories.find((c) => c.name.toLowerCase().includes('pizza') || c.id.includes('pizza'));
       setSelectedCategoryIds([pizzaCat?.id || 'cat_pizza_30', 'cat-pizza']);
+      setSelectedItemIds([]);
     } else if (tmpl.defaultScope === 'items') {
       setSelectedItemIds([menuItems[0]?.id || '']);
     }
@@ -278,6 +321,7 @@ export function OffersManager({
   const handleStartCreateOffer = () => {
     triggerHaptic(15);
     setDraftId(null);
+    setApplyToAllInCategory(false);
     handleApplyTemplate(OFFER_TEMPLATES[0]);
     setWizardStep(1);
     setIsWizardOpen(true);
@@ -295,10 +339,27 @@ export function OffersManager({
     setDiscountType(offer.discount_type);
     setDiscountValue(offer.discount_value);
     setMinOrderAmount(offer.min_order_amount || 0);
-    setFreeItemId(offer.free_item_id || menuItems[0]?.id || '');
-    setScopeType(offer.scope_type);
-    setSelectedCategoryIds(offer.category_ids || []);
-    setSelectedItemIds(offer.item_ids || []);
+    const isCategoryWide = offer.scope_type === 'categories';
+    setApplyToAllInCategory(isCategoryWide);
+    if (isCategoryWide) {
+      setScopeType('categories');
+      setSelectedCategoryIds(offer.category_ids || []);
+      setSelectedItemIds([]);
+    } else if (offer.scope_type === 'items') {
+      if (offer.category_ids && offer.category_ids.length > 0) {
+        setScopeType('categories');
+        setSelectedCategoryIds(offer.category_ids);
+        setSelectedItemIds(offer.item_ids || []);
+      } else {
+        setScopeType('items');
+        setSelectedCategoryIds([]);
+        setSelectedItemIds(offer.item_ids || []);
+      }
+    } else {
+      setScopeType('all');
+      setSelectedCategoryIds([]);
+      setSelectedItemIds([]);
+    }
     setShowTopBanner(offer.show_top_banner);
     setBannerText(offer.banner_text || '');
     setStackingRule(offer.stacking_rule);
@@ -406,13 +467,9 @@ export function OffersManager({
       discount_value: Number(discountValue),
       min_order_amount: discountType === 'free_item' ? Number(minOrderAmount) : undefined,
       free_item_id: discountType === 'free_item' ? freeItemId : undefined,
-      scope_type: scopeType,
-      category_ids: scopeType === 'categories'
-        ? (selectedCategoryIds.filter(Boolean).length > 0
-            ? Array.from(new Set([...selectedCategoryIds.filter(Boolean), ...(selectedCategoryIds.some(c => c.toLowerCase().includes('pizza')) ? ['cat-pizza', 'cat_pizza_30'] : [])]))
-            : [categories.find(c => c.name.toLowerCase().includes('pizza'))?.id || 'cat_pizza_30', 'cat-pizza'])
-        : [],
-      item_ids: scopeType === 'items' ? selectedItemIds : [],
+      scope_type: effectiveScopeType,
+      category_ids: scopeType === 'categories' ? selectedCategoryIds : [],
+      item_ids: effectiveScopeType === 'items' ? selectedItemIds : [],
       timezone: 'Africa/Addis_Ababa',
       starts_at: scheduleType === 'scheduled' && startsAt ? new Date(startsAt).toISOString() : null,
       ends_at: scheduleType === 'scheduled' && endsAt ? new Date(endsAt).toISOString() : null,
@@ -449,9 +506,9 @@ export function OffersManager({
       is_paused: false,
       discount_type: discountType,
       discount_value: Number(discountValue),
-      scope_type: scopeType,
-      category_ids: selectedCategoryIds,
-      item_ids: selectedItemIds,
+      scope_type: effectiveScopeType,
+      category_ids: scopeType === 'categories' ? selectedCategoryIds : [],
+      item_ids: effectiveScopeType === 'items' ? selectedItemIds : [],
       timezone: 'Africa/Addis_Ababa',
       days_of_week: selectedDays,
       honest_urgency_hours: honestUrgencyHours,
@@ -489,14 +546,14 @@ export function OffersManager({
 
   // Live Phone Preview sample item calculation
   const previewSampleItem = useMemo(() => {
-    if (scopeType === 'items' && selectedItemIds.length > 0) {
+    if (effectiveScopeType === 'items' && selectedItemIds.length > 0) {
       return menuItems.find((i) => selectedItemIds.includes(i.id)) || menuItems[0];
     }
     if (scopeType === 'categories' && selectedCategoryIds.length > 0) {
       return menuItems.find((i) => selectedCategoryIds.includes(i.category_id)) || menuItems[0];
     }
     return menuItems[0] || null;
-  }, [scopeType, selectedItemIds, selectedCategoryIds, menuItems]);
+  }, [effectiveScopeType, scopeType, selectedItemIds, selectedCategoryIds, menuItems]);
 
   const previewItemPricing = useMemo(() => {
     if (!previewSampleItem) return null;
@@ -510,9 +567,9 @@ export function OffersManager({
       is_paused: false,
       discount_type: discountType,
       discount_value: Number(discountValue),
-      scope_type: scopeType,
-      category_ids: selectedCategoryIds,
-      item_ids: selectedItemIds,
+      scope_type: effectiveScopeType,
+      category_ids: scopeType === 'categories' ? selectedCategoryIds : [],
+      item_ids: effectiveScopeType === 'items' ? selectedItemIds : [],
       timezone: 'Africa/Addis_Ababa',
       days_of_week: selectedDays,
       start_time: useTimeWindow ? startTime : undefined,
@@ -1020,41 +1077,136 @@ export function OffersManager({
 
                     {/* Category Selection */}
                     {scopeType === 'categories' && (
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-neutral-300 block">
-                          Select Applicable Categories ({selectedCategoryIds.length} selected)
-                        </label>
-                        <div className="grid grid-cols-2 gap-2 max-h-56 overflow-y-auto">
-                          {categories.map((cat) => {
-                            const isChecked = selectedCategoryIds.includes(cat.id);
-                            return (
-                              <label
-                                key={cat.id}
-                                className={`p-2.5 rounded-xl border flex items-center gap-2 cursor-pointer transition-colors ${
-                                  isChecked
-                                    ? 'bg-amber-500/10 border-amber-500/60 text-white'
-                                    : 'bg-white/[0.02] border-white/10 text-neutral-400 hover:text-white'
-                                }`}
-                              >
-                                <input
-                                  type="checkbox"
-                                  checked={isChecked}
-                                  onChange={() => {
-                                    if (isChecked) {
-                                      setSelectedCategoryIds(selectedCategoryIds.filter((id) => id !== cat.id));
-                                    } else {
-                                      setSelectedCategoryIds([...selectedCategoryIds, cat.id]);
-                                    }
-                                  }}
-                                  className="w-4 h-4 rounded text-amber-500"
-                                />
-                                <span className="text-xs font-semibold truncate">
-                                  {cat.icon} {cat.name}
-                                </span>
-                              </label>
-                            );
-                          })}
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold text-neutral-300 block">
+                            Select Applicable Categories ({selectedCategoryIds.length} selected)
+                          </label>
+                          <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
+                            {categories.map((cat) => {
+                              const isChecked = selectedCategoryIds.includes(cat.id);
+                              return (
+                                <label
+                                  key={cat.id}
+                                  className={`p-2.5 rounded-xl border flex items-center gap-2 cursor-pointer transition-colors ${
+                                    isChecked
+                                      ? 'bg-amber-500/10 border-amber-500/60 text-white'
+                                      : 'bg-white/[0.02] border-white/10 text-neutral-400 hover:text-white'
+                                  }`}
+                                >
+                                  <input
+                                    type="checkbox"
+                                    checked={isChecked}
+                                    onChange={() => {
+                                      if (isChecked) {
+                                        setSelectedCategoryIds(selectedCategoryIds.filter((id) => id !== cat.id));
+                                      } else {
+                                        setSelectedCategoryIds([...selectedCategoryIds, cat.id]);
+                                      }
+                                    }}
+                                    className="w-4 h-4 rounded text-amber-500"
+                                  />
+                                  <span className="text-xs font-semibold truncate">
+                                    {cat.icon} {cat.name}
+                                  </span>
+                                </label>
+                              );
+                            })}
+                          </div>
                         </div>
+
+                        {/* Dish Scope within Selected Categories */}
+                        {selectedCategoryIds.length > 0 && (
+                          <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-3">
+                            <label className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 cursor-pointer transition-colors">
+                              <input
+                                type="checkbox"
+                                checked={applyToAllInCategory}
+                                onChange={(e) => {
+                                  setApplyToAllInCategory(e.target.checked);
+                                  if (e.target.checked) {
+                                    setSelectedItemIds([]);
+                                  }
+                                }}
+                                className="w-4 h-4 rounded text-amber-500 mt-0.5 cursor-pointer"
+                              />
+                              <div className="flex-1">
+                                <span className="text-xs font-bold text-white block">
+                                  Apply discount to ALL dishes in {selectedCategoryIds.length === 1 ? 'this category' : 'these categories'}
+                                </span>
+                                <span className="text-[11px] text-neutral-400 block mt-0.5">
+                                  {applyToAllInCategory
+                                    ? 'Every dish in this category will automatically receive this discount.'
+                                    : 'Unchecked: Only the specific dishes you select below will receive this discount (default).'}
+                                </span>
+                              </div>
+                            </label>
+
+                            {!applyToAllInCategory && (
+                              <div className="space-y-2 pt-1 border-t border-white/10">
+                                <div className="flex items-center justify-between">
+                                  <label className="text-xs font-bold text-neutral-300">
+                                    Select Dishes on Offer ({selectedCategoryDishes.filter((d) => selectedItemIds.includes(d.id)).length} of {selectedCategoryDishes.length} selected)
+                                  </label>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const catDishIds = selectedCategoryDishes.map((d) => d.id);
+                                      const allSelected = catDishIds.length > 0 && catDishIds.every((id) => selectedItemIds.includes(id));
+                                      if (allSelected) {
+                                        setSelectedItemIds(selectedItemIds.filter((id) => !catDishIds.includes(id)));
+                                      } else {
+                                        setSelectedItemIds(Array.from(new Set([...selectedItemIds, ...catDishIds])));
+                                      }
+                                    }}
+                                    className="text-[11px] text-amber-400 hover:underline font-semibold cursor-pointer"
+                                  >
+                                    {selectedCategoryDishes.length > 0 && selectedCategoryDishes.every((d) => selectedItemIds.includes(d.id))
+                                      ? 'Deselect All Dishes'
+                                      : 'Select All in Category'}
+                                  </button>
+                                </div>
+
+                                <div className="flex flex-col gap-1.5 max-h-56 overflow-y-auto pr-1">
+                                  {selectedCategoryDishes.map((item) => {
+                                    const isChecked = selectedItemIds.includes(item.id);
+                                    return (
+                                      <label
+                                        key={item.id}
+                                        className={`p-2 rounded-xl border flex items-center justify-between cursor-pointer transition-colors ${
+                                          isChecked
+                                            ? 'bg-amber-500/10 border-amber-500/60 text-white'
+                                            : 'bg-white/[0.02] border-white/10 text-neutral-400 hover:text-white'
+                                        }`}
+                                      >
+                                        <div className="flex items-center gap-2.5 min-w-0">
+                                          <input
+                                            type="checkbox"
+                                            checked={isChecked}
+                                            onChange={() => {
+                                              if (isChecked) {
+                                                setSelectedItemIds(selectedItemIds.filter((id) => id !== item.id));
+                                              } else {
+                                                setSelectedItemIds([...selectedItemIds, item.id]);
+                                              }
+                                            }}
+                                            className="w-4 h-4 rounded text-amber-500 cursor-pointer"
+                                          />
+                                          <span className="text-xs font-semibold text-white truncate">
+                                            {item.name}
+                                          </span>
+                                        </div>
+                                        <span className="text-xs font-mono text-neutral-400">
+                                          {formatMoney(item.price, restaurant.currency)}
+                                        </span>
+                                      </label>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
                     )}
 
@@ -1333,14 +1485,22 @@ export function OffersManager({
                   )}
 
                   {wizardStep < 4 ? (
-                    <button
-                      type="button"
-                      onClick={() => setWizardStep((prev) => (prev + 1) as any)}
-                      className="px-5 py-2 rounded-xl bg-amber-500 text-black text-xs font-extrabold flex items-center gap-1.5 shadow-sm"
-                    >
-                      <span>Continue</span>
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
+                    <div className="flex items-center gap-3">
+                      {wizardStep === 2 && !canContinueStep2 && (
+                        <span className="text-[11px] text-amber-400 font-medium hidden sm:inline">
+                          Select at least 1 dish or check &quot;Apply to ALL dishes&quot;
+                        </span>
+                      )}
+                      <button
+                        type="button"
+                        disabled={wizardStep === 2 && !canContinueStep2}
+                        onClick={() => setWizardStep((prev) => (prev + 1) as any)}
+                        className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-xs font-extrabold flex items-center gap-1.5 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                      >
+                        <span>Continue</span>
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
                   ) : (
                     <button
                       type="button"
@@ -1385,7 +1545,7 @@ export function OffersManager({
                   <div className="p-3 border-b border-white/10 bg-neutral-900/50 flex items-center justify-between">
                     <div>
                       <span className="text-xs font-bold text-white block">{restaurant.name}</span>
-                      <span className="text-[9px] text-neutral-400">Table 14</span>
+                      <span className="text-[9px] text-neutral-400">Digital Menu</span>
                     </div>
                     <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-amber-500 text-black inline-flex items-center gap-1">
                       <Tag className="w-2.5 h-2.5" /> On Offer

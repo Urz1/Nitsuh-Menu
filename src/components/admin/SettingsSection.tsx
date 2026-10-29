@@ -4,45 +4,28 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Restaurant, StaffAccount } from '@/types/database';
 import { triggerHaptic } from '@/lib/utils';
-import { generateQrSvgDataUri } from '@/lib/qr-code';
 import {
-  getOwnerProfile,
-  fetchOwnerProfileAsync,
-  updateOwnerProfileAsync,
-  changeOwnerPasswordAsync,
   getStaffAccounts,
   fetchStaffAccountsAsync,
   createStaffAccountAsync,
   updateStaffPasswordAsync,
   toggleStaffActiveAsync,
   deleteStaffAccountAsync,
-  OwnerProfile,
 } from '@/lib/auth-service';
 import {
-  Settings,
-  QrCode,
   Wifi,
-  Clock,
-  Printer,
   ExternalLink,
   Save,
   FileDown,
   Trash2,
   ShieldCheck,
   Users,
-  KeyRound,
   Plus,
-  RefreshCw,
   Coins,
   Receipt,
   Check,
-  User,
-  Mail,
-  Phone,
-  Lock,
   Eye,
   EyeOff,
-  Edit2,
   MapPin,
 } from 'lucide-react';
 
@@ -52,12 +35,16 @@ interface SettingsSectionProps {
   onShowToast: (message: string, type?: 'success' | 'info' | 'error') => void;
 }
 
+function generateRandomPin(): string {
+  return Math.floor(1000 + Math.random() * 9000).toString();
+}
+
 export function SettingsSection({
   restaurant,
   onSaveSettings,
   onShowToast,
 }: SettingsSectionProps) {
-
+  // Operational Settings State
   const [hours, setHours] = useState(restaurant.hours || 'Mon – Sun: 6:30 AM – 11:00 PM');
   const [address, setAddress] = useState(restaurant.address || '');
   const [branchName, setBranchName] = useState(restaurant.branch_name || '');
@@ -74,6 +61,7 @@ export function SettingsSection({
     restaurant.sold_out_reset_time || 'morning_6am'
   );
 
+  // Guest Wi-Fi State
   const [wifiSsid, setWifiSsid] = useState(restaurant.wifi_config?.ssid || 'Nitsuh-Guest');
   const [wifiPassword, setWifiPassword] = useState(restaurant.wifi_config?.password || '');
   const [wifiEnabled, setWifiEnabled] = useState<boolean>(restaurant.wifi_config?.enabled ?? false);
@@ -81,14 +69,32 @@ export function SettingsSection({
   const [wifiSaved, setWifiSaved] = useState(false);
   const [showWifiPassword, setShowWifiPassword] = useState(false);
 
+  // Staff Management State
+  const [staffAccounts, setStaffAccounts] = useState<StaffAccount[]>(() => getStaffAccounts());
+  const [isAddingStaff, setIsAddingStaff] = useState(false);
+  const [newStaffName, setNewStaffName] = useState('');
+  const [newStaffUsername, setNewStaffUsername] = useState('');
+  const [newStaffPin, setNewStaffPin] = useState('');
+
   // Sync Wi-Fi credentials when restaurant updates
+  const [prevWifi, setPrevWifi] = useState(restaurant.wifi_config);
+  if (restaurant.wifi_config !== prevWifi) {
+    setPrevWifi(restaurant.wifi_config);
+    setWifiSsid(restaurant.wifi_config?.ssid || 'Nitsuh-Guest');
+    setWifiPassword(restaurant.wifi_config?.password || '');
+    setWifiEnabled(Boolean(restaurant.wifi_config?.enabled));
+  }
+
+  // Sync staff accounts from database on mount
   useEffect(() => {
-    if (restaurant.wifi_config) {
-      setWifiSsid(restaurant.wifi_config.ssid || '');
-      setWifiPassword(restaurant.wifi_config.password || '');
-      setWifiEnabled(Boolean(restaurant.wifi_config.enabled));
-    }
-  }, [restaurant.wifi_config?.ssid, restaurant.wifi_config?.password, restaurant.wifi_config?.enabled]);
+    let isMounted = true;
+    fetchStaffAccountsAsync().then((accounts) => {
+      if (isMounted) setStaffAccounts(accounts);
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleSaveWifi = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -117,42 +123,7 @@ export function SettingsSection({
     }
   };
 
-  // Owner Account & Security State
-  const [ownerProfile, setOwnerProfile] = useState<OwnerProfile>(() => getOwnerProfile());
-  const [ownerName, setOwnerName] = useState(ownerProfile.name);
-  const [ownerEmail, setOwnerEmail] = useState(ownerProfile.email);
-  const [ownerPhone, setOwnerPhone] = useState(ownerProfile.phone);
-
-  const [currentOwnerPassword, setCurrentOwnerPassword] = useState('');
-  const [newOwnerPassword, setNewOwnerPassword] = useState('');
-  const [confirmOwnerPassword, setConfirmOwnerPassword] = useState('');
-  const [showCurrentPass, setShowCurrentPass] = useState(false);
-  const [showNewPass, setShowNewPass] = useState(false);
-  const [isChangingOwnerPassword, setIsChangingOwnerPassword] = useState(false);
-
-  // Staff Management State
-  const [staffAccounts, setStaffAccounts] = useState<StaffAccount[]>(() => getStaffAccounts());
-  const [isAddingStaff, setIsAddingStaff] = useState(false);
-  const [newStaffName, setNewStaffName] = useState('');
-  const [newStaffUsername, setNewStaffUsername] = useState('');
-  const [newStaffPin, setNewStaffPin] = useState('');
-  const [editingStaffId, setEditingStaffId] = useState<string | null>(null);
-  const [editingStaffPin, setEditingStaffPin] = useState('');
-
-  // Sync auth state from server on client mount
-  useEffect(() => {
-    fetchOwnerProfileAsync().then((prof) => {
-      setOwnerProfile(prof);
-      setOwnerName(prof.name);
-      setOwnerEmail(prof.email);
-      setOwnerPhone(prof.phone);
-    });
-    fetchStaffAccountsAsync().then((accounts) => {
-      setStaffAccounts(accounts);
-    });
-  }, []);
-
-  const handleSave = async (e: React.FormEvent) => {
+  const handleSaveOperations = async (e: React.FormEvent) => {
     e.preventDefault();
     triggerHaptic(15);
 
@@ -175,48 +146,7 @@ export function SettingsSection({
     };
 
     await onSaveSettings(updates);
-    onShowToast('Restaurant settings and tax configuration saved.', 'success');
-  };
-
-  // Owner Actions (Authoritative on Server)
-  const handleSaveOwnerProfile = async (e: React.FormEvent) => {
-    e.preventDefault();
-    triggerHaptic(10);
-    const result = await updateOwnerProfileAsync({
-      name: ownerName.trim(),
-      email: ownerEmail.trim(),
-      phone: ownerPhone.trim(),
-    });
-    if (result.success && result.profile) {
-      setOwnerProfile(result.profile);
-      onShowToast('Owner profile details updated and saved to database!', 'success');
-    } else {
-      onShowToast(result.error || 'Failed to update owner profile.', 'error');
-    }
-  };
-
-  const handleChangeOwnerPassword = async (e: React.FormEvent) => {
-    e.preventDefault();
-    triggerHaptic(12);
-
-    if (newOwnerPassword !== confirmOwnerPassword) {
-      onShowToast('New password and confirmation do not match.', 'error');
-      return;
-    }
-
-    const result = await changeOwnerPasswordAsync(currentOwnerPassword, newOwnerPassword);
-    if (!result.success) {
-      onShowToast(result.error || 'Failed to update owner password.', 'error');
-      return;
-    }
-
-    const refreshed = await fetchOwnerProfileAsync();
-    setOwnerProfile(refreshed);
-    setCurrentOwnerPassword('');
-    setNewOwnerPassword('');
-    setConfirmOwnerPassword('');
-    setIsChangingOwnerPassword(false);
-    onShowToast('Owner password changed and saved securely in database!', 'success');
+    onShowToast('Restaurant settings and configuration saved.', 'success');
   };
 
   // Staff Actions (Authoritative on Neon DB)
@@ -248,27 +178,9 @@ export function SettingsSection({
     onShowToast(`Staff account created for ${result.staff.name} and saved to database.`, 'success');
   };
 
-  const handleUpdateStaffPin = async (staffId: string) => {
-    if (!editingStaffPin.trim()) {
-      onShowToast('Please enter a new password or PIN.', 'error');
-      return;
-    }
-    const res = await updateStaffPasswordAsync(staffId, editingStaffPin);
-    if (res.success) {
-      const refreshed = await fetchStaffAccountsAsync();
-      setStaffAccounts(refreshed);
-      setEditingStaffId(null);
-      setEditingStaffPin('');
-      triggerHaptic(10);
-      onShowToast('Staff password updated and hashed on database!', 'success');
-    } else {
-      onShowToast(res.error || 'Failed to update staff password.', 'error');
-    }
-  };
-
   const handleResetPin = async (staffId: string) => {
     triggerHaptic(12);
-    const randomPin = Math.floor(1000 + Math.random() * 9000).toString();
+    const randomPin = generateRandomPin();
     const res = await updateStaffPasswordAsync(staffId, randomPin);
     if (res.success) {
       const refreshed = await fetchStaffAccountsAsync();
@@ -299,11 +211,11 @@ export function SettingsSection({
       setStaffAccounts(refreshed);
       onShowToast('Staff account removed from database.', 'info');
     } else {
-      onShowToast(res.error || 'Failed to delete staff account.', 'error');
+      onShowToast(res.error || 'Failed to remove staff account.', 'error');
     }
   };
 
-  // Tenant Data Export (JSON dump)
+  // Data Export
   const handleExportData = () => {
     triggerHaptic(10);
     const exportPayload = {
@@ -332,22 +244,16 @@ export function SettingsSection({
     if (
       typeof window !== 'undefined' &&
       window.confirm(
-        'Are you sure you want to purge historical customer sessions and completed orders older than 30 days? This action cannot be undone.'
+        'Are you sure you want to purge historical customer sessions and cached data older than 30 days? This action cannot be undone.'
       )
     ) {
       onShowToast('Historical guest sessions and resolved logs purged.', 'info');
     }
   };
 
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://digitalmenu.app';
-  const qrUrl = `/${restaurant.slug}`;
-  const fullMenuUrl = `${baseUrl}/${restaurant.slug}`;
-  const qrImageUrl = generateQrSvgDataUri(fullMenuUrl, { color: '#000000', bgColor: '#FFFFFF', margin: 1 });
-
   return (
-    <>
-      <div className="flex flex-col gap-8 pb-20 max-w-7xl mx-auto w-full screen-only-admin">
-        {/* Header */}
+    <div className="flex flex-col gap-8 pb-20 max-w-7xl mx-auto w-full screen-only-admin">
+      {/* Header */}
       <div>
         <div className="flex items-center gap-2.5">
           <h2 className="text-xl font-bold text-white">Settings & Operations</h2>
@@ -356,709 +262,394 @@ export function SettingsSection({
           </span>
         </div>
         <p className="text-xs text-neutral-400 mt-0.5">
-          Configure tax calculation mode, default currency (ETB), staff credentials & 4-digit PINs, and table QR stands.
+          Manage operating hours, tax calculation mode, guest Wi-Fi sharing, and staff team PIN credentials.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* LEFT COLUMN: DIGITAL MENU QR & PRINT STAND (5 Cols) */}
-        <div className="lg:col-span-5 flex flex-col gap-5">
-          <div className="p-6 rounded-2xl bg-[#12141C] border border-white/5 space-y-5">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <QrCode className="w-5 h-5 text-amber-400" />
-                <h3 className="text-sm font-bold text-white">Digital Menu QR Stand</h3>
-              </div>
-              <span className="text-xs font-mono text-emerald-400">Offline Vector</span>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+        {/* ===================================================================
+            CARD 1: RESTAURANT OPERATIONS & PRICING / TAX
+           =================================================================== */}
+        <form onSubmit={handleSaveOperations} className="p-6 rounded-2xl bg-[#12141C] border border-white/5 space-y-5">
+          <div className="flex items-center justify-between pb-3 border-b border-white/5">
+            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <Receipt className="w-4 h-4 text-amber-400" />
+              <span>Pricing, Tax & Store Schedule</span>
+            </h3>
+            <button
+              type="submit"
+              data-testid="save-settings-btn"
+              className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+            >
+              <Save className="w-3.5 h-3.5" />
+              <span>Save Settings</span>
+            </button>
+          </div>
+
+          {/* Open / Paused Toggle */}
+          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between">
+            <div>
+              <p className="text-xs font-bold text-white">Digital Menu Status</p>
+              <p className="text-[11px] text-neutral-400 mt-0.5">
+                Toggle off in emergencies to temporarily pause public customer access.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                triggerHaptic(10);
+                setIsOpen(!isOpen);
+              }}
+              className={`px-3 py-1.5 rounded-full text-xs font-bold transition-colors cursor-pointer ${
+                isOpen
+                  ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                  : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
+              }`}
+            >
+              {isOpen ? 'Open & Active' : 'Paused / Closed'}
+            </button>
+          </div>
+
+          {/* TAX MODE TOGGLE */}
+          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 space-y-3">
+            <div>
+              <label className="text-xs font-bold text-white flex items-center gap-1.5">
+                <Receipt className="w-3.5 h-3.5 text-amber-400" />
+                <span>Tax Calculation Mode</span>
+              </label>
+              <p className="text-[11px] text-neutral-400 mt-0.5">
+                Standard Ethiopian dining uses tax-inclusive prices so guests see the exact final price.
+              </p>
             </div>
 
-            <p className="text-xs text-neutral-400">
-              Universal QR code for your tables, bar counter, and entrance. No table number configuration required.
-            </p>
-
-            {/* Printable Table Card Preview */}
-            <div className="p-6 rounded-2xl bg-white text-black shadow-xl flex flex-col items-center text-center">
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white text-base mb-2 shadow-sm"
-                style={{ backgroundColor: restaurant.theme_config.primaryColor || '#E8590C' }}
-              >
-                {restaurant.logo_letter || 'A'}
-              </div>
-              <h4 className="font-extrabold text-sm text-neutral-900">{restaurant.name}</h4>
-              <p className="text-[11px] text-neutral-500 mt-0.5">Scan to view menu & order</p>
-
-              {/* QR Visual */}
-              <div className="my-4 p-3 bg-white rounded-2xl border-2 border-neutral-200 shadow-xs">
-                {/* eslint-disable-next-js/no-img-element */}
-                <img
-                  src={qrImageUrl}
-                  alt="QR code for digital menu"
-                  className="w-40 h-40 block mx-auto rounded-lg"
-                />
-              </div>
-
-              <div className="px-4 py-1.5 rounded-full bg-neutral-100 font-mono text-xs font-bold text-neutral-800">
-                Digital Menu • /{restaurant.slug}
-              </div>
-
-              {wifiSsid && (
-                <div className="mt-3 text-[10px] text-neutral-500 flex items-center gap-1">
-                  <Wifi className="w-3 h-3 text-neutral-400" />
-                  <span>Wi-Fi: {wifiSsid} {wifiPassword ? `• Pass: ${wifiPassword}` : ''}</span>
-                </div>
-              )}
-            </div>
-
-            {/* Print / Test Links */}
-            <div className="flex items-center gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
               <button
                 type="button"
                 onClick={() => {
                   triggerHaptic(10);
-                  window.print();
+                  setTaxMode('inclusive');
                 }}
-                className="flex-1 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors border border-white/5"
+                className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+                  taxMode === 'inclusive'
+                    ? 'border-amber-500 bg-amber-500/10 shadow-xs'
+                    : 'border-white/10 bg-white/[0.02] hover:border-white/20'
+                }`}
               >
-                <Printer className="w-3.5 h-3.5" />
-                <span>Print Stand Card</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-white">Tax-Inclusive (Recommended)</span>
+                  {taxMode === 'inclusive' && <Check className="w-4 h-4 text-amber-400" />}
+                </div>
+                <p className="text-[11px] text-neutral-400 mt-1">
+                  Menu price is the exact amount paid. Zero surprise tax added.
+                </p>
               </button>
 
-              <Link
-                href={qrUrl}
-                target="_blank"
-                className="px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
+              <button
+                type="button"
+                onClick={() => {
+                  triggerHaptic(10);
+                  setTaxMode('exclusive');
+                }}
+                className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+                  taxMode === 'exclusive'
+                    ? 'border-amber-500 bg-amber-500/10 shadow-xs'
+                    : 'border-white/10 bg-white/[0.02] hover:border-white/20'
+                }`}
               >
-                <ExternalLink className="w-3.5 h-3.5" />
-                <span>Test Link</span>
-              </Link>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-white">Tax-Exclusive</span>
+                  {taxMode === 'exclusive' && <Check className="w-4 h-4 text-amber-400" />}
+                </div>
+                <p className="text-[11px] text-neutral-400 mt-1">
+                  Adds VAT/tax percentage on top of subtotal at checkout.
+                </p>
+              </button>
             </div>
           </div>
-        </div>
 
-        {/* RIGHT COLUMN: OPERATIONS, TAX MODE, CURRENCY & STAFF (7 Cols) */}
-        <div className="lg:col-span-7 flex flex-col gap-6">
-          {/* OWNER ACCOUNT & PASSWORD SECURITY (Master Credentials) */}
-          <div className="p-6 rounded-2xl bg-[#12141C] border border-amber-500/20 space-y-5 shadow-lg shadow-black/40">
-            <div className="flex items-center justify-between pb-3 border-b border-white/5">
-              <div>
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-amber-400" />
-                  <span>Restaurant Owner Account & Security</span>
-                </h3>
-                <p className="text-[11px] text-neutral-400 mt-0.5">
-                  Master administrative account with complete control. Seeded initially and customizable anytime.
-                </p>
-              </div>
-              <div className="px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px] font-bold">
-                Owner Role
-              </div>
+          {/* CURRENCY & TAX RATE */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-semibold text-neutral-300 mb-1 flex items-center gap-1.5">
+                <Coins className="w-3.5 h-3.5 text-amber-400" />
+                <span>Primary Currency</span>
+              </label>
+              <select
+                value={currency}
+                onChange={(e) => {
+                  triggerHaptic(8);
+                  setCurrency(e.target.value);
+                }}
+                className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs font-bold focus:outline-none focus:border-amber-500"
+              >
+                <option value="ETB" className="bg-[#12141C]">ETB (Br • Ethiopian Birr)</option>
+                <option value="USD" className="bg-[#12141C]">USD ($ • US Dollar)</option>
+                <option value="EUR" className="bg-[#12141C]">EUR (€ • Euro)</option>
+                <option value="GBP" className="bg-[#12141C]">GBP (£ • British Pound)</option>
+              </select>
             </div>
 
-            {/* Owner Details Form */}
-            <form onSubmit={handleSaveOwnerProfile} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div>
-                  <label className="block text-xs font-semibold text-neutral-300 mb-1">
-                    Owner Full Name
-                  </label>
-                  <div className="relative">
-                    <User className="w-3.5 h-3.5 text-neutral-500 absolute left-3 top-3" />
-                    <input
-                      type="text"
-                      value={ownerName}
-                      onChange={(e) => setOwnerName(e.target.value)}
-                      placeholder="Owner Name"
-                      className="w-full pl-9 pr-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
-                      required
-                    />
-                  </div>
-                </div>
+            <div>
+              <label className="block text-xs font-semibold text-neutral-300 mb-1">
+                Tax Rate (%) {taxMode === 'inclusive' ? '(Included in price)' : '(Added on top)'}
+              </label>
+              <input
+                type="number"
+                step="0.1"
+                value={taxRate}
+                onChange={(e) => setTaxRate(e.target.value)}
+                placeholder="15.0"
+                className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs font-mono focus:outline-none focus:border-amber-500"
+              />
+            </div>
+          </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-neutral-300 mb-1">
-                    Login Email Address
-                  </label>
-                  <div className="relative">
-                    <Mail className="w-3.5 h-3.5 text-neutral-500 absolute left-3 top-3" />
-                    <input
-                      type="email"
-                      value={ownerEmail}
-                      onChange={(e) => setOwnerEmail(e.target.value)}
-                      placeholder="owner@restaurant.com"
-                      className="w-full pl-9 pr-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-neutral-300 mb-1">
-                    Login Phone Number
-                  </label>
-                  <div className="relative">
-                    <Phone className="w-3.5 h-3.5 text-neutral-500 absolute left-3 top-3" />
-                    <input
-                      type="text"
-                      value={ownerPhone}
-                      onChange={(e) => setOwnerPhone(e.target.value)}
-                      placeholder="+251 911 223 344"
-                      className="w-full pl-9 pr-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex justify-end">
+          {/* Sold-out Auto Reset Schedule */}
+          <div>
+            <label className="block text-xs font-semibold text-neutral-300 mb-1">
+              Sold-Out Auto Reset Schedule
+            </label>
+            <div className="grid grid-cols-3 gap-2.5 mt-1.5">
+              {[
+                { id: 'morning_6am', label: '6:00 AM' },
+                { id: 'midnight', label: 'Midnight' },
+                { id: 'manual', label: 'Manual' },
+              ].map((opt) => (
                 <button
-                  type="submit"
-                  className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-bold transition-colors border border-white/10 flex items-center gap-1.5 cursor-pointer"
+                  key={opt.id}
+                  type="button"
+                  onClick={() => setSoldOutReset(opt.id as 'morning_6am' | 'midnight' | 'manual')}
+                  className={`p-2 rounded-xl border text-xs font-bold transition-all text-center cursor-pointer ${
+                    soldOutReset === opt.id
+                      ? 'border-amber-500 bg-amber-500/10 text-amber-300'
+                      : 'border-white/5 bg-white/[0.02] text-neutral-400 hover:text-white'
+                  }`}
                 >
-                  <Save className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Update Profile Info</span>
+                  {opt.label}
                 </button>
-              </div>
-            </form>
+              ))}
+            </div>
+          </div>
 
-            {/* Change Password Section */}
-            <div className="pt-4 border-t border-white/5">
-              <div className="flex items-center justify-between mb-3">
-                <div className="text-xs font-bold text-white flex items-center gap-1.5">
-                  <Lock className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Owner Password</span>
-                </div>
-                {!isChangingOwnerPassword && (
-                  <button
-                    type="button"
-                    onClick={() => setIsChangingOwnerPassword(true)}
-                    className="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 cursor-pointer"
-                  >
-                    <KeyRound className="w-3.5 h-3.5" />
-                    <span>Change Owner Password</span>
-                  </button>
-                )}
-              </div>
-
-              {isChangingOwnerPassword ? (
-                <form onSubmit={handleChangeOwnerPassword} className="p-4 rounded-xl bg-white/[0.02] border border-white/10 space-y-3 animate-in fade-in">
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div>
-                      <label className="block text-[11px] font-semibold text-neutral-300 mb-1">
-                        Current Password
-                      </label>
-                      <div className="relative">
-                        <input
-                          type={showCurrentPass ? 'text' : 'password'}
-                          value={currentOwnerPassword}
-                          onChange={(e) => setCurrentOwnerPassword(e.target.value)}
-                          placeholder="Current password"
-                          className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500 pr-8"
-                          required
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowCurrentPass(!showCurrentPass)}
-                          className="absolute right-2.5 top-2.5 text-neutral-400 hover:text-white"
-                        >
-                          {showCurrentPass ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                        </button>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-semibold text-neutral-300 mb-1">
-                        New Password
-                      </label>
-                      <div className="relative">
-                        <input
-                          type={showNewPass ? 'text' : 'password'}
-                          value={newOwnerPassword}
-                          onChange={(e) => setNewOwnerPassword(e.target.value)}
-                          placeholder="Min 6 characters"
-                          className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500 pr-8"
-                          required
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowNewPass(!showNewPass)}
-                          className="absolute right-2.5 top-2.5 text-neutral-400 hover:text-white"
-                        >
-                          {showNewPass ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                        </button>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-semibold text-neutral-300 mb-1">
-                        Confirm New Password
-                      </label>
-                      <input
-                        type="password"
-                        value={confirmOwnerPassword}
-                        onChange={(e) => setConfirmOwnerPassword(e.target.value)}
-                        placeholder="Re-type new password"
-                        className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex justify-end gap-2 pt-1">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsChangingOwnerPassword(false);
-                        setCurrentOwnerPassword('');
-                        setNewOwnerPassword('');
-                        setConfirmOwnerPassword('');
-                      }}
-                      className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-neutral-300 text-xs font-semibold cursor-pointer"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      className="px-4 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold cursor-pointer"
-                    >
-                      Save New Password
-                    </button>
-                  </div>
-                </form>
-              ) : (
-                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between text-xs text-neutral-400">
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono text-sm tracking-widest text-neutral-300">••••••••••••</span>
-                    <span>(Password Protected)</span>
-                  </div>
-                  <span className="text-[11px] text-emerald-400 font-semibold">Active & Encrypted</span>
-                </div>
+          {/* Branch & Location Details */}
+          <div className="space-y-3 pt-3 border-t border-white/5">
+            <div className="flex items-center justify-between">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5" />
+                <span>Physical Address & Map Link</span>
+              </h4>
+              {googleMapsUrl && (
+                <a
+                  href={googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[11px] text-amber-400 hover:text-amber-300 font-semibold"
+                >
+                  <span>Test Map Link</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
               )}
             </div>
-          </div>
 
-          <form onSubmit={handleSave} className="p-6 rounded-2xl bg-[#12141C] border border-white/5 space-y-5">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                <Receipt className="w-4 h-4 text-amber-400" />
-                <span>Pricing, Tax & Store Hours</span>
-              </h3>
-              <button
-                type="submit"
-                data-testid="save-settings-btn"
-                className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
-              >
-                <Save className="w-3.5 h-3.5" />
-                <span>Save Settings</span>
-              </button>
-            </div>
-
-            {/* TAX MODE TOGGLE (Owner Decision) */}
-            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 space-y-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <label className="text-xs font-bold text-white flex items-center gap-1.5">
-                    <Receipt className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Tax Calculation Mode</span>
-                  </label>
-                  <p className="text-[11px] text-neutral-400 mt-0.5">
-                    Decide whether prices shown on the menu already include tax, or if tax should be added at checkout.
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                <button
-                  type="button"
-                  onClick={() => {
-                    triggerHaptic(10);
-                    setTaxMode('inclusive');
-                  }}
-                  className={`p-3.5 rounded-xl border text-left transition-all ${
-                    taxMode === 'inclusive'
-                      ? 'border-amber-500 bg-amber-500/10 shadow-xs'
-                      : 'border-white/10 bg-white/[0.02] hover:border-white/20'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-white">Tax-Inclusive (Recommended)</span>
-                    {taxMode === 'inclusive' && <Check className="w-4 h-4 text-amber-400" />}
-                  </div>
-                  <p className="text-[11px] text-neutral-400 mt-1">
-                    Standard in Ethiopian dining. Menu price is the exact amount paid. Zero additional tax added.
-                  </p>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    triggerHaptic(10);
-                    setTaxMode('exclusive');
-                  }}
-                  className={`p-3.5 rounded-xl border text-left transition-all ${
-                    taxMode === 'exclusive'
-                      ? 'border-amber-500 bg-amber-500/10 shadow-xs'
-                      : 'border-white/10 bg-white/[0.02] hover:border-white/20'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-white">Tax-Exclusive (Added on top)</span>
-                    {taxMode === 'exclusive' && <Check className="w-4 h-4 text-amber-400" />}
-                  </div>
-                  <p className="text-[11px] text-neutral-400 mt-1">
-                    Adds VAT/tax percentage on top of customer subtotal before showing total to waiter.
-                  </p>
-                </button>
-              </div>
-            </div>
-
-            {/* CURRENCY & TAX RATE */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-neutral-300 mb-1 flex items-center gap-1.5">
-                  <Coins className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Currency</span>
+                <label className="block text-xs font-semibold text-neutral-300 mb-1">
+                  Branch Name
                 </label>
-                <select
-                  value={currency}
-                  onChange={(e) => {
-                    triggerHaptic(8);
-                    setCurrency(e.target.value);
-                  }}
-                  className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs font-bold focus:outline-none focus:border-amber-500"
-                >
-                  <option value="ETB" className="bg-[#12141C]">ETB (Br • Ethiopian Birr - Default)</option>
-                  <option value="USD" className="bg-[#12141C]">USD ($ • US Dollar)</option>
-                  <option value="EUR" className="bg-[#12141C]">EUR (€ • Euro)</option>
-                  <option value="GBP" className="bg-[#12141C]">GBP (£ • British Pound)</option>
-                  <option value="KES" className="bg-[#12141C]">KES (KSh • Kenyan Shilling)</option>
-                </select>
+                <input
+                  type="text"
+                  value={branchName}
+                  onChange={(e) => setBranchName(e.target.value)}
+                  placeholder="Main Branch"
+                  className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
+                />
               </div>
 
               <div>
                 <label className="block text-xs font-semibold text-neutral-300 mb-1">
-                  Tax Rate (%) {taxMode === 'inclusive' ? '(Included in menu prices)' : '(Added on top)'}
+                  Operating Hours
                 </label>
                 <input
-                  type="number"
-                  step="0.1"
-                  value={taxRate}
-                  onChange={(e) => setTaxRate(e.target.value)}
-                  placeholder="15.0"
-                  className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs font-mono focus:outline-none focus:border-amber-500"
+                  type="text"
+                  value={hours}
+                  onChange={(e) => setHours(e.target.value)}
+                  placeholder="Mon – Sun: 6:30 AM – 11:00 PM"
+                  className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
                 />
               </div>
             </div>
 
-            {/* Open / Closed Toggle */}
-            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between">
+            <div>
+              <label className="block text-xs font-semibold text-neutral-300 mb-1">
+                Physical Address
+              </label>
+              <input
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Bulbula, Addis Ababa, Ethiopia"
+                className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-neutral-300 mb-1">
+                Google Maps URL
+              </label>
+              <input
+                type="url"
+                value={googleMapsUrl}
+                onChange={(e) => setGoogleMapsUrl(e.target.value)}
+                placeholder="https://maps.app.goo.gl/..."
+                className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
+              />
+            </div>
+          </div>
+        </form>
+
+        {/* ===================================================================
+            CARD 2 & CARD 3 (RIGHT COLUMN): GUEST WI-FI & STAFF MANAGEMENT
+           =================================================================== */}
+        <div className="flex flex-col gap-6">
+          {/* GUEST WI-FI CARD */}
+          <div className="p-6 rounded-2xl bg-[#12141C] border border-white/5 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-white/5">
               <div>
-                <p className="text-xs font-bold text-white">Accepting Customer Orders</p>
+                <h4 className="text-xs font-bold text-white flex items-center gap-1.5 uppercase tracking-wider">
+                  <Wifi className={`w-4 h-4 ${wifiEnabled ? 'text-amber-400' : 'text-neutral-500'}`} />
+                  <span>Guest Wi-Fi Network Sharing</span>
+                </h4>
                 <p className="text-[11px] text-neutral-400 mt-0.5">
-                  Toggle off in emergencies to temporarily pause new table orders.
+                  Share your dining-room Wi-Fi with customers on their digital menu cards.
                 </p>
               </div>
               <button
                 type="button"
-                onClick={() => {
-                  triggerHaptic(10);
-                  setIsOpen(!isOpen);
-                }}
-                className={`px-3 py-1.5 rounded-full text-xs font-bold transition-colors cursor-pointer ${
-                  isOpen
-                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                    : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
-                }`}
+                data-testid="save-wifi-btn"
+                onClick={handleSaveWifi}
+                disabled={isSavingWifi}
+                className="px-3.5 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
               >
-                {isOpen ? 'Open for Orders' : 'Paused / Closed'}
+                {wifiSaved ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-400" />
+                    <span className="text-emerald-300">Saved!</span>
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-3.5 h-3.5 text-amber-400" />
+                    <span>{isSavingWifi ? 'Saving...' : 'Save Wi-Fi'}</span>
+                  </>
+                )}
               </button>
             </div>
 
-            {/* Sold-out Auto Reset Schedule */}
-            <div>
-              <label className="block text-xs font-semibold text-neutral-300 mb-1">
-                Sold-Out Auto Reset Schedule
-              </label>
-              <div className="grid grid-cols-3 gap-2.5 mt-1.5">
-                {[
-                  { id: 'morning_6am', label: '6:00 AM' },
-                  { id: 'midnight', label: 'Midnight' },
-                  { id: 'manual', label: 'Manual' },
-                ].map((opt) => (
-                  <button
-                    key={opt.id}
-                    type="button"
-                    onClick={() => setSoldOutReset(opt.id as any)}
-                    className={`p-2 rounded-xl border text-xs font-bold transition-all text-center cursor-pointer ${
-                      soldOutReset === opt.id
-                        ? 'border-amber-500 bg-amber-500/10 text-amber-300'
-                        : 'border-white/5 bg-white/[0.02] text-neutral-400 hover:text-white'
-                    }`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Main Branch & Physical Location */}
-            <div className="space-y-3 pt-3 border-t border-white/5">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1">
-                <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
-                    <MapPin className="w-3.5 h-3.5" />
-                    <span>Main Branch & Physical Location</span>
-                  </h4>
-                  <p className="text-[11px] text-neutral-400 mt-0.5">
-                    Currently set for 1 Main Branch. All diner QR stands and navigation links route directly to this verified Google Maps location.
+            {/* Wi-Fi Sharing Toggle Switch */}
+            <div className={`p-3.5 rounded-xl border transition-all flex items-center justify-between gap-3 ${
+              wifiEnabled 
+                ? 'bg-emerald-500/10 border-emerald-500/25' 
+                : 'bg-white/[0.03] border-white/10'
+            }`}>
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${
+                  wifiEnabled ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/10 text-neutral-400'
+                }`}>
+                  <Wifi className="w-4 h-4" />
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-xs font-bold text-white">
+                      {wifiEnabled ? 'Wi-Fi Sharing: Active' : 'Wi-Fi Sharing: Disabled'}
+                    </span>
+                    <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider ${
+                      wifiEnabled 
+                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' 
+                        : 'bg-neutral-800 text-neutral-400 border border-white/10'
+                    }`}>
+                      {wifiEnabled ? 'Visible to Customers' : 'Hidden'}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-neutral-400 mt-0.5 truncate">
+                    {wifiEnabled 
+                      ? 'Customers can see details and tap to copy password from their phones.'
+                      : 'Credentials are kept private and hidden from customer menu.'}
                   </p>
                 </div>
-                {googleMapsUrl && (
-                  <a
-                    href={googleMapsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 text-xs font-bold border border-amber-500/20 transition-colors w-fit"
-                  >
-                    <span>Test Map Link</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                )}
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-semibold text-neutral-300 mb-1">
-                    Branch Name / Label
-                  </label>
-                  <input
-                    type="text"
-                    value={branchName}
-                    onChange={(e) => setBranchName(e.target.value)}
-                    placeholder="Main Branch, Nitsuh Cafe & Restaurant"
-                    className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-neutral-300 mb-1">
-                    Display Operating Hours
-                  </label>
-                  <input
-                    type="text"
-                    value={hours}
-                    onChange={(e) => setHours(e.target.value)}
-                    placeholder="Mon – Sun: 6:30 AM – 11:00 PM"
-                    className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-semibold text-neutral-300 mb-1">
-                    Physical Address & Plus Code
-                  </label>
-                  <input
-                    type="text"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    placeholder="Nitsuh Bakery , Pizza & Burger | Bulbula, Addis Ababa, Ethiopia"
-                    className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-neutral-300 mb-1">
-                    Google Maps Place / Directions URL
-                  </label>
-                  <input
-                    type="url"
-                    value={googleMapsUrl}
-                    onChange={(e) => setGoogleMapsUrl(e.target.value)}
-                    placeholder="https://maps.app.goo.gl/..."
-                    className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-              </div>
-
-              {/* Explicit Save Button for Location */}
-              <div className="flex justify-end pt-1">
-                <button
-                  type="submit"
-                  data-testid="save-location-btn"
-                  className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
-                >
-                  <Save className="w-3.5 h-3.5" />
-                  <span>Save Location & Branch</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Wi-Fi Configuration Card (Owner Enable / Disable & Credentials) */}
-            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div>
-                  <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
-                    <Wifi className={`w-4 h-4 ${wifiEnabled ? 'text-amber-400' : 'text-neutral-500'}`} />
-                    <span>Guest Wi-Fi Network & Password</span>
-                  </h4>
-                  <p className="text-[11px] text-neutral-400 mt-0.5">
-                    Choose whether to share your dining-room Wi-Fi with customers on their digital menu and table QR cards.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  data-testid="save-wifi-btn"
-                  onClick={handleSaveWifi}
-                  disabled={isSavingWifi}
-                  className="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer self-start sm:self-auto disabled:opacity-50"
-                >
-                  {wifiSaved ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      <span className="text-emerald-300">Saved!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Save className="w-3.5 h-3.5 text-amber-400" />
-                      <span>{isSavingWifi ? 'Saving...' : 'Save Wi-Fi'}</span>
-                    </>
-                  )}
-                </button>
-              </div>
-
-              {/* Wi-Fi Sharing Toggle Switch */}
-              <div className={`p-3.5 rounded-xl border transition-all flex items-center justify-between gap-3 ${
-                wifiEnabled 
-                  ? 'bg-emerald-500/10 border-emerald-500/25' 
-                  : 'bg-white/[0.03] border-white/10'
-              }`}>
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${
-                    wifiEnabled ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/10 text-neutral-400'
-                  }`}>
-                    <Wifi className="w-4 h-4" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs font-bold text-white">
-                        {wifiEnabled ? 'Wi-Fi Sharing: Enabled' : 'Wi-Fi Sharing: Disabled'}
-                      </span>
-                      <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider ${
-                        wifiEnabled 
-                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' 
-                          : 'bg-neutral-800 text-neutral-400 border border-white/10'
-                      }`}>
-                        {wifiEnabled ? 'Shared with Customers' : 'Hidden from Customers'}
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-neutral-400 mt-0.5 truncate">
-                      {wifiEnabled 
-                        ? 'Customers can see network details and tap to copy password from their phones.'
-                        : 'Credentials are kept private and hidden from customer menu and QR cards.'}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Switch Control */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    triggerHaptic(10);
-                    setWifiEnabled(!wifiEnabled);
-                  }}
-                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                    wifiEnabled ? 'bg-emerald-500' : 'bg-neutral-700'
+              {/* Switch Control */}
+              <button
+                type="button"
+                onClick={() => {
+                  triggerHaptic(10);
+                  setWifiEnabled(!wifiEnabled);
+                }}
+                className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                  wifiEnabled ? 'bg-emerald-500' : 'bg-neutral-700'
+                }`}
+                role="switch"
+                aria-checked={wifiEnabled}
+                aria-label="Toggle Wi-Fi sharing with customers"
+              >
+                <span
+                  aria-hidden="true"
+                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                    wifiEnabled ? 'translate-x-5' : 'translate-x-0'
                   }`}
-                  role="switch"
-                  aria-checked={wifiEnabled}
-                  aria-label="Toggle Wi-Fi sharing with customers"
-                >
-                  <span
-                    aria-hidden="true"
-                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                      wifiEnabled ? 'translate-x-5' : 'translate-x-0'
-                    }`}
-                  />
-                </button>
+                />
+              </button>
+            </div>
+
+            {/* SSID and Password Fields */}
+            <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 transition-opacity ${wifiEnabled ? 'opacity-100' : 'opacity-65'}`}>
+              <div>
+                <label className="block text-xs font-semibold text-neutral-300 mb-1">
+                  Network Name (SSID)
+                </label>
+                <input
+                  type="text"
+                  value={wifiSsid}
+                  onChange={(e) => setWifiSsid(e.target.value)}
+                  placeholder="e.g. Nitsuh-Guest"
+                  className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
+                />
               </div>
 
-              {/* SSID and Password Fields */}
-              <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 transition-opacity ${wifiEnabled ? 'opacity-100' : 'opacity-65'}`}>
-                <div>
-                  <label className="block text-xs font-semibold text-neutral-300 mb-1">
-                    Wi-Fi Network Name (SSID)
-                  </label>
+              <div>
+                <label className="block text-xs font-semibold text-neutral-300 mb-1">
+                  Wi-Fi Password
+                </label>
+                <div className="relative">
                   <input
-                    type="text"
-                    value={wifiSsid}
-                    onChange={(e) => setWifiSsid(e.target.value)}
-                    placeholder="e.g. Nitsuh-Guest or CafeWiFi"
-                    className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
+                    type={showWifiPassword ? 'text' : 'password'}
+                    value={wifiPassword}
+                    onChange={(e) => setWifiPassword(e.target.value)}
+                    placeholder="Leave blank if open"
+                    className="w-full px-3.5 py-2.5 pr-10 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowWifiPassword(!showWifiPassword)}
+                    className="absolute right-3 top-2.5 text-neutral-400 hover:text-white cursor-pointer"
+                    aria-label={showWifiPassword ? 'Hide Wi-Fi password' : 'Show Wi-Fi password'}
+                  >
+                    {showWifiPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
                 </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-neutral-300 mb-1">
-                    Wi-Fi Password
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showWifiPassword ? 'text' : 'password'}
-                      value={wifiPassword}
-                      onChange={(e) => setWifiPassword(e.target.value)}
-                      placeholder="Leave blank if open / no password"
-                      className="w-full px-3.5 py-2.5 pr-10 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowWifiPassword(!showWifiPassword)}
-                      className="absolute right-3 top-2.5 text-neutral-400 hover:text-white cursor-pointer"
-                      aria-label={showWifiPassword ? 'Hide Wi-Fi password' : 'Show Wi-Fi password'}
-                    >
-                      {showWifiPassword ? (
-                        <EyeOff className="w-4 h-4" />
-                      ) : (
-                        <Eye className="w-4 h-4" />
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Status helper */}
-              <div className="flex items-center gap-2 pt-1 text-[11px] text-neutral-400">
-                <span className={`inline-block w-2 h-2 rounded-full ${wifiEnabled ? 'bg-emerald-400' : 'bg-neutral-600'}`} />
-                <span>
-                  {wifiEnabled ? (
-                    <>
-                      Currently active: <strong>{wifiSsid || 'None'}</strong> •{' '}
-                      {wifiPassword ? (
-                        <span>
-                          Password: <code>{wifiPassword}</code>
-                        </span>
-                      ) : (
-                        <span className="text-amber-400">Open Network (No password required)</span>
-                      )}
-                    </>
-                  ) : (
-                    <span className="text-neutral-400">Wi-Fi is currently disabled and hidden from customers.</span>
-                  )}
-                </span>
               </div>
             </div>
-          </form>
+          </div>
 
-          {/* STAFF ACCOUNTS & PIN CREDENTIALS (Owner Management) */}
+          {/* STAFF ACCOUNTS & PIN CREDENTIALS */}
           <div className="p-6 rounded-2xl bg-[#12141C] border border-white/5 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-white/5">
               <div>
                 <h3 className="text-sm font-bold text-white flex items-center gap-2">
                   <Users className="w-4 h-4 text-amber-400" />
-                  <span>Staff Accounts & 4-Digit PINs</span>
+                  <span>Floor Staff & 4-Digit PINs</span>
                 </h3>
                 <p className="text-[11px] text-neutral-400 mt-0.5">
-                  Staff can only toggle Sold-Out status and view reviews. Owner provisions credentials directly.
+                  Floor staff log in with their PIN to toggle Sold-Out status.
                 </p>
               </div>
 
@@ -1101,142 +692,107 @@ export function SettingsSection({
                   />
                   <input
                     type="password"
-                    maxLength={4}
                     value={newStaffPin}
-                    onChange={(e) => setNewStaffPin(e.target.value.replace(/\D/g, ''))}
-                    placeholder="4-digit PIN (e.g. 1234)"
-                    className="px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs font-mono tracking-widest text-center focus:outline-none focus:border-amber-500"
+                    onChange={(e) => setNewStaffPin(e.target.value)}
+                    placeholder="4-Digit PIN or Password"
+                    className="px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
                     required
                   />
                 </div>
-                <div className="flex justify-end">
+                <div className="flex justify-end gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setIsAddingStaff(false)}
+                    className="px-3 py-1.5 rounded-lg text-xs text-neutral-400 hover:text-white"
+                  >
+                    Cancel
+                  </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 rounded-xl bg-amber-500 text-black text-xs font-bold hover:bg-amber-400 transition-colors cursor-pointer"
+                    className="px-4 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold"
                   >
-                    Save Staff Member
+                    Create Account
                   </button>
                 </div>
               </form>
             )}
 
             {/* Staff List */}
-            <div className="flex flex-col gap-2">
+            <div className="space-y-2.5">
               {staffAccounts.map((staff) => (
                 <div
                   key={staff.id}
-                  className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 flex flex-col gap-2.5"
+                  className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">
-                        {staff.name.charAt(0)}
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-white flex items-center gap-2">
-                          <span>{staff.name}</span>
-                          <span className="text-[10px] font-normal text-neutral-400">
-                            (@{staff.username})
-                          </span>
-                        </div>
-                        <div className="text-[11px] text-neutral-400 font-mono mt-0.5 flex items-center gap-2">
-                          <span>Password/PIN: <strong className="text-neutral-300">••••</strong></span>
-                          <span className={`w-1.5 h-1.5 rounded-full ${staff.is_active ? 'bg-emerald-500' : 'bg-neutral-600'}`} />
-                          <span>{staff.is_active ? 'Active' : 'Inactive'}</span>
-                        </div>
-                      </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold text-xs flex-shrink-0">
+                      {staff.name.slice(0, 2).toUpperCase()}
                     </div>
-
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          triggerHaptic(8);
-                          if (editingStaffId === staff.id) {
-                            setEditingStaffId(null);
-                          } else {
-                            setEditingStaffId(staff.id);
-                            setEditingStaffPin('');
-                          }
-                        }}
-                        className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-neutral-300 text-[11px] font-semibold flex items-center gap-1 border border-white/10 transition-colors cursor-pointer"
-                        title="Change staff password"
-                      >
-                        <KeyRound className="w-3 h-3 text-amber-400" />
-                        <span>{editingStaffId === staff.id ? 'Close' : 'Set Password'}</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => handleResetPin(staff.id)}
-                        className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-neutral-300 text-[11px] font-semibold flex items-center gap-1 border border-white/10 transition-colors cursor-pointer"
-                        title="1-tap PIN reset"
-                      >
-                        <RefreshCw className="w-3 h-3 text-amber-400" />
-                        <span>Reset</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => handleToggleStaffActive(staff.id)}
-                        className={`px-2.5 py-1.5 rounded-lg text-[11px] font-semibold border transition-colors cursor-pointer ${
-                          staff.is_active
-                            ? 'bg-amber-500/10 text-amber-300 border-amber-500/20 hover:bg-amber-500/20'
-                            : 'bg-emerald-500/10 text-emerald-300 border-emerald-500/20 hover:bg-emerald-500/20'
-                        }`}
-                      >
-                        {staff.is_active ? 'Deactivate' : 'Activate'}
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteStaff(staff.id)}
-                        className="p-1.5 rounded-lg bg-white/5 hover:bg-rose-500/20 text-neutral-400 hover:text-rose-300 border border-white/5 transition-colors cursor-pointer"
-                        title="Delete staff account"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-bold text-white">{staff.name}</span>
+                        <span className={`text-[10px] px-1.5 py-0.2 rounded font-bold ${
+                          staff.is_active ? 'bg-emerald-500/15 text-emerald-400' : 'bg-rose-500/15 text-rose-400'
+                        }`}>
+                          {staff.is_active ? 'Active' : 'Disabled'}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 text-[11px] text-neutral-400 mt-0.5">
+                        <span>@{staff.username}</span>
+                        {staff.pin_code && <span>• PIN: <code>{staff.pin_code}</code></span>}
+                      </div>
                     </div>
                   </div>
 
-                  {/* Inline Staff Password Editing */}
-                  {editingStaffId === staff.id && (
-                    <div className="pt-2 border-t border-white/5 flex items-center gap-2 animate-in fade-in">
-                      <div className="relative flex-1">
-                        <KeyRound className="w-3.5 h-3.5 text-neutral-500 absolute left-3 top-2.5" />
-                        <input
-                          type="text"
-                          value={editingStaffPin}
-                          onChange={(e) => setEditingStaffPin(e.target.value)}
-                          placeholder="Enter new password or PIN for this staff member"
-                          className="w-full pl-8 pr-3 py-1.5 bg-black/40 border border-amber-500/30 rounded-lg text-white text-xs font-mono focus:outline-none focus:border-amber-500"
-                          autoFocus
-                        />
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => handleUpdateStaffPin(staff.id)}
-                        className="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold cursor-pointer"
-                      >
-                        Save Password
-                      </button>
-                    </div>
-                  )}
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => handleResetPin(staff.id)}
+                      className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-neutral-300 text-[11px] font-semibold transition-colors"
+                      title="Generate new 4-digit PIN"
+                    >
+                      Reset PIN
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleToggleStaffActive(staff.id)}
+                      className={`px-2.5 py-1.5 rounded-lg text-[11px] font-semibold transition-colors ${
+                        staff.is_active
+                          ? 'bg-amber-500/10 text-amber-300 hover:bg-amber-500/20'
+                          : 'bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20'
+                      }`}
+                    >
+                      {staff.is_active ? 'Deactivate' : 'Activate'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteStaff(staff.id)}
+                      className="p-1.5 rounded-lg text-neutral-500 hover:text-rose-400 transition-colors"
+                      title="Remove staff account"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
               ))}
+              {staffAccounts.length === 0 && (
+                <div className="text-center py-6 text-neutral-500 text-xs">
+                  No staff accounts created yet. Click &quot;Add Staff&quot; above to provision PINs.
+                </div>
+              )}
             </div>
           </div>
 
-          {/* PRIVACY & DATA COMPLIANCE SECTION */}
+          {/* PRIVACY & DATA EXPORT */}
           <div className="p-6 rounded-2xl bg-[#12141C] border border-white/5 space-y-4">
             <div className="flex items-center justify-between">
               <div>
                 <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
                   <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                  <span>Data Privacy & Tenant Ownership</span>
+                  <span>Data Privacy & Tenant Backup</span>
                 </h4>
                 <p className="text-[11px] text-neutral-400 mt-0.5">
-                  GDPR / CCPA data export, cookieless telemetry, and historical guest session purge.
+                  Export complete restaurant configuration backup or purge guest logs.
                 </p>
               </div>
               <Link
@@ -1244,7 +800,7 @@ export function SettingsSection({
                 target="_blank"
                 className="text-xs text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1"
               >
-                <span>Preview Notice</span>
+                <span>Privacy Notice</span>
                 <ExternalLink className="w-3 h-3" />
               </Link>
             </div>
@@ -1267,54 +823,12 @@ export function SettingsSection({
                 className="px-3.5 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-semibold flex items-center gap-2 border border-rose-500/20 transition-colors cursor-pointer"
               >
                 <Trash2 className="w-3.5 h-3.5 text-rose-400" />
-                <span>Purge Guest Logs (&gt;30d)</span>
+                <span>Purge Historical Logs (&gt;30d)</span>
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    {/* =======================================================================
-        PRINT ONLY TABLE STAND CARD (standard A6 / Table Tent dimensions)
-       ======================================================================= */}
-    <div className="hidden print:flex print-only-card">
-      <div
-        className="w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-white text-2xl mb-2"
-        style={{ backgroundColor: restaurant.theme_config.primaryColor || '#E8590C' }}
-      >
-        {restaurant.logo_letter || 'A'}
-      </div>
-      <h1 className="text-2xl font-black text-black tracking-tight">{restaurant.name}</h1>
-      <p className="text-xs text-neutral-600 mt-1 mb-2">{restaurant.tagline || 'Scan to view menu & order'}</p>
-
-      <div className="px-5 py-1.5 rounded-full bg-black text-white font-mono text-sm font-extrabold uppercase tracking-wider my-2">
-        DIGITAL MENU
-      </div>
-
-      <div className="my-3 p-4 bg-white border-4 border-black rounded-3xl">
-        {/* eslint-disable-next-js/no-img-element */}
-        <img
-          src={qrImageUrl}
-          alt="Print QR Code for Digital Menu"
-          className="w-52 h-52 block mx-auto"
-        />
-      </div>
-
-      <p className="text-xs font-semibold text-neutral-700 max-w-xs mb-3">
-        Point phone camera at the QR code to open our contactless menu. No app download needed.
-      </p>
-
-      {wifiSsid && (
-        <div className="pt-3 border-t-2 border-neutral-200 w-full text-xs font-mono text-neutral-700">
-          Wi-Fi: <strong>{wifiSsid}</strong> {wifiPassword ? `• Pass: ${wifiPassword}` : ''}
-        </div>
-      )}
-
-      <div className="mt-4 text-[10px] text-neutral-400 font-mono uppercase tracking-widest">
-        Powered by Digital Menu • /{restaurant.slug}
-      </div>
-    </div>
-  </>
   );
 }

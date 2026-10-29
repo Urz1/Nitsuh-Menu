@@ -96,7 +96,7 @@ export async function POST(request: Request) {
         created_at
       ) VALUES (
         ${resolvedRestaurantId},
-        ${table_number || 'Table 1'},
+        ${table_number || 'Service'},
         ${request_type || 'waiter'},
         ${notes || null},
         ${status || 'pending'},

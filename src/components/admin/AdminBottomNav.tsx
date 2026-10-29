@@ -27,7 +27,6 @@ interface AdminBottomNavProps {
   session?: AdminAuthSession | null;
   onSignOut?: () => void;
   badgeCounts: {
-    requests: number;
     reviewsAttention: number;
     activeOffers: number;
   };
@@ -50,8 +49,6 @@ export function AdminBottomNav({
   if (userRole === 'staff') {
     primaryItems = [
       { id: 'menu', label: 'Sold Out', icon: UtensilsCrossed },
-      { id: 'offers', label: 'Offers', icon: Tag, badge: badgeCounts.activeOffers },
-      { id: 'reviews', label: 'Reviews', icon: Star, badge: badgeCounts.reviewsAttention },
       { id: 'profile', label: 'My Profile', icon: User },
     ];
   } else {
