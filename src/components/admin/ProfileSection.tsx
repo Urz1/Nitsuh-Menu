@@ -314,7 +314,7 @@ export function ProfileSection({
                       type="text"
                       value={ownerName}
                       onChange={(e) => setOwnerName(e.target.value)}
-                      placeholder="e.g. Abebe Bikila"
+                      placeholder="e.g. Full Name"
                       required
                       className="w-full h-10 pl-9 pr-3 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-neutral-400 outline-none focus:border-amber-400 transition-colors"
                     />

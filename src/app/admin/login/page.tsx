@@ -352,7 +352,7 @@ export default function AdminLoginPage() {
                     required
                     value={setupName}
                     onChange={(e) => setSetupName(e.target.value)}
-                    placeholder="e.g. Abebe Bikila"
+                    placeholder="e.g. Your Full Name"
                     className={`w-full h-11 pl-10 pr-4 rounded-xl text-xs outline-none transition-colors border ${
                       isLight
                         ? 'bg-neutral-50 border-neutral-300 text-neutral-900 focus:bg-white focus:border-amber-500'

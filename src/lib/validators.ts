@@ -27,6 +27,7 @@ export const serviceRequestSchema = z.object({
   restaurant_id: z.string().min(1),
   table_number: z.string().min(1).max(30),
   request_type: z.enum(['waiter', 'water', 'cutlery', 'bill']),
+  notes: z.string().max(500).optional(),
 });
 
 export const updateItemAvailabilitySchema = z.object({

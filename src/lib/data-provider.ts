@@ -2572,49 +2572,8 @@ export const MOCK_ITEMS_NITSUH: MenuItem[] = [
   }
 ];
 
-const inMemoryOrders: Order[] = [
-  {
-    id: 'ord-101',
-    restaurant_id: MOCK_RESTAURANT_NITSUH.id,
-    table_number: 'Table 1',
-    items: [
-      {
-        item_id: 'item-nitsuh-special-burger-17',
-        name: 'Nitsuh Special Burger',
-        price: 800,
-        quantity: 1,
-        selected_options: [],
-        line_total: 900,
-      },
-      {
-        item_id: 'item-macchiato',
-        name: 'Macchiato (ማኪያቶ)',
-        price: 120,
-        quantity: 2,
-        selected_options: [],
-        line_total: 240,
-      }
-    ],
-    subtotal: 1140,
-    tax: 171,
-    total: 1311,
-    status: 'pending',
-    notes: 'Please make the burger well done with extra sauce',
-    created_at: new Date(Date.now() - 1000 * 60 * 12).toISOString(),
-    updated_at: new Date().toISOString(),
-  }
-];
-
-const inMemoryServiceRequests: ServiceRequest[] = [
-  {
-    id: 'req-201',
-    restaurant_id: MOCK_RESTAURANT_NITSUH.id,
-    table_number: 'Table 14',
-    request_type: 'water',
-    status: 'pending',
-    created_at: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
-  }
-];
+let inMemoryOrders: Order[] = [];
+let inMemoryServiceRequests: ServiceRequest[] = [];
 
 // -----------------------------------------------------------------------------
 // UNIFIED DATA ACCESS FUNCTIONS (SUPABASE + RESILIENT FALLBACK)
@@ -3095,13 +3054,35 @@ export async function createOrder(input: CreateOrderInput): Promise<Order> {
 
   inMemoryOrders.unshift(newOrder);
 
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
+  if (typeof window !== 'undefined') {
     try {
-      const supabase = createClient();
-      await supabase.from('orders').insert(newOrder);
-    } catch {
-      // Handled
-    }
+      fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newOrder),
+      })
+        .then((res) => (res.ok ? res.json() : null))
+        .then((saved) => {
+          if (saved && saved.id) {
+            newOrder.id = saved.id;
+          }
+        })
+        .catch(() => {});
+    } catch {}
+  } else if (hasNeon()) {
+    try {
+      const sql = getNeon();
+      if (sql) {
+        sql`
+          INSERT INTO public.orders (
+            restaurant_id, table_number, items, subtotal, tax, total, status, notes, created_at, updated_at
+          ) VALUES (
+            ${newOrder.restaurant_id}, ${newOrder.table_number}, ${JSON.stringify(newOrder.items)}::jsonb,
+            ${newOrder.subtotal}, ${newOrder.tax}, ${newOrder.total}, ${newOrder.status}, ${newOrder.notes || null}, NOW(), NOW()
+          )
+        `.catch(() => {});
+      }
+    } catch {}
   }
 
   return newOrder;
@@ -3120,30 +3101,158 @@ export async function createServiceRequest(input: ServiceRequestInput): Promise<
     restaurant_id: input.restaurant_id,
     table_number: input.table_number,
     request_type: input.request_type,
+    notes: input.notes,
     status: 'pending',
     created_at: new Date().toISOString(),
   };
 
   inMemoryServiceRequests.unshift(newRequest);
 
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://demo.supabase.co') {
+  if (typeof window !== 'undefined') {
     try {
-      const supabase = createClient();
-      await supabase.from('service_requests').insert(newRequest);
-    } catch {
-      // Handled
-    }
+      fetch('/api/service-requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newRequest),
+      })
+        .then((res) => (res.ok ? res.json() : null))
+        .then((saved) => {
+          if (saved && saved.id) {
+            newRequest.id = saved.id;
+          }
+        })
+        .catch(() => {});
+    } catch {}
+  } else if (hasNeon()) {
+    try {
+      const sql = getNeon();
+      if (sql) {
+        sql`
+          INSERT INTO public.service_requests (
+            restaurant_id, table_number, request_type, notes, status, created_at
+          ) VALUES (
+            ${newRequest.restaurant_id}, ${newRequest.table_number}, ${newRequest.request_type}, ${newRequest.notes || null}, ${newRequest.status}, NOW()
+          )
+        `.catch(() => {});
+      }
+    } catch {}
   }
 
   return newRequest;
 }
 
 export async function getLiveOrders(restaurantId: string): Promise<Order[]> {
-  return inMemoryOrders.filter(o => o.restaurant_id === restaurantId || restaurantId === MOCK_RESTAURANT_NITSUH.id);
+  if (typeof window !== 'undefined') {
+    try {
+      const res = await fetch(`/api/orders?restaurantId=${encodeURIComponent(restaurantId)}`);
+      if (res.ok) {
+        const live = (await res.json()) as Order[];
+        if (Array.isArray(live)) {
+          inMemoryOrders = live;
+          return live;
+        }
+      }
+    } catch {}
+  } else if (hasNeon()) {
+    try {
+      const sql = getNeon();
+      if (sql) {
+        const rows = await sql`
+          SELECT * FROM public.orders
+          WHERE restaurant_id = ${restaurantId}
+          ORDER BY created_at DESC
+          LIMIT 100
+        `;
+        const mapped: Order[] = rows.map((r: any) => ({
+          id: r.id,
+          restaurant_id: r.restaurant_id,
+          table_number: r.table_number,
+          items: typeof r.items === 'string' ? JSON.parse(r.items) : (r.items || []),
+          subtotal: Number(r.subtotal || 0),
+          tax: Number(r.tax || 0),
+          total: Number(r.total || 0),
+          status: r.status,
+          notes: r.notes || undefined,
+          created_at: r.created_at ? new Date(r.created_at).toISOString() : new Date().toISOString(),
+          updated_at: r.updated_at ? new Date(r.updated_at).toISOString() : new Date().toISOString(),
+        }));
+        inMemoryOrders = mapped;
+        return mapped;
+      }
+    } catch {}
+  }
+  return inMemoryOrders;
 }
 
 export async function getLiveServiceRequests(restaurantId: string): Promise<ServiceRequest[]> {
-  return inMemoryServiceRequests.filter(r => r.restaurant_id === restaurantId || restaurantId === MOCK_RESTAURANT_NITSUH.id);
+  if (typeof window !== 'undefined') {
+    try {
+      const res = await fetch(`/api/service-requests?restaurantId=${encodeURIComponent(restaurantId)}`);
+      if (res.ok) {
+        const live = (await res.json()) as ServiceRequest[];
+        if (Array.isArray(live)) {
+          inMemoryServiceRequests = live;
+          return live;
+        }
+      }
+    } catch {}
+  } else if (hasNeon()) {
+    try {
+      const sql = getNeon();
+      if (sql) {
+        const rows = await sql`
+          SELECT * FROM public.service_requests
+          WHERE restaurant_id = ${restaurantId}
+          ORDER BY created_at DESC
+          LIMIT 100
+        `;
+        const mapped: ServiceRequest[] = rows.map((r: any) => ({
+          id: r.id,
+          restaurant_id: r.restaurant_id,
+          table_number: r.table_number,
+          request_type: r.request_type,
+          notes: r.notes || undefined,
+          status: r.status,
+          created_at: r.created_at ? new Date(r.created_at).toISOString() : new Date().toISOString(),
+        }));
+        inMemoryServiceRequests = mapped;
+        return mapped;
+      }
+    } catch {}
+  }
+  return inMemoryServiceRequests;
+}
+
+export async function updateOrderStatus(orderId: string, status: Order['status']): Promise<boolean> {
+  const ord = inMemoryOrders.find((o) => o.id === orderId);
+  if (ord) ord.status = status;
+
+  if (typeof window !== 'undefined') {
+    try {
+      fetch('/api/orders', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: orderId, status }),
+      }).catch(() => {});
+    } catch {}
+  }
+  return true;
+}
+
+export async function resolveServiceRequest(requestId: string): Promise<boolean> {
+  const req = inMemoryServiceRequests.find((r) => r.id === requestId);
+  if (req) req.status = 'completed';
+
+  if (typeof window !== 'undefined') {
+    try {
+      fetch('/api/service-requests', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: requestId, status: 'completed' }),
+      }).catch(() => {});
+    } catch {}
+  }
+  return true;
 }
 
 // -----------------------------------------------------------------------------

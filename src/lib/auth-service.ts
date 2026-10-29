@@ -179,7 +179,17 @@ export function getStaffAccounts(): StaffAccount[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_STAFF);
     if (!raw) return DEFAULT_STAFF_ACCOUNTS;
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      const cleaned = parsed.filter(
+        (s) => s && s.id && !s.id.startsWith('staff-') && !s.name?.includes('Selamawit') && !s.name?.includes('Dawit')
+      );
+      if (cleaned.length !== parsed.length) {
+        localStorage.setItem(STORAGE_KEY_STAFF, JSON.stringify(cleaned));
+      }
+      return cleaned;
+    }
+    return DEFAULT_STAFF_ACCOUNTS;
   } catch {
     return DEFAULT_STAFF_ACCOUNTS;
   }

@@ -60,6 +60,11 @@ export function HomeDashboard({
   const soldOutItems = menuItems.filter((i) => !i.is_available);
   const activeDishes = menuItems.filter((i) => i.is_available && !i.is_archived);
 
+  // Real operational calculations derived from orders
+  const totalRevenue = orders.reduce((sum, o) => sum + (Number(o.total) || 0), 0);
+  const completedOrdersCount = orders.filter((o) => o.status === 'served').length;
+  const fulfillmentPercent = orders.length > 0 ? Math.round((completedOrdersCount / orders.length) * 100) : 100;
+
   // Calculate rating
   const approvedReviews = reviews.filter((r) => r.status === 'published');
   const avgRating =
@@ -262,19 +267,23 @@ export function HomeDashboard({
               <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
                 Today's Orders
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-400 flex items-center gap-1">
-                <TrendingUp className="w-3 h-3" /> +14.2%
+              <span className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${
+                orders.length > 0 ? 'bg-emerald-500/15 text-emerald-400' : 'bg-white/5 text-neutral-400'
+              }`}>
+                {orders.length > 0 ? `${orders.length} Active` : 'Awaiting Orders'}
               </span>
             </div>
             <div className="my-3">
               <p className="text-2xl lg:text-3xl font-extrabold text-white font-mono tracking-tight">
-                {formatMoney(2480.5, restaurant.currency)}
+                {formatMoney(totalRevenue, restaurant.currency)}
               </p>
-              <p className="text-[11px] text-neutral-400 mt-0.5">vs {formatMoney(2172, restaurant.currency)} yesterday</p>
+              <p className="text-[11px] text-neutral-400 mt-0.5">
+                {orders.length > 0 ? `Total order volume today` : `No customer orders placed yet today`}
+              </p>
             </div>
             <div className="pt-2.5 border-t border-white/5 flex items-center justify-between text-xs text-neutral-400">
-              <span>{orders.length} orders placed</span>
-              <span className="text-emerald-400 font-medium">96% fulfillment</span>
+              <span>{orders.length} {orders.length === 1 ? 'order' : 'orders'} placed</span>
+              <span className="text-emerald-400 font-medium">{fulfillmentPercent}% fulfillment</span>
             </div>
           </div>
 
@@ -367,7 +376,9 @@ export function HomeDashboard({
                 {pendingRequests.length}
                 <span className="text-sm font-normal text-neutral-400 ml-2">unanswered</span>
               </p>
-              <p className="text-[11px] text-neutral-400 mt-0.5">Average response: 1m 40s</p>
+              <p className="text-[11px] text-neutral-400 mt-0.5">
+                {pendingRequests.length > 0 ? 'Requires immediate staff attention' : 'All guest calls attended to'}
+              </p>
             </div>
             <button
               onClick={() => onNavigate('requests')}
@@ -568,7 +579,7 @@ export function HomeDashboard({
                       {offer.discount_type === 'percentage'
                         ? `${offer.discount_value}% OFF`
                         : offer.discount_type === 'fixed_amount'
-                        ? `-$${offer.discount_value}`
+                        ? `-${formatMoney(Number(offer.discount_value), restaurant.currency)}`
                         : offer.discount_type}
                     </span>
                   </div>
@@ -578,7 +589,7 @@ export function HomeDashboard({
                       <Clock className="w-3 h-3 text-neutral-500" />
                       {offer.start_time ? 'Active during specific hours' : 'Active all day'}
                     </span>
-                    <span className="text-neutral-400 font-mono">{offer.orders_count || 24} orders</span>
+                    <span className="text-neutral-400 font-mono">{offer.orders_count || 0} orders</span>
                   </div>
                 </div>
               ))}

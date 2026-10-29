@@ -201,6 +201,7 @@ export interface ServiceRequest {
   restaurant_id: string;
   table_number: string;
   request_type: 'waiter' | 'water' | 'cutlery' | 'bill';
+  notes?: string;
   status: 'pending' | 'acknowledged' | 'completed';
   created_at: string;
 }

@@ -27,6 +27,8 @@ import {
   MOCK_MENU_VERSIONS_NITSUH,
   getLiveOrders,
   getLiveServiceRequests,
+  updateOrderStatus,
+  resolveServiceRequest,
   saveMenuItem,
   duplicateMenuItem,
   archiveMenuItem,
@@ -585,6 +587,7 @@ export default function AdminDashboardPage() {
   const handleUpdateOrderStatus = (orderId: string, status: Order['status']) => {
     triggerHaptic(10);
     setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, status } : o)));
+    updateOrderStatus(orderId, status).catch(() => {});
     showToast(`Order status updated to "${status}".`, 'info');
   };
 
@@ -593,6 +596,7 @@ export default function AdminDashboardPage() {
     setServiceRequests((prev) =>
       prev.map((r) => (r.id === requestId ? { ...r, status: 'completed' } : r))
     );
+    resolveServiceRequest(requestId).catch(() => {});
     showToast('Service call marked as resolved.', 'success');
   };
 
