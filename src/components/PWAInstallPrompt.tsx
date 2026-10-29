@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Download, X, Share2, PlusSquare, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Download, X, Share2, PlusSquare, Smartphone, CheckCircle2 } from 'lucide-react';
 import { triggerHaptic } from '@/lib/utils';
 import Image from 'next/image';
 import { Language } from '@/lib/translations';
@@ -24,7 +24,6 @@ export function PWAInstallPrompt({ locale = 'en' }: PWAInstallPromptProps) {
   const [isInstalled, setIsInstalled] = useState(false);
 
   const isAm = locale === 'am';
-  const isSo = locale === 'so';
 
   useEffect(() => {
     // Check if running in standalone mode (already installed PWA)
@@ -143,18 +142,16 @@ export function PWAInstallPrompt({ locale = 'en' }: PWAInstallPromptProps) {
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5">
               <h4 className="text-xs font-bold text-stone-900 dark:text-stone-100 truncate">
-                {isAm ? 'ንፁህ አፕሊኬሽን ጫን' : isSo ? 'Ku rakib App-ka Nitsuh' : 'Install Nitsuh Menu'}
+                {isAm ? 'ንፁህ አፕሊኬሽን ጫን' : 'Install Nitsuh Menu'}
               </h4>
               <span className="inline-flex items-center gap-0.5 text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/20">
-                <Sparkles className="w-2.5 h-2.5" />
+                <Smartphone className="w-2.5 h-2.5" />
                 <span>PWA</span>
               </span>
             </div>
             <p className="text-[11px] text-stone-600 dark:text-stone-300 line-clamp-1 mt-0.5">
               {isAm
                 ? 'ያለ ኢንተርኔት በፍጥነት ሜኑውን ለመክፈት'
-                : isSo
-                ? 'Ku fur si dhakhso ah oo offline ah'
                 : 'Instant offline access & fullscreen menu'}
             </p>
           </div>
@@ -166,7 +163,7 @@ export function PWAInstallPrompt({ locale = 'en' }: PWAInstallPromptProps) {
               className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[var(--primary)] text-white text-xs font-bold hover:brightness-110 active:scale-95 transition-all shadow-xs"
             >
               <Download className="w-3.5 h-3.5" />
-              <span>{isAm ? 'ጫን' : isSo ? 'Rakib' : 'Install'}</span>
+              <span>{isAm ? 'ጫን' : 'Install'}</span>
             </button>
             <button
               onClick={handleDismiss}

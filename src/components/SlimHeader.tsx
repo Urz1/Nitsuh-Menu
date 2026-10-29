@@ -62,9 +62,7 @@ export function SlimHeader({
   const greeting =
     locale === 'am'
       ? 'ሰላም፣ እንኳን ደህና መጡ! 👋'
-      : locale === 'so'
-        ? 'Ku soo dhawoow Nitsuh! 👋'
-        : 'Hello, Food Lover! 👋';
+      : 'Hello, Food Lover! 👋';
 
   return (
     <header className="bg-transparent border-0 transition-colors select-none pt-2.5 pb-1">
@@ -166,21 +164,6 @@ export function SlimHeader({
               aria-label="Switch to Amharic"
             >
               አማ
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                triggerHaptic(8);
-                onLocaleChange('so');
-              }}
-              className={`px-1.5 py-1 rounded-full transition-all text-[11px] font-bold ${
-                locale === 'so'
-                  ? 'bg-red-600 text-white shadow-2xs'
-                  : 'text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100'
-              }`}
-              aria-label="Switch to Somali"
-            >
-              SO
             </button>
           </div>
         </div>

@@ -2,16 +2,16 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Flame } from 'lucide-react';
 import { triggerHaptic } from '@/lib/utils';
 import { Language } from '@/lib/translations';
 
 interface BannerSlide {
   id: string;
-  badge: { en: string; am: string; so: string };
-  title: { en: string; am: string; so: string };
-  description: { en: string; am: string; so: string };
-  cta: { en: string; am: string; so: string };
+  badge: { en: string; am: string };
+  title: { en: string; am: string };
+  description: { en: string; am: string };
+  cta: { en: string; am: string };
   imageUrl: string;
   bgGradient: string;
   accentColor: string;
@@ -25,22 +25,18 @@ const AUTHENTIC_HERO_SLIDES: BannerSlide[] = [
     badge: {
       en: 'MORNING SIGNATURES',
       am: 'ትኩስ የጠዋት ቁርስ',
-      so: 'QURAAC CASRI AH',
     },
     title: {
       en: 'AUTHENTIC FUL SPECIAL',
       am: 'ትኩስ ፉል ስፔሻል እና ጨጨብሳ',
-      so: 'FOOL GAAR AH IYO CHECHEBSA',
     },
     description: {
       en: 'Slow-simmered fava beans seasoned with spiced butter, eggs, diced tomatoes & fresh bread.',
       am: 'ቀንዎን በሚያረካ ፉል ስፔሻል፣ ቅቤ የገባበት ጨጨብሳ እና ትኩስ መኪያቶ ይጀምሩ።',
-      so: 'Ku bilow subaxaada fool macaan oo lagu daray ukun, yaanyo iyo rooti cusub.',
     },
     cta: {
       en: 'Explore Breakfast',
       am: 'ቁርስ ይመልከቱ',
-      so: 'Fiiri Quraacda',
     },
     imageUrl: '/images/dishes/ful-special.jpg',
     bgGradient: 'from-[#4A200B] via-[#6E3010] to-[#2E1205]',
@@ -52,22 +48,18 @@ const AUTHENTIC_HERO_SLIDES: BannerSlide[] = [
     badge: {
       en: 'SIGNATURE SPECIAL',
       am: 'ልዩ የበርገር ምርጫ',
-      so: 'BURGER GAAR AH',
     },
     title: {
       en: 'NITSUH SPECIAL BURGER',
       am: 'ንፁህ ስፔሻል በርገር',
-      so: 'NITSUH SPECIAL BURGER',
     },
     description: {
       en: 'Handcrafted double beef patty, melted double cheese, fried egg, house mayo & golden fries.',
       am: 'ድርብ ስጋ፣ ድርብ ቺዝ፣ እንቁላል፣ የቤት ማዮኔዝ እና ጥርት ያለ ፍሬንች ፍራይስ።',
-      so: 'Labo hilib, labo farmaajo, ukun, suugo mayo iyo baradho shiilan oo cusub.',
     },
     cta: {
       en: 'Explore Burgers',
       am: 'በርገር ይመልከቱ',
-      so: 'Fiiri Burger-ka',
     },
     imageUrl: '/images/categories/burger.jpg',
     bgGradient: 'from-[#5A200A] via-[#7B2E10] to-[#2E1005]',
@@ -79,22 +71,18 @@ const AUTHENTIC_HERO_SLIDES: BannerSlide[] = [
     badge: {
       en: 'OVEN FRESH',
       am: 'ትኩስ ከምድጃ',
-      so: 'FOORNO CUSUB',
     },
     title: {
       en: 'HANDCRAFTED ARTISAN PIZZAS',
       am: 'ጣፋጭ የእጅ ስራ ፒዛዎች',
-      so: 'PIZZA CASRI AH OO CARAF LEH',
     },
     description: {
       en: 'Baked fresh in our kitchen with rich tomato sauce, melted mozzarella cheese & savory toppings.',
       am: 'በኩሽናችን ትኩስ ሆነው በሞዛሬላ ቺዝ፣ ምርጥ ቲማቲም ሶስ እና ልዩ ቅመሞች የተጋገሩ።',
-      so: 'Ku raaxayso pizza cusub oo lagu dubo foornadeena xawaash iyo farmaajo mozzarella leh.',
     },
     cta: {
       en: 'Explore Pizzas',
       am: 'ፒዛዎችን ይመልከቱ',
-      so: 'Fiiri Pizzada',
     },
     imageUrl: '/images/categories/pizza.jpg',
     bgGradient: 'from-[#7A1C0E] via-[#9E2612] to-[#3B0C05]',
@@ -106,22 +94,18 @@ const AUTHENTIC_HERO_SLIDES: BannerSlide[] = [
     badge: {
       en: 'HANDCRAFTED SWEETS',
       am: 'ጣፋጮች እና ኬኮች',
-      so: 'KEEG IYO MACAAN',
     },
     title: {
       en: 'PASTRIES & TORTAS BY KG',
       am: 'ጣፋጭ ኬኮች እና ኬክ በኪሎ',
-      so: 'KEEG IYO MACAAN CUSUB',
     },
     description: {
       en: 'Fresh mini custard cakes, donuts, croissants, and celebration tortas by the kilogram.',
       am: 'በየቀኑ የሚጋገሩ ሚኒ ኬኮች፣ ዶናት፣ ክሮሳንት እና ለዝግጅት የሚሆኑ ኬኮች በኪሎ።',
-      so: 'Keegyo macaan oo maalin kasta lagu dubo iyo keegyo waaweyn oo kiilo ah.',
     },
     cta: {
       en: 'Explore Desserts',
       am: 'ጣፋጮችን ይመልከቱ',
-      so: 'Fiiri Keegyada',
     },
     imageUrl: '/images/categories/dessert.jpg',
     bgGradient: 'from-[#48121E] via-[#631828] to-[#24080F]',
@@ -144,8 +128,8 @@ export function HeroFoodBanner({ locale = 'en', offers = [], onSelectCategory }:
   const touchEndX = useRef<number | null>(null);
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
 
-  const lang = (locale as 'en' | 'am' | 'so') || 'en';
-  const validLang = lang === 'am' || lang === 'so' ? lang : 'en';
+  const lang = (locale as 'en' | 'am') || 'en';
+  const validLang = lang === 'am' ? 'am' : 'en';
 
   // Construct dynamic slides: combine live active offers from database with authentic product showcases
   const slides = React.useMemo<BannerSlide[]>(() => {
@@ -157,22 +141,18 @@ export function HeroFoodBanner({ locale = 'en', offers = [], onSelectCategory }:
         badge: {
           en: o.badge_text || 'SPECIAL OFFER',
           am: 'ልዩ ቅናሽ',
-          so: 'QIIMO DHIMIS GAAR AH',
         },
         title: {
           en: o.title,
           am: o.title,
-          so: o.title,
         },
         description: {
           en: o.description || 'Exclusive limited-time special offer at Nitsuh Cafe & Restaurant.',
           am: o.description || 'ልዩ የቅናሽ ምርጫ በንፁህ ካፌ እና ሬስቶራንት።',
-          so: o.description || 'Dalab gaar ah oo ku kooban waqti cayiman.',
         },
         cta: {
           en: o.banner_link_text || 'View Offer',
           am: 'ቅናሹን ይመልከቱ',
-          so: 'Fiiri Qiimo Dhimista',
         },
         imageUrl: '/images/categories/burger.jpg',
         bgGradient: 'from-[#6B1800] via-[#8B2200] to-[#3A0A00]',
@@ -265,12 +245,12 @@ export function HeroFoodBanner({ locale = 'en', offers = [], onSelectCategory }:
           <div className="flex-1 min-w-0 pr-1">
             {/* Kicker badge */}
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-black/35 backdrop-blur-xs border border-white/15 text-[10px] font-extrabold tracking-wider uppercase text-amber-300 mb-1.5 shadow-2xs">
-              <Sparkles className="w-2.5 h-2.5" />
+              <Flame className="w-2.5 h-2.5 text-amber-400" />
               <span>{activeSlide.badge[validLang]}</span>
             </div>
 
             {/* Big Bold Headline */}
-            <h2 className="text-base sm:text-xl font-black tracking-tight leading-tight uppercase font-brand line-clamp-2 text-white drop-shadow-xs">
+            <h2 className="text-base sm:text-xl font-black tracking-tight leading-tight uppercase line-clamp-2 text-white drop-shadow-xs">
               {activeSlide.title[validLang]}
             </h2>
 

@@ -45,8 +45,8 @@ export default defineConfig({
                   value: JSON.stringify({
                     role: 'owner',
                     userId: 'owner-nitsuh-master',
-                    name: 'Abebe Bikila',
-                    identifier: 'owner@nitsuhcafeteria.com',
+                    name: 'Nitsuh Owner',
+                    identifier: 'owner@nitsuh.local',
                     token: 'playwright-test-token',
                     loggedInAt: 1760000000000,
                   }),

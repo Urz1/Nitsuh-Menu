@@ -35,7 +35,7 @@ export function MenuHeader({
 
   const cycleLanguage = () => {
     triggerHaptic(10);
-    const languages: Language[] = ['en', 'am', 'so'];
+    const languages: Language[] = ['en', 'am'];
     const nextIdx = (languages.indexOf(locale) + 1) % languages.length;
     onLocaleChange(languages[nextIdx]);
   };
@@ -44,8 +44,6 @@ export function MenuHeader({
     switch (lang) {
       case 'am':
         return 'አማ';
-      case 'so':
-        return 'SO';
       default:
         return 'EN';
     }
@@ -147,12 +145,12 @@ export function MenuHeader({
 
         {/* Action icons */}
         <div className="flex items-center gap-1.5 flex-shrink-0">
-          {/* Quick Trilingual Language Switcher Pill */}
+          {/* Quick Bilingual Language Switcher Pill */}
           <button
             type="button"
             onClick={cycleLanguage}
             className="h-8 px-2.5 rounded-full bg-[var(--background)] border border-[var(--border)] flex items-center gap-1 text-xs font-bold text-[var(--foreground)] hover:border-[var(--primary)] transition-colors active:scale-95"
-            aria-label="Switch Language (English, Amharic, Somali)"
+            aria-label="Switch Language (English, Amharic)"
             title="Switch Language"
           >
             <Globe className="w-3.5 h-3.5 text-[var(--primary)]" />

@@ -107,7 +107,7 @@ export async function POST(request: Request) {
       identifier: user.username || user.email,
     });
 
-    return NextResponse.json({
+    const res = NextResponse.json({
       success: true,
       user: {
         id: user.id,
@@ -120,6 +120,24 @@ export async function POST(request: Request) {
       },
       token,
     });
+
+    res.cookies.set('auth_session', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 7 * 24 * 3600,
+    });
+
+    res.cookies.set('digital_menu_session', user.role, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 7 * 24 * 3600,
+    });
+
+    return res;
   } catch (error: any) {
     console.error('Login error:', error);
     return NextResponse.json(

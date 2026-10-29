@@ -7,6 +7,8 @@ import {
   authenticateOwnerAsync,
   authenticateStaffAsync,
   getOwnerProfile,
+  setAuthSession,
+  saveOwnerProfileCache,
 } from '@/lib/auth-service';
 import { triggerHaptic } from '@/lib/utils';
 import {
@@ -24,7 +26,6 @@ import {
   HelpCircle,
   Sun,
   Moon,
-  Sparkles,
   Phone,
 } from 'lucide-react';
 
@@ -124,6 +125,24 @@ export default function AdminLoginPage() {
         triggerHaptic(20);
         setErrorMsg(data.error || 'Failed to initialize owner account');
         return;
+      }
+
+      if (data.user) {
+        setAuthSession({
+          role: 'owner',
+          userId: data.user.id,
+          name: data.user.name,
+          identifier: data.user.email,
+          token: data.token || `server-${Date.now()}`,
+          loggedInAt: Date.now(),
+        });
+        saveOwnerProfileCache({
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email,
+          phone: data.user.phone || '',
+          updated_at: new Date().toISOString(),
+        });
       }
 
       setSuccessMsg('Owner account initialized and saved to database! Loading dashboard...');
@@ -313,7 +332,7 @@ export default function AdminLoginPage() {
           <div className="flex flex-col gap-4 animate-in fade-in">
             <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs">
               <div className="flex items-center gap-2 font-bold text-amber-600 dark:text-amber-400 mb-1">
-                <Sparkles className="w-4 h-4 flex-shrink-0" />
+                <ShieldCheck className="w-4 h-4 flex-shrink-0" />
                 <span>First-Time Setup Required</span>
               </div>
               <p className={isLight ? 'text-neutral-600' : 'text-neutral-300'}>

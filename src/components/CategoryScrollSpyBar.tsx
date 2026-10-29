@@ -154,9 +154,6 @@ function formatCategoryLabel(cat: Category, locale: string): string {
   if (locale === 'am') {
     return cat.name_am || cat.name.split('/')[1]?.trim() || cat.name;
   }
-  if (locale === 'so' && cat.name_so) {
-    return cat.name_so;
-  }
   // In English or other languages, if the name is "Breakfast / ቁርስ", take the clean primary English name
   const en = cat.name.split('/')[0]?.trim() || cat.name;
   const lower = en.toLowerCase();

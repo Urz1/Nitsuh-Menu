@@ -1,6 +1,6 @@
 'use client';
 
-import { StaffAccount, UserRole } from '@/types/database';
+import { StaffAccount } from '@/types/database';
 
 export interface OwnerProfile {
   id: string;
@@ -46,7 +46,18 @@ export function getOwnerProfile(): OwnerProfile {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_OWNER);
     if (!raw) return DEFAULT_OWNER_PROFILE;
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    if (
+      parsed.email === 'owner@nitsuhcafeteria.com' ||
+      parsed.email === 'owner@addiscafeteria.com' ||
+      parsed.name === 'Abebe Bikila' ||
+      parsed.id === 'owner-nitsuh-master' ||
+      parsed.id === 'owner-addis-master'
+    ) {
+      localStorage.removeItem(STORAGE_KEY_OWNER);
+      return DEFAULT_OWNER_PROFILE;
+    }
+    return parsed;
   } catch {
     return DEFAULT_OWNER_PROFILE;
   }
@@ -112,8 +123,9 @@ export async function updateOwnerProfileAsync(
     }
 
     return { success: true, profile: updatedProfile };
-  } catch (err: any) {
-    return { success: false, error: err.message || 'Network error updating profile' };
+  } catch (err: unknown) {
+    const error = err instanceof Error ? err.message : 'Network error';
+    return { success: false, error };
   }
 }
 
@@ -386,8 +398,9 @@ export async function updateStaffProfileAsync(
     }
 
     return { success: true, staff: data };
-  } catch (err: any) {
-    return { success: false, error: err.message || 'Network error updating profile' };
+  } catch (err: unknown) {
+    const error = err instanceof Error ? err.message : 'Network error';
+    return { success: false, error };
   }
 }
 
@@ -437,10 +450,22 @@ export function getCurrentSession(): AdminAuthSession | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_SESSION);
     if (raw) {
+      const parsed = JSON.parse(raw);
+      if (
+        parsed.identifier === 'owner@nitsuhcafeteria.com' ||
+        parsed.identifier === 'owner@addiscafeteria.com' ||
+        parsed.name === 'Abebe Bikila' ||
+        parsed.userId === 'owner-nitsuh-master' ||
+        parsed.userId === 'owner-addis-master'
+      ) {
+        localStorage.removeItem(STORAGE_KEY_SESSION);
+        localStorage.removeItem(STORAGE_KEY_OWNER);
+        return null;
+      }
       try {
         sessionStorage.removeItem('admin_explicitly_logged_out');
       } catch {}
-      return JSON.parse(raw);
+      return parsed;
     }
 
     const hasLoggedOut = sessionStorage.getItem('admin_explicitly_logged_out');

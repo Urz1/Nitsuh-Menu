@@ -25,7 +25,6 @@ export function BottomNavBar({
   locale = 'en',
 }: BottomNavBarProps) {
   const isAm = locale === 'am';
-  const isSo = locale === 'so';
 
   return (
     <nav
@@ -50,7 +49,7 @@ export function BottomNavBar({
         >
           <Utensils className={`w-5 h-5 ${activeTab === 'menu' ? 'stroke-[2.5px]' : 'stroke-[1.8px]'}`} />
           <span className="text-[11px] tracking-tight leading-none mt-0.5">
-            {isAm ? 'ሜኑ' : isSo ? 'Liiska' : 'Menu'}
+            {isAm ? 'ሜኑ' : 'Menu'}
           </span>
         </button>
 
@@ -77,7 +76,7 @@ export function BottomNavBar({
             )}
           </div>
           <span className="text-[11px] tracking-tight leading-none mt-0.5">
-            {isAm ? 'ቅናሾች' : isSo ? 'Dalabyo' : 'Offers'}
+            {isAm ? 'ቅናሾች' : 'Offers'}
           </span>
         </button>
 
@@ -104,7 +103,7 @@ export function BottomNavBar({
             )}
           </button>
           <span className="text-[10px] font-bold text-stone-700 dark:text-stone-300 tracking-tight leading-none mt-1">
-            {isAm ? 'ትዕዛዝ' : isSo ? 'Dalab' : 'Orders'}
+            {isAm ? 'ትዕዛዝ' : 'Orders'}
           </span>
         </div>
 
@@ -131,7 +130,7 @@ export function BottomNavBar({
             )}
           </div>
           <span className="text-[11px] tracking-tight leading-none mt-0.5">
-            {isAm ? 'ተወዳጆች' : isSo ? 'Jeceyl' : 'Saved'}
+            {isAm ? 'ተወዳጆች' : 'Saved'}
           </span>
         </button>
 
@@ -151,7 +150,7 @@ export function BottomNavBar({
         >
           <Info className={`w-5 h-5 ${activeTab === 'info' ? 'stroke-[2.5px]' : 'stroke-[1.8px]'}`} />
           <span className="text-[11px] tracking-tight leading-none mt-0.5">
-            {isAm ? 'መረጃ' : isSo ? 'Xog' : 'Info'}
+            {isAm ? 'መረጃ' : 'Info'}
           </span>
         </button>
       </div>

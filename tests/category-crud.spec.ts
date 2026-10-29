@@ -131,10 +131,23 @@ test.describe('Category CRUD & Inline Creation Flow', () => {
     await expect(page.locator('text=Soft Drinks').first()).toBeVisible();
   });
 
-  test.afterAll(async () => {
+  const cleanupTestData = async () => {
     try {
       const { neon } = await import('@neondatabase/serverless');
       const fs = await import('fs');
+      const dns = await import('dns');
+      const { Agent, setGlobalDispatcher } = await import('undici');
+      const agent = new Agent({
+        connect: {
+          lookup: (hostname: string, options: any, callback: any) => {
+            dns.lookup(hostname, { ...options, family: 4 }, (err: any, addresses: any) => {
+              callback(err, addresses);
+            });
+          },
+        },
+      });
+      setGlobalDispatcher(agent);
+
       if (fs.existsSync('.env.local')) {
         const env = fs.readFileSync('.env.local', 'utf8');
         const match = env.match(/DATABASE_URL=([^\r\n]+)/);
@@ -144,8 +157,16 @@ test.describe('Category CRUD & Inline Creation Flow', () => {
           await sql`DELETE FROM public.categories WHERE id IN ('cat-soft-drinks-sodas', 'cat-chef-seasonal-specials') OR name IN ('Soft Drinks & Sodas', 'Chef Signature Specials')`;
         }
       }
-    } catch {
-      // Ignore
+    } catch (e) {
+      console.error('Category cleanup error:', e);
     }
+  };
+
+  test.beforeAll(async () => {
+    await cleanupTestData();
+  });
+
+  test.afterAll(async () => {
+    await cleanupTestData();
   });
 });

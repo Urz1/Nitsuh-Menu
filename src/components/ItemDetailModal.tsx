@@ -6,7 +6,7 @@ import { MenuItem, ItemOption, DishReview, DishReviewStats } from '@/types/datab
 import { ItemPricingResult } from '@/lib/pricing-engine';
 import { getIntelligentPairings, PairingRecommendation } from '@/lib/recommendation-engine';
 import { formatMoney, triggerHaptic, getOptimizedCloudinaryUrl } from '@/lib/utils';
-import { X, Minus, Plus, Tag, Clock, UtensilsCrossed, Flame, Star, MessageSquare, Flag, Check, Sparkles } from 'lucide-react';
+import { X, Minus, Plus, Tag, Clock, UtensilsCrossed, Flame, Star, MessageSquare, Flag, Check, ChefHat } from 'lucide-react';
 
 import { Language, TRANSLATIONS } from '@/lib/translations';
 import { DishPlaceholder } from './DishPlaceholder';
@@ -114,20 +114,16 @@ export function ItemDetailModal({
   const displayName =
     currentLocale === 'am' && item.name_am
       ? item.name_am
-      : currentLocale === 'so' && item.name_so
-        ? item.name_so
-        : currentLocale === 'es' && item.name_es
-          ? item.name_es
-          : item.name;
+      : currentLocale === 'es' && item.name_es
+        ? item.name_es
+        : item.name;
 
   const displayDesc =
     currentLocale === 'am' && item.description_am
       ? item.description_am
-      : currentLocale === 'so' && item.description_so
-        ? item.description_so
-        : currentLocale === 'es' && item.description_es
-          ? item.description_es
-          : item.description;
+      : currentLocale === 'es' && item.description_es
+        ? item.description_es
+        : item.description;
 
   const toggleOption = (opt: ItemOption) => {
     triggerHaptic(8);
@@ -235,7 +231,7 @@ export function ItemDetailModal({
               )}
             </div>
 
-            <h2 className="text-xl font-bold text-[var(--foreground)] font-brand">
+            <h2 className="text-xl font-bold text-[var(--foreground)]">
               {displayName}
             </h2>
 
@@ -272,7 +268,7 @@ export function ItemDetailModal({
             ) : (
               <div className="flex items-center gap-1.5 mt-1 text-xs">
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[var(--surface)] text-[11px] font-medium text-[var(--foreground)] border border-[var(--border)]">
-                  <Sparkles className="w-3 h-3 text-amber-500" />
+                  <ChefHat className="w-3 h-3 text-amber-500" />
                   {t.newDish}
                 </span>
                 <span className="text-xs text-[var(--muted)]">

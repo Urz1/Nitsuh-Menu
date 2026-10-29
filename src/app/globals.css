@@ -11,7 +11,7 @@
     --accent-hover: #E08514;
     --accent-rgb: 248, 155, 34;
     --radius-token: 14px;
-    --font-brand: 'Playfair Display', Georgia, serif;
+    --font-brand: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
     --background: #FAF6F0;

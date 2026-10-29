@@ -32,6 +32,7 @@ import {
   getMenuItems,
   getMenuCategories,
   getStoredRestaurant,
+  persistRestaurant,
   createServiceRequest,
   recordOfferInteraction,
   DEFAULT_REVIEW_SETTINGS_NITSUH,
@@ -74,13 +75,22 @@ export function ClientMenuContainer({
   const [restaurant, setRestaurant] = useState<Restaurant>(initialRestaurant);
 
   useEffect(() => {
-    // Check if there are locally stored design/restaurant updates
+    // Check if there are locally stored design/restaurant updates that are newer than the server
     const stored = getStoredRestaurant(initialRestaurant.slug);
-    if (stored) {
+    if (
+      stored &&
+      stored.updated_at &&
+      initialRestaurant.updated_at &&
+      new Date(stored.updated_at).getTime() > new Date(initialRestaurant.updated_at).getTime()
+    ) {
       setRestaurant(stored);
       applyThemeTokensToDOM(stored.theme_config);
-    } else if (initialRestaurant.theme_config) {
-      applyThemeTokensToDOM(initialRestaurant.theme_config);
+    } else {
+      setRestaurant(initialRestaurant);
+      persistRestaurant(initialRestaurant);
+      if (initialRestaurant.theme_config) {
+        applyThemeTokensToDOM(initialRestaurant.theme_config);
+      }
     }
   }, [initialRestaurant]);
 
@@ -950,7 +960,7 @@ export function ClientMenuContainer({
                 ) : (
                   <Compass className="w-4 h-4 text-[var(--primary)]" />
                 )}
-                <h2 className="text-base font-bold text-[var(--foreground)] font-brand">
+                <h2 className="text-base font-bold text-[var(--foreground)]">
                   {activeFilter === 'onOffer' || activeCategoryId === 'offers'
                     ? `${TRANSLATIONS[locale]?.dishesOnOfferCount || 'Dishes on Offer'} (${filteredItems.length})`
                     : `${TRANSLATIONS[locale]?.resultsCount || 'Results'} (${filteredItems.length})`}
@@ -1013,7 +1023,7 @@ export function ClientMenuContainer({
                 <section key={cat.id} id={`cat-${cat.id}`} className="mb-10 scroll-mt-56">
                   <div className="mb-3 flex items-baseline justify-between">
                     <div>
-                      <h2 className="text-lg font-bold text-[var(--foreground)] font-brand flex items-center gap-2">
+                      <h2 className="text-lg font-bold text-[var(--foreground)] flex items-center gap-2">
                         <span>{formatCategoryIcon(cat.icon, cat.name)}</span>
                         <span>{displayName}</span>
                       </h2>
@@ -1294,7 +1304,7 @@ export function ClientMenuContainer({
             <div className="w-12 h-1 bg-[var(--border)] rounded-full mx-auto mb-3 sm:hidden" />
             <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
               <div>
-                <h3 className="font-bold text-base text-[var(--foreground)] font-brand flex items-center gap-2">
+                <h3 className="font-bold text-base text-[var(--foreground)] flex items-center gap-2">
                   <Compass className="w-4 h-4 text-[var(--primary)]" />
                   <span>{TRANSLATIONS[locale]?.browseCategories || 'Menu Directory'}</span>
                 </h3>

@@ -862,7 +862,7 @@ export function SettingsSection({
                     type="text"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-                    placeholder="XQHC+MJP Nitsuh Cafe and Bakery, Addis Ababa, Ethiopia"
+                    placeholder="Nitsuh Bakery , Pizza & Burger | Bulbula, Addis Ababa, Ethiopia"
                     className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
                   />
                 </div>

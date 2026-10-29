@@ -107,10 +107,19 @@ export function verifySessionToken(token: string): SessionPayload | null {
 }
 
 /**
- * Server-side helper to read the authenticated session from cookies.
+ * Server-side helper to read the authenticated session from cookies or Authorization header.
  */
-export async function getServerSession(): Promise<SessionPayload | null> {
+export async function getServerSession(req?: Request): Promise<SessionPayload | null> {
   try {
+    if (req) {
+      const authHeader = req.headers.get('authorization');
+      if (authHeader && authHeader.startsWith('Bearer ')) {
+        const token = authHeader.slice(7).trim();
+        const payload = verifySessionToken(token);
+        if (payload) return payload;
+      }
+    }
+
     const cookieStore = await cookies();
     const token = cookieStore.get(AUTH_COOKIE_NAME)?.value;
     if (!token) return null;

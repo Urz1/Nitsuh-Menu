@@ -214,21 +214,42 @@ test.describe('Stage 5: Admin Experience - End to End Flow', () => {
     ]);
   });
 
-  test.afterAll(async () => {
+  const cleanupTestData = async () => {
     try {
       const { neon } = await import('@neondatabase/serverless');
       const fs = await import('fs');
+      const dns = await import('dns');
+      const { Agent, setGlobalDispatcher } = await import('undici');
+      const agent = new Agent({
+        connect: {
+          lookup: (hostname: string, options: any, callback: any) => {
+            dns.lookup(hostname, { ...options, family: 4 }, (err: any, addresses: any) => {
+              callback(err, addresses);
+            });
+          },
+        },
+      });
+      setGlobalDispatcher(agent);
+
       if (fs.existsSync('.env.local')) {
         const env = fs.readFileSync('.env.local', 'utf8');
         const match = env.match(/DATABASE_URL=([^\r\n]+)/);
         if (match) {
           const sql = neon(match[1].trim());
-          await sql`DELETE FROM public.items WHERE category_id = 'cat-signature-entr-es' OR name ILIKE '%Highland Wood-Fired Salmon%' OR name ILIKE '%Truffle Special%'`;
-          await sql`DELETE FROM public.categories WHERE id = 'cat-signature-entr-es' OR name = 'Signature Entrées'`;
+          await sql`DELETE FROM public.items WHERE category_id LIKE '%signature%' OR category_id LIKE '%__test_%' OR name ILIKE '%Highland Wood-Fired Salmon%' OR name ILIKE '%Truffle Special%' OR name ILIKE '%__test_%'`;
+          await sql`DELETE FROM public.categories WHERE id LIKE '%signature%' OR id LIKE '%__test_%' OR name = 'Signature Entrées' OR name ILIKE '%__test_%'`;
         }
       }
-    } catch {
-      // Ignore
+    } catch (e) {
+      console.error('Teardown cleanup error:', e);
     }
+  };
+
+  test.beforeAll(async () => {
+    await cleanupTestData();
+  });
+
+  test.afterAll(async () => {
+    await cleanupTestData();
   });
 });

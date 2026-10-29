@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { MenuItem, DishReviewStats } from '@/types/database';
 import { ItemPricingResult } from '@/lib/pricing-engine';
 import { formatMoney, triggerHaptic, getOptimizedCloudinaryUrl } from '@/lib/utils';
-import { Heart, Plus, Minus, Tag, Clock, Star, ChefHat, Leaf, Flame, UtensilsCrossed, Sparkles } from 'lucide-react';
+import { Heart, Plus, Minus, Tag, Clock, Star, ChefHat, Leaf, Flame, UtensilsCrossed } from 'lucide-react';
 import { Language, TRANSLATIONS } from '@/lib/translations';
 import { DishPlaceholder } from './DishPlaceholder';
 
@@ -105,20 +105,16 @@ export function ItemCard({
   const displayName =
     currentLocale === 'am' && item.name_am
       ? item.name_am
-      : currentLocale === 'so' && item.name_so
-        ? item.name_so
-        : currentLocale === 'es' && item.name_es
-          ? item.name_es
-          : item.name;
+      : currentLocale === 'es' && item.name_es
+        ? item.name_es
+        : item.name;
 
   const displayDesc =
     currentLocale === 'am' && item.description_am
       ? item.description_am
-      : currentLocale === 'so' && item.description_so
-        ? item.description_so
-        : currentLocale === 'es' && item.description_es
-          ? item.description_es
-          : item.description;
+      : currentLocale === 'es' && item.description_es
+        ? item.description_es
+        : item.description;
 
   const handleCardClick = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest('.action-prevent-modal')) return;
@@ -230,7 +226,7 @@ export function ItemCard({
           ) : (
             <div className="flex items-center gap-1.5 mt-1 text-[11px] text-stone-400 dark:text-stone-500">
               <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800/70 text-[10px] font-medium text-stone-600 dark:text-stone-300 border border-stone-200/50 dark:border-stone-700/40">
-                <Sparkles className="w-2.5 h-2.5 text-amber-500" />
+                <ChefHat className="w-2.5 h-2.5 text-amber-500" />
                 <span>{t.newDish}</span>
               </span>
               <span className="text-[10px] text-stone-400 dark:text-stone-500 truncate hidden xs:inline">

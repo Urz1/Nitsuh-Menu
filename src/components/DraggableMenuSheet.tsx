@@ -425,7 +425,7 @@ export function DraggableMenuSheet({
 
           {/* Segmented language buttons */}
           <div className="flex items-center bg-[var(--surface)] p-0.5 rounded-lg border border-[var(--border)] text-[11px] font-semibold">
-            {(['en', 'am', 'so'] as const).map((lang) => (
+            {(['en', 'am'] as const).map((lang) => (
               <button
                 key={lang}
                 type="button"
@@ -439,7 +439,7 @@ export function DraggableMenuSheet({
                     : 'text-[var(--muted)] hover:text-[var(--foreground)]'
                 }`}
               >
-                {lang === 'en' ? 'EN' : lang === 'am' ? 'አማ' : 'SO'}
+                {lang === 'en' ? 'EN' : 'አማ'}
               </button>
             ))}
           </div>

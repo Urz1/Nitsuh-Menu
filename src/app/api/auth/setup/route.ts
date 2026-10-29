@@ -136,7 +136,7 @@ export async function POST(request: Request) {
       identifier: newOwner.email,
     });
 
-    return NextResponse.json({
+    const res = NextResponse.json({
       success: true,
       message: 'Owner account provisioned successfully',
       user: {
@@ -148,6 +148,24 @@ export async function POST(request: Request) {
       },
       token,
     });
+
+    res.cookies.set('auth_session', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 7 * 24 * 3600,
+    });
+
+    res.cookies.set('digital_menu_session', 'owner', {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 7 * 24 * 3600,
+    });
+
+    return res;
   } catch (error: any) {
     console.error('Setup registration error:', error);
     return NextResponse.json({ error: error.message || 'Setup registration failed' }, { status: 500 });

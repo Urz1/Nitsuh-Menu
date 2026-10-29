@@ -46,6 +46,7 @@ import {
   getMenuItems,
   getMenuCategories,
   getStoredRestaurant,
+  persistRestaurant,
   getStoredCategories,
 } from '@/lib/data-provider';
 import { applyThemeTokensToDOM } from '@/components/ThemeManager';
@@ -198,24 +199,25 @@ export default function AdminDashboardPage() {
 
   // Strict Server-Backed Authentication Check on Mount
   useEffect(() => {
-    // 1. Immediate local session check to avoid flicker
     const active = getCurrentSession();
-    if (active) {
-      setSession(active);
-      setUserRole(active.role);
-    }
 
-    // 2. Authoritative verification with server /api/auth/me
-    fetch('/api/auth/me', { credentials: 'include' })
+    // Authoritative verification with server /api/auth/me (Database Backed)
+    fetch('/api/auth/me', {
+      headers: {
+        ...(active?.token ? { Authorization: `Bearer ${active.token}` } : {}),
+      },
+      credentials: 'include',
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.authenticated && data.user) {
+          // Authoritative profile directly from Neon DB staff_users table
           const verifiedSession: AdminAuthSession = {
             role: data.user.role,
             userId: data.user.id,
-            name: data.user.name,
+            name: data.user.name || (data.user.role === 'owner' ? 'Owner' : 'Staff Member'),
             identifier: data.user.email || data.user.username || data.user.role,
-            token: 'server-verified',
+            token: active?.token || 'server-verified',
             loggedInAt: Date.now(),
           };
           setSession(verifiedSession);
@@ -232,14 +234,16 @@ export default function AdminDashboardPage() {
               setActiveSection('menu');
             }
           }
-        } else if (!active) {
+        } else {
+          // Server rejected session! Authoritative purge of any stale or mock session
+          clearAuthSession();
           router.replace('/admin/login');
         }
       })
       .catch(() => {
-        if (!active) {
-          router.replace('/admin/login');
-        }
+        // Network or server error; redirect to login
+        clearAuthSession();
+        router.replace('/admin/login');
       })
       .finally(() => {
         setIsAuthChecking(false);
@@ -256,6 +260,20 @@ export default function AdminDashboardPage() {
 
   // Poll / fetch live data & listen to real-time events
   useEffect(() => {
+    // Authoritatively fetch fresh restaurant details from live database
+    fetch(`/api/restaurant?slug=${encodeURIComponent(restaurant.slug || 'nitsuh')}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((live) => {
+        if (live && live.id) {
+          setRestaurant(live);
+          persistRestaurant(live);
+          if (live.theme_config) {
+            applyThemeTokensToDOM(live.theme_config);
+          }
+        }
+      })
+      .catch(() => {});
+
     getMenuItems(restaurant.id).then((items) => {
       setMenuItems(items);
       if (typeof window !== 'undefined') {
@@ -264,6 +282,25 @@ export default function AdminDashboardPage() {
         } catch {}
       }
     });
+
+    fetch(`/api/menu/items?restaurantId=${encodeURIComponent(restaurant.id)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((dbItems) => {
+        if (Array.isArray(dbItems) && dbItems.length > 0) {
+          setMenuItems(dbItems);
+        }
+      })
+      .catch(() => {});
+
+    fetch(`/api/menu/categories?restaurantId=${encodeURIComponent(restaurant.id)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((dbCats) => {
+        if (Array.isArray(dbCats) && dbCats.length > 0) {
+          setCategories(dbCats);
+        }
+      })
+      .catch(() => {});
+
     getMenuCategories(restaurant.id).then(setCategories);
     getLiveOrders(restaurant.id).then(setOrders);
     getLiveServiceRequests(restaurant.id).then(setServiceRequests);

@@ -4,9 +4,9 @@ import { getNeon, hasNeon } from '@/lib/neon/client';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const session = await getServerSession();
+    const session = await getServerSession(request);
     if (!session) {
       return NextResponse.json({ authenticated: false, user: null }, { status: 401 });
     }

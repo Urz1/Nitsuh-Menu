@@ -57,16 +57,16 @@ export function OnboardingWizardModal({
   );
 
   // Step 3: Hours & Languages
-  const [hours, setHours] = useState(restaurant.hours || 'Mon – Sun: 8:00 AM – 10:00 PM');
-  const [currency, setCurrency] = useState(restaurant.currency || '$');
-  const [enableSpanish, setEnableSpanish] = useState(true);
+  const [hours, setHours] = useState(restaurant.hours || 'Mon – Sun: 6:30 AM – 11:00 PM');
+  const [currency, setCurrency] = useState(restaurant.currency || 'ETB');
+  const [enableSpanish, setEnableSpanish] = useState(false);
 
   // Step 4: First Category & Dish
-  const [categoryName, setCategoryName] = useState('Signature Entrées');
-  const [dishName, setDishName] = useState('Wood-Fired Ribeye Steak');
-  const [dishPrice, setDishPrice] = useState('28.50');
+  const [categoryName, setCategoryName] = useState('Breakfast / ቁርስ');
+  const [dishName, setDishName] = useState('Special Fetira with Honey');
+  const [dishPrice, setDishPrice] = useState('400.00');
   const [dishDescription, setDishDescription] = useState(
-    'Prime cut served with rosemary truffle butter and crispy herb potatoes.'
+    'Flaky layered pastry served with pure Ethiopian honey and fresh butter.'
   );
 
   if (!isOpen) return null;

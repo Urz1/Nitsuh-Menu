@@ -82,7 +82,7 @@ export function CategoryTabs({
             }}
           >
             <Tag className="w-3.5 h-3.5 flex-shrink-0" />
-            <span>{locale === 'am' ? 'ልዩ ቅናሾች' : locale === 'so' ? 'Dalabyada' : 'Offers'}</span>
+            <span>{locale === 'am' ? 'ልዩ ቅናሾች' : 'Offers'}</span>
             {offersCount > 0 && (
               <span
                 className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold leading-none ${
@@ -103,7 +103,6 @@ export function CategoryTabs({
           const translatedName =
             CATEGORY_TRANSLATIONS[cat.id]?.[locale]?.name ||
             (locale === 'am' && cat.name_am) ||
-            (locale === 'so' && cat.name_so) ||
             (locale === 'es' && cat.name_es) ||
             cat.name;
           const count = itemCounts ? itemCounts[cat.id] : undefined;

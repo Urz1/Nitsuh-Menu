@@ -105,12 +105,12 @@ export function SettingsModal({
           <p className="text-xs text-[var(--muted)] mt-0.5">{t.settingsDesc}</p>
         </div>
 
-        {/* Language Selection: English, Amharic, Somali */}
+        {/* Language Selection: English, Amharic */}
         <div className="flex flex-col gap-2">
           <label className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
             {t.languageLabel}
           </label>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 gap-2">
             <button
               type="button"
               data-testid="lang-btn-en"
@@ -143,23 +143,6 @@ export function SettingsModal({
             >
               <span className="text-base">🇪🇹</span>
               <span className="text-[11px] font-semibold">አማርኛ</span>
-            </button>
-
-            <button
-              type="button"
-              data-testid="lang-btn-so"
-              onClick={() => {
-                triggerHaptic(10);
-                onLocaleChange('so');
-              }}
-              className={`h-11 rounded-xl border text-xs font-bold flex flex-col items-center justify-center transition-colors cursor-pointer ${
-                currentLocale === 'so'
-                  ? 'border-[var(--primary)] bg-[rgba(var(--primary-rgb),0.12)] text-[var(--foreground)] ring-1 ring-[var(--primary)]'
-                  : 'border-[var(--border)] bg-[var(--background)] text-[var(--muted)] hover:text-[var(--foreground)]'
-              }`}
-            >
-              <span className="text-base">🇸🇴</span>
-              <span className="text-[11px] font-semibold">Soomaali</span>
             </button>
           </div>
         </div>

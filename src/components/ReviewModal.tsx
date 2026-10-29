@@ -211,7 +211,7 @@ export function ReviewModal({
               <span className="text-[11px] font-bold text-amber-500 dark:text-amber-400 uppercase tracking-wider block">
                 {t.reviewModalTitle}
               </span>
-              <h2 className="text-lg font-bold text-[var(--foreground)] font-brand mt-0.5 truncate">
+              <h2 className="text-lg font-bold text-[var(--foreground)] mt-0.5 truncate">
                 {item.name}
               </h2>
               <p className="text-[11px] text-[var(--muted)]">
