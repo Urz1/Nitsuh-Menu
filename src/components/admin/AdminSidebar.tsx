@@ -11,7 +11,6 @@ import {
   Tag,
   Star,
   Palette,
-  BarChart3,
   Settings,
   QrCode,
   ExternalLink,
@@ -29,7 +28,6 @@ export type AdminSection =
   | 'reviews'
   | 'qr'
   | 'design'
-  | 'insights'
   | 'settings'
   | 'profile';
 
@@ -122,12 +120,6 @@ export function AdminSidebar({
       id: 'design',
       label: 'Design Studio',
       icon: Palette,
-      allowedRoles: ['owner'],
-    },
-    {
-      id: 'insights',
-      label: 'Menu Performance',
-      icon: BarChart3,
       allowedRoles: ['owner'],
     },
     {

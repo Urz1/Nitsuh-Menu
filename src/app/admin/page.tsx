@@ -53,7 +53,6 @@ import { HomeDashboard } from '@/components/admin/HomeDashboard';
 import { OnboardingWizardModal } from '@/components/admin/OnboardingWizardModal';
 import { MenuManager } from '@/components/admin/MenuManager';
 import { DesignStudio } from '@/components/admin/DesignStudio';
-import { InsightsSection } from '@/components/admin/InsightsSection';
 import { SettingsSection } from '@/components/admin/SettingsSection';
 import { HelpModal } from '@/components/admin/HelpModal';
 import { OffersManager } from '@/components/admin/OffersManager';
@@ -355,7 +354,6 @@ export default function AdminDashboardPage() {
       if (
         activeSection === 'home' ||
         activeSection === 'design' ||
-        activeSection === 'insights' ||
         activeSection === 'qr' ||
         activeSection === 'settings'
       ) {
@@ -825,17 +823,7 @@ export default function AdminDashboardPage() {
             />
           )}
 
-          {/* SECTION 7: INSIGHTS & MATRIX (Owner only) */}
-          {activeSection === 'insights' && userRole === 'owner' && (
-            <InsightsSection
-              restaurant={restaurant}
-              menuItems={menuItems}
-              reviews={reviews}
-              offers={offers}
-            />
-          )}
-
-          {/* SECTION 8: QR STUDIO (Owner only) */}
+          {/* SECTION 7: QR STUDIO (Owner only) */}
           {activeSection === 'qr' && userRole === 'owner' && (
             <QRStudio
               restaurant={restaurant}

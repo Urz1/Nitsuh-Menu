@@ -97,15 +97,6 @@ export function HelpModal({ isOpen, onClose, activeSection }: HelpModalProps) {
         },
       ],
     },
-    insights: {
-      title: 'Menu Performance Tips',
-      tips: [
-        {
-          heading: 'Stars vs Hidden Gems',
-          desc: 'Stars are your top favorites; keep quality high. Hidden Gems get lots of views but lower guest feedback. Try testing a small promotional discount!',
-        },
-      ],
-    },
     qr: {
       title: 'QR Studio & Print Templates',
       tips: [

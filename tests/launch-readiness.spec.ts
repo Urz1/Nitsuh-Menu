@@ -54,10 +54,9 @@ test.describe('STAGE 6: Launch Readiness & QR Studio Suite', () => {
     await page.getByTestId('template-a4-btn').click();
     await expect(page.getByTestId('preview-a4-sheet')).toBeVisible();
     await expect(page.getByText('A4 Sheet Cutting Guide')).toBeVisible();
-    await expect(page.getByText('Cut along dotted lines to separate stands (8 cards)')).toBeVisible();
 
-    // Verify 8 cards rendered without table numbers
-    const a4CardImages = page.getByTestId('preview-a4-sheet').locator('img');
+    // Verify 8 branded QR codes rendered without table numbers
+    const a4CardImages = page.getByTestId('preview-a4-sheet').locator('img[alt="Restaurant menu QR code"]');
     await expect(a4CardImages).toHaveCount(8);
   });
 

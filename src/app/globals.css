@@ -379,48 +379,138 @@ nextjs-portal,
   background-color: rgba(15, 23, 42, 0.45) !important;
 }
 
-/* Protect Live Phone Mockups (simulate the customer's phone accurately, avoid inverted black text) */
-[data-admin-theme="light"] .live-phone-mockup,
-[data-admin-theme="light"] .live-phone-mockup .bg-\[\#16181E\],
-[data-admin-theme="light"] [data-testid="live-phone-preview"] {
+/* Protect static phone mockup in Offers */
+[data-admin-theme="light"] .live-phone-mockup {
   background-color: #16181E !important;
   color: #E5E7EB !important;
   border-color: #404040 !important;
 }
 
-[data-admin-theme="light"] .live-phone-mockup .text-white,
-[data-admin-theme="light"] [data-testid="live-phone-preview"] .text-white {
+[data-admin-theme="light"] .live-phone-mockup .text-white {
   color: #FFFFFF !important;
 }
 
-[data-admin-theme="light"] .live-phone-mockup .text-neutral-400,
-[data-admin-theme="light"] [data-testid="live-phone-preview"] .text-neutral-400 {
+[data-admin-theme="light"] .live-phone-mockup .text-neutral-400 {
   color: #9CA3AF !important;
 }
 
-[data-admin-theme="light"] .live-phone-mockup .text-neutral-200,
-[data-admin-theme="light"] [data-testid="live-phone-preview"] .text-neutral-200 {
+[data-admin-theme="light"] .live-phone-mockup .text-neutral-200 {
   color: #E5E7EB !important;
 }
 
-[data-admin-theme="light"] .live-phone-mockup .bg-neutral-900,
-[data-admin-theme="light"] [data-testid="live-phone-preview"] .bg-neutral-900 {
+[data-admin-theme="light"] .live-phone-mockup .bg-neutral-900 {
   background-color: #1A1D27 !important;
 }
 
-[data-admin-theme="light"] .live-phone-mockup .bg-neutral-900\/50,
-[data-admin-theme="light"] [data-testid="live-phone-preview"] .bg-neutral-900\/50 {
+[data-admin-theme="light"] .live-phone-mockup .bg-neutral-900\/50 {
   background-color: rgba(26, 29, 39, 0.65) !important;
 }
 
-[data-admin-theme="light"] .live-phone-mockup .bg-black\/40,
-[data-admin-theme="light"] [data-testid="live-phone-preview"] .bg-black\/40 {
+[data-admin-theme="light"] .live-phone-mockup .bg-black\/40 {
   background-color: rgba(0, 0, 0, 0.45) !important;
 }
 
-[data-admin-theme="light"] .live-phone-mockup .border-white\/10,
-[data-admin-theme="light"] [data-testid="live-phone-preview"] .border-white\/10 {
+[data-admin-theme="light"] .live-phone-mockup .border-white\/10 {
   border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ==========================================================================
+   ISOLATED LIVE PHONE SIMULATION (Design Studio & Real Diner Experience)
+   ========================================================================== */
+[data-phone-simulation] {
+  isolation: isolate;
+}
+
+/* Light Mode Diner Simulation (Warm Culinary Cream & White Cards) */
+[data-phone-simulation][data-sim-mode="light"],
+[data-admin-theme="light"] [data-phone-simulation][data-sim-mode="light"],
+[data-admin-theme="dark"] [data-phone-simulation][data-sim-mode="light"] {
+  background-color: #FAF6F0 !important;
+  color: #1A1412 !important;
+}
+
+[data-admin-theme="light"] [data-phone-simulation][data-sim-mode="light"] .sim-header,
+[data-admin-theme="dark"] [data-phone-simulation][data-sim-mode="light"] .sim-header {
+  background-color: rgba(250, 246, 240, 0.95) !important;
+  border-color: #E8DED1 !important;
+  color: #1A1412 !important;
+}
+
+[data-admin-theme="light"] [data-phone-simulation][data-sim-mode="light"] .sim-card,
+[data-admin-theme="dark"] [data-phone-simulation][data-sim-mode="light"] .sim-card {
+  background-color: #FFFFFF !important;
+  border-color: #E8DED1 !important;
+  color: #1A1412 !important;
+}
+
+[data-admin-theme="light"] [data-phone-simulation][data-sim-mode="light"] .sim-title,
+[data-admin-theme="dark"] [data-phone-simulation][data-sim-mode="light"] .sim-title {
+  color: #1A1412 !important;
+}
+
+[data-admin-theme="light"] [data-phone-simulation][data-sim-mode="light"] .sim-desc,
+[data-admin-theme="dark"] [data-phone-simulation][data-sim-mode="light"] .sim-desc {
+  color: #7A6B60 !important;
+}
+
+[data-admin-theme="light"] [data-phone-simulation][data-sim-mode="light"] .sim-pill-inactive,
+[data-admin-theme="dark"] [data-phone-simulation][data-sim-mode="light"] .sim-pill-inactive {
+  background-color: #FFFFFF !important;
+  border-color: #E8DED1 !important;
+  color: #7A6B60 !important;
+}
+
+[data-admin-theme="light"] [data-phone-simulation][data-sim-mode="light"] .sim-bottom-bar,
+[data-admin-theme="dark"] [data-phone-simulation][data-sim-mode="light"] .sim-bottom-bar {
+  background-color: rgba(250, 246, 240, 0.95) !important;
+  border-color: #E8DED1 !important;
+  color: #1A1412 !important;
+}
+
+/* Dark Mode Diner Simulation (Deep Obsidian & Dark Slate Cards) */
+[data-phone-simulation][data-sim-mode="dark"],
+[data-admin-theme="light"] [data-phone-simulation][data-sim-mode="dark"],
+[data-admin-theme="dark"] [data-phone-simulation][data-sim-mode="dark"] {
+  background-color: #14100E !important;
+  color: #FFF5EC !important;
+}
+
+[data-admin-theme="light"] [data-phone-simulation][data-sim-mode="dark"] .sim-header,
+[data-admin-theme="dark"] [data-phone-simulation][data-sim-mode="dark"] .sim-header {
+  background-color: rgba(20, 16, 14, 0.95) !important;
+  border-color: #2E2420 !important;
+  color: #FFF5EC !important;
+}
+
+[data-admin-theme="light"] [data-phone-simulation][data-sim-mode="dark"] .sim-card,
+[data-admin-theme="dark"] [data-phone-simulation][data-sim-mode="dark"] .sim-card {
+  background-color: #1E1815 !important;
+  border-color: #3D332C !important;
+  color: #FFF5EC !important;
+}
+
+[data-admin-theme="light"] [data-phone-simulation][data-sim-mode="dark"] .sim-title,
+[data-admin-theme="dark"] [data-phone-simulation][data-sim-mode="dark"] .sim-title {
+  color: #FFF5EC !important;
+}
+
+[data-admin-theme="light"] [data-phone-simulation][data-sim-mode="dark"] .sim-desc,
+[data-admin-theme="dark"] [data-phone-simulation][data-sim-mode="dark"] .sim-desc {
+  color: #B2A398 !important;
+}
+
+[data-admin-theme="light"] [data-phone-simulation][data-sim-mode="dark"] .sim-pill-inactive,
+[data-admin-theme="dark"] [data-phone-simulation][data-sim-mode="dark"] .sim-pill-inactive {
+  background-color: #1E1815 !important;
+  border-color: #3D332C !important;
+  color: #B2A398 !important;
+}
+
+[data-admin-theme="light"] [data-phone-simulation][data-sim-mode="dark"] .sim-bottom-bar,
+[data-admin-theme="dark"] [data-phone-simulation][data-sim-mode="dark"] .sim-bottom-bar {
+  background-color: rgba(20, 16, 14, 0.95) !important;
+  border-color: #2E2420 !important;
+  color: #FFF5EC !important;
 }
 
 /* Borders */

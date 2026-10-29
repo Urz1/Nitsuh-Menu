@@ -103,8 +103,75 @@ export function DesignStudio({
   const [newBadgeName, setNewBadgeName] = useState('');
   const [newBadgeColor, setNewBadgeColor] = useState('#E8590C');
 
-  // Preview Mode: 'light' | 'dark' (Default is light)
+  // Preview Controls: 'light' | 'dark' & 'list' | 'grid'
   const [previewThemeMode, setPreviewThemeMode] = useState<'dark' | 'light'>('light');
+  const [previewLayout, setPreviewLayout] = useState<'grid' | 'list'>(() =>
+    restaurant.theme_config?.defaultLayout === 'grid' ? 'grid' : 'list'
+  );
+
+  const isDark = previewThemeMode === 'dark';
+  const simFontFamily =
+    themeConfig.fontFamily === 'serif'
+      ? "'Playfair Display', Georgia, serif"
+      : themeConfig.fontFamily === 'display'
+      ? "'Cinzel', 'Playfair Display', serif"
+      : "var(--font-geist-sans), -apple-system, sans-serif";
+
+  const simRadius =
+    themeConfig.borderRadius === 'full'
+      ? '22px'
+      : themeConfig.borderRadius === 'lg'
+      ? '16px'
+      : themeConfig.borderRadius === 'md'
+      ? '12px'
+      : '6px';
+  const simButtonRadius = themeConfig.borderRadius === 'full' ? '9999px' : simRadius;
+
+  const previewItems =
+    menuItems && menuItems.length > 0
+      ? menuItems.slice(0, 4)
+      : [
+          {
+            id: 'prev-1',
+            name: 'House Special Pizza',
+            name_am: 'የቤት ውስጥ ልዩ ፒዛ',
+            description: 'Tomato sauce, melted cheese, roasted beef slices, and fresh herbs.',
+            price: 1092.5,
+            image_url: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=300&q=80',
+            is_chefs_pick: true,
+            tags: ['special'],
+          },
+          {
+            id: 'prev-2',
+            name: 'Classic Mojito',
+            name_am: 'ክላሲክ ሞሂቶ',
+            description: 'Fresh lemon, crushed mint leaves, sparkling spring soda, and sugar cane syrup.',
+            price: 450.0,
+            image_url: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=300&q=80',
+            is_chefs_pick: false,
+            tags: [],
+          },
+          {
+            id: 'prev-3',
+            name: 'Shiro Tegamino',
+            name_am: 'ሽሮ ተጋሚኖ በቅቤ',
+            description: 'Slow-simmered spiced chickpea stew served in a bubbling clay pot with warm injera.',
+            price: 380.0,
+            image_url: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=300&q=80',
+            is_chefs_pick: false,
+            tags: ['fasting'],
+          },
+          {
+            id: 'prev-4',
+            name: 'Iced Caramel Macchiato',
+            name_am: 'አይስድ ካራሜል ማኪያቶ',
+            description: 'Layered rich espresso, chilled whole milk, and buttery vanilla caramel drizzle.',
+            price: 295.0,
+            image_url: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=300&q=80',
+            is_chefs_pick: true,
+            tags: [],
+          },
+        ];
 
   // Sync state if restaurant prop updates
   useEffect(() => {
@@ -587,39 +654,29 @@ export function DesignStudio({
                     desc: 'Allow diners to view 1-5 star reviews and leave authentic feedback.',
                   },
                   {
-                    key: 'orders_enabled',
-                    label: 'Order Placement / Cart',
-                    desc: 'Let guests build an order list and send directly to your kitchen.',
-                  },
-                  {
-                    key: 'waiter_call_enabled',
-                    label: 'Call Waiter Button',
-                    desc: 'Floating quick call button for water refills, cutlery, or assistance.',
-                  },
-                  {
-                    key: 'bill_request_enabled',
-                    label: 'Request Bill Button',
-                    desc: 'One-tap bill request notifying your service staff immediately.',
-                  },
-                  {
-                    key: 'offers_enabled',
-                    label: 'Promotional Offers & Combos',
-                    desc: 'Display automated discount banners and lunch specials.',
-                  },
-                  {
                     key: 'dietary_filters_enabled',
-                    label: 'Dietary Filters (Fasting)',
-                    desc: 'Quick dietary pills allowing diners to filter dishes by Ethiopian fasting (Tsom).',
+                    label: 'Dietary Filters (Fasting / የጾም)',
+                    desc: 'Quick dietary pills allowing diners to filter dishes by Ethiopian Orthodox fasting.',
                   },
                   {
                     key: 'favorites_enabled',
                     label: 'Guest Favorites / Bookmarking',
-                    desc: 'Allow guests to heart dishes to compare before ordering.',
+                    desc: 'Allow guests to heart dishes to compare while exploring the menu.',
+                  },
+                  {
+                    key: 'offers_enabled',
+                    label: 'Promotional Offers & Combo Deals',
+                    desc: 'Display automated discount badges, combo deals, and special banners.',
+                  },
+                  {
+                    key: 'amharic_display_enabled',
+                    label: 'Bilingual Amharic Titles (የአማርኛ ስሞች)',
+                    desc: 'Display authentic Amharic dish names and descriptions beside English titles.',
                   },
                   {
                     key: 'calories_enabled',
-                    label: 'Calorie Counter Display',
-                    desc: 'Display caloric values beside dish descriptions.',
+                    label: 'Calorie & Nutrition Display',
+                    desc: 'Display caloric estimates for health-conscious diners.',
                   },
                 ].map((feat) => {
                   const isEnabled = (featureFlags as any)[feat.key] ?? true;
@@ -752,28 +809,30 @@ export function DesignStudio({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-neutral-300 mb-1">
-                    Call Waiter Button Text
+                    Sold-Out Badge Text
                   </label>
                   <input
                     type="text"
-                    value={customLabels.callWaiter || ''}
+                    value={customLabels.soldOut || ''}
                     onChange={(e) =>
-                      setCustomLabels({ ...customLabels, callWaiter: e.target.value })
+                      setCustomLabels({ ...customLabels, soldOut: e.target.value })
                     }
+                    placeholder="e.g. Sold out today / ለጊዜው አልቋል"
                     className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-neutral-300 mb-1">
-                    Request Bill Button Text
+                    Table Tray Action Text
                   </label>
                   <input
                     type="text"
-                    value={customLabels.requestBill || ''}
+                    value={customLabels.viewTray || ''}
                     onChange={(e) =>
-                      setCustomLabels({ ...customLabels, requestBill: e.target.value })
+                      setCustomLabels({ ...customLabels, viewTray: e.target.value })
                     }
+                    placeholder="e.g. View Tray / ዝርዝር እይ"
                     className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
                   />
                 </div>
@@ -829,56 +888,107 @@ export function DesignStudio({
               <Smartphone className="w-4 h-4 text-amber-400" />
               <h3 className="text-xs font-bold text-white">Live Phone Simulation</h3>
             </div>
-            <div className="flex items-center gap-1.5 bg-white/5 p-0.5 rounded-full border border-white/10 text-[10px]">
-              <button
-                type="button"
-                onClick={() => setPreviewThemeMode('dark')}
-                className={`px-2 py-0.5 rounded-full font-bold transition-colors ${
-                  previewThemeMode === 'dark' ? 'bg-black text-white' : 'text-neutral-400'
-                }`}
-              >
-                Dark
-              </button>
-              <button
-                type="button"
-                onClick={() => setPreviewThemeMode('light')}
-                className={`px-2 py-0.5 rounded-full font-bold transition-colors ${
-                  previewThemeMode === 'light' ? 'bg-white text-black' : 'text-neutral-400'
-                }`}
-              >
-                Light
-              </button>
+
+            <div className="flex items-center gap-2">
+              {/* Layout Switcher (List vs Grid) */}
+              <div className="flex items-center gap-0.5 bg-white/5 p-0.5 rounded-lg border border-white/10 text-[10px]">
+                <button
+                  type="button"
+                  onClick={() => {
+                    triggerHaptic(6);
+                    setPreviewLayout('list');
+                    setThemeConfig((prev) => ({ ...prev, defaultLayout: 'list' }));
+                  }}
+                  className={`px-2 py-0.5 rounded-md font-bold transition-all ${
+                    previewLayout === 'list'
+                      ? 'bg-amber-500/25 text-amber-300 shadow-xs'
+                      : 'text-neutral-400 hover:text-white'
+                  }`}
+                  title="List Layout"
+                >
+                  List
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    triggerHaptic(6);
+                    setPreviewLayout('grid');
+                    setThemeConfig((prev) => ({ ...prev, defaultLayout: 'grid' }));
+                  }}
+                  className={`px-2 py-0.5 rounded-md font-bold transition-all ${
+                    previewLayout === 'grid'
+                      ? 'bg-amber-500/25 text-amber-300 shadow-xs'
+                      : 'text-neutral-400 hover:text-white'
+                  }`}
+                  title="Grid Layout"
+                >
+                  Grid
+                </button>
+              </div>
+
+              {/* Theme Mode Toggle (Light vs Dark) */}
+              <div className="flex items-center gap-0.5 bg-white/5 p-0.5 rounded-full border border-white/10 text-[10px]">
+                <button
+                  type="button"
+                  onClick={() => {
+                    triggerHaptic(8);
+                    setPreviewThemeMode('light');
+                  }}
+                  className={`px-2.5 py-0.5 rounded-full font-bold transition-all ${
+                    previewThemeMode === 'light'
+                      ? 'bg-amber-500 text-black shadow-xs'
+                      : 'text-neutral-400 hover:text-white'
+                  }`}
+                >
+                  ☀️ Light
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    triggerHaptic(8);
+                    setPreviewThemeMode('dark');
+                  }}
+                  className={`px-2.5 py-0.5 rounded-full font-bold transition-all ${
+                    previewThemeMode === 'dark'
+                      ? 'bg-neutral-800 text-white shadow-xs border border-white/20'
+                      : 'text-neutral-400 hover:text-white'
+                  }`}
+                >
+                  🌙 Dark
+                </button>
+              </div>
             </div>
           </div>
 
           {/* Phone Mockup Frame */}
           <div
             data-testid="live-phone-preview"
-            className={`w-full max-w-[380px] mx-auto rounded-[36px] border-4 border-neutral-700 shadow-2xl overflow-hidden transition-colors ${
-              previewThemeMode === 'dark' ? 'bg-[#0E1015] text-white' : 'bg-[#FAFAFA] text-neutral-900'
-            }`}
+            data-phone-simulation
+            data-sim-mode={previewThemeMode}
+            className="w-full max-w-[380px] mx-auto rounded-[38px] border-4 border-neutral-700 shadow-2xl overflow-hidden transition-all duration-300 relative select-none"
             style={{
-              fontFamily:
-                themeConfig.fontFamily === 'serif'
-                  ? 'Playfair Display, serif'
-                  : themeConfig.fontFamily === 'display'
-                  ? 'Cinzel, serif'
-                  : 'Inter, sans-serif',
-              ['--primary' as any]: themeConfig.primaryColor,
-              ['--primary-hover' as any]: themeConfig.primaryHover || themeConfig.primaryColor,
-              ['--accent' as any]: themeConfig.accentColor,
+              backgroundColor: isDark ? '#14100E' : '#FAF6F0',
+              color: isDark ? '#FFF5EC' : '#1A1412',
+              fontFamily: simFontFamily,
             }}
           >
             {/* Phone Speaker Notch */}
-            <div className="pt-3 pb-1 flex justify-center">
-              <div className="w-20 h-3 rounded-full bg-neutral-800" />
+            <div className="pt-2.5 pb-1 flex justify-center bg-black/10">
+              <div className="w-16 h-2.5 rounded-full bg-neutral-800" />
             </div>
 
             {/* Simulated Live Customer Header */}
-            <div className="p-4 border-b border-white/10 flex items-center justify-between">
+            <div
+              className="sim-header p-3.5 border-b flex items-center justify-between transition-colors"
+              style={{
+                backgroundColor: isDark ? 'rgba(20, 16, 14, 0.95)' : 'rgba(250, 246, 240, 0.95)',
+                borderColor: isDark ? '#2E2420' : '#E8DED1',
+              }}
+            >
               <div className="flex items-center gap-2.5">
                 <div
-                  className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center font-bold text-white text-sm shadow-md bg-white/5 border border-white/10"
+                  className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center font-bold text-white text-xs shadow-md"
+                  style={{ backgroundColor: themeConfig.primaryColor }}
                 >
                   {restaurant.logo_url ? (
                     <img
@@ -887,146 +997,320 @@ export function DesignStudio({
                       className="w-full h-full object-contain p-0.5"
                     />
                   ) : (
-                    <div
-                      className="w-full h-full flex items-center justify-center"
-                      style={{ backgroundColor: themeConfig.primaryColor }}
-                    >
-                      {restaurant.logo_letter || 'N'}
-                    </div>
+                    <span>{restaurant.logo_letter || 'N'}</span>
                   )}
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold truncate">{restaurant.name}</h4>
-                  <p className="text-[9px] text-neutral-400">Digital Menu • Artisanal Dining</p>
-                </div>
-              </div>
-
-              {featureFlags.orders_enabled && (
-                <div
-                  className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs shadow-xs"
-                  style={{ backgroundColor: themeConfig.primaryColor }}
-                >
-                  <ShoppingBag className="w-3.5 h-3.5" />
-                </div>
-              )}
-            </div>
-
-            {/* Dietary Filter Pills Simulation */}
-            {featureFlags.dietary_filters_enabled && (
-              <div className="px-4 py-2 flex items-center gap-1.5 overflow-x-hidden border-b border-white/5">
-                <span
-                  className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white shadow-xs"
-                  style={{ backgroundColor: themeConfig.primaryColor }}
-                >
-                  All Items
-                </span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] bg-white/10 text-neutral-400">
-                  Fasting
-                </span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] bg-white/10 text-neutral-400">
-                  Chef's Pick
-                </span>
-              </div>
-            )}
-
-            {/* Live Simulated Dish Cards */}
-            <div className="p-4 space-y-3 max-h-[360px] overflow-y-auto">
-              {menuItems.slice(0, 3).map((item) => (
-                <div
-                  key={item.id}
-                  className={`p-3 rounded-xl transition-all border ${
-                    themeConfig.cardStyle === 'elevated'
-                      ? 'bg-white/[0.04] shadow-md border-white/5'
-                      : themeConfig.cardStyle === 'bordered'
-                      ? 'bg-transparent border-white/20'
-                      : 'bg-white/[0.02] border-transparent'
-                  }`}
-                  style={{
-                    borderRadius:
-                      themeConfig.borderRadius === 'full'
-                        ? '20px'
-                        : themeConfig.borderRadius === 'lg'
-                        ? '16px'
-                        : themeConfig.borderRadius === 'md'
-                        ? '12px'
-                        : '6px',
-                  }}
-                >
-                  <div className="flex gap-2.5">
-                    <div className="relative w-14 h-14 rounded-lg overflow-hidden bg-neutral-800 flex-shrink-0">
-                      <Image
-                        src={item.image_url}
-                        alt={item.name}
-                        fill
-                        sizes="56px"
-                        className="object-cover"
-                      />
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-1">
-                        <span className="text-xs font-bold truncate">{item.name}</span>
-                        {customBadges[0] && (
-                          <span
-                            className="px-1.5 py-0.2 rounded-full text-[8px] font-bold text-white flex-shrink-0"
-                            style={{ backgroundColor: customBadges[0].color }}
-                          >
-                            {customBadges[0].name}
-                          </span>
-                        )}
-                      </div>
-
-                      <p className="text-[10px] text-neutral-400 line-clamp-1 mt-0.5">
-                        {item.description}
-                      </p>
-
-                      <div className="flex items-center justify-between mt-1.5 pt-1">
-                        <span
-                          className={`text-xs font-mono font-bold ${
-                            themeConfig.priceStyle === 'accented'
-                              ? 'text-amber-400'
-                              : 'text-white'
-                          }`}
-                          style={{
-                            color:
-                              themeConfig.priceStyle === 'accented'
-                                ? themeConfig.primaryColor
-                                : undefined,
-                          }}
-                        >
-                          {formatMoney(item.price, restaurant.currency)}
-                        </span>
-
-                        {featureFlags.orders_enabled && (
-                          <button
-                            type="button"
-                            className="px-2 py-0.5 rounded-md text-[10px] font-bold text-white shadow-xs"
-                            style={{ backgroundColor: themeConfig.primaryColor }}
-                          >
-                            Add +
-                          </button>
-                        )}
-                      </div>
-                    </div>
+                  <h4
+                    className="sim-title text-xs font-bold truncate max-w-[170px]"
+                    style={{ color: isDark ? '#FFF5EC' : '#1A1412' }}
+                  >
+                    {restaurant.name}
+                  </h4>
+                  <div className="flex items-center gap-1.5 text-[9px]">
+                    <span className="flex items-center gap-1 font-semibold text-emerald-500">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      Open Now
+                    </span>
+                    <span style={{ color: isDark ? '#6B5E55' : '#A39488' }}>•</span>
+                    <span style={{ color: isDark ? '#A89B91' : '#7A6B60' }}>Dine-In</span>
                   </div>
                 </div>
-              ))}
+              </div>
+
+              {/* Language Switch Simulation */}
+              <div
+                className="px-2 py-0.5 rounded-full text-[9px] font-bold border flex items-center gap-1"
+                style={{
+                  backgroundColor: isDark ? '#1E1815' : '#FFFFFF',
+                  borderColor: isDark ? '#3D332C' : '#E8DED1',
+                  color: isDark ? '#FFF5EC' : '#1A1412',
+                }}
+              >
+                <span>🇬🇧 EN</span>
+                <span style={{ color: isDark ? '#6B5E55' : '#C4B7AC' }}>|</span>
+                <span>🇪🇹 አማ</span>
+              </div>
             </div>
 
-            {/* Bottom Service Bar Simulation */}
-            <div className="p-3 bg-black/40 border-t border-white/10 flex items-center justify-around text-[10px]">
-              {featureFlags.waiter_call_enabled && (
-                <span className="flex items-center gap-1 text-neutral-300">
-                  <Bell className="w-3 h-3 text-amber-400" />
-                  <span>{customLabels.callWaiter || 'Call Waiter'}</span>
-                </span>
+            {/* Category Filter Pills Simulation */}
+            <div
+              className="px-3.5 py-2 flex items-center gap-1.5 overflow-x-hidden border-b transition-colors"
+              style={{
+                borderColor: isDark ? '#2E2420' : '#E8DED1',
+                backgroundColor: isDark ? 'rgba(20, 16, 14, 0.6)' : 'rgba(250, 246, 240, 0.6)',
+              }}
+            >
+              <span
+                className="px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs transition-all flex items-center gap-1 flex-shrink-0"
+                style={{
+                  backgroundColor: themeConfig.primaryColor,
+                  borderRadius: simButtonRadius,
+                }}
+              >
+                <span>🔥 All Dishes</span>
+              </span>
+              <span
+                className="sim-pill-inactive px-2.5 py-0.5 text-[10px] font-medium border flex items-center gap-1 flex-shrink-0 transition-all"
+                style={{
+                  backgroundColor: isDark ? '#1E1815' : '#FFFFFF',
+                  borderColor: isDark ? '#3D332C' : '#E8DED1',
+                  color: isDark ? '#B2A398' : '#7A6B60',
+                  borderRadius: simButtonRadius,
+                }}
+              >
+                <span>🌱 Fasting (የጾም)</span>
+              </span>
+              <span
+                className="sim-pill-inactive px-2.5 py-0.5 text-[10px] font-medium border flex items-center gap-1 flex-shrink-0 transition-all"
+                style={{
+                  backgroundColor: isDark ? '#1E1815' : '#FFFFFF',
+                  borderColor: isDark ? '#3D332C' : '#E8DED1',
+                  color: isDark ? '#B2A398' : '#7A6B60',
+                  borderRadius: simButtonRadius,
+                }}
+              >
+                <span>⭐ Chef's Picks</span>
+              </span>
+            </div>
+
+            {/* Live Simulated Dish Cards Area */}
+            <div
+              className="p-3.5 max-h-[380px] overflow-y-auto transition-colors"
+              style={{
+                backgroundColor: isDark ? '#14100E' : '#FAF6F0',
+              }}
+            >
+              {previewLayout === 'grid' ? (
+                /* GRID 2-COLUMN LAYOUT */
+                <div className="grid grid-cols-2 gap-2.5">
+                  {previewItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className="sim-card border overflow-hidden flex flex-col justify-between transition-all"
+                      style={{
+                        backgroundColor:
+                          themeConfig.cardStyle === 'bordered'
+                            ? (isDark ? 'transparent' : '#FFFFFF')
+                            : (isDark ? '#1E1815' : '#FFFFFF'),
+                        borderColor:
+                          themeConfig.cardStyle === 'minimal'
+                            ? 'transparent'
+                            : (isDark ? '#3D332C' : '#E8DED1'),
+                        boxShadow:
+                          themeConfig.cardStyle === 'elevated'
+                            ? (isDark ? '0 4px 18px rgba(0,0,0,0.4)' : '0 4px 14px rgba(0,0,0,0.06)')
+                            : 'none',
+                        borderRadius: simRadius,
+                      }}
+                    >
+                      <div className="relative w-full h-24 bg-neutral-800">
+                        <Image
+                          src={item.image_url}
+                          alt={item.name}
+                          fill
+                          sizes="150px"
+                          className="object-cover"
+                        />
+                        {item.is_chefs_pick ? (
+                          <span
+                            className="absolute top-1.5 left-1.5 px-1.5 py-0.2 rounded-full text-[8px] font-extrabold uppercase tracking-wider text-white shadow-xs"
+                            style={{ backgroundColor: themeConfig.primaryColor }}
+                          >
+                            Chef's Pick
+                          </span>
+                        ) : item.tags?.includes('fasting') ? (
+                          <span className="absolute top-1.5 left-1.5 px-1.5 py-0.2 rounded-full text-[8px] font-extrabold uppercase tracking-wider bg-emerald-600 text-white shadow-xs">
+                            Fasting
+                          </span>
+                        ) : null}
+                      </div>
+
+                      <div className="p-2 flex flex-col justify-between flex-1 gap-1.5">
+                        <div>
+                          <p
+                            className="sim-title text-[11px] font-bold truncate leading-tight"
+                            style={{ color: isDark ? '#FFF5EC' : '#1A1412' }}
+                          >
+                            {item.name}
+                          </p>
+                          {item.name_am && (
+                            <p
+                              className="text-[9px] truncate"
+                              style={{ color: isDark ? '#B2A398' : '#8C7B70' }}
+                            >
+                              {item.name_am}
+                            </p>
+                          )}
+                        </div>
+
+                        <div
+                          className="flex items-center justify-between pt-1 border-t"
+                          style={{ borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}
+                        >
+                          <span
+                            className="text-xs font-mono font-bold"
+                            style={{ color: themeConfig.primaryColor }}
+                          >
+                            {formatMoney(item.price, restaurant.currency)}
+                          </span>
+                          <span
+                            className="px-2 py-0.5 text-[9px] font-bold text-white shadow-xs"
+                            style={{
+                              backgroundColor: themeConfig.primaryColor,
+                              borderRadius: simButtonRadius,
+                            }}
+                          >
+                            + Add
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                /* LIST 1-COLUMN ROW LAYOUT */
+                <div className="space-y-2.5">
+                  {previewItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className="sim-card p-2.5 border transition-all flex gap-2.5"
+                      style={{
+                        backgroundColor:
+                          themeConfig.cardStyle === 'bordered'
+                            ? (isDark ? 'transparent' : '#FFFFFF')
+                            : (isDark ? '#1E1815' : '#FFFFFF'),
+                        borderColor:
+                          themeConfig.cardStyle === 'minimal'
+                            ? 'transparent'
+                            : (isDark ? '#3D332C' : '#E8DED1'),
+                        boxShadow:
+                          themeConfig.cardStyle === 'elevated'
+                            ? (isDark ? '0 4px 18px rgba(0,0,0,0.4)' : '0 4px 14px rgba(0,0,0,0.06)')
+                            : 'none',
+                        borderRadius: simRadius,
+                      }}
+                    >
+                      <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-neutral-800 flex-shrink-0">
+                        <Image
+                          src={item.image_url}
+                          alt={item.name}
+                          fill
+                          sizes="64px"
+                          className="object-cover"
+                        />
+                        {item.is_chefs_pick ? (
+                          <span
+                            className="absolute top-1 left-1 px-1 py-0.2 rounded-full text-[7px] font-black uppercase tracking-wider text-white"
+                            style={{ backgroundColor: themeConfig.primaryColor }}
+                          >
+                            ⭐ Top
+                          </span>
+                        ) : null}
+                      </div>
+
+                      <div className="flex-1 min-w-0 flex flex-col justify-between">
+                        <div>
+                          <div className="flex items-start justify-between gap-1">
+                            <span
+                              className="sim-title text-xs font-bold truncate"
+                              style={{ color: isDark ? '#FFF5EC' : '#1A1412' }}
+                            >
+                              {item.name}
+                            </span>
+                            {customBadges[0] && (
+                              <span
+                                className="px-1.5 py-0.2 rounded-full text-[8px] font-bold text-white flex-shrink-0"
+                                style={{ backgroundColor: customBadges[0].color }}
+                              >
+                                {customBadges[0].name}
+                              </span>
+                            )}
+                          </div>
+
+                          {item.name_am && (
+                            <p
+                              className="text-[10px] truncate"
+                              style={{ color: isDark ? '#B2A398' : '#8C7B70' }}
+                            >
+                              {item.name_am}
+                            </p>
+                          )}
+
+                          <p
+                            className="sim-desc text-[10px] line-clamp-1 mt-0.5"
+                            style={{ color: isDark ? '#A89B91' : '#7A6B60' }}
+                          >
+                            {item.description}
+                          </p>
+                        </div>
+
+                        <div
+                          className="flex items-center justify-between mt-1 pt-1 border-t"
+                          style={{ borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}
+                        >
+                          <span
+                            className="text-xs font-mono font-bold"
+                            style={{
+                              color:
+                                themeConfig.priceStyle === 'accented'
+                                  ? themeConfig.primaryColor
+                                  : (isDark ? '#FFF5EC' : '#1A1412'),
+                            }}
+                          >
+                            {formatMoney(item.price, restaurant.currency)}
+                          </span>
+
+                          <span
+                            className="px-2.5 py-0.5 text-[9px] font-bold text-white shadow-xs"
+                            style={{
+                              backgroundColor: themeConfig.primaryColor,
+                              borderRadius: simButtonRadius,
+                            }}
+                          >
+                            Add +
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               )}
-              {featureFlags.bill_request_enabled && (
-                <span className="flex items-center gap-1 text-neutral-300">
-                  <Receipt className="w-3 h-3 text-amber-400" />
-                  <span>{customLabels.requestBill || 'Request Bill'}</span>
+            </div>
+
+            {/* Bottom Floating Menu Bar Simulation */}
+            <div
+              className="sim-bottom-bar p-2.5 border-t flex items-center justify-between text-[11px] transition-colors"
+              style={{
+                backgroundColor: isDark ? 'rgba(20, 16, 14, 0.95)' : 'rgba(250, 246, 240, 0.95)',
+                borderColor: isDark ? '#2E2420' : '#E8DED1',
+                color: isDark ? '#FFF5EC' : '#1A1412',
+              }}
+            >
+              <div className="flex items-center gap-1.5">
+                <span
+                  className="w-5 h-5 rounded-full flex items-center justify-center text-white text-[9px] font-bold"
+                  style={{ backgroundColor: themeConfig.primaryColor }}
+                >
+                  2
                 </span>
-              )}
+                <span
+                  className="font-semibold text-[10px]"
+                  style={{ color: isDark ? '#FFF5EC' : '#1A1412' }}
+                >
+                  Table 4 • {formatMoney(1542, restaurant.currency)}
+                </span>
+              </div>
+
+              <div
+                className="px-3 py-1 text-[10px] font-bold text-white shadow-xs flex items-center gap-1"
+                style={{
+                  backgroundColor: themeConfig.primaryColor,
+                  borderRadius: simButtonRadius,
+                }}
+              >
+                <span>View Tray</span>
+              </div>
             </div>
           </div>
         </div>
