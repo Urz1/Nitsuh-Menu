@@ -66,7 +66,7 @@ export function SlimHeader({
 
   return (
     <header className="bg-transparent border-0 transition-colors select-none pt-2.5 pb-1">
-      <div className="max-w-4xl mx-auto px-3.5 flex items-center justify-between gap-2.5">
+      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 flex items-center justify-between gap-2.5">
         {/* Left: Brand Logo Lockup with Inline Live Status (Un-sandwiched, ample breathing room) */}
         <div className="min-w-0 flex items-center gap-2.5">
           <h1 className="m-0 p-0 leading-none flex items-center">

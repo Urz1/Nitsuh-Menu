@@ -676,7 +676,7 @@ export function QRStudio({ restaurant, onSaveRestaurant, onShowToast }: QRStudio
         {templateType === 'a4' && (
           <div className="w-[210mm] min-h-[297mm] p-6 mx-auto">
             <div className="text-center mb-6">
-              <h1 className="text-lg font-bold">{restaurant.name} — Printable Menu QR Cards</h1>
+              <h1 className="text-lg font-bold">{restaurant.name} | Printable Menu QR Cards</h1>
               <p className="text-xs text-gray-500">Cut along the dotted guidelines</p>
             </div>
 

@@ -215,7 +215,7 @@ JOIN public.categories c ON c.restaurant_id = r.id AND c.slug = 'entrees'
 WHERE r.slug = 'le-petit-bistro';
 ```
 
-Now navigate directly to `http://localhost:3000/le-petit-bistro` — the menu is live immediately with full search, ordering, and real-time capabilities!
+Now navigate directly to `http://localhost:3000/le-petit-bistro`: the menu is live immediately with full search, ordering, and real-time capabilities!
 
 ---
 

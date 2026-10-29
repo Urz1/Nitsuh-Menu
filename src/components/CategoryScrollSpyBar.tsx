@@ -205,7 +205,7 @@ export function CategoryScrollSpyBar({
   return (
     <div className="bg-transparent border-0 select-none transition-colors">
       {/* 1. Quick Fasting & On Offer 1-Tap Toggles */}
-      <div className="max-w-4xl mx-auto px-3.5 pt-1 pb-0.5 flex items-center gap-2">
+      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 pt-1 pb-0.5 flex items-center gap-2">
         <button
           type="button"
           onClick={() => {
@@ -259,7 +259,7 @@ export function CategoryScrollSpyBar({
       </div>
 
       {/* 2. Horizontal Scrollable Circular Food Avatars (Airy Studio Cutout Style) */}
-      <div className="max-w-4xl mx-auto px-2 sm:px-3">
+      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div
           ref={scrollContainerRef}
           className="flex items-start gap-3 sm:gap-4 overflow-x-auto no-scrollbar scroll-smooth py-3 px-2"

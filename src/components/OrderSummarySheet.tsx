@@ -51,24 +51,24 @@ export function OrderSummarySheet({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex flex-col justify-end items-center"
+      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex flex-col justify-end sm:justify-center items-center p-0 sm:p-4 transition-opacity"
       role="dialog"
       aria-modal="true"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg max-h-[85vh] bg-[var(--card)] rounded-t-3xl overflow-y-auto flex flex-col shadow-2xl animate-in slide-in-from-bottom duration-300"
+        className="w-full max-w-lg sm:max-w-xl md:max-w-2xl max-h-[85vh] bg-[var(--card)] rounded-t-3xl sm:rounded-3xl border-t sm:border border-[var(--border)] overflow-y-auto flex flex-col shadow-2xl animate-in slide-in-from-bottom sm:zoom-in-95 duration-300"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Grab Handle */}
-        <div className="w-full py-2.5 flex justify-center sticky top-0 bg-[var(--card)] z-10">
+        {/* Grab Handle (mobile only) */}
+        <div className="w-full py-2.5 flex justify-center sticky top-0 bg-[var(--card)] z-10 sm:hidden">
           <div className="w-10 h-1.5 rounded-full bg-neutral-300 dark:bg-neutral-700" />
         </div>
 
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3.5 right-4 w-8 h-8 rounded-full bg-[var(--background)] border border-[var(--border)] flex items-center justify-center text-[var(--foreground)] z-20 hover:bg-[var(--border)]"
+          className="absolute top-3.5 right-4 w-8 h-8 rounded-full bg-[var(--background)] border border-[var(--border)] flex items-center justify-center text-[var(--foreground)] z-20 hover:bg-[var(--border)] shadow-xs"
           aria-label="Close"
         >
           <X className="w-4 h-4" />

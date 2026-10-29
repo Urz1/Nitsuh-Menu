@@ -29,12 +29,12 @@ export const MOCK_RESTAURANT_NITSUH: Restaurant = {
   short_name: 'Nitsuh',
   logo_letter: 'N',
   logo_url: 'https://res.cloudinary.com/dekmg6rhe/image/upload/v1793051284/nitsuh-menu/brand/nitsuh-logo-clean.png',
-  tagline: 'From Savour Bites to Sweet Delights – We Cater It All! • Hot & Fresh Fast Food, Handcrafted Sweets & Desserts',
+  tagline: 'From Savour Bites to Sweet Delights, We Cater It All! • Hot & Fresh Fast Food, Handcrafted Sweets & Desserts',
   currency: 'ETB',
   currency_code: 'ETB',
   default_table: 'Table 1',
   hours: 'Mon – Sun: 6:30 AM – 11:00 PM',
-  branch_name: 'Main Branch — Nitsuh Cafe & Restaurant',
+  branch_name: 'Main Branch, Nitsuh Cafe & Restaurant',
   address: 'Nitsuh Bakery , Pizza & Burger | Bulbula, Addis Ababa, Ethiopia',
   google_maps_url: 'https://maps.app.goo.gl/v4jJJwkCkBRNFe5c9?g_st=atm',
   announcement: 'Welcome to Nitsuh Cafe & Restaurant • Fresh burgers, artisan pizzas, handcrafted pastries, and specialty coffees daily.',
@@ -2595,7 +2595,7 @@ export function getStoredRestaurant(slug?: string): Restaurant | null {
         parsed.name === 'Nitsuh Grand Cafeteria'
       ) {
         parsed.name = 'Nitsuh Cafe & Restaurant';
-        parsed.branch_name = 'Main Branch — Nitsuh Cafe & Restaurant';
+        parsed.branch_name = 'Main Branch, Nitsuh Cafe & Restaurant';
         parsed.announcement = (parsed.announcement || '').replace(/Nitsuh Cafeteria/g, 'Nitsuh Cafe & Restaurant');
         persistRestaurant(parsed);
       }

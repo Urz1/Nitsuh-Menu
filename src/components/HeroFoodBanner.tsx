@@ -228,43 +228,43 @@ export function HeroFoodBanner({ locale = 'en', offers = [], onSelectCategory }:
   };
 
   return (
-    <div className="w-full px-3.5 pt-3 pb-1 select-none">
+    <div className="w-full px-3.5 sm:px-6 lg:px-8 pt-3 pb-1 select-none">
       <div
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         onClick={handleAction}
-        className={`relative overflow-hidden rounded-3xl bg-gradient-to-br ${activeSlide.bgGradient} p-4 sm:p-5 text-white shadow-xl cursor-pointer transition-all duration-500 active:scale-[0.99] border border-white/10`}
+        className={`relative overflow-hidden rounded-3xl md:rounded-4xl bg-gradient-to-br ${activeSlide.bgGradient} p-4 sm:p-6 md:p-8 lg:p-10 text-white shadow-xl cursor-pointer transition-all duration-500 active:scale-[0.99] border border-white/10`}
       >
         {/* Subtle decorative glow & circles */}
-        <div className="absolute -top-16 -right-16 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-        <div className="absolute -bottom-16 -left-16 w-40 h-40 bg-black/20 rounded-full blur-xl pointer-events-none" />
+        <div className="absolute -top-16 -right-16 w-48 h-48 md:w-80 md:h-80 bg-white/10 rounded-full blur-2xl md:blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-16 -left-16 w-40 h-40 md:w-64 md:h-64 bg-black/20 rounded-full blur-xl md:blur-2xl pointer-events-none" />
 
-        <div className="relative z-10 flex items-center justify-between gap-3">
+        <div className="relative z-10 flex items-center justify-between gap-4 md:gap-8">
           {/* Left Text Column */}
-          <div className="flex-1 min-w-0 pr-1">
+          <div className="flex-1 min-w-0 pr-1 md:pr-4">
             {/* Kicker badge */}
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-black/35 backdrop-blur-xs border border-white/15 text-[10px] font-extrabold tracking-wider uppercase text-amber-300 mb-1.5 shadow-2xs">
-              <Flame className="w-2.5 h-2.5 text-amber-400" />
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 md:px-3.5 md:py-1 rounded-full bg-black/35 backdrop-blur-xs border border-white/15 text-[10px] md:text-xs font-extrabold tracking-wider uppercase text-amber-300 mb-1.5 md:mb-3 shadow-2xs">
+              <Flame className="w-2.5 h-2.5 md:w-3.5 md:h-3.5 text-amber-400" />
               <span>{activeSlide.badge[validLang]}</span>
             </div>
 
             {/* Big Bold Headline */}
-            <h2 className="text-base sm:text-xl font-black tracking-tight leading-tight uppercase line-clamp-2 text-white drop-shadow-xs">
+            <h2 className="text-base sm:text-2xl md:text-3xl lg:text-4xl font-black tracking-tight leading-tight uppercase line-clamp-2 text-white drop-shadow-xs">
               {activeSlide.title[validLang]}
             </h2>
 
             {/* Subtitle / Description */}
-            <p className="text-xs sm:text-sm text-white/85 mt-1 line-clamp-2 leading-relaxed font-medium">
+            <p className="text-xs sm:text-sm md:text-base text-white/85 mt-1 md:mt-2 line-clamp-2 md:line-clamp-3 leading-relaxed font-medium max-w-2xl">
               {activeSlide.description[validLang]}
             </p>
 
             {/* CTA Button */}
-            <div className="mt-3">
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-600 text-white font-extrabold text-xs shadow-lg hover:bg-red-700 active:scale-95 transition-all border border-white/25">
+            <div className="mt-3 md:mt-5">
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 md:px-6 md:py-2.5 rounded-full bg-red-600 text-white font-extrabold text-xs md:text-sm shadow-lg hover:bg-red-700 active:scale-95 transition-all border border-white/25">
                 <span>{activeSlide.cta[validLang]}</span>
-                <span className="w-4 h-4 rounded-full bg-white text-red-600 flex items-center justify-center">
-                  <ArrowRight className="w-2.5 h-2.5 stroke-[3]" />
+                <span className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-white text-red-600 flex items-center justify-center">
+                  <ArrowRight className="w-2.5 h-2.5 md:w-3 md:h-3 stroke-[3]" />
                 </span>
               </span>
             </div>
@@ -272,12 +272,12 @@ export function HeroFoodBanner({ locale = 'en', offers = [], onSelectCategory }:
 
           {/* Right Hero Food Showcase */}
           <div className="flex-shrink-0 relative">
-            <div className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-3xl overflow-hidden shadow-[0_16px_36px_rgba(0,0,0,0.4)] ring-2 ring-white/25 bg-white/5 transition-transform duration-300">
+            <div className="relative w-32 h-32 sm:w-44 sm:h-44 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-3xl md:rounded-4xl overflow-hidden shadow-[0_16px_36px_rgba(0,0,0,0.4)] ring-2 md:ring-4 ring-white/25 bg-white/5 transition-transform duration-300">
               <Image
                 src={activeSlide.imageUrl}
                 alt={activeSlide.title.en}
                 fill
-                sizes="(max-width: 640px) 128px, 160px"
+                sizes="(max-width: 640px) 128px, (max-width: 1024px) 224px, 256px"
                 className="object-cover"
                 priority
               />

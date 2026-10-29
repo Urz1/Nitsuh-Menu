@@ -23,6 +23,7 @@ interface ItemCardProps {
   cartQuantity?: number;
   layout?: 'list' | 'grid';
   locale?: Language | string;
+  className?: string;
 }
 
 function getDishFallbackPhoto(name?: string, name_am?: string, category_id?: string): string | null {
@@ -97,6 +98,7 @@ export function ItemCard({
   cartQuantity = 0,
   layout = 'list',
   locale = 'en',
+  className = '',
 }: ItemCardProps) {
   const currentLocale = (locale as Language) || 'en';
   const t = TRANSLATIONS[currentLocale] || TRANSLATIONS.en;
@@ -138,12 +140,12 @@ export function ItemCard({
           : 'border border-stone-200/70 dark:border-stone-800 shadow-[0_4px_16px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.3)] hover:border-stone-300 dark:hover:border-stone-700'
       } ${
         layout === 'grid' ? 'flex flex-col p-3 gap-2.5' : 'flex gap-3 sm:gap-3.5 p-3 sm:p-3.5'
-      } ${!item.is_available ? 'opacity-60' : ''}`}
+      } ${!item.is_available ? 'opacity-60' : ''} ${className}`}
     >
       {/* Thumbnail Container */}
       <div
         className={`relative flex-shrink-0 bg-stone-50/80 dark:bg-stone-900/60 rounded-2xl overflow-hidden ${
-          layout === 'grid' ? 'w-full h-36' : 'w-24 h-24 sm:w-28 sm:h-28'
+          layout === 'grid' ? 'w-full h-36 sm:h-44 md:h-48' : 'w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32'
         }`}
       >
         {resolvedPhoto ? (
@@ -151,7 +153,7 @@ export function ItemCard({
             src={resolvedPhoto}
             alt={displayName}
             fill
-            sizes={layout === 'grid' ? '(max-width: 480px) 50vw, 220px' : '112px'}
+            sizes={layout === 'grid' ? '(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw' : '128px'}
             className="object-cover group-hover:scale-105 transition-transform duration-300"
             loading="lazy"
             onError={() => setImageError(true)}

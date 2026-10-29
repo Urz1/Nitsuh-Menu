@@ -56,9 +56,10 @@ export function CalmOfferBanner({ activeOffer, onSeeOffer, onDismiss }: CalmOffe
     <aside
       role="region"
       aria-label="Current restaurant offer"
-      className="w-full bg-[var(--card)] border-b border-[var(--border)] px-3.5 py-2 flex items-center justify-between gap-2 text-xs text-[var(--foreground)] transition-all animate-in fade-in duration-300"
+      className="w-full bg-[var(--card)] border-b border-[var(--border)] transition-all animate-in fade-in duration-300"
     >
-      <div className="flex items-center gap-2 min-w-0 flex-1">
+      <div className="w-full max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-2 flex items-center justify-between gap-2 text-xs text-[var(--foreground)]">
+        <div className="flex items-center gap-2 min-w-0 flex-1">
         <span
           className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white"
           style={{ backgroundColor: 'var(--primary)' }}
@@ -90,6 +91,7 @@ export function CalmOfferBanner({ activeOffer, onSeeOffer, onDismiss }: CalmOffe
       >
         <X className="w-3.5 h-3.5" />
       </button>
+      </div>
     </aside>
   );
 }

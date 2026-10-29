@@ -2,8 +2,16 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Stage 5: Admin Experience - End to End Flow', () => {
   test.beforeEach(async ({ page }) => {
-    // Navigate to admin
+    await page.context().addCookies([
+      { name: 'digital_menu_session', value: 'owner', domain: '127.0.0.1', path: '/' },
+      { name: 'digital_menu_session', value: 'owner', domain: 'localhost', path: '/' },
+    ]);
     await page.goto('/admin');
+    if (page.url().includes('/admin/login')) {
+      await page.fill('[data-testid="owner-identifier-input"]', 'owner@nitsuhcafeteria.com');
+      await page.fill('[data-testid="owner-password-input"]', 'Owner@2026');
+      await page.click('button:has-text("Sign In as Owner")');
+    }
     await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
     await expect(page.locator('h1:has-text("Nitsuh Cafe & Restaurant")')).toBeVisible();
   });

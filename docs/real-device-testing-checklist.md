@@ -38,7 +38,7 @@
   1. Load the restaurant menu while connected.
   2. Switch phone to **Airplane Mode** (no Wi-Fi, no Cellular).
   3. Reload the page or navigate between categories.
-  4. Verify the graceful amber **"Offline Mode — showing cached menu and offline cart"** banner appears.
+  4. Verify the graceful amber **"Offline Mode. Showing cached menu and offline cart"** banner appears.
   5. Confirm menu items, photos, and bookmarks remain accessible offline.
 
 ---

@@ -8,8 +8,8 @@ test.describe('Category CRUD & Inline Creation Flow', () => {
     ]);
     await page.goto('/admin');
     if (page.url().includes('/admin/login')) {
-      await page.fill('input[placeholder*="owner@nitsuhcafeteria.com"]', 'owner@nitsuhcafeteria.com');
-      await page.fill('input[placeholder="••••••••••••"]', 'Owner@2026');
+      await page.fill('[data-testid="owner-identifier-input"]', 'owner@nitsuhcafeteria.com');
+      await page.fill('[data-testid="owner-password-input"]', 'Owner@2026');
       await page.click('button:has-text("Sign In as Owner")');
     }
     await expect(page.locator('[data-hydrated="true"]')).toBeVisible();

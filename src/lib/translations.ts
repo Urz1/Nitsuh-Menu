@@ -275,7 +275,7 @@ const enTranslations: AppTranslations = {
     addedToOrder: 'Added to your order',
     freeGiftLabel: 'Free Gift',
 
-    offlineNotice: "You're offline — showing cached menu and offline cart",
+    offlineNotice: "You're offline. Showing cached menu and offline cart",
     offlineBadge: 'Offline Mode',
     comingSoonCalling: 'Digital waiter calling is coming soon. Please let your waiter know in person!',
     waiterAssistance: 'Ask Waiter',
@@ -446,7 +446,7 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     addedToOrder: 'ወደ ትዕዛዝዎ ተጨምሯል',
     freeGiftLabel: 'ነፃ ስጦታ',
 
-    offlineNotice: 'ኢንተርኔት ተቋርጧል — የተቀመጠውን ምናሌ እያሳየ ነው',
+    offlineNotice: 'ኢንተርኔት ተቋርጧል፡ የተቀመጠውን ምናሌ እያሳየ ነው',
     offlineBadge: 'ከመስመር ውጭ',
     comingSoonCalling: 'በስልክ አስተናጋጅ መጥራት በቅርቡ ይጀምራል፤ እባክዎ በአካል ያነጋግሩን!',
     waiterAssistance: 'አስተናጋጅ ይጠይቁ',
@@ -614,7 +614,7 @@ export const TRANSLATIONS: Record<Language, AppTranslations> = {
     addedToOrder: 'Añadido a tu pedido',
     freeGiftLabel: 'Regalo gratis',
 
-    offlineNotice: 'Estás sin conexión — mostrando menú guardado y pedido offline',
+    offlineNotice: 'Estás sin conexión. Mostrando menú guardado y pedido offline',
     offlineBadge: 'Modo sin conexión',
     comingSoonCalling: 'La llamada digital al mesero estará disponible pronto. ¡Por favor avisa a tu mesero en persona!',
     waiterAssistance: 'Pedir ayuda',

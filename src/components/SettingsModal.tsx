@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react';
 import { triggerHaptic } from '@/lib/utils';
-import { X, Sun, Moon, Monitor, Copy, Check } from 'lucide-react';
+import { X, Sun, Moon, Monitor, Copy, Check, Download } from 'lucide-react';
 import { Language, TRANSLATIONS } from '@/lib/translations';
+import { usePWAInstall } from '@/context/PWAInstallContext';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ export function SettingsModal({
   wifiInfo,
 }: SettingsModalProps) {
   const [copiedWifi, setCopiedWifi] = useState(false);
+  const { isStandalone, isInstalled, promptInstall } = usePWAInstall();
 
   if (!isOpen) return null;
 
@@ -227,6 +229,44 @@ export function SettingsModal({
               </span>
             </button>
           </div>
+        </div>
+
+        {/* App Installation */}
+        <div className="p-3.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-[rgba(var(--primary-rgb),0.12)] text-[var(--primary)] flex items-center justify-center flex-shrink-0">
+              <Download className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="font-bold text-[var(--foreground)] block">
+                {currentLocale === 'am' ? 'የንፁህ ሜኑ አፕሊኬሽን' : 'Nitsuh Menu App'}
+              </span>
+              <p className="text-[11px] text-[var(--muted)]">
+                {isStandalone || isInstalled
+                  ? (currentLocale === 'am' ? 'በስልክዎ ላይ ተጭኗል' : 'Installed on this device')
+                  : (currentLocale === 'am' ? 'ያለ ኢንተርኔት በፍጥነት ለመክፈት' : 'Fast offline access & fullscreen')}
+              </p>
+            </div>
+          </div>
+
+          {isStandalone || isInstalled ? (
+            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded-full bg-emerald-500/10">
+              <Check className="w-3 h-3" />
+              <span>{currentLocale === 'am' ? 'ተጭኗል' : 'Installed'}</span>
+            </span>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                triggerHaptic(12);
+                promptInstall();
+              }}
+              className="px-3 py-1.5 rounded-xl bg-[var(--primary)] hover:brightness-110 text-white font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-xs"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>{currentLocale === 'am' ? 'ጫን' : 'Install'}</span>
+            </button>
+          )}
         </div>
 
         {/* Dining Table & WiFi */}

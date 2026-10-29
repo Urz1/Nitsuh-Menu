@@ -29,7 +29,7 @@ export function OrderBar({
 
   return (
     <aside
-      className="fixed left-1/2 -translate-x-1/2 w-full max-w-lg z-40 flex justify-center px-3 sm:px-4 pointer-events-none animate-in slide-in-from-bottom duration-300"
+      className="fixed left-1/2 -translate-x-1/2 w-full max-w-lg md:max-w-xl lg:max-w-2xl z-40 flex justify-center px-3 sm:px-4 pointer-events-none animate-in slide-in-from-bottom duration-300"
       style={{ bottom: 'calc(env(safe-area-inset-bottom, 0px) + 4.5rem)' }}
     >
       <button
@@ -37,7 +37,7 @@ export function OrderBar({
           triggerHaptic(15);
           onOpenOrderSheet();
         }}
-        className="pointer-events-auto w-full max-w-md h-13 sm:h-14 rounded-full text-white px-3.5 sm:px-5 flex items-center justify-between shadow-xl border border-white/20 transition-transform active:scale-[0.98]"
+        className="pointer-events-auto w-full max-w-md md:max-w-lg lg:max-w-xl h-13 sm:h-14 rounded-full text-white px-3.5 sm:px-6 flex items-center justify-between shadow-xl border border-white/20 transition-transform active:scale-[0.98]"
         style={{ backgroundColor: 'var(--primary)' }}
         aria-label="Review My Order"
       >

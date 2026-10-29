@@ -2,9 +2,10 @@
 
 import React from 'react';
 import { Restaurant } from '@/types/database';
-import { Search, Heart, Settings, Wifi, Globe, MapPin, Bell } from 'lucide-react';
+import { Search, Heart, Settings, Wifi, Globe, MapPin, Bell, Download } from 'lucide-react';
 import { Language, TRANSLATIONS } from '@/lib/translations';
 import { triggerHaptic } from '@/lib/utils';
+import { usePWAInstall } from '@/context/PWAInstallContext';
 
 interface MenuHeaderProps {
   restaurant: Restaurant;
@@ -32,6 +33,7 @@ export function MenuHeader({
   onShowNoticeToast,
 }: MenuHeaderProps) {
   const t = TRANSLATIONS[locale] || TRANSLATIONS.en;
+  const { isStandalone, isInstalled, promptInstall } = usePWAInstall();
 
   const cycleLanguage = () => {
     triggerHaptic(10);
@@ -134,7 +136,7 @@ export function MenuHeader({
                   >
                     <MapPin className="w-2.5 h-2.5 text-[var(--primary)] flex-shrink-0" />
                     <span className="truncate max-w-[85px] sm:max-w-none">
-                      {restaurant.branch_name ? restaurant.branch_name.split('—')[0].trim() : 'Main Branch'}
+                      {restaurant.branch_name ? restaurant.branch_name.split(/[,—\-]/)[0].trim() : 'Main Branch'}
                     </span>
                   </a>
                 </>
@@ -221,7 +223,25 @@ export function MenuHeader({
       )}
 
       {/* Quick Info & Action Strip */}
-      <div className="flex items-center justify-end px-3.5 py-1 border-t border-[var(--border)] text-xs text-[var(--muted)]">
+      <div className="flex items-center justify-between px-3.5 py-1 border-t border-[var(--border)] text-xs text-[var(--muted)]">
+        <div>
+          {!isStandalone && !isInstalled && (
+            <button
+              type="button"
+              onClick={() => {
+                triggerHaptic(10);
+                promptInstall();
+              }}
+              className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/10 hover:bg-amber-500/20 text-amber-800 dark:text-amber-400 border border-amber-500/20 font-bold text-[11px] transition-colors active:scale-95 cursor-pointer"
+              title="Install Nitsuh Digital Menu App"
+            >
+              <Download className="w-3 h-3 text-amber-600 dark:text-amber-400" />
+              <span>{locale === 'am' ? 'አፕ ጫን' : 'Install App'}</span>
+            </button>
+          )}
+        </div>
+
+        <div className="flex items-center gap-1.5">
           {Boolean(restaurant.wifi_config?.enabled && restaurant.wifi_config?.ssid) && (
             <button
               type="button"
@@ -229,13 +249,14 @@ export function MenuHeader({
                 triggerHaptic(8);
                 onShowWifiToast();
               }}
-              className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[var(--background)] border border-[var(--border)] font-medium text-[11px] hover:bg-[var(--border)] transition-colors active:scale-95"
+              className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[var(--background)] border border-[var(--border)] font-medium text-[11px] hover:bg-[var(--border)] transition-colors active:scale-95 cursor-pointer"
             >
               <Wifi className="w-3 h-3 text-[var(--primary)]" />
               <span>{t.wifi}</span>
             </button>
           )}
         </div>
+      </div>
     </header>
   );
 }

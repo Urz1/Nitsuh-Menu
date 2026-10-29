@@ -23,7 +23,7 @@ interface PageProps {
 // -----------------------------------------------------------------------------
 export async function generateMetadata(): Promise<Metadata> {
   const restaurant = (await getRestaurantBySlug('nitsuh')) || (await getRestaurantBySlug('addis')) || MOCK_RESTAURANT_NITSUH;
-  const title = `${restaurant.name} — Digital Menu`;
+  const title = `${restaurant.name} | Digital Menu`;
   const description = `${restaurant.tagline}. Hot & fresh fast food, burgers, pizzas, sandwiches, handcrafted sweets & desserts, and specialty coffees.`;
 
   return {

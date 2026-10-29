@@ -355,7 +355,7 @@ export function OnboardingWizardModal({
                 )}
                 <div className="text-xs">
                   <p className="font-bold">
-                    Contrast Ratio: {contrastCheck.ratio}:1 — {contrastCheck.passesNormal ? 'WCAG AA Compliant' : 'Warning'}
+                    Contrast Ratio: {contrastCheck.ratio}:1 ({contrastCheck.passesNormal ? 'WCAG AA Compliant' : 'Warning'})
                   </p>
                   <p className="text-neutral-400 mt-0.5">{contrastCheck.plainWarning}</p>
                 </div>

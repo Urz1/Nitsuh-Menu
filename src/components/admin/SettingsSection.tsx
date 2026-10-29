@@ -834,7 +834,7 @@ export function SettingsSection({
                     type="text"
                     value={branchName}
                     onChange={(e) => setBranchName(e.target.value)}
-                    placeholder="Main Branch — Nitsuh Cafe & Restaurant"
+                    placeholder="Main Branch, Nitsuh Cafe & Restaurant"
                     className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-amber-500"
                   />
                 </div>

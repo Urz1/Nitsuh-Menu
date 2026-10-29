@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const title = `${restaurant.name} — Digital Menu`;
+  const title = `${restaurant.name} | Digital Menu`;
   const description = `${restaurant.tagline}. View our seasonal food, wood-fired specials, and craft beverages.`;
 
   return {

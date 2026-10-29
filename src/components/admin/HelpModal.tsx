@@ -115,7 +115,7 @@ export function HelpModal({ isOpen, onClose, activeSection }: HelpModalProps) {
       tips: [
         {
           heading: 'Stars vs Hidden Gems',
-          desc: 'Stars are your top sellers; keep quality high. Hidden Gems get lots of views but fewer orders—try testing a small promotional discount!',
+          desc: 'Stars are your top sellers; keep quality high. Hidden Gems get lots of views but fewer orders. Try testing a small promotional discount!',
         },
       ],
     },

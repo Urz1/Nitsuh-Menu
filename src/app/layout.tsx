@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import { PWAInstallProvider } from "@/context/PWAInstallContext";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-geist-sans",
@@ -21,7 +22,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Nitsuh Cafe & Restaurant — Digital Menu",
+  title: "Nitsuh Cafe & Restaurant | Digital Menu",
   description: "Official interactive digital menu for Nitsuh Cafe & Restaurant. Handcrafted burgers, fresh artisan pizzas, pastries, and barista coffee.",
   manifest: "/manifest.webmanifest",
   applicationName: "Nitsuh Menu",
@@ -73,7 +74,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
       </head>
       <body className="min-h-full flex flex-col bg-[var(--background)] text-[var(--foreground)]">
-        {children}
+        <PWAInstallProvider>{children}</PWAInstallProvider>
         <script
           dangerouslySetInnerHTML={{
             __html: `

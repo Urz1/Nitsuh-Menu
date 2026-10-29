@@ -19,14 +19,36 @@ function ensureIPv4Agent() {
     setGlobalDispatcher(agent);
     ipv4Configured = true;
   } catch {
-    // Non-fatal if undici or dns is unavailable
     ipv4Configured = true;
   }
 }
 
+function resolveDatabaseUrl(): string | null {
+  if (typeof window !== 'undefined') return null;
+  const direct = (process.env.DATABASE_URL || process.env.NEON_DATABASE_URL || process.env.NEON_DB)?.trim();
+  if (direct) return direct;
+
+  try {
+    const dynamicRequire = eval('require');
+    const fs = dynamicRequire('fs');
+    const path = dynamicRequire('path');
+    const envPath = path.resolve(process.cwd(), '.env.local');
+    if (fs.existsSync(envPath)) {
+      const content = fs.readFileSync(envPath, 'utf8');
+      const match = content.match(/(?:DATABASE_URL|NEON_DATABASE_URL|NEON_DB)=([^\r\n]+)/);
+      if (match && match[1]) {
+        const val = match[1].trim().replace(/^['"]|['"]$/g, '');
+        process.env.DATABASE_URL = val;
+        return val;
+      }
+    }
+  } catch {}
+  return null;
+}
+
 export function getNeon() {
   if (typeof window !== 'undefined') return null;
-  const dbUrl = (process.env.DATABASE_URL || process.env.NEON_DATABASE_URL || process.env.NEON_DB)?.trim();
+  const dbUrl = resolveDatabaseUrl();
   if (!dbUrl) return null;
   try {
     ensureIPv4Agent();
@@ -38,6 +60,5 @@ export function getNeon() {
 
 export function hasNeon(): boolean {
   if (typeof window !== 'undefined') return false;
-  return Boolean(process.env.DATABASE_URL || process.env.NEON_DATABASE_URL || process.env.NEON_DB);
+  return Boolean(resolveDatabaseUrl());
 }
-

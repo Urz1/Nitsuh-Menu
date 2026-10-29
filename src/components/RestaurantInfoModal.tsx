@@ -18,9 +18,11 @@ import {
   Sun,
   Moon,
   Info,
+  Download,
 } from 'lucide-react';
 import { triggerHaptic } from '@/lib/utils';
 import Link from 'next/link';
+import { usePWAInstall } from '@/context/PWAInstallContext';
 
 interface RestaurantInfoModalProps {
   isOpen: boolean;
@@ -42,6 +44,7 @@ export function RestaurantInfoModal({
   onShareMenu,
 }: RestaurantInfoModalProps) {
   const [copiedWifi, setCopiedWifi] = useState(false);
+  const { isStandalone, isInstalled, promptInstall } = usePWAInstall();
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof document !== 'undefined') {
       return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
@@ -175,7 +178,7 @@ export function RestaurantInfoModal({
                 </span>
               </div>
               <p className="font-bold text-sm text-[var(--foreground)]">
-                {restaurant.hours || 'Daily: 7:00 AM – 10:00 PM'}
+                {restaurant.hours || 'Daily: 7:00 AM to 10:00 PM'}
               </p>
               {tableNumber && (
                 <p className="text-xs text-[var(--muted-foreground)] mt-1">
@@ -220,34 +223,65 @@ export function RestaurantInfoModal({
           )}
 
           {/* 4. Quick Tools: Dark Mode, QR Share & Install App */}
-          <div className="grid grid-cols-2 gap-2 pt-1">
-            <button
-              onClick={toggleTheme}
-              className="p-3 rounded-xl bg-[var(--surface)] border border-[var(--border)] flex items-center gap-2 text-xs font-bold text-[var(--foreground)] hover:border-[var(--primary)] transition-colors active:scale-95"
-            >
-              {theme === 'dark' ? (
-                <>
-                  <Sun className="w-4 h-4 text-amber-400" />
-                  <span>{isAm ? 'የቀን ገጽታ' : 'Light Mode'}</span>
-                </>
-              ) : (
-                <>
-                  <Moon className="w-4 h-4 text-indigo-500" />
-                  <span>{isAm ? 'የጨለማ ገጽታ' : 'Dark Mode'}</span>
-                </>
-              )}
-            </button>
+          <div className="space-y-2 pt-1">
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={toggleTheme}
+                className="p-3 rounded-xl bg-[var(--surface)] border border-[var(--border)] flex items-center gap-2 text-xs font-bold text-[var(--foreground)] hover:border-[var(--primary)] transition-colors active:scale-95 cursor-pointer"
+              >
+                {theme === 'dark' ? (
+                  <>
+                    <Sun className="w-4 h-4 text-amber-400" />
+                    <span>{isAm ? 'የቀን ገጽታ' : 'Light Mode'}</span>
+                  </>
+                ) : (
+                  <>
+                    <Moon className="w-4 h-4 text-indigo-500" />
+                    <span>{isAm ? 'የጨለማ ገጽታ' : 'Dark Mode'}</span>
+                  </>
+                )}
+              </button>
 
-            {onOpenQrModal && (
+              {onOpenQrModal && (
+                <button
+                  onClick={() => {
+                    onClose();
+                    onOpenQrModal();
+                  }}
+                  className="p-3 rounded-xl bg-[var(--surface)] border border-[var(--border)] flex items-center gap-2 text-xs font-bold text-[var(--foreground)] hover:border-[var(--primary)] transition-colors active:scale-95 cursor-pointer"
+                >
+                  <QrCode className="w-4 h-4 text-[var(--primary)]" />
+                  <span>{isAm ? 'የሜኑ QR ኮድ' : 'Menu QR'}</span>
+                </button>
+              )}
+            </div>
+
+            {/* Install PWA Button / Status Badge */}
+            {isStandalone || isInstalled ? (
+              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-between text-xs font-bold text-emerald-700 dark:text-emerald-400">
+                <div className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-500" />
+                  <span>{isAm ? 'ንፁህ አፕሊኬሽን ተጭኗል' : 'Nitsuh App Installed'}</span>
+                </div>
+                <span className="text-[10px] bg-emerald-500/20 px-2 py-0.5 rounded-full uppercase tracking-wider font-semibold">
+                  {isAm ? 'ተዘጋጅቷል' : 'Ready'}
+                </span>
+              </div>
+            ) : (
               <button
                 onClick={() => {
-                  onClose();
-                  onOpenQrModal();
+                  triggerHaptic(12);
+                  promptInstall();
                 }}
-                className="p-3 rounded-xl bg-[var(--surface)] border border-[var(--border)] flex items-center gap-2 text-xs font-bold text-[var(--foreground)] hover:border-[var(--primary)] transition-colors active:scale-95"
+                className="w-full p-3 rounded-xl bg-gradient-to-r from-[var(--primary)] to-amber-600 text-white flex items-center justify-between text-xs font-bold shadow-md hover:brightness-105 active:scale-98 transition-all cursor-pointer"
               >
-                <QrCode className="w-4 h-4 text-[var(--primary)]" />
-                <span>{isAm ? 'የሜኑ QR ኮድ' : 'Menu QR'}</span>
+                <div className="flex items-center gap-2">
+                  <Download className="w-4 h-4" />
+                  <span>{isAm ? 'ንፁህ አፕሊኬሽን በስልክዎ ላይ ይጫኑ' : 'Install Nitsuh Menu App'}</span>
+                </div>
+                <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full uppercase tracking-wider font-semibold">
+                  {isAm ? 'አፕ ጫን' : 'Install'}
+                </span>
               </button>
             )}
           </div>

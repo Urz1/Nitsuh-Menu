@@ -14,11 +14,11 @@ export async function generateMetadata({ params }: PrivacyPageProps): Promise<Me
   const restaurant = await getRestaurantBySlug(slug);
 
   if (!restaurant) {
-    return { title: 'Privacy Policy — Not Found' };
+    return { title: 'Privacy Policy | Not Found' };
   }
 
   return {
-    title: `Privacy Notice — ${restaurant.name}`,
+    title: `Privacy Notice | ${restaurant.name}`,
     description: `Privacy policy and guest data handling at ${restaurant.name}. We do not track or sell guest information.`,
   };
 }

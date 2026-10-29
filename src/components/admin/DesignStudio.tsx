@@ -804,7 +804,7 @@ export function DesignStudio({
                       <div className="flex items-center gap-2">
                         <Calendar className="w-3.5 h-3.5 text-neutral-400" />
                         <span className="font-mono text-neutral-300">{h.date}</span>
-                        <span className="text-white font-medium">— {h.reason}</span>
+                        <span className="text-white font-medium">({h.reason})</span>
                       </div>
                       <button
                         onClick={() =>

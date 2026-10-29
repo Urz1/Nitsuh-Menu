@@ -1,17 +1,20 @@
 // Offline PWA Service Worker for Nitsuh Cafe & Restaurant Digital Menu
-const CACHE_VERSION = 'nitsuh-pwa-v6';
+const CACHE_VERSION = 'nitsuh-pwa-v7';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 const IMAGES_CACHE = `${CACHE_VERSION}-images`;
 
 const PRECACHE_URLS = [
   '/',
+  '/nitsuh',
   '/manifest.webmanifest',
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png',
   '/icons/icon-maskable-512x512.png',
   '/icons/apple-touch-icon.png',
-  '/icons/favicon-32x32.png'
+  '/icons/favicon-32x32.png',
+  '/screenshots/screenshot-desktop.png',
+  '/screenshots/screenshot-mobile.png',
 ];
 
 self.addEventListener('install', (event) => {

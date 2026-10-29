@@ -70,7 +70,7 @@ test.describe('STAGE 6: Launch Readiness & QR Studio Suite', () => {
     // Graceful offline banner should display calm warning
     const offlineBanner = page.getByTestId('pwa-offline-banner');
     await expect(offlineBanner).toBeVisible();
-    await expect(page.getByText("You're offline — showing cached menu and offline cart")).toBeVisible();
+    await expect(page.getByText("You're offline. Showing cached menu and offline cart")).toBeVisible();
   });
 
   test('3. SEO & Sharing: Server-rendered Open Graph & Schema.org Structured Data', async ({ page }) => {

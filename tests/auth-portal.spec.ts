@@ -24,15 +24,15 @@ test.describe('Owner and Staff Authentication & Access Gating Flow', () => {
     await page.goto('/admin/login');
 
     // 1. Enter wrong password
-    await page.locator('input[placeholder*="owner@nitsuhcafeteria.com"]').fill('owner@nitsuhcafeteria.com');
-    await page.locator('input[placeholder="••••••••••••"]').fill('WrongPassword123');
+    await page.locator('[data-testid="owner-identifier-input"]').fill('owner@nitsuhcafeteria.com');
+    await page.locator('[data-testid="owner-password-input"]').fill('WrongPassword123');
     await page.locator('button:has-text("Sign In as Owner")').click();
 
     // Verify rejection error
     await expect(page.locator('text=Incorrect owner password. Access denied.')).toBeVisible();
 
     // 2. Enter correct seeded owner password
-    await page.locator('input[placeholder="••••••••••••"]').fill('Owner@2026');
+    await page.locator('[data-testid="owner-password-input"]').fill('Owner@2026');
     await page.locator('button:has-text("Sign In as Owner")').click();
 
     // Must land on /admin dashboard as Owner

@@ -755,7 +755,7 @@ export function ClientMenuContainer({
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div className="w-full max-w-lg mx-auto bg-[#FAF6F0] dark:bg-[#14100E] min-h-screen relative flex flex-col md:shadow-2xl md:border md:border-stone-200/70 dark:md:border-stone-800/80 md:rounded-[36px] md:my-4 md:overflow-hidden transition-colors">
+    <div className="w-full bg-[#FAF6F0] dark:bg-[#14100E] min-h-screen relative flex flex-col transition-colors">
       {/* 0. PWA GRACEFUL OFFLINE BANNER */}
       {isOffline && (
         <div
@@ -764,7 +764,7 @@ export function ClientMenuContainer({
         >
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-            <span>You're offline — showing cached menu and offline cart</span>
+            <span>You're offline. Showing cached menu and offline cart</span>
           </div>
           <span className="text-[10px] text-amber-400 font-bold uppercase tracking-wider">
             Offline Mode
@@ -896,7 +896,7 @@ export function ClientMenuContainer({
       </div>
 
       {/* 4. MAIN MENU ITEMS */}
-      <main id="menu-items-anchor" className="px-4 py-4 flex-1">
+      <main id="menu-items-anchor" className="w-full max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-4 sm:py-6 flex-1">
         {filteredItems.length === 0 ? (
           <div className="py-20 text-center text-[var(--muted)]">
             <div className="w-14 h-14 rounded-2xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-center mx-auto mb-3 shadow-xs">
@@ -972,7 +972,7 @@ export function ClientMenuContainer({
               )}
             </div>
 
-            <div className={layout === 'grid' ? 'grid grid-cols-2 gap-3' : 'flex flex-col gap-3'}>
+            <div className={layout === 'grid' ? 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-4 md:gap-5' : 'flex flex-col gap-3 max-w-3xl mx-auto'}>
               {filteredItems.map((item) => (
                 <ItemCard
                   key={item.id}
@@ -1001,8 +1001,8 @@ export function ClientMenuContainer({
               if (catItems.length === 0) return null;
 
               const isExpanded = expandedCategoryIds.has(cat.id) || (activeCategoryId !== 'all' && activeCategoryId === cat.id);
-              const visibleItems = isExpanded ? catItems : catItems.slice(0, 4);
-              const remainingCount = catItems.length - 4;
+              // On desktop (4-cols) 2 rows = 8 items; on tablet (3-cols) 2 rows = 6 items; on mobile (2-cols) 2 rows = 4 items
+              const visibleItems = isExpanded ? catItems : catItems.slice(0, 8);
 
               const displayName =
                 CATEGORY_TRANSLATIONS[cat.id]?.[locale]?.name ||
@@ -1030,51 +1030,77 @@ export function ClientMenuContainer({
                     </span>
                   </div>
 
-                  <div className={layout === 'grid' ? 'grid grid-cols-2 gap-3' : 'flex flex-col gap-3'}>
-                    {visibleItems.map((item) => (
-                      <ItemCard
-                        key={item.id}
-                        item={item}
-                        pricingResult={itemPricingMap.get(item.id)}
-                        reviewStats={reviewStatsMap.get(item.id)}
-                        currencySymbol={restaurant.currency || 'ETB'}
-                        logoUrl={restaurant.logo_url}
-                        isFavorite={favorites.has(item.id)}
-                        cartQuantity={cartQuantityMap.get(item.id) || 0}
-                        onToggleFavorite={handleToggleFavorite}
-                        onOpenDetails={setSelectedDetailItem}
-                        onQuickAdd={(i) => handleAddToCart(i, 1, [], '')}
-                        onDecrement={handleDecrementItem}
-                        layout={layout}
-                        locale={locale}
-                      />
-                    ))}
+                  <div className={layout === 'grid' ? 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-4 md:gap-5' : 'flex flex-col gap-3 max-w-3xl mx-auto'}>
+                    {visibleItems.map((item, itemIdx) => {
+                      let responsiveClass = '';
+                      if (!isExpanded) {
+                        if (itemIdx >= 4 && itemIdx < 6) {
+                          responsiveClass = 'hidden sm:block';
+                        } else if (itemIdx >= 6 && itemIdx < 8) {
+                          responsiveClass = 'hidden lg:block';
+                        }
+                      }
+
+                      return (
+                        <ItemCard
+                          key={item.id}
+                          item={item}
+                          pricingResult={itemPricingMap.get(item.id)}
+                          reviewStats={reviewStatsMap.get(item.id)}
+                          currencySymbol={restaurant.currency || 'ETB'}
+                          logoUrl={restaurant.logo_url}
+                          isFavorite={favorites.has(item.id)}
+                          cartQuantity={cartQuantityMap.get(item.id) || 0}
+                          onToggleFavorite={handleToggleFavorite}
+                          onOpenDetails={setSelectedDetailItem}
+                          onQuickAdd={(i) => handleAddToCart(i, 1, [], '')}
+                          onDecrement={handleDecrementItem}
+                          layout={layout}
+                          locale={locale}
+                          className={responsiveClass}
+                        />
+                      );
+                    })}
                   </div>
 
-                  {remainingCount > 0 && activeCategoryId === 'all' && (
-                    <div className="mt-3.5 flex items-center justify-center">
-                      <button
-                        type="button"
-                        onClick={() => toggleCategoryExpand(cat.id)}
-                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[var(--card)] hover:bg-[var(--accent)]/15 border border-[var(--border)] text-xs font-bold text-[var(--foreground)] hover:text-[var(--primary)] transition-all shadow-xs active:scale-95"
-                      >
-                        {isExpanded ? (
-                          <>
-                            <span>{locale === 'am' ? 'ያነሰ አሳይ' : 'Show less'}</span>
-                            <ChevronUp className="w-3.5 h-3.5 text-[var(--primary)]" />
-                          </>
-                        ) : (
-                          <>
-                            <span>
-                              {locale === 'am'
-                                ? `ተጨማሪ ${remainingCount} ${displayName} ምግቦች አሳይ...`
-                                : `+ ${remainingCount} more ${displayName}...`}
-                            </span>
-                            <ChevronDown className="w-3.5 h-3.5 text-[var(--primary)]" />
-                          </>
-                        )}
-                      </button>
-                    </div>
+                  {activeCategoryId === 'all' && (
+                    isExpanded ? (
+                      <div className="mt-3.5 flex items-center justify-center">
+                        <button
+                          type="button"
+                          onClick={() => toggleCategoryExpand(cat.id)}
+                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[var(--card)] hover:bg-[var(--accent)]/15 border border-[var(--border)] text-xs font-bold text-[var(--foreground)] hover:text-[var(--primary)] transition-all shadow-xs active:scale-95"
+                        >
+                          <span>{locale === 'am' ? 'ያነሰ አሳይ' : 'Show less'}</span>
+                          <ChevronUp className="w-3.5 h-3.5 text-[var(--primary)]" />
+                        </button>
+                      </div>
+                    ) : catItems.length > 4 ? (
+                      <div className={`mt-3.5 flex items-center justify-center ${catItems.length <= 6 ? 'sm:hidden' : catItems.length <= 8 ? 'lg:hidden' : ''}`}>
+                        <button
+                          type="button"
+                          onClick={() => toggleCategoryExpand(cat.id)}
+                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[var(--card)] hover:bg-[var(--accent)]/15 border border-[var(--border)] text-xs font-bold text-[var(--foreground)] hover:text-[var(--primary)] transition-all shadow-xs active:scale-95"
+                        >
+                          <span className="sm:hidden">
+                            {locale === 'am'
+                              ? `ተጨማሪ ${catItems.length - 4} ${displayName} ምግቦች አሳይ...`
+                              : `+ ${catItems.length - 4} more ${displayName}...`}
+                          </span>
+                          <span className="hidden sm:inline lg:hidden">
+                            {locale === 'am'
+                              ? `ተጨማሪ ${Math.max(0, catItems.length - 6)} ${displayName} ምግቦች አሳይ...`
+                              : `+ ${Math.max(0, catItems.length - 6)} more ${displayName}...`}
+                          </span>
+                          <span className="hidden lg:inline">
+                            {locale === 'am'
+                              ? `ተጨማሪ ${Math.max(0, catItems.length - 8)} ${displayName} ምግቦች አሳይ...`
+                              : `+ ${Math.max(0, catItems.length - 8)} more ${displayName}...`}
+                          </span>
+                          <ChevronDown className="w-3.5 h-3.5 text-[var(--primary)]" />
+                        </button>
+                      </div>
+                    ) : null
                   )}
                 </section>
               );
@@ -1126,7 +1152,7 @@ export function ClientMenuContainer({
       )}
 
       {/* 6. FOOTER */}
-      <footer className="px-5 pt-8 pb-24 sm:pb-24 border-t border-[var(--border)] text-center text-xs text-[var(--muted)] flex flex-col gap-3 mt-auto">
+      <footer className="w-full max-w-7xl mx-auto px-5 pt-8 pb-24 sm:pb-24 border-t border-[var(--border)] text-center text-xs text-[var(--muted)] flex flex-col gap-3 mt-auto">
         <h3 className="font-bold text-sm text-[var(--foreground)] font-brand">
           {restaurant.name}
         </h3>
@@ -1290,13 +1316,13 @@ export function ClientMenuContainer({
 
       {/* Category Directory Modal / Drawer */}
       {isCategoryDrawerOpen && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
           <div
             className="fixed inset-0"
             onClick={() => setIsCategoryDrawerOpen(false)}
             aria-hidden="true"
           />
-          <div className="relative w-full max-w-lg bg-[var(--card)] rounded-t-3xl sm:rounded-3xl border border-[var(--border)] p-5 shadow-2xl z-10 max-h-[85vh] flex flex-col animate-in slide-in-from-bottom duration-250">
+          <div className="relative w-full max-w-lg sm:max-w-2xl bg-[var(--card)] rounded-t-3xl sm:rounded-3xl border border-[var(--border)] p-5 shadow-2xl z-10 max-h-[85vh] flex flex-col animate-in slide-in-from-bottom sm:zoom-in-95 duration-250">
             <div className="w-12 h-1 bg-[var(--border)] rounded-full mx-auto mb-3 sm:hidden" />
             <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
               <div>
@@ -1311,7 +1337,7 @@ export function ClientMenuContainer({
               <button
                 type="button"
                 onClick={() => setIsCategoryDrawerOpen(false)}
-                className="w-8 h-8 rounded-full bg-[var(--background)] border border-[var(--border)] flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)]"
+                className="w-8 h-8 rounded-full bg-[var(--background)] border border-[var(--border)] flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)] shadow-xs"
                 aria-label="Close category directory"
               >
                 <X className="w-4 h-4" />
@@ -1319,7 +1345,7 @@ export function ClientMenuContainer({
             </div>
 
             {/* Category Directory Cards */}
-            <div className="overflow-y-auto flex-1 mt-3 flex flex-col gap-2 pr-1">
+            <div className="overflow-y-auto flex-1 mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 pr-1">
               {/* All Categories Option (Lists entire menu) */}
               <button
                 type="button"
