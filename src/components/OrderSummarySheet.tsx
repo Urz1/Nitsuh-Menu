@@ -15,6 +15,7 @@ interface OrderSummarySheetProps {
   cartPricing?: CartPricingResult;
   currencySymbol?: string;
   taxRate?: number;
+  taxMode?: 'inclusive' | 'exclusive';
   locale?: Language | string;
   onUpdateQty: (cartId: string, delta: number) => void;
   onClearOrder: () => void;
@@ -28,7 +29,8 @@ export function OrderSummarySheet({
   cart,
   cartPricing,
   currencySymbol = 'ETB',
-  taxRate = 0.08,
+  taxRate = 0.15,
+  taxMode = 'inclusive',
   locale = 'en',
   onUpdateQty,
   onClearOrder,
@@ -44,7 +46,9 @@ export function OrderSummarySheet({
   const subtotal = cartPricing?.netSubtotal ?? rawSubtotal;
   const originalSubtotal = cartPricing?.originalSubtotal ?? rawSubtotal;
   const totalSavings = cartPricing?.totalSavings ?? 0;
-  const tax = cartPricing?.tax ?? subtotal * taxRate;
+  const numericTaxRate = Number(taxRate) || 0.15;
+  const isTaxExclusive = taxMode === 'exclusive';
+  const tax = cartPricing?.tax ?? (isTaxExclusive ? subtotal * numericTaxRate : 0);
   const total = cartPricing?.total ?? subtotal + tax;
 
   return (

@@ -2808,6 +2808,7 @@ export async function getRestaurantBySlug(slug: string): Promise<Restaurant | nu
           inMemoryRestaurant = {
             ...inMemoryRestaurant,
             ...live,
+            tax_rate: live.tax_rate !== undefined && live.tax_rate !== null ? Number(live.tax_rate) : (inMemoryRestaurant.tax_rate ?? 0.15),
             theme_config: {
               ...(MOCK_RESTAURANT_NITSUH.theme_config || {}),
               ...(live.theme_config || {}),
@@ -2839,6 +2840,7 @@ export async function getRestaurantBySlug(slug: string): Promise<Restaurant | nu
             ...MOCK_RESTAURANT_NITSUH,
             ...inMemoryRestaurant,
             ...data,
+            tax_rate: data.tax_rate !== undefined && data.tax_rate !== null ? Number(data.tax_rate) : (inMemoryRestaurant.tax_rate ?? 0.15),
             slug: 'nitsuh',
             name: (data.name === 'Addis Cafeteria' || data.name === 'Nitsuh Cafeteria' || data.name === 'Nitsuh Cafeteria & Bakery' || data.name === 'Nitsuh Grand Cafeteria' ? 'Nitsuh Cafe & Restaurant' : data.name) || 'Nitsuh Cafe & Restaurant',
             short_name: (data.short_name === 'Addis' ? 'Nitsuh' : data.short_name) || 'Nitsuh',

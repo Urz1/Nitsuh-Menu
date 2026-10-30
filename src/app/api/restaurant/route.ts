@@ -85,7 +85,11 @@ export async function PATCH(request: Request) {
           `;
 
           if (updatedRows && updatedRows.length > 0) {
-            return NextResponse.json(updatedRows[0]);
+            const updated = updatedRows[0];
+            return NextResponse.json({
+              ...updated,
+              tax_rate: updated.tax_rate !== undefined && updated.tax_rate !== null ? Number(updated.tax_rate) : 0.15,
+            });
           }
         }
       }

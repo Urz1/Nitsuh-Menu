@@ -1308,6 +1308,7 @@ export function ClientMenuContainer({
         cartPricing={cartPricing}
         currencySymbol={restaurant.currency || 'ETB'}
         taxRate={restaurant.tax_rate}
+        taxMode={restaurant.tax_mode}
         locale={locale}
         onUpdateQty={handleUpdateCartQty}
         onClearOrder={handleClearOrder}
@@ -1319,9 +1320,11 @@ export function ClientMenuContainer({
         isOpen={isServerCardOpen}
         onClose={() => setIsServerCardOpen(false)}
         cart={cart}
+        cartPricing={cartPricing}
         restaurantName={restaurant.name}
         currencySymbol={restaurant.currency || 'ETB'}
         taxRate={restaurant.tax_rate}
+        taxMode={restaurant.tax_mode}
         locale={locale}
       />
 

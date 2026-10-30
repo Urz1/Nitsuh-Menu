@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { CartItem } from '@/types/menu';
+import { CartPricingResult } from '@/lib/pricing-engine';
 import { formatMoney, triggerHaptic } from '@/lib/utils';
 import { X, Sun, Moon, UtensilsCrossed } from 'lucide-react';
 import { Language, TRANSLATIONS } from '@/lib/translations';
@@ -10,9 +11,11 @@ interface ServerCardModalProps {
   isOpen: boolean;
   onClose: () => void;
   cart: CartItem[];
+  cartPricing?: CartPricingResult;
   restaurantName: string;
   currencySymbol?: string;
   taxRate?: number;
+  taxMode?: 'inclusive' | 'exclusive';
   locale?: Language | string;
 }
 
@@ -20,9 +23,11 @@ export function ServerCardModal({
   isOpen,
   onClose,
   cart,
+  cartPricing,
   restaurantName,
   currencySymbol = 'ETB',
   taxRate = 0.15,
+  taxMode = 'inclusive',
   locale = 'en',
 }: ServerCardModalProps) {
   // Default is strictly Light Mode (matching the daytime dining menu), with an optional dark mode toggle for low-light ambiances
@@ -35,8 +40,13 @@ export function ServerCardModal({
   const isAm = currentLocale === 'am';
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const subtotal = cart.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
-  const total = subtotal * (1 + taxRate);
+  const rawSubtotal = cart.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
+  const subtotal = cartPricing?.netSubtotal ?? rawSubtotal;
+  
+  // Safe numeric conversion prevents string concatenation (e.g. 1 + "0.15" becoming "10.15" which multiplied prices by 10x)
+  const numericTaxRate = Number(taxRate) || 0.15;
+  const isTaxExclusive = taxMode === 'exclusive';
+  const total = cartPricing?.total ?? (isTaxExclusive ? subtotal * (1 + numericTaxRate) : subtotal);
 
   const toggleTheme = () => {
     triggerHaptic(10);
